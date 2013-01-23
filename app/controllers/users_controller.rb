@@ -40,7 +40,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(params[:user])
+    @user = User.new(:email => params[:email], :password => params[:password])
 
     respond_to do |format|
       if @user.save
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
         format.json { render json: @user, status: :created, location: @user }
       else
         format.html { render action: "new" }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.json { render json: @asd, status: :unprocessable_entity }
       end
     end
   end
@@ -81,4 +81,12 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def profile
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @user }
+    end
+  end
+
 end
