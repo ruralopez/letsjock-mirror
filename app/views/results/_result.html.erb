@@ -1,0 +1,7 @@
+<div class="experienceItem relative">
+  <small> <%=	 result.date %></small>
+  <h4> <%	if result.competition_id  %> <%=	Competition.find(result.competition_id).name  %> <% end %>  <%=	 result.value %> <%=	 result.var %></h4>
+  <p><%=	 result.description %></p>
+  <a class="valid" data-placement="top" rel="tooltip" href="#" data-original-title="
+certificate"></a>
+</div>

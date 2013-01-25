@@ -92,6 +92,14 @@ ActiveRecord::Schema.define(:version => 20130124170408) do
     t.string   "lastname"
     t.string   "email"
     t.string   "password_digest"
+    t.string   "gender"
+    t.datetime "birth"
+    t.string   "citybirth"
+    t.string   "country"
+    t.integer  "phone"
+    t.string   "resume"
+    t.integer  "height"
+    t.integer  "weight"
     t.string   "remember_token"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false

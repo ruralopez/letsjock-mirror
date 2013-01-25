@@ -2,13 +2,19 @@ Letsjock::Application.routes.draw do
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :sports
+  resources :competitions, only: [:create, :destroy]
+  resources :teams, only: [:create, :destroy]
+  resources :trains, only: [:create, :destroy]
+  resources :results, only: [:create, :destroy]
+  resources :recognitions, only: [:create, :destroy]
 
   root :to => 'home#index'
 
   match '/signup',  to: 'users#new'
   match '/signin',  to: 'sessions#new'
-  match '/signout', to: 'sessions#destroy', via: :delete
-  match '/profile', to: 'users#profile'
+  match '/signout', to: 'sessions#destroy'
+  match '/profile/:id', to: 'users#profile'
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

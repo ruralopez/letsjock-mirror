@@ -60,7 +60,7 @@
   </ul><!-- /profileIcons -->
 
   <div class="profileInfo relative">
-    <h1>Cristhian López López</h1>
+    <h1><%=	@user.name  %> <%=	@user.lastname  %></h1>
     <p><strong>Soccer Goalkeeper</strong> / 22 años, Santiago, Chile</p>
     <ul class="boxConnect">
       <li><a class="verified" href="#"></a></li>
@@ -78,29 +78,65 @@
 
       <li>
         <h2>Lastest honors</h2>
-        <ul>
-          <li>Premio 1</li>
-          <li>Premio 2</li>
-          <li>Premio 3</li>
-          <li>Premio 4</li>
-        </ul>
+        <%	if @honors.any?  %>
+            <%=	 render @honors %>
+        <%	end %>
+        <% if signed_in? && current_user.id == @user.id %>
+            <%= form_for(@result, :url => { :controller => :results, :action => :create }) do |f| %>
+                <%= f.number_field :value %>
+                <%= f.text_field :var %>
+                <%= f.number_field :sport_id %>
+                <%= f.number_field :competition_id %>
+                <%= f.number_field :team_id %>
+                <%= f.text_field :description %>
+                <%= f.datetime_select :date %>
+                <%= f.hidden_field :user_id, :value => @user.id %>
+                <%= f.submit "Create Result" %>
+            <% end %>
+            <%= form_for(@recognition, :url => { :controller => :recognitions, :action => :create }) do |f| %>
+                <%= f.number_field :sport_id %>
+                <%= f.number_field :competition_id %>
+                <%= f.number_field :team_id %>
+                <%= f.text_field :description %>
+                <%= f.datetime_select :date %>
+                <%= f.hidden_field :user_id, :value => @user.id %>
+                <%= f.submit "Create Recognition" %>
+            <% end %>
+         <%	 end %>
       </li>
 
       <li>
         <h2>Experience</h2>
-        <div class="experienceItem relative">
-          <small>Agosto 2010 - Presente</small>
-          <h4>Arquero Universidad Católica</h4>
-          <p>Arquero de la institución académica.</p>
-        </div>
-
-        <div class="experienceItem relative">
-          <small>Enero 2007 - Julio 2010</small>
-          <h4>Arquero Deportes Peñalolén</h4>
-          <p>Arquero del, en ese entonces, equipo de 3era división profesional.</p>
-          <a class="valid" data-placement="top" rel="tooltip" href="#" data-original-title="
-certificate"></a>
-        </div>
+        <%	if @experiences.any?  %>
+            <%=	 render @experiences %>
+        <%	end %>
+        <% if signed_in? && current_user.id == @user.id %>
+            <%= form_for(@competition, :url => { :controller => :competitions, :action => :create }) do |f| %>
+                <%= f.text_field :name %>
+                <%= f.number_field :sport_id %>
+                <%= f.datetime_select :init %>
+                <%= f.datetime_select :end %>
+                <%= f.hidden_field :user_id, :value => @user.id %>
+                <%= f.submit "Create Competition" %>
+            <% end %>
+            <%= form_for(@team, :url => { :controller => :teams, :action => :create }) do |f| %>
+                <%= f.text_field :name %>
+                <%= f.number_field :sport_id %>
+                <%= f.datetime_select :init %>
+                <%= f.datetime_select :end %>
+                <%= f.hidden_field :user_id, :value => @user.id %>
+                <%= f.submit "Create Team" %>
+            <% end %>
+            <%= form_for(@train, :url => { :controller => :trains, :action => :create }) do |f| %>
+                <%= f.text_field :name %>
+                <%= f.number_field :sport_id %>
+                <%= f.number_field :team_id %>
+                <%= f.datetime_select :init %>
+                <%= f.datetime_select :end %>
+                <%= f.hidden_field :user_id, :value => @user.id %>
+                <%= f.submit "Create Train" %>
+            <% end %>
+        <% end %>
       </li>
 
     </ul>

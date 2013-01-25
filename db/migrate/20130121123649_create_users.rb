@@ -5,6 +5,14 @@ class CreateUsers < ActiveRecord::Migration
       t.string :lastname
       t.string :email
       t.string :password_digest
+      t.string :gender
+      t.datetime :birth
+      t.string :citybirth
+      t.string :country
+      t.integer :phone
+      t.string :resume
+      t.integer :height
+      t.integer :weight
       t.string :remember_token
 
       t.timestamps

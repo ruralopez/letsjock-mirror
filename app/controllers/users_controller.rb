@@ -14,11 +14,7 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @user }
-    end
+    redirect_to '/profile/' + @user.id.to_s
   end
 
   # GET /users/new
@@ -40,12 +36,12 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(:email => params[:email], :password => params[:password])
+    @user = User.new(:email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname])
 
     respond_to do |format|
       if @user.save
         sign_in @user
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html { redirect_to '/profile/' + @user.id.to_s, notice: 'User was successfully created.' }
         format.json { render json: @user, status: :created, location: @user }
       else
         format.html { render action: "new" }
@@ -83,6 +79,22 @@ class UsersController < ApplicationController
   end
 
   def profile
+    @user = User.find(params[:id])
+    #Juntar competitions, teams y trains en un arreglo, como experiences
+    @competitions = Competition.all(:conditions => ['user_id = ?', @user.id], :order => "init desc")
+    @teams = Team.all(:conditions => ['user_id = ?', @user.id], :order => "init desc")
+    @trains = Train.all(:conditions => ['user_id = ?', @user.id], :order => "init desc")
+    @experiences = (@competitions + @teams + @trains).sort_by(&:init).reverse
+    #Juntar results y recognitions en un arreglo, como honors
+    @results = Result.all(:conditions => ['user_id = ?', @user.id], :order => "date desc")
+    @recognitions = Recognition.all(:conditions => ['user_id = ?', @user.id], :order => "date desc")
+    @honors = (@results + @recognitions).sort_by(&:date).reverse
+    #Crear variable para poder crear competition, team, train, result o recognition.
+    @competition = @user.competitions.build if signed_in?
+    @team = @user.teams.build if signed_in?
+    @train = @user.trains.build if signed_in?
+    @result = @user.results.build if signed_in?
+    @recognition = @user.recognitions.build if signed_in?
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
