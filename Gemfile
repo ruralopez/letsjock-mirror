@@ -15,7 +15,7 @@ group :production do
 end
 
 gem 'bcrypt-ruby', '~> 3.0.0'
-
+gem 'closure-compiler'
 
 # Gems used only for assets and not required
 # in production environments by default.
