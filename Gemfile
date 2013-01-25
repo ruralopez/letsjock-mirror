@@ -1,8 +1,3 @@
-if RUBY_VERSION =~ /1.9/
-  Encoding.default_external = Encoding::UTF_8
-  Encoding.default_internal = Encoding::UTF_8
-end
-
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.9'
@@ -20,7 +15,7 @@ group :production do
 end
 
 gem 'bcrypt-ruby', '~> 3.0.0'
-gem 'closure-compiler'
+
 
 # Gems used only for assets and not required
 # in production environments by default.
