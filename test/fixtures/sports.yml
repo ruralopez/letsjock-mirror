@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  idParent: 1
+  name: MyString
+  fullpath: MyString
+
+two:
+  idParent: 1
+  name: MyString
+  fullpath: MyString

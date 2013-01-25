@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  idUser: 1
+  idSport: 1
+  idCompetition: 1
+  idTeam: 1
+  description: MyString
+  date: 2013-01-24 14:04:08
+
+two:
+  idUser: 1
+  idSport: 1
+  idCompetition: 1
+  idTeam: 1
+  description: MyString
+  date: 2013-01-24 14:04:08

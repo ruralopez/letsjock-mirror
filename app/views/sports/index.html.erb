@@ -1,0 +1,17 @@
+<table>
+  <tr>
+    <th>id</th>
+    <th>name</th>
+    <th>parentid</th>
+    <th>fullpath</th>
+  </tr>
+
+  <% @sports.each do |sport| %>
+      <tr>
+        <td><%= sport.id %></td>
+        <td><%= sport.name %></td>
+        <td><%= sport.parent_id %></td>
+        <td><%= sport.fullpath %></td>
+      </tr>
+  <% end %>
+</table>

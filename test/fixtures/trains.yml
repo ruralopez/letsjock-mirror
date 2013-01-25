@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  idUser: 1
+  idSport: 1
+  idTeam: 
+  idTraner: 1
+  name: MyString
+  init: 2013-01-24 14:00:56
+  end: 2013-01-24 14:00:56
+
+two:
+  idUser: 1
+  idSport: 1
+  idTeam: 
+  idTraner: 1
+  name: MyString
+  init: 2013-01-24 14:00:56
+  end: 2013-01-24 14:00:56

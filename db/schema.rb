@@ -11,7 +11,81 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130121123649) do
+ActiveRecord::Schema.define(:version => 20130124170408) do
+
+  create_table "competitions", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "sport_id"
+    t.integer  "event_id"
+    t.string   "name"
+    t.datetime "init"
+    t.datetime "end"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "recognitions", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "sport_id"
+    t.integer  "competition_id"
+    t.integer  "team_id"
+    t.string   "description"
+    t.datetime "date"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "results", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "sport_id"
+    t.integer  "competition_id"
+    t.integer  "team_id"
+    t.integer  "value"
+    t.string   "var"
+    t.string   "description"
+    t.datetime "date"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "sports", :force => true do |t|
+    t.integer  "parent_id"
+    t.string   "name"
+    t.string   "fullpath"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "teams", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "sport_id"
+    t.string   "name"
+    t.datetime "init"
+    t.datetime "end"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "trains", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "sport_id"
+    t.integer  "team_id"
+    t.integer  "trainer_id"
+    t.string   "name"
+    t.datetime "init"
+    t.datetime "end"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "user_sports", :id => false, :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "sport_id",   :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "user_sports", ["user_id", "sport_id"], :name => "index_user_sports_on_user_id_and_sport_id", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "name"
