@@ -11,13 +11,14 @@ class User < ActiveRecord::Base
   attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country, :phone, :resume, :height, :weight
 
   before_save { |user| user.email = email.downcase}
-  before_save :create_remember_token
+  before_create :create_remember_token
 
   has_secure_password
 
   VALID_EMAIL = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, format: { with: VALID_EMAIL}, uniqueness: { case_sensitive: false}
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, :presence =>true, :confirmation => true, :length => { :minimum => 6 }, :on => :create
+  validates :password, :confirmation => true, :length => { :minimum => 6 }, :on => :update, :unless => lambda{ |user| user.password.blank? }
 
 
   private

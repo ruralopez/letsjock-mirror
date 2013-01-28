@@ -8,4 +8,17 @@ class ResultsController < ApplicationController
     end
   end
 
+  def update
+    @result = Result.find(params[:id])
+    respond_to do |format|
+      if @result.update_attributes(params[:result])
+        format.html { redirect_to '/profile/' + @result.user_id.to_s, notice: 'Result was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @result.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 end

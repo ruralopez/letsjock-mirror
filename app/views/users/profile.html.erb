@@ -61,7 +61,7 @@
 
   <div class="profileInfo relative">
     <h1><%=	@user.name  %> <%=	@user.lastname  %></h1>
-    <p><strong>Soccer Goalkeeper</strong> / <%  if @user.birth %><%=  (Time.new - @user.birth)/1.year %>, <%  end %><%  if @user.citybirth %><%=  @user.citybirth %>, <%  end %><%=  @user.country %></p>
+    <p><strong>Soccer Goalkeeper</strong> <%  if @user.birth %>/ <%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years<%  end %><%  if @user.citybirth != "" %> ,<%=  @user.citybirth %>, <%  end %><%=  @user.country %></p>
     <ul class="boxConnect">
       <li><a class="verified" href="#"></a></li>
       <li><a class="connect" href="#"><p>connect</p></a></li>
@@ -74,12 +74,14 @@
       <li>
         <h2>Abstract</h2>
         <p><%=	 @user.resume %></p>
-        <%=	 form_for @user  do |f|%>
-        Birth <%=  f.datetime_select :birth  %>
-        City Birth <%=  f.text_field :citybirth  %>
-        Country <%=	 f.text_field :country %>
-        Resume <%=	 f.text_field :resume %>
-        <%=	 f.submit %>
+        <% if signed_in? && current_user.id == @user.id %>
+            <%=	 form_for @user  do |f|%>
+            Birth <%=  f.date_select :birth %>
+            City Birth <%=  f.text_field :citybirth  %>
+            Country <%=	 f.text_field :country %>
+            Resume <%=	 f.text_field :resume %>
+            <%=	 f.submit %>
+            <%	 end %>
         <%	 end %>
       </li>
 
@@ -96,7 +98,7 @@
                 <%= f.number_field :competition_id %>
                 <%= f.number_field :team_id %>
                 <%= f.text_field :description %>
-                <%= f.datetime_select :date %>
+                <%= f.date_select :date %>
                 <%= f.hidden_field :user_id, :value => @user.id %>
                 <%= f.submit "Create Result" %>
             <% end %>
@@ -105,7 +107,7 @@
                 <%= f.number_field :competition_id %>
                 <%= f.number_field :team_id %>
                 <%= f.text_field :description %>
-                <%= f.datetime_select :date %>
+                <%= f.date_select :date %>
                 <%= f.hidden_field :user_id, :value => @user.id %>
                 <%= f.submit "Create Recognition" %>
             <% end %>
@@ -121,16 +123,16 @@
             <%= form_for(@competition, :url => { :controller => :competitions, :action => :create }) do |f| %>
                 <%= f.text_field :name %>
                 <%= f.number_field :sport_id %>
-                <%= f.datetime_select :init %>
-                <%= f.datetime_select :end %>
+                <%= f.date_select :init %>
+                <%= f.date_select :end %>
                 <%= f.hidden_field :user_id, :value => @user.id %>
                 <%= f.submit "Create Competition" %>
             <% end %>
             <%= form_for(@team, :url => { :controller => :teams, :action => :create }) do |f| %>
                 <%= f.text_field :name %>
                 <%= f.number_field :sport_id %>
-                <%= f.datetime_select :init %>
-                <%= f.datetime_select :end %>
+                <%= f.date_select :init %>
+                <%= f.date_select :end %>
                 <%= f.hidden_field :user_id, :value => @user.id %>
                 <%= f.submit "Create Team" %>
             <% end %>
@@ -138,8 +140,8 @@
                 <%= f.text_field :name %>
                 <%= f.number_field :sport_id %>
                 <%= f.number_field :team_id %>
-                <%= f.datetime_select :init %>
-                <%= f.datetime_select :end %>
+                <%= f.date_select :init %>
+                <%= f.date_select :end %>
                 <%= f.hidden_field :user_id, :value => @user.id %>
                 <%= f.submit "Create Train" %>
             <% end %>

@@ -2,11 +2,11 @@ Letsjock::Application.routes.draw do
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :sports
-  resources :competitions, only: [:create, :destroy]
-  resources :teams, only: [:create, :destroy]
-  resources :trains, only: [:create, :destroy]
-  resources :results, only: [:create, :destroy]
-  resources :recognitions, only: [:create, :destroy]
+  resources :competitions, only: [:create, :update, :destroy]
+  resources :teams, only: [:create, :update, :destroy]
+  resources :trains, only: [:create, :update, :destroy]
+  resources :results, only: [:create, :update, :destroy]
+  resources :recognitions, only: [:create, :update, :destroy]
 
   root :to => 'home#index'
 

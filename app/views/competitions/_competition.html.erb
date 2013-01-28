@@ -4,6 +4,10 @@
           <p>Arquero del, en ese entonces, equipo de 3era división profesional.</p>
           <a class="valid" data-placement="top" rel="tooltip" href="#" data-original-title="
 certificate"></a>
+        <%=	 form_for competition do |f| %>
+            <%=	 f.text_field :name %>
+            <%=	 f.submit %>
+        <%	 end %>
         </div>
 
 <!--<div class="experienceItem relative">
