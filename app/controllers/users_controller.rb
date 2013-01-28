@@ -95,6 +95,9 @@ class UsersController < ApplicationController
     @train = @user.trains.build if signed_in?
     @result = @user.results.build if signed_in?
     @recognition = @user.recognitions.build if signed_in?
+    #Juntar photos y videos que el usuario ya tiene
+    @photos = Photo.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
+    @videos = Video.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
     #Crear variables photo y video para poder subir
     @photo = @user.photos.build if signed_in?
     @video = @user.videos.build if signed_in?

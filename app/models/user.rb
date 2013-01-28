@@ -24,6 +24,10 @@ class User < ActiveRecord::Base
   validates :password, :confirmation => true, :length => { :minimum => 6 }, :on => :update, :unless => lambda{ |user| user.password.blank? }
 
 
+  def full_name
+    name + lastname
+  end
+
   private
   def create_remember_token
     self.remember_token = SecureRandom.urlsafe_base64

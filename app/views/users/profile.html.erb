@@ -15,7 +15,7 @@
         <input type="text" placeholder="Busca deportistas, entrenadores, eventos..." />
         <button type="submit"></button>
       </li>
-      <li class="options"><a href="#">Cristhian Lopez</a></li>
+      <li class="options"><a href="#"><%=	@user.full_name %></a></li>
     </ul><!-- /navRight -->
   </div><!-- /wrapper -->
 </header>
@@ -29,12 +29,9 @@
     </div><!-- /profileImg -->
 
     <div class="profileThumb">
-      <%= link_to image_tag('90x90.gif') , '#'%>
-      <%= link_to image_tag('90x90.gif') , '#'%>
-      <%= link_to image_tag('90x90.gif') , '#'%>
-      <%= link_to image_tag('90x90.gif') , '#'%>
-      <%= link_to image_tag('90x90.gif') , '#'%>
-      <%= link_to image_tag('90x90.gif') , '#'%>
+      <%  @photos.take(6).each do |photo| %>
+          <%= link_to image_tag(photo.url) , '#'%>
+      <%  end %>
     </div><!-- /profileThumb -->
     <br class="clear" />
     <a href="" class="buttonBlack">View more pictures</a>
@@ -47,8 +44,8 @@
   <ul class="profileIcons">
     <li><span class="iconProfile iconContacts"></span><a href="#">324 contacts</a></li>
     <li><a href="#"><span class="iconProfile iconRecommendation"></span>21 recommendations</a></li>
-    <li><a href="#"><span class="iconProfile iconPictures"></span>65 pictures</a></li>
-    <li><a href="#"><span class="iconProfile iconVideos"></span>3 videos</a></li>
+    <li><a href="#"><span class="iconProfile iconPictures"></span><%= @photos.count %> pictures</a></li>
+    <li><a href="#"><span class="iconProfile iconVideos"></span><%= @videos.count %> videos</a></li>
   </ul><!-- /profileIcons -->
 
   <div class="profileInfo relative">
@@ -84,7 +81,7 @@
                 <%=	 f.submit %>
             <%	 end %>
             <!-- Form para videos -->
-            <%=	 form_for @photo  do |f|%>
+            <%=	 form_for @video  do |f|%>
                 Title <%=  f.text_field :title %>
                 Comment <%=  f.text_field :comment  %>
                 url <%=	 f.text_field :url %>
@@ -182,7 +179,7 @@
       <a href="#"><h3>People you may know</h3></a>
       <div class="sidebarBoxUser">
         <div class="sidebarBoxUserImg">
-          <img src="72x72.gif" alt="" title="" />
+          <%=  image_tag('72x72.gif') %>
         </div><!-- /sidebarBoxUserImg -->
         <p>Friend 1</p>
         <a href="#"><div class="miniConect">conectar</div></a>
@@ -190,7 +187,7 @@
 
       <div class="sidebarBoxUser">
         <div class="sidebarBoxUserImg">
-          <img src="72x72.gif" alt="" title="" />
+          <%=  image_tag('72x72.gif') %>
         </div><!-- /sidebarBoxUserImg -->
         <a href="#"><p>Friend 2</p></a>
         <a href="#"><div class="miniConect">conectar</div></a>
@@ -198,7 +195,7 @@
 
       <div class="sidebarBoxUser">
         <div class="sidebarBoxUserImg">
-          <img src="72x72.gif" alt="" title="" />
+          <%=  image_tag('72x72.gif') %>
         </div><!-- /sidebarBoxUserImg -->
         <p>Friend 3</p>
         <a href="#"><div class="miniConect">conectar</div></a>

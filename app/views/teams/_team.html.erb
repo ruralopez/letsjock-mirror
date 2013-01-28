@@ -1,5 +1,5 @@
 <div class="experienceItem relative">
-  <small><%=	 team.init %> - <%	if team.end && team.end < Time.new %><%=    team.end %><% else%> Presente <%  end %></small>
+  <small><%=	 team.init.strftime("%m/%d/%Y") %> - <%	if team.end && team.end < Time.new %><%=    team.end.strftime("%m/%d/%Y") %><% else%> Presente <%  end %></small>
   <h4>Team <%=	 team.name %></h4>
   <p></p>
   <a class="valid" data-placement="top" rel="tooltip" href="#" data-original-title="
