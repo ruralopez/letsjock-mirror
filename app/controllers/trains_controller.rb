@@ -9,14 +9,14 @@ class TrainsController < ApplicationController
   end
 
   def update
-    @competition = Competition.find(params[:id])
+    @train = Train.find(params[:id])
     respond_to do |format|
-      if @competition.update_attributes(params[:competition])
-        format.html { redirect_to '/profile/' + @competition.user_id.to_s, notice: 'Competition was successfully updated.' }
+      if @train.update_attributes(params[:train])
+        format.html { redirect_to '/profile/' + @train.user_id.to_s, notice: 'Train was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.json { render json: @competition.errors, status: :unprocessable_entity }
+        format.json { render json: @train.errors, status: :unprocessable_entity }
       end
     end
   end
