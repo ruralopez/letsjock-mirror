@@ -83,22 +83,22 @@
         <%	end %>
         <% if signed_in? && current_user.id == @user.id %>
             <%= form_for(@result, :url => { :controller => :results, :action => :create }) do |f| %>
-                <%= f.number_field :value %>
-                <%= f.text_field :var %>
-                <%= f.number_field :sport_id %>
-                <%= f.number_field :competition_id %>
-                <%= f.number_field :team_id %>
-                <%= f.text_field :description %>
-                <%= f.date_select :date %>
+                Valor <%= f.number_field :value %>
+                Unidad <%= f.text_field :var %>
+                Sport ID <%= f.number_field :sport_id %>
+                Competition ID <%= f.number_field :competition_id %>
+                Team ID <%= f.number_field :team_id %>
+                Description <%= f.text_field :description %>
+                Date <%= f.date_select :date %>
                 <%= f.hidden_field :user_id, :value => @user.id %>
                 <%= f.submit "Create Result" %>
             <% end %>
             <%= form_for(@recognition, :url => { :controller => :recognitions, :action => :create }) do |f| %>
-                <%= f.number_field :sport_id %>
-                <%= f.number_field :competition_id %>
-                <%= f.number_field :team_id %>
-                <%= f.text_field :description %>
-                <%= f.date_select :date %>
+                Sport ID <%= f.number_field :sport_id %>
+                Competition ID <%= f.number_field :competition_id %>
+                Team ID <%= f.number_field :team_id %>
+                Description <%= f.text_field :description %>
+                Date <%= f.date_select :date %>
                 <%= f.hidden_field :user_id, :value => @user.id %>
                 <%= f.submit "Create Recognition" %>
             <% end %>
@@ -112,27 +112,27 @@
         <%	end %>
         <% if signed_in? && current_user.id == @user.id %>
             <%= form_for(@competition, :url => { :controller => :competitions, :action => :create }) do |f| %>
-                <%= f.text_field :name %>
-                <%= f.number_field :sport_id %>
-                <%= f.date_select :init %>
-                <%= f.date_select :end %>
+                Name <%= f.text_field :name %>
+                Sport ID <%= f.number_field :sport_id %>
+                Date init <%= f.date_select :init %>
+                Date end <%= f.date_select :end %>
                 <%= f.hidden_field :user_id, :value => @user.id %>
                 <%= f.submit "Create Competition" %>
             <% end %>
             <%= form_for(@team, :url => { :controller => :teams, :action => :create }) do |f| %>
-                <%= f.text_field :name %>
-                <%= f.number_field :sport_id %>
-                <%= f.date_select :init %>
-                <%= f.date_select :end %>
+                Name <%= f.text_field :name %>
+                Sport ID <%= f.number_field :sport_id %>
+                Date init <%= f.date_select :init %>
+                Date end <%= f.date_select :end %>
                 <%= f.hidden_field :user_id, :value => @user.id %>
                 <%= f.submit "Create Team" %>
             <% end %>
             <%= form_for(@train, :url => { :controller => :trains, :action => :create }) do |f| %>
-                <%= f.text_field :name %>
-                <%= f.number_field :sport_id %>
-                <%= f.number_field :team_id %>
-                <%= f.date_select :init %>
-                <%= f.date_select :end %>
+                Name <%= f.text_field :name %>
+                Sport ID <%= f.number_field :sport_id %>
+                Team ID <%= f.number_field :team_id %>
+                Date init <%= f.date_select :init %>
+                Date end <%= f.date_select :end %>
                 <%= f.hidden_field :user_id, :value => @user.id %>
                 <%= f.submit "Create Train" %>
             <% end %>

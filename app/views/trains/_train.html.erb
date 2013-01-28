@@ -1,7 +1,11 @@
 <div class="experienceItem relative">
   <small><%=	 train.init %> - <%	if train.end && train.end < Time.new %><%=    train.end %><% else%> Presente <%  end %></small>
-  <h4>Trained with <%=	 train.name %> <%	 if train.team_id %>, on <%=    Team.find(train.team_id).name%><%	 end %></h4>
+  <h4>Trained with <%=	 train.name %><%	 if train.team_id %>, on <%=    Team.find(train.team_id).name%><%	 end %></h4>
   <p>Arquero del, en ese entonces, equipo de 3era división profesional.</p>
   <a class="valid" data-placement="top" rel="tooltip" href="#" data-original-title="
 certificate"></a>
+  <%=	 form_for train do |f| %>
+      <%=	 f.text_field :name %>
+      <%=	 f.submit %>
+  <%	 end %>
 </div>
