@@ -1,9 +1,10 @@
 <div class="experienceItem relative">
   <small><%=	 recognition.date %></small>
   <h4><%=	 recognition.description %></h4>
-  <p>Arquero del, en ese entonces, equipo de 3era división profesional.</p>
+  <p></p>
   <a class="valid" data-placement="top" rel="tooltip" href="#" data-original-title="
 certificate"></a>
+  <%= link_to "Delete", recognition, method: :delete%>
   <%=	 form_for recognition do |f| %>
       <%=	 f.text_field :description %>
       <%=	 f.submit %>

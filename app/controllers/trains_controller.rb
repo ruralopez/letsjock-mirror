@@ -21,4 +21,15 @@ class TrainsController < ApplicationController
     end
   end
 
+  def destroy
+    @team = Train.find(params[:id])
+    @user = User.find(@team.user_id)
+    @team.destroy
+
+    respond_to do |format|
+      format.html { redirect_to @user }
+      format.json { head :no_content }
+    end
+  end
+
 end

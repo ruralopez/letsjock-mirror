@@ -21,4 +21,15 @@ class RecognitionsController < ApplicationController
     end
   end
 
+  def destroy
+    @recognition = Recognition.find(params[:id])
+    @user = User.find(@recognition.user_id)
+    @recognition.destroy
+
+    respond_to do |format|
+      format.html { redirect_to @user }
+      format.json { head :no_content }
+    end
+  end
+
 end

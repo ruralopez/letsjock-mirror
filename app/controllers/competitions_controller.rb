@@ -21,4 +21,15 @@ class CompetitionsController < ApplicationController
     end
   end
 
+  def destroy
+    @competition = Competition.find(params[:id])
+    @user = User.find(@competition.user_id)
+    @competition.destroy
+
+    respond_to do |format|
+      format.html { redirect_to @user }
+      format.json { head :no_content }
+    end
+  end
+
 end

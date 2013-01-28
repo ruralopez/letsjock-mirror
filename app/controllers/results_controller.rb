@@ -21,4 +21,16 @@ class ResultsController < ApplicationController
     end
   end
 
+  def destroy
+    @result = Result.find(params[:id])
+    @user = User.find(@result.user_id)
+    @result.destroy
+
+    respond_to do |format|
+      format.html { redirect_to @user }
+      format.json { head :no_content }
+    end
+  end
+
+
 end
