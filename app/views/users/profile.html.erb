@@ -52,7 +52,7 @@
 
   <div class="profileInfo relative">
     <h1><%=	@user.name  %> <%=	@user.lastname  %></h1>
-    <p><strong>Soccer Goalkeeper</strong> <%  if @user.birth %>/ <%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years<%  end %><%  if @user.citybirth != "" %> ,<%=  @user.citybirth %>, <%  end %><%=  @user.country %></p>
+    <p><strong>Soccer Goalkeeper</strong></p>
     <ul class="boxConnect">
       <li><a class="verified" href="#"></a></li>
       <li><a class="connect" href="#"><p>connect</p></a></li>
