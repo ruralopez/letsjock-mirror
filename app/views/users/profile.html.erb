@@ -24,16 +24,17 @@
 <div class="container wrapper">
   <div class="profileColGraphic">
     <div class="profileImg">
-      <a href="#"><span></span><img id="test_pic" src="270x270.gif" width="270" height="270" alt="" title="" /></a>
+      <span></span>
+      <%= link_to image_tag('270x270.gif', :id => 'test_pic') , '#'%>
     </div><!-- /profileImg -->
 
     <div class="profileThumb">
-      <a href="#"><span></span><img src="90x90.gif" alt="" title="" /></a>
-      <a href="#"><span></span><img src="90x90.gif" alt="" title="" /></a>
-      <a href="#"><span></span><img src="90x90.gif" alt="" title="" /></a>
-      <a href="#"><span></span><img src="90x90.gif" alt="" title="" /></a>
-      <a href="#"><span></span><img src="90x90.gif" alt="" title="" /></a>
-      <a href="#"><span></span><img src="90x90.gif" alt="" title="" /></a>
+      <%= link_to image_tag('90x90.gif') , '#'%>
+      <%= link_to image_tag('90x90.gif') , '#'%>
+      <%= link_to image_tag('90x90.gif') , '#'%>
+      <%= link_to image_tag('90x90.gif') , '#'%>
+      <%= link_to image_tag('90x90.gif') , '#'%>
+      <%= link_to image_tag('90x90.gif') , '#'%>
     </div><!-- /profileThumb -->
     <br class="clear" />
     <a href="" class="buttonBlack">View more pictures</a>
@@ -52,7 +53,7 @@
 
   <div class="profileInfo relative">
     <h1><%=	@user.name  %> <%=	@user.lastname  %></h1>
-    <p><strong>Soccer Goalkeeper</strong> <%  if @user.birth && @user.birth != "" %>/ <%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years<%  end %><%  if @user.citybirth != "" %> ,<%=  @user.citybirth %>, <%  end %><%=  @user.country %></p>
+    <p><strong>Soccer Goalkeeper</strong> <%  if @user.birth && @user.birth != "" %>/ <%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years<%  end %><%  if @user.citybirth != "" %>, <%=  @user.citybirth %>, <%  end %><%=  @user.country %></p>
     <ul class="boxConnect">
       <li><a class="verified" href="#"></a></li>
       <li><a class="connect" href="#"><p>connect</p></a></li>
@@ -66,12 +67,29 @@
         <h2>Abstract</h2>
         <p><%=	 @user.resume %></p>
         <% if signed_in? && current_user.id == @user.id %>
+            <!-- Form para info del profile -->
             <%=	 form_for @user  do |f|%>
-            Birth <%=  f.date_select :birth %>
-            City Birth <%=  f.text_field :citybirth  %>
-            Country <%=	 f.text_field :country %>
-            Resume <%=	 f.text_field :resume %>
-            <%=	 f.submit %>
+                Birth <%=  f.date_select :birth %>
+                City Birth <%=  f.text_field :citybirth  %>
+                Country <%=	 f.text_field :country %>
+                Resume <%=	 f.text_field :resume %>
+                <%=	 f.submit %>
+            <%	 end %>
+            <!-- Form para fotos -->
+            <%=	 form_for @photo  do |f|%>
+                Title <%=  f.text_field :title %>
+                Comment <%=  f.text_field :comment  %>
+                url <%=	 f.text_field :url %>
+                <%= f.hidden_field :user_id, :value => @user.id %>
+                <%=	 f.submit %>
+            <%	 end %>
+            <!-- Form para videos -->
+            <%=	 form_for @photo  do |f|%>
+                Title <%=  f.text_field :title %>
+                Comment <%=  f.text_field :comment  %>
+                url <%=	 f.text_field :url %>
+                <%= f.hidden_field :user_id, :value => @user.id %>
+                <%=	 f.submit %>
             <%	 end %>
         <%	 end %>
       </li>

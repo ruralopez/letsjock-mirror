@@ -6,5 +6,8 @@ class Team < ActiveRecord::Base
   has_many :results
   has_many :recognitions
 
+  has_many :photos
+  has_many :videos
+
   attr_accessible :end, :sport_id, :user_id, :init, :name
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130124170408) do
+ActiveRecord::Schema.define(:version => 20130128194134) do
 
   create_table "competitions", :force => true do |t|
     t.integer  "user_id"
@@ -22,6 +22,21 @@ ActiveRecord::Schema.define(:version => 20130124170408) do
     t.datetime "end"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "photos", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "competition_id"
+    t.integer  "recognition_id"
+    t.integer  "result_id"
+    t.integer  "team_id"
+    t.integer  "train_id"
+    t.integer  "sport_id"
+    t.string   "url"
+    t.string   "title"
+    t.string   "comment"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "recognitions", :force => true do |t|
@@ -106,5 +121,20 @@ ActiveRecord::Schema.define(:version => 20130124170408) do
   end
 
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
+
+  create_table "videos", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "competition_id"
+    t.integer  "recognition_id"
+    t.integer  "result_id"
+    t.integer  "team_id"
+    t.integer  "train_id"
+    t.integer  "sport_id"
+    t.string   "url"
+    t.string   "title"
+    t.string   "comment"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
 
 end

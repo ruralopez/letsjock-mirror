@@ -7,6 +7,8 @@ Letsjock::Application.routes.draw do
   resources :trains, only: [:create, :update, :destroy]
   resources :results, only: [:create, :update, :destroy]
   resources :recognitions, only: [:create, :update, :destroy]
+  resources :photos, only: [:create, :update, :destroy]
+  resources :videos, only: [:create, :update, :destroy]
 
   root :to => 'home#index'
 

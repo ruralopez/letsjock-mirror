@@ -95,6 +95,9 @@ class UsersController < ApplicationController
     @train = @user.trains.build if signed_in?
     @result = @user.results.build if signed_in?
     @recognition = @user.recognitions.build if signed_in?
+    #Crear variables photo y video para poder subir
+    @photo = @user.photos.build if signed_in?
+    @video = @user.videos.build if signed_in?
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }

@@ -8,6 +8,9 @@ class User < ActiveRecord::Base
   has_many :teams, :dependent => :destroy
   has_many :trains, :dependent => :destroy
 
+  has_many :photos, :dependent => :destroy
+  has_many :videos, :dependent => :destroy
+
   attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country, :phone, :resume, :height, :weight
 
   before_save { |user| user.email = email.downcase}

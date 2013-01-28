@@ -1,12 +1,16 @@
 class Sport < ActiveRecord::Base
   has_many :user_sports, :dependent => :destroy
   has_many :users, :through => :user_sports
+
   has_many :competitions
   has_many :recognitions
   has_many :results
   has_many :teams
   has_many :trains
   belongs_to :parent, :class_name => 'Sport', :foreign_key => 'parent_id'
+
+  has_many :photos
+  has_many :videos
 
   attr_accessible :fullpath, :parent_id, :name
 
