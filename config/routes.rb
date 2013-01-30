@@ -9,6 +9,8 @@ Letsjock::Application.routes.draw do
   resources :recognitions, only: [:create, :update, :destroy]
   resources :photos, only: [:create, :update, :destroy]
   resources :videos, only: [:create, :update, :destroy]
+  resources :events
+  resources :messages, only: [:new, :create, :destroy]
 
   root :to => 'home#index'
 
@@ -16,6 +18,8 @@ Letsjock::Application.routes.draw do
   match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy'
   match '/profile/:id', to: 'users#profile'
+  match '/events/:id/join' => 'events#join', :as => :join
+  match '/inbox', to: 'messages#index'
 
 
   # The priority is based upon order of creation:
