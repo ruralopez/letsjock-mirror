@@ -4,9 +4,11 @@
   <p></p>
   <a class="valid" data-placement="top" rel="tooltip" href="#" data-original-title="
 certificate"></a>
-  <%= link_to "Delete", train, method: :delete %>
-  <%=	 form_for train do |f| %>
-      <%=	 f.text_field :name %>
-      <%=	 f.submit %>
-  <%	 end %>
+  <% if signed_in? && current_user.id == train.user_id %>
+    <%= link_to "Delete", train, method: :delete %>
+    <%=	 form_for train do |f| %>
+        <%=	 f.text_field :name %>
+        <%=	 f.submit %>
+    <%  end %>
+  <%  end %>
 </div>

@@ -2,17 +2,17 @@
 
 <p>
   <b>User:</b>
-  <%= @event.user_id %>
+  <%= best_in_place @event, :user_id %>
 </p>
 
 <p>
   <b>Date:</b>
-  <%= @event.date %>
+  <%= best_in_place @event, :date %>
 </p>
 
 <p>
   <b>Description:</b>
-  <%= @event.description %>
+  <%= best_in_place @event, :description, :type => :input %>
 </p>
 
 <%	 if signed_in? %>

@@ -5,17 +5,17 @@
     <div class="logo">
     </div><!-- /logo -->
     <ul class="nav">
-      <li class="btnInbox"><a href="#">inbox <span>1</span></a></li>
-      <li><a href="#">contacts</a></li>
-      <li><a href="#">events</a></li>
-      <li><a href="#">news</a></li>
+      <li><%=  link_to 'news', '#'  %></li>
+      <li><%=  link_to 'events', root_url + 'events'  %></li>
+      <li><%=  link_to 'contacts', '#'  %></li>
+      <li class="btnInbox"><%=  link_to 'inbox ', root_url + 'inbox' %><span>1</span></li>
     </ul><!-- /nav -->
     <ul class="navRight">
       <li class="relative">
         <input type="text" placeholder="Busca deportistas, entrenadores, eventos..." />
         <button type="submit"></button>
       </li>
-      <li class="options"><a href="#"><%=	@user.full_name %></a></li>
+      <li class="options"><a href="#"><%=  @user.full_name %></a></li>
     </ul><!-- /navRight -->
   </div><!-- /wrapper -->
 </header>
@@ -34,7 +34,7 @@
       <%  end %>
     </div><!-- /profileThumb -->
     <br class="clear" />
-    <a href="" class="buttonBlack">View more pictures</a>
+    <a href="#" class="buttonBlack">View more pictures</a>
     <div class="profileVideo">
       <iframe width="270" height="152" src="http://www.youtube.com/embed/mGOeXhK2_WE" frameborder="0" allowfullscreen></iframe>
     </div><!-- /profileVideo -->
@@ -42,15 +42,17 @@
   </div><!-- /profileColGraphic -->
 
   <ul class="profileIcons">
-    <li><span class="iconProfile iconContacts"></span><a href="#">324 contacts</a></li>
-    <li><a href="#"><span class="iconProfile iconRecommendation"></span>21 recommendations</a></li>
+    <li><span class="iconProfile iconContacts"></span><a href="#">0 contacts</a></li>
+    <li><a href="#"><span class="iconProfile iconRecommendation"></span>0 recommendations</a></li>
     <li><a href="#"><span class="iconProfile iconPictures"></span><%= @photos.count %> pictures</a></li>
     <li><a href="#"><span class="iconProfile iconVideos"></span><%= @videos.count %> videos</a></li>
   </ul><!-- /profileIcons -->
 
   <div class="profileInfo relative">
-    <h1><%=	@user.name  %> <%=	@user.lastname  %></h1>
-    <p><strong>Soccer Goalkeeper</strong> <%  if @user.birth && @user.birth != "" %>/ <%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years<%  end %><%  if @user.citybirth != "" %>, <%=  @user.citybirth %>, <%  end %><%=  @user.country %></p>
+    <h1><%=	best_in_place @user, :name, :type => :input  %> <%=	best_in_place @user, :lastname, :type => :input  %></h1>
+    <p><strong></strong> <%  if @user.birth && @user.birth != "" %>/ <%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years<%  end %>
+      <%  if @user.citybirth != "" %>, <%= best_in_place @user, :citybirth, :type => :input %>,
+      <%  end %><%= best_in_place @user, :country, :type => :input %></p>
     <ul class="boxConnect">
       <li><a class="verified" href="#"></a></li>
       <li><a class="connect" href="#"><p>connect</p></a></li>
@@ -60,34 +62,15 @@
 
   <div class="experienceLine">
     <ul>
+
+
+
       <li>
         <h2>Abstract</h2>
-        <p><%=	 @user.resume %></p>
         <% if signed_in? && current_user.id == @user.id %>
-            <!-- Form para info del profile -->
-            <%=	 form_for @user  do |f|%>
-                Birth <%=  f.date_select :birth %>
-                City Birth <%=  f.text_field :citybirth  %>
-                Country <%=	 f.text_field :country %>
-                Resume <%=	 f.text_field :resume %>
-                <%=	 f.submit %>
-            <%	 end %>
-            <!-- Form para fotos -->
-            <%=	 form_for @photo  do |f|%>
-                Title <%=  f.text_field :title %>
-                Comment <%=  f.text_field :comment  %>
-                url <%=	 f.text_field :url %>
-                <%= f.hidden_field :user_id, :value => @user.id %>
-                <%=	 f.submit %>
-            <%	 end %>
-            <!-- Form para videos -->
-            <%=	 form_for @video  do |f|%>
-                Title <%=  f.text_field :title %>
-                Comment <%=  f.text_field :comment  %>
-                url <%=	 f.text_field :url %>
-                <%= f.hidden_field :user_id, :value => @user.id %>
-                <%=	 f.submit %>
-            <%	 end %>
+        <p><%= best_in_place @user, :resume, :type => :input %></p>
+        <% else %>
+        <p><%= @user.resume%></p>
         <%	 end %>
       </li>
 
@@ -97,7 +80,7 @@
             <%=	 render @honors %>
         <%	end %>
         <% if signed_in? && current_user.id == @user.id %>
-            <%= form_for(@result, :url => { :controller => :results, :action => :create }) do |f| %>
+            <!--    <%= form_for(@result, :url => { :controller => :results, :action => :create }) do |f| %>
                 Valor <%= f.number_field :value %>
                 Unidad <%= f.text_field :var %>
                 Sport ID <%= f.number_field :sport_id %>
@@ -116,7 +99,7 @@
                 Date <%= f.date_select :date %>
                 <%= f.hidden_field :user_id, :value => @user.id %>
                 <%= f.submit "Create Recognition" %>
-            <% end %>
+            <% end %> -->
          <%	 end %>
       </li>
 
@@ -126,7 +109,7 @@
             <%=	 render @experiences %>
         <%	end %>
         <% if signed_in? && current_user.id == @user.id %>
-            <%= form_for(@competition, :url => { :controller => :competitions, :action => :create }) do |f| %>
+            <!--    <%= form_for(@competition, :url => { :controller => :competitions, :action => :create }) do |f| %>
                 Name <%= f.text_field :name %>
                 Sport ID <%= f.number_field :sport_id %>
                 Date init <%= f.date_select :init %>
@@ -150,7 +133,7 @@
                 Date end <%= f.date_select :end %>
                 <%= f.hidden_field :user_id, :value => @user.id %>
                 <%= f.submit "Create Train" %>
-            <% end %>
+            <% end %> -->
         <% end %>
       </li>
 
