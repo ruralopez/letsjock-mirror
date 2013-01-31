@@ -49,28 +49,62 @@
   </ul><!-- /profileIcons -->
 
   <div class="profileInfo relative">
-    <h1><%=	best_in_place @user, :name, :type => :input  %> <%=	best_in_place @user, :lastname, :type => :input  %></h1>
+    <h1><%=	best_in_place_if (signed_in? && @user.id = current_user.id), @user, :name, :type => :input, :inner_class => "nameInput" %> <%=	best_in_place_if (signed_in? && @user.id = current_user.id), @user, :lastname, :type => :input, :inner_class => "nameInput"  %></h1>
     <p><strong></strong> <%  if @user.birth && @user.birth != "" %>/ <%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years<%  end %>
-      <%  if @user.citybirth != "" %>, <%= best_in_place @user, :citybirth, :type => :input %>,
-      <%  end %><%= best_in_place @user, :country, :type => :input %></p>
+      <%  if @user.citybirth != "" %>, <%= best_in_place_if (signed_in? && @user.id = current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %>,
+      <%  end %><%= best_in_place_if (signed_in? && @user.id = current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %></p>
     <ul class="boxConnect">
       <li><a class="verified" href="#"></a></li>
       <li><a class="connect" href="#"><p>connect</p></a></li>
-      <li><a class="jockOn" href="#"><p>jock-on!</p></a></li>
+      <li><%= render 'follow_form' if signed_in? %></li>
     </ul><!-- /boxConect -->
   </div><!-- /profileInfo -->
 
   <div class="experienceLine">
     <ul>
+      <li><div class="btn-group">
+        <button class="btn btn-primary">Deportes</button>
+        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="#"><%= Sport.first.name %> </a></li>
+          <li><a href="#"><%= Sport.last.name %></a></li>
+          <li class="divider"></li>
+          <li><a href="#">Deportes</a></li>
+        </ul>
+      </div>
+        <script type="text/javascript">
+            jQuery(function($) {
 
+                $('.dropdown-toggle').dropdown();
+
+            });
+        </script>
+
+        <button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#cv-btn">
+          Agregar Hito a la Biografía!
+        </button>
+        <br/>
+        <br/>
+
+        <div id="cv-btn" class="collapse">
+          <button type="button" class="btn btn-primary">Entrenamiento
+          </button><button type="button" class="btn btn-primary">Competencia</button><button type="button" class="btn btn-primary">Equipo
+        </button><button type="button" class="btn btn-primary">Resultado</button>
+          <button type="button" class="btn btn-primary">Premio
+          </button><button type="button" class="btn btn-primary">Trabajo</button>
+        </div>
+        <br/>
+      </li>
 
 
       <li>
         <h2>Abstract</h2>
         <% if signed_in? && current_user.id == @user.id %>
-        <p><%= best_in_place @user, :resume, :type => :input %></p>
+            <p><%= best_in_place @user, :resume, :type => :input %></p>
         <% else %>
-        <p><%= @user.resume%></p>
+            <p><%= @user.resume%></p>
         <%	 end %>
       </li>
 

@@ -6,17 +6,5 @@
 certificate"></a>
   <% if signed_in? && current_user.id == competition.user_id %>
      <%= link_to "Delete", competition, method: :delete%>
-     <%=	 form_for competition do |f| %>
-         <%=  f.text_field :name %>
-         <%=  f.submit %>
-     <%  end %>
   <%  end %>
 </div>
-
-<!--<div class="experienceItem relative">
-  <small>Enero 2007 - Julio 2010</small>
-  <h4>Arquero Deportes Peñalolén</h4>
-  <p>Arquero del, en ese entonces, equipo de 3era división profesional.</p>
-  <a class="valid" data-placement="top" rel="tooltip" href="#" data-original-title="
-certificate"></a>
-</div>-->

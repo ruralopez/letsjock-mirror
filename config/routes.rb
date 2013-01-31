@@ -11,6 +11,7 @@ Letsjock::Application.routes.draw do
   resources :videos, only: [:create, :update, :destroy]
   resources :events
   resources :messages, only: [:new, :create, :destroy]
+  resources :relationships, only: [:create, :destroy]
 
   root :to => 'home#index'
 

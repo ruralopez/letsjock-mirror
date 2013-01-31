@@ -547,11 +547,10 @@ a p:hover {
     border-bottom:none;
     padding-bottom:0;
     margin-bottom:0;
-    list-style:url("list.png");
 }
 
 .experienceLine ul li ul{
-    padding-left:12px;
+    padding-left:0px;
 }
 
 .experienceItem{
