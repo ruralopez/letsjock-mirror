@@ -1,27 +1,161 @@
-<h1>Listing events</h1>
+<%= stylesheet_link_tag    "events" %>
+<%= stylesheet_link_tag    "http://twitter.github.com/bootstrap/assets/css/bootstrap.css" %>
+<%= stylesheet_link_tag    "http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" %>
 
-<table>
-  <tr>
-    <th>User</th>
-    <th>Date</th>
-    <th>Description</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
 
-<% @events.each do |event| %>
-  <tr>
-    <td><%= event.user_id %></td>
-    <td><%= event.date %></td>
-    <td><%= event.description %></td>
-    <td><%= link_to 'Show', event %></td>
-    <td><%= link_to 'Edit', edit_event_path(event) %></td>
-    <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</table>
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
 
-<br />
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="#">Let's Jock</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li><a href="#">News</a></li>
+          <li class="active"><a href="#">Events</a></li>
+          <li><a href="#">Contacts</a></li>
+          <li><a href="#">Inbox</a></li>
+        </ul>
 
-<%= link_to 'New Event', new_event_path %>
+        <div class="pull-right">
+          <form class="navbar-form pull-left">
+            <input type="text" class="search-query" placeholder="Search">
+          </form>
+          <div class="btn-group username pull-right">
+            <a class="btn" data-toggle="dropdown" href="#">
+              <%=	 image_tag 'letsjock-iso.png', :class => "img-polaroid" %>
+              UserName
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Edit</a></li>
+              <!--<li class="divider"></li>-->
+              <li><a href="#">Logout</a></li>
+            </ul>
+          </div>
+        </div><!--pull-right-->
+      </div><!--/.nav-collapse -->
+
+    </div><!-- container -->
+  </div><!-- navbar-inner -->
+</div><!--navbar -->
+
+<!-- Carousel
+================================================== -->
+<div id="myCarousel" class="carousel slide">
+  <div class="carousel-inner">
+    <div class="item active">
+      <%= image_tag "slide-01.jpg", :alt => "" %>
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>Name of the Event 1<span class="date">February 1st</span></h1>
+          <p>Invites <b>Sponsor</b></p>
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <%=  image_tag 'slide-02.jpg', :alt => "" %>
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>Name of the Event 2<span class="date">February 2nd</span></h1>
+          <p>Invites <b>Sponsor</b></p>
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <%=	 image_tag 'slide-03.jpg', :alt => "" %>
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>Name of the Event 3<span class="date">February 3rd</span></h1>
+          <p>Invites <b>Sponsor</b></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="left carousel-control" href="http://twitter.github.com/bootstrap/examples/carousel.html#myCarousel" data-slide="prev">‹</a>
+  <a class="right carousel-control" href="http://twitter.github.com/bootstrap/examples/carousel.html#myCarousel" data-slide="next">›</a>
+</div><!-- /.carousel -->
+
+
+
+<!-- Marketing messaging and featurettes
+================================================== -->
+<!-- Wrap the rest of the page in another container to center all the content. -->
+
+<div class="container marketing">
+
+  <!-- Three columns of text below the carousel -->
+
+  <h3 class="inline">Next Events | Previous</h3>
+  <div class="accordion" id="accordion2"> <!--filtro-->
+    <div class="accordion-group events-filter">
+      <div class="accordion-heading btn btn-primary btn-small pull-right">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+          Filter by <span class="caret"></span>
+        </a>
+      </div>
+      <div id="collapseTwo" class="accordion-body collapse">
+        <div class="accordion-inner">
+          <div class="row">
+            <div class="span3">
+              <h5>Sports</h5>
+              <input class="span3" type="text" placeholder="Type a Sport">
+            </div><!--span-->
+            <div class="span3">
+              <h5>Date</h5>
+              <select class="span3">
+                <option>This Week</option>
+                <option>This Weekend</option>
+                <option>Next Week</option>
+                <option>Next Month</option>
+              </select>
+            </div><!--span-->
+            <div class="span3">
+              <h5>Location</h5>
+              <input class="span3" type="text" placeholder="Type a Location">
+            </div><!--span-->
+          </div><!--row-->
+          <div class="group pull-right">
+            <div class="pull-right">
+              <a data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">Cancel</a>
+              <a class="btn btn-primary">Find</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!--termina filtro accordion-->
+
+  <%=	 render 'weekly' %>
+
+  <!-- /END THE FEATURETTES -->
+
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="pull-right"><a href="http://twitter.github.com/bootstrap/examples/carousel.html#">Back to top</a></p>
+    <p>© 2012 Company, Inc. · <a href="http://twitter.github.com/bootstrap/examples/carousel.html#">Privacy</a> · <a href="http://twitter.github.com/bootstrap/examples/carousel.html#">Terms</a></p>
+  </footer>
+
+</div><!-- /.container -->
+
+
+
+
+<script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script>
+<iframe src="http://twitter.github.com/bootstrap/assets/js/Carousel Template · Bootstrap.htm" frameborder="0" style="border: 0px; visibility: visible; z-index: 2147483647; position: fixed; width: 100%; left: 0px; bottom: 0px; height: 300px; display: none;" id="FirebugUI"></iframe>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap.js"></script>
+<script>
+    !function ($) {
+        $(function(){
+            $('#myCarousel').carousel()
+        })
+    }(window.jQuery)
+</script>

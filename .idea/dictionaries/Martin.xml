@@ -2,8 +2,13 @@
   <dictionary name="Martin">
     <words>
       <w>citybirth</w>
+      <w>imagepath</w>
+      <w>imageurl</w>
       <w>lastname</w>
       <w>letsjock</w>
+      <w>nextevents</w>
+      <w>previousevents</w>
+      <w>profilephotourl</w>
       <w>unfollow</w>
       <w>userevent</w>
     </words>

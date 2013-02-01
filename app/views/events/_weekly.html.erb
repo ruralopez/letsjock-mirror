@@ -1,0 +1,27 @@
+<%	 @date = Time.new %>
+<%	 7.times do |i| %>
+    <h4><%=  @date.strftime("%A, %d %B %Y") %></h4>
+    <table class="table table-bordered event-table">
+      <!--<thead><tr>
+          <th>bla</th>
+      <tr></thead>-->
+      <tbody>
+      <%  @eventsToday = @nextevents.detect{|ne| ne.date.to_date == @date.to_date} %>
+      <%	 if @eventsToday %>
+        <%	 @eventsToday = Array.new.push(@eventsToday) %>
+        <%  @eventsToday.each do |nextevent| %>
+            <% if @date.to_date == nextevent.date.to_date %>
+            <tr>
+                <%=	 render nextevent %>
+            </tr>
+            <%  end %>
+        <%	 end %>
+      <% else %>
+        No events programmed for today.
+      <% end %>
+      </tbody>
+    </table>
+    <%	 @date = @date.tomorrow %>
+<%	 end %>
+
+

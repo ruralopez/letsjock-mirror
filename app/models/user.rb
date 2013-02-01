@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   has_many :user_events, :dependent => :destroy
   has_many :events, :through => :user_events
 
-  attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country, :phone, :resume, :height, :weight
+  attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country, :phone, :resume, :height, :weight, :profilephotourl
 
   before_save { |user| user.email = email.downcase}
   before_create :create_remember_token
@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
   end
 
   def unfollow!(other_user)
-    self.relationships.find_by_followed_id(other_user.id).destroy
+    relationships.find(:first, :conditions => ["followed_id = ?", other_user.id]).destroy
   end
 
   private

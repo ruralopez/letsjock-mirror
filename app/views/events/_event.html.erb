@@ -1,0 +1,15 @@
+<td><%= image_tag 'letsjock-iso.png', :class => "img-rounded" %></td>
+<td>By <b><%= User.find(event.user_id).name %> <%= User.find(event.user_id).lastname %></b>
+  <%=	 link_to event do %>
+    <h4><%=	 event.name %></h4>
+  <%  end %>
+</td>
+
+<td class="w-30"><%=  event.assistants.count %> Assistants
+  <div class="assistants"><!--maximo 8 -->
+    <%  event.assistants.take(8).each do |assistant| %>
+        <%= link_to image_tag('letsjock-iso.png') , assistant %>
+    <%  end %>
+  </div>
+</td>
+<td class="w-10"><%=  link_to event.date.strftime("%H:%M") %></td>

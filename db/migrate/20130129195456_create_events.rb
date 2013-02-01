@@ -4,6 +4,9 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :user_id
       t.datetime :date
       t.string :description
+      t.string :name
+      t.string :imageurl
+
 
       t.timestamps
     end

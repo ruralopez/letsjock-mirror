@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(:version => 20130131140737) do
     t.integer  "user_id"
     t.datetime "date"
     t.string   "description"
+    t.string   "name"
+    t.string   "imageurl"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -144,6 +146,7 @@ ActiveRecord::Schema.define(:version => 20130131140737) do
     t.string   "lastname"
     t.string   "email"
     t.string   "password_digest"
+    t.string   "profilephotourl"
     t.string   "gender"
     t.datetime "birth"
     t.string   "citybirth"
