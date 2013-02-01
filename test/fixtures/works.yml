@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user_id: 1
+  placename: MyString
+  country: MyString
+  init: 2013-02-01
+  end: 2013-02-01
+
+two:
+  user_id: 1
+  placename: MyString
+  country: MyString
+  init: 2013-02-01
+  end: 2013-02-01

@@ -11,15 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130131140737) do
+ActiveRecord::Schema.define(:version => 20130201122913) do
 
   create_table "competitions", :force => true do |t|
     t.integer  "user_id"
     t.integer  "sport_id"
     t.integer  "event_id"
     t.string   "name"
-    t.datetime "init"
-    t.datetime "end"
+    t.date     "init"
+    t.date     "end"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -51,6 +51,8 @@ ActiveRecord::Schema.define(:version => 20130131140737) do
     t.integer  "team_id"
     t.integer  "train_id"
     t.integer  "sport_id"
+    t.integer  "trainee_id"
+    t.integer  "work_id"
     t.string   "url"
     t.string   "title"
     t.string   "comment"
@@ -64,7 +66,7 @@ ActiveRecord::Schema.define(:version => 20130131140737) do
     t.integer  "competition_id"
     t.integer  "team_id"
     t.string   "description"
-    t.datetime "date"
+    t.date     "date"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
@@ -88,7 +90,7 @@ ActiveRecord::Schema.define(:version => 20130131140737) do
     t.integer  "value"
     t.string   "var"
     t.string   "description"
-    t.datetime "date"
+    t.date     "date"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
@@ -105,8 +107,20 @@ ActiveRecord::Schema.define(:version => 20130131140737) do
     t.integer  "user_id"
     t.integer  "sport_id"
     t.string   "name"
-    t.datetime "init"
-    t.datetime "end"
+    t.date     "init"
+    t.date     "end"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "trainees", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "sport_id"
+    t.integer  "team_id"
+    t.string   "name"
+    t.integer  "trainee_id"
+    t.date     "init"
+    t.date     "end"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -117,8 +131,8 @@ ActiveRecord::Schema.define(:version => 20130131140737) do
     t.integer  "team_id"
     t.integer  "trainer_id"
     t.string   "name"
-    t.datetime "init"
-    t.datetime "end"
+    t.date     "init"
+    t.date     "end"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -148,7 +162,7 @@ ActiveRecord::Schema.define(:version => 20130131140737) do
     t.string   "password_digest"
     t.string   "profilephotourl"
     t.string   "gender"
-    t.datetime "birth"
+    t.date     "birth"
     t.string   "citybirth"
     t.string   "country"
     t.integer  "phone"
@@ -170,11 +184,24 @@ ActiveRecord::Schema.define(:version => 20130131140737) do
     t.integer  "team_id"
     t.integer  "train_id"
     t.integer  "sport_id"
+    t.integer  "trainee_id"
+    t.integer  "work_id"
     t.string   "url"
     t.string   "title"
     t.string   "comment"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+  end
+
+  create_table "works", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "placename"
+    t.string   "position"
+    t.string   "country"
+    t.date     "init"
+    t.date     "end"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end

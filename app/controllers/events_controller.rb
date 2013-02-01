@@ -43,15 +43,20 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     @event = Event.new(params[:event])
-
-    respond_to do |format|
-      if @event.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
-        format.json { render json: @event, status: :created, location: @event }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
+    if signed_in? && current_user.id == @event.user_id
+      respond_to do |format|
+        if @event.save
+          format.html { redirect_to @event, notice: 'Event was successfully created.' }
+          format.json { render json: @event, status: :created, location: @event }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @event.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      flash[:error] = "You must be logged in."
+      sign_out
+      redirect_to signin_path
     end
   end
 
@@ -59,15 +64,20 @@ class EventsController < ApplicationController
   # PUT /events/1.json
   def update
     @event = Event.find(params[:id])
-
-    respond_to do |format|
-      if @event.update_attributes(params[:event])
-        format.html { redirect_to @event, notice: 'Event was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
+    if signed_in? && current_user.id == @event.user_id
+      respond_to do |format|
+        if @event.update_attributes(params[:event])
+          format.html { redirect_to @event, notice: 'Event was successfully updated.' }
+          format.json { head :no_content }
+        else
+          format.html { render action: "edit" }
+          format.json { render json: @event.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      flash[:error] = "You must be logged in."
+      sign_out
+      redirect_to signin_path
     end
   end
 
@@ -75,11 +85,17 @@ class EventsController < ApplicationController
   # DELETE /events/1.json
   def destroy
     @event = Event.find(params[:id])
-    @event.destroy
+    if signed_in? && current_user.id == @event.user_id
+      @event.destroy
 
-    respond_to do |format|
-      format.html { redirect_to events_url }
-      format.json { head :no_content }
+      respond_to do |format|
+        format.html { redirect_to events_url }
+        format.json { head :no_content }
+      end
+    else
+      flash[:error] = "You must be logged in."
+      sign_out
+      redirect_to signin_path
     end
   end
 

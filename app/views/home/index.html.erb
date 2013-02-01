@@ -1,5 +1,6 @@
 <%= stylesheet_link_tag    "application", :media => "all" %>
 <%= javascript_include_tag "application" %>
+<%= javascript_include_tag "index.js" %>
 <div id="fb-root"></div>
 <script>
     // Additional JS functions here
@@ -82,14 +83,26 @@
   <span class="puntos"></span>
 </div><!-- /imgHome -->
 <div class="registerCont wrapper">
+  <% if flash[:error] %>
+    <div class="alert alert-error index-flash">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <h4>Login error!</h4> <%=  flash[:error] %>
+    </div>
+  <% end %>
+  <% if flash[:success] %>
+      <div class="alert alert-success index-flash">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <%=  flash[:success] %>
+      </div>
+  <% end %>
   <div class="logoHome">
   </div><!-- /logoHome -->
 
   <div class="register">
     <%= form_for(:session, url: sessions_path, :html => { :class => "loginForm"}) do |f| %>
-        <%= f.text_field :email, :name => "email", :placeholder => "Email" %>
+        <%= f.text_field :email, :name => "email", :placeholder => "Email", :validation => 'email required notBlank' %>
         <div class="passLogin">
-            <%= f.password_field :password, :class => "passLogin", :name => "password", :placeholder => "Password" %>
+            <%= f.password_field :password, :class => "passLogin", :name => "password", :placeholder => "Password", :validation => 'required lengthMin6 notBlank' %>
             <%= content_tag :button, :type => :submit do %>
               Login!
             <% end %>
@@ -103,10 +116,10 @@
     <%=	form_for @user, :url => { :controller => :users, :action => :create }, :html => { :class => "registerForm"} do |f|   %>
         <span class="txtRegister"><b>Registrate</b> y conecta con
 miles de oportunidades deportivas</span>
-        <%= f.text_field :name, :class => "nameForm", :name => "name", :placeholder => "Name" %>
-        <%= f.text_field :lastname, :class => "lastnameForm", :name => "lastname", :placeholder => "Last Name" %>
-        <%= f.text_field :email, :name => "email", :placeholder => "Email" %>
-        <%= f.password_field :password, :name => "password", :placeholder => "Password" %>
+        <%= f.text_field :name, :class => "nameForm", :name => "name", :placeholder => "Name", :validation => 'required notBlank' %>
+        <%= f.text_field :lastname, :class => "lastnameForm", :name => "lastname", :placeholder => "Last Name", :validation => 'required notBlank' %>
+        <%= f.text_field :email, :name => "email", :placeholder => "Email", :validation => 'email required notBlank' %>
+        <%= f.password_field :password, :name => "password", :placeholder => "Password", :validation => 'required lengthMin6 notBlank' %>
         <div class="superButton">
           <%= content_tag :button, :type => :submit, :class => "singUp" do %>
               Sign Up!

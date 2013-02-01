@@ -7,20 +7,22 @@ Letsjock::Application.routes.draw do
   resources :trains, only: [:create, :update, :destroy]
   resources :results, only: [:create, :update, :destroy]
   resources :recognitions, only: [:create, :update, :destroy]
+  resources :trainees, only: [:create, :update, :destroy]
+  resources :works, only: [:create, :update, :destroy]
   resources :photos, only: [:create, :update, :destroy]
   resources :videos, only: [:create, :update, :destroy]
   resources :events
-  resources :messages, only: [:new, :create, :destroy]
+  resources :messages, only: [:new, :create, :show]
   resources :relationships, only: [:create, :destroy]
 
   root :to => 'home#index'
 
-  match '/signup',  to: 'users#new'
-  match '/signin',  to: 'sessions#new'
-  match '/signout', to: 'sessions#destroy'
+  match '/signup',  to: 'users#new', :as => :signup
+  match '/signin',  to: 'sessions#new', :as => :signin
+  match '/signout', to: 'sessions#destroy', :as => :signout
   match '/profile/:id', to: 'users#profile'
   match '/events/:id/join' => 'events#join', :as => :join
-  match '/inbox', to: 'messages#index'
+  match '/inbox', to: 'messages#index', :as => :profile
   match '/profile/:id/follow' => 'relationships#create', :as => :follow
   match '/profile/:id/unfollow' => 'relationships#destroy', :as => :unfollow
 

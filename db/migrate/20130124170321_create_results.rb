@@ -8,7 +8,7 @@ class CreateResults < ActiveRecord::Migration
       t.integer :value
       t.string :var
       t.string :description
-      t.datetime :date
+      t.date :date
 
       t.timestamps
     end

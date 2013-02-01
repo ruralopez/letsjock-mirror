@@ -6,7 +6,7 @@ class CreateRecognitions < ActiveRecord::Migration
       t.integer :competition_id
       t.integer :team_id
       t.string :description
-      t.datetime :date
+      t.date :date
 
       t.timestamps
     end

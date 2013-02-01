@@ -5,6 +5,7 @@ class Team < ActiveRecord::Base
   has_many :trains
   has_many :results
   has_many :recognitions
+  has_many :trainees
 
   has_many :photos
   has_many :videos

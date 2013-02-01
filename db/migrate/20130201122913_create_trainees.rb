@@ -1,9 +1,11 @@
-class CreateTeams < ActiveRecord::Migration
+class CreateTrainees < ActiveRecord::Migration
   def change
-    create_table :teams do |t|
+    create_table :trainees do |t|
       t.integer :user_id
       t.integer :sport_id
+      t.integer :team_id
       t.string :name
+      t.integer :trainee_id
       t.date :init
       t.date :end
 

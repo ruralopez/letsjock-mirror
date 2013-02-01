@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   has_many :results, :dependent => :destroy
   has_many :teams, :dependent => :destroy
   has_many :trains, :dependent => :destroy
+  has_many :trainees, :dependent => :destroy
+  has_many :works, :dependent => :destroy
 
   has_many :photos, :dependent => :destroy
   has_many :videos, :dependent => :destroy
@@ -19,13 +21,18 @@ class User < ActiveRecord::Base
   has_many :user_events, :dependent => :destroy
   has_many :events, :through => :user_events
 
+  has_many :messages
+
   attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country, :phone, :resume, :height, :weight, :profilephotourl
 
+  after_initialize :profilepic
   before_save { |user| user.email = email.downcase}
   before_create :create_remember_token
 
   has_secure_password
 
+  validates :name, presence: true
+  validates :lastname, presence: true
   VALID_EMAIL = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, format: { with: VALID_EMAIL}, uniqueness: { case_sensitive: false}
   validates :password, :presence =>true, :confirmation => true, :length => { :minimum => 6 }, :on => :create
@@ -33,7 +40,7 @@ class User < ActiveRecord::Base
 
 
   def full_name
-    name + lastname
+    name + " " + lastname
   end
 
   def following?(other_user)
@@ -45,7 +52,11 @@ class User < ActiveRecord::Base
   end
 
   def unfollow!(other_user)
-    relationships.find(:first, :conditions => ["followed_id = ?", other_user.id]).destroy
+    relationships.first(:conditions => ["followed_id = ?", other_user.id]).destroy
+  end
+
+  def profilepic
+    self.profilephotourl ||= "default-profile.png"
   end
 
   private

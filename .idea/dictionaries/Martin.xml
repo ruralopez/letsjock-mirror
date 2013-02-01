@@ -6,9 +6,15 @@
       <w>imageurl</w>
       <w>lastname</w>
       <w>letsjock</w>
+      <w>newpath</w>
       <w>nextevents</w>
+      <w>placename</w>
       <w>previousevents</w>
       <w>profilephotourl</w>
+      <w>profilepic</w>
+      <w>signin</w>
+      <w>signout</w>
+      <w>signup</w>
       <w>unfollow</w>
       <w>userevent</w>
     </words>

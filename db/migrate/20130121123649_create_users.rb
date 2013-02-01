@@ -7,7 +7,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :password_digest
       t.string :profilephotourl
       t.string :gender
-      t.datetime :birth
+      t.date :birth
       t.string :citybirth
       t.string :country
       t.integer :phone

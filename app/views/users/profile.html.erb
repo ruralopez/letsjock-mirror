@@ -9,15 +9,19 @@
     <ul class="nav">
       <li><%=  link_to 'news', '#'  %></li>
       <li><%=  link_to 'events', root_url + 'events'  %></li>
-      <li><%=  link_to 'contacts', '#'  %></li>
-      <li class="btnInbox"><%=  link_to 'inbox ', root_url + 'inbox' %><span>1</span></li>
+      <%  if signed_in? %>
+        <li><%=  link_to 'contacts', '#'  %></li>
+        <li class="btnInbox"><%=  link_to 'inbox ', root_url + 'inbox' %><span><%= @user.messages.count %></span></li>
+      <% end %>
     </ul><!-- /nav -->
     <ul class="navRight">
       <li class="relative">
         <input type="text" placeholder="Busca deportistas, entrenadores, eventos..." />
         <button type="submit"></button>
       </li>
-      <li class="options"><a href="#"><%=  @user.full_name %></a></li>
+      <% if signed_in? %>
+          <li class="options"><a href="#"><%=  current_user.full_name %></a></li>
+      <% end %>
     </ul><!-- /navRight -->
   </div><!-- /wrapper -->
 </header>
@@ -26,8 +30,8 @@
 <div class="container wrapper">
   <div class="profileColGraphic">
     <div class="profileImg">
-      <span></span>
-      <%= link_to image_tag('270x270.gif', :id => 'test_pic') , '#'%>
+      <!--<span></span>-->
+      <%= link_to image_tag('default-profile.png', :id => 'test_pic') , '#'%>
     </div><!-- /profileImg -->
 
     <div class="profileThumb">

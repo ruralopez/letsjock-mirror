@@ -6,8 +6,8 @@ class CreateTrains < ActiveRecord::Migration
       t.integer :team_id
       t.integer :trainer_id
       t.string :name
-      t.datetime :init
-      t.datetime :end
+      t.date :init
+      t.date :end
 
       t.timestamps
     end
