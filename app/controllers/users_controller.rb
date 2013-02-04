@@ -112,6 +112,8 @@ class UsersController < ApplicationController
     #Crear variables photo y video para poder subir
     @photo = @user.photos.build if signed_in?
     @video = @user.videos.build if signed_in?
+    #Sacando todos los sports para los botones de agregar entrada
+    @sports = Sport.all
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }

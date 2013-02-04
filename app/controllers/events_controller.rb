@@ -5,7 +5,7 @@ class EventsController < ApplicationController
     @events = Event.all.sort_by(&:date).reverse
     @nextevents = Event.all(:conditions => ["date >= ?", Time.new]).sort_by(&:date).reverse
     @previousevents = Event.all(:conditions => ["date < ?", Time.new]).sort_by(&:date).reverse
-
+    @sports_list = Sport.select('name').all.map(&:name)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @events }
@@ -27,7 +27,7 @@ class EventsController < ApplicationController
   # GET /events/new.json
   def new
     @event = Event.new
-
+    @prueba = Event.first
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @event }

@@ -25,6 +25,7 @@ Letsjock::Application.routes.draw do
   match '/inbox', to: 'messages#index', :as => :profile
   match '/profile/:id/follow' => 'relationships#create', :as => :follow
   match '/profile/:id/unfollow' => 'relationships#destroy', :as => :unfollow
+  match '/events/new/change_name' => 'events#change_name'
 
 
   # The priority is based upon order of creation:

@@ -169,6 +169,9 @@ ActiveRecord::Schema.define(:version => 20130201122913) do
     t.string   "resume"
     t.integer  "height"
     t.integer  "weight"
+    t.string   "highschool"
+    t.string   "college"
+    t.string   "university"
     t.string   "remember_token"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
@@ -195,6 +198,7 @@ ActiveRecord::Schema.define(:version => 20130201122913) do
 
   create_table "works", :force => true do |t|
     t.integer  "user_id"
+    t.integer  "sport_id"
     t.string   "placename"
     t.string   "position"
     t.string   "country"

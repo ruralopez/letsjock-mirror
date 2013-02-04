@@ -68,41 +68,136 @@
 
   <div class="experienceLine">
     <ul>
-      <li><div class="btn-group">
-        <button class="btn btn-primary">Deportes</button>
+    <!-- Toggle Buttons -->
+    <li>
+      <button type="button" class="btn btn-info" id="btn-add">
+        Complete your profile!
+      </button>
+
+      </br>
+
+      <button type="button" id = "sport1" class="btn btn-danger btn-cat btn-sport">
+        Athlete
+      </button>
+      <button type="button" id = "sport2" class="btn btn-danger btn-cat btn-sport">
+        Sporty Work
+      </button>
+      <button type="button" id = "sport3" class="btn btn-danger btn-cat">
+        Non-sporty
+      </button>
+      <button type="button" id = "sport4" class="btn btn-danger btn-cat">
+        Educational
+      </button>
+
+      <br/>
+
+      <button type="button" id = "edu1" class="btn btn-primary btn-edu">
+        High School
+      </button>
+      <button type="button" id = "edu2" class="btn btn-primary btn-edu">
+        College
+      </button>
+      <button type="button" id = "edu3" class="btn btn-primary btn-edu">
+        University
+      </button>
+
+      <br/>
+
+      <div class="btn-group preLoad" id="sports">
+        <button class="btn btn-primary" id="dropdown-sports-btn">Sports</button>
         <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
           <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu">
-          <li><a href="#"><%= Sport.first.name %> </a></li>
-          <li><a href="#"><%= Sport.last.name %></a></li>
+        <ul class="dropdown-menu" id="dropdown-menu-sports">
+          <% @sports.each do |sport| %>
+              <% if  sport.fullpath == '/' + sport.id.to_s %>
+                  <li><a href="#" name_s=<%= sport.name %> ><%= sport.name %> </a></li>
+              <% end %>
+          <% end %>
           <li class="divider"></li>
-          <li><a href="#">Deportes</a></li>
+          <li><a href="#">Sports</a></li>
         </ul>
       </div>
-        <script type="text/javascript">
-            jQuery(function($) {
 
-                $('.dropdown-toggle').dropdown();
+      <br/>
 
-            });
-        </script>
+      <button type="button" id="hito1" class="btn btn-warning hito-click">Training</button>
+      <button type="button" id="hito2" class="btn btn-warning hito-click">Competition</button>
+      <button type="button" id="hito3" class="btn btn-warning hito-click">Team</button>
+      <button type="button" id="hito4" class="btn btn-warning hito-click">Result</button>
+      <button type="button" id="hito5" class="btn btn-warning hito-click">Award</button>
+      <button type="button" id="hito6" class="btn btn-warning hito-click">Job</button>
 
-        <button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#cv-btn">
-          Agregar Hito a la Biografía!
-        </button>
-        <br/>
-        <br/>
 
-        <div id="cv-btn" class="collapse">
-          <button type="button" class="btn btn-primary">Entrenamiento
-          </button><button type="button" class="btn btn-primary">Competencia</button><button type="button" class="btn btn-primary">Equipo
-        </button><button type="button" class="btn btn-primary">Resultado</button>
-          <button type="button" class="btn btn-primary">Premio
-          </button><button type="button" class="btn btn-primary">Trabajo</button>
-        </div>
-        <br/>
-      </li>
+      <script>
+          $(document).ready(function(){
+              $(".hito-click").hide();
+              $(".preLoad").hide();
+              $(".btn-cat").hide();
+              $(".btn-edu").hide();
+
+              $(".hito-click").click(function(){
+                  $idx = $(this).attr('id');
+                  $(".hito-click").each(function () {
+                      if ( $(this).attr('id') != $idx  ) {
+                          $(this).toggle("fast");}
+                  });
+              });
+              $("#btn-add").click(function(){
+                  if(!($("#sports").is(':hidden') && $("#edu1").is(':hidden') && $("#edu2").is(':hidden') && $("#edu3").is(':hidden'))){
+                      $(".hito-click").hide("fast");
+                      $(".preLoad").hide("normal");
+                      $(".btn-cat").show("normal");
+                      $(".btn-edu").hide("normal");
+                  }
+                  else   { $(".btn-cat").each(function () {
+                      $(this).toggle("normal");
+                  });}
+              });
+
+              $(".btn-sport").click(function(){
+                  $("#sports").toggle("normal");
+              });
+
+              $("#dropdown-sports-btn").click(function(){
+                  $(".hito-click").show("normal");
+              });
+
+              $("#sport4").click(function(){
+                  if($("#sport1").is(':hidden') && $("#sport2").is(':hidden') && $("#sport3").is(':hidden')){
+                      $(".btn-edu").hide("normal");
+                  }
+                  else {$(".btn-edu").toggle("normal");
+                  }
+              });
+              $(".btn-cat").click(function(){
+                  $idx = $(this).attr('id');
+                  $(".hito-click").hide("normal");
+                  $(".btn-cat").each(function () {
+                      if ( $(this).attr('id') != $idx  ) {
+                          $(this).toggle("normal");}
+                  });
+              });
+              $(".btn-edu").click(function(){
+                  $idx = $(this).attr('id');
+                  $(".btn-edu").each(function () {
+                      if ( $(this).attr('id') != $idx  ) {
+                          $(this).toggle("normal");}
+                  });
+              });
+              $("#dropdown-menu-sports a").click(function(){
+                  $ddm = document.getElementById('dropdown-sports-btn');
+                  $ddm.textContent = $(this).attr('name_s');
+                  $(".hito-click").show("normal");
+              });
+              jQuery(function($) {
+                  $('.dropdown-toggle').dropdown();
+              });
+          });</script>
+
+
+    </li>
+    <!-- End Toggle Buttons -->
 
 
       <li>

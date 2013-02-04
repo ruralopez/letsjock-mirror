@@ -14,6 +14,9 @@ class CreateUsers < ActiveRecord::Migration
       t.string :resume
       t.integer :height
       t.integer :weight
+      t.string :highschool
+      t.string :college
+      t.string :university
       t.string :remember_token
 
       t.timestamps
