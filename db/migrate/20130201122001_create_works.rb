@@ -3,8 +3,9 @@ class CreateWorks < ActiveRecord::Migration
     create_table :works do |t|
       t.integer :user_id
       t.integer :sport_id
-      t.string :placename
-      t.string :position
+      t.integer :team_id
+      t.string :company
+      t.string :role
       t.string :country
       t.date :init
       t.date :end

@@ -1,0 +1,11 @@
+<%= form_for result do |f| %>
+    <%=	 f.label :description %>
+    <%=	 f.text_field :description %>
+    <%=	 f.label :value %>
+    <%=	 f.text_field :value %>
+    <%=	 f.label :var %>
+    <%=	 f.text_field :var %>
+    <%=	 f.label :date %>
+    <%=	 f.date_select :date %>
+    <%=	 f.submit "Add result!" %>
+<%  end %>

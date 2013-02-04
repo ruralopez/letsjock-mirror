@@ -1,0 +1,7 @@
+<%= form_for recognition do |f| %>
+    <%=	 f.label :description %>
+    <%=	 f.text_field :description %>
+    <%=	 f.label :date %>
+    <%=	 f.date_select :date %>
+    <%=	 f.submit "Add recognition!" %>
+<%  end %>

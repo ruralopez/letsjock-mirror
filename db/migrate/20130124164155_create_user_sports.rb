@@ -3,6 +3,7 @@ class CreateUserSports < ActiveRecord::Migration
     create_table :user_sports, :id => false do |t|
       t.references :user, :null => false
       t.references :sport, :null => false
+      t.string :position
 
       t.timestamps
     end

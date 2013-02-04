@@ -2,10 +2,17 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
+    @date = Time.new
+    if params[:page]
+      params[:page].to_i.times do
+        @date = @date.next_week
+      end
+    end
     @events = Event.all.sort_by(&:date).reverse
-    @nextevents = Event.all(:conditions => ["date >= ?", Time.new]).sort_by(&:date).reverse
+    @nextevents = Event.paginate(:page => params[:page], :per_page => 1, :conditions => ["date >= ?", Time.new])
     @previousevents = Event.all(:conditions => ["date < ?", Time.new]).sort_by(&:date).reverse
     @sports_list = Sport.select('name').all.map(&:name)
+    @filters = Event.new
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @events }

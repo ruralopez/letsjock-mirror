@@ -5,5 +5,5 @@ class Work < ActiveRecord::Base
   has_many :photos
   has_many :videos
 
-  attr_accessible :country, :end, :init, :placename, :user_id, :position, :sport_id
+  attr_accessible :country, :end, :init, :company, :user_id, :role, :sport_id, :team_id
 end

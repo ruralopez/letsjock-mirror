@@ -1,0 +1,13 @@
+<%= form_for work do |f| %>
+    <%=	 f.label :company %>
+    <%=	 f.text_field :company %>
+    <%=	 f.label :role %>
+    <%=	 f.text_field :role %>
+    <%=	 f.label :country %>
+    <%=	 f.text_field :country %>
+    <%=	 f.label :init %>
+    <%=	 f.date_select :init %>
+    <%=	 f.label :end %>
+    <%=	 f.date_select :end %>
+    <%=	 f.submit "Add work!" %>
+<%  end %>

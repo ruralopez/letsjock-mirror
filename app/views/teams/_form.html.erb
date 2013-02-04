@@ -1,0 +1,9 @@
+<%= form_for team do |f| %>
+    <%=	 f.label :name %>
+    <%=	 f.text_field :name %>
+    <%=	 f.label :init %>
+    <%=	 f.date_select :init %>
+    <%=	 f.label :end %>
+    <%=	 f.date_select :end %>
+    <%=	 f.submit "Add team!" %>
+<%  end %>

@@ -1,4 +1,19 @@
-<%	 @date = Time.new %>
+<%	 if params[:page] %>
+    <%	 if params[:page].to_i > 1 %>
+        <%=	 link_to "Previous week", '/events' + (params[:page].to_i - 1).to_s, :class => "previous_page", :rel => "prev"  %>
+        <%=	 link_to "Next week", '/events?page=' + (params[:page].to_i + 1).to_s, :class => "next_page", :rel => "next" %>
+    <%	 elsif params[:page].to_i == 1 %>
+        <%=	 link_to "Previous week", '/events', :class => "previous_page", :rel => "prev"  %>
+        <%=	 link_to "Next week", '/events?page=' + (params[:page].to_i + 1).to_s, :class => "next_page", :rel => "next" %>
+    <%	 else %>
+        <span class="previous_page disabled">Previous week</span>
+        <%=	 link_to "Next week", '/events?page=' + (params[:page].to_i + 1).to_s, :class => "next_page", :rel => "next" %>
+    <%	 end %>
+<% else %>
+    <span class="previous_page disables">Previous week</span>
+    <%=	 link_to "Next week", '/events?page=' + (params[:page].to_i + 1).to_s, :class => "next_page", :rel => "next" %>
+<% end %>
+
 <%	 7.times do |i| %>
     <h4><%=  @date.strftime("%A, %d %B %Y") %></h4>
     <table class="table table-bordered event-table">

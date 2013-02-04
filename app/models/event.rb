@@ -2,7 +2,7 @@ class Event < ActiveRecord::Base
   has_many :user_events
   has_many :users, :through => :user_events
 
-  attr_accessible :date, :description, :name, :imageurl, :user_id
+  attr_accessible :date, :description, :name, :imageurl, :user_id, :place
 
   def assistants
     @userevents = UserEvent.all(:conditions => ['event_id = ?', self.id])

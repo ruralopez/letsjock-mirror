@@ -101,11 +101,11 @@ class UsersController < ApplicationController
     @recognitions = Recognition.all(:conditions => ['user_id = ?', @user.id], :order => "date desc")
     @honors = (@results + @recognitions).sort_by(&:date).reverse
     #Crear variable para poder crear competition, team, train, result o recognition.
-    @competition = @user.competitions.build if signed_in?
-    @team = @user.teams.build if signed_in?
-    @train = @user.trains.build if signed_in?
-    @result = @user.results.build if signed_in?
-    @recognition = @user.recognitions.build if signed_in?
+    #@competition = @user.competitions.build if signed_in?
+    #@team = @user.teams.build if signed_in?
+    #@train = @user.trains.build if signed_in?
+    #@result = @user.results.build if signed_in?
+    #@recognition = @user.recognitions.build if signed_in?
     #Juntar photos y videos que el usuario ya tiene
     @photos = Photo.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
     @videos = Video.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")

@@ -104,23 +104,23 @@
       <div id="collapseTwo" class="accordion-body collapse">
         <div class="accordion-inner">
           <div class="row">
-            <div class="span3">
-              <h5>Sports</h5>
-              <input class="span3" type="text" placeholder="Type a Sport" data-provide="typeahead" data-source= '<%= @sports_list %>' data-items="4">
-            </div><!--span-->
-            <div class="span3">
-              <h5>Date</h5>
-              <select class="span3">
-                <option>This Week</option>
-                <option>This Weekend</option>
-                <option>Next Week</option>
-                <option>Next Month</option>
-              </select>
-            </div><!--span-->
-            <div class="span3">
-              <h5>Location</h5>
-              <input class="span3" type="text" placeholder="Type a Location">
-            </div><!--span-->
+            <%=	 form_for @filters do |f| %>
+                <div class="span3">
+                  <h5>Sports</h5>
+                  <input class="span3" type="text" placeholder="Type a Sport" data-provide="typeahead" data-source= '<%= @sports_list %>' data-items="4">
+                </div><!--span-->
+                <div class="span3">
+                  <h5>Order by</h5>
+                  <select class="span3">
+                    <option>Week</option>
+                    <option>Month</option>
+                  </select>
+                </div><!--span-->
+                <div class="span3">
+                  <h5>Location</h5>
+                  <input class="span3" type="text" placeholder="Type a Location">
+                </div><!--span-->
+            <%	 end %>
           </div><!--row-->
           <div class="group pull-right">
             <div class="pull-right">
@@ -132,8 +132,9 @@
       </div>
     </div>
   </div><!--termina filtro accordion-->
-
-  <%=	 render 'weekly' %>
+<div id="filtered-events">
+  <%= render 'weekly' %>
+</div>
 
   <!-- /END THE FEATURETTES -->
 
