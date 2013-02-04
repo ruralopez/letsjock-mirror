@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country, :phone, :resume, :height, :weight, :profilephotourl, :highschool, :college, :university
 
-  after_initialize :profilepic
+  before_save :profilepic
   before_save { |user| user.email = email.downcase}
   before_create :create_remember_token
 
@@ -55,13 +55,13 @@ class User < ActiveRecord::Base
     relationships.first(:conditions => ["followed_id = ?", other_user.id]).destroy
   end
 
-  def profilepic
-    self.profilephotourl ||= "default-profile.png"
-  end
-
   private
   def create_remember_token
     self.remember_token = SecureRandom.urlsafe_base64
+  end
+
+  def profilepic
+    self.profilephotourl ||= "default-profile.png"
   end
 
 end
