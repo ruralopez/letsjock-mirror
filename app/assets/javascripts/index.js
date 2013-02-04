@@ -1,4 +1,4 @@
-//= require validations.js
+//= require validations
 
 $(function(){
     var newUserForm;
