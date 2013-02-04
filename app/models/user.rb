@@ -55,13 +55,13 @@ class User < ActiveRecord::Base
     relationships.first(:conditions => ["followed_id = ?", other_user.id]).destroy
   end
 
+  def profilepic
+    self.profilephotourl ||= "default-profile.png"
+  end
+
   private
   def create_remember_token
     self.remember_token = SecureRandom.urlsafe_base64
-  end
-
-  def profilepic
-    self.profilephotourl ||= "default-profile.png"
   end
 
 end

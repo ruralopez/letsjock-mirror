@@ -23,10 +23,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="user.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="user.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/user.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="169" selection-start="1137" selection-end="1152" vertical-scroll-proportion="0.0">
+            <state line="59" column="5" selection-start="2232" selection-end="2232" vertical-scroll-proportion="0.7017544">
               <folding />
             </state>
           </provider>
@@ -41,10 +41,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="profile.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="profile.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/users/profile.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="49" selection-start="1109" selection-end="1109" vertical-scroll-proportion="-3.0134876">
+            <state line="31" column="49" selection-start="1109" selection-end="1109" vertical-scroll-proportion="30.666666">
               <folding />
             </state>
           </provider>
@@ -82,9 +82,9 @@
         <option value="$PROJECT_DIR$/app/controllers/events_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/events/_form.html.erb" />
         <option value="$PROJECT_DIR$/db/migrate/20130121123649_create_users.rb" />
-        <option value="$PROJECT_DIR$/app/models/user.rb" />
         <option value="$PROJECT_DIR$/app/views/users/index.html.erb" />
         <option value="$PROJECT_DIR$/app/views/users/profile.html.erb" />
+        <option value="$PROJECT_DIR$/app/models/user.rb" />
       </list>
     </option>
   </component>
@@ -603,9 +603,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
+    <entry file="file://$PROJECT_DIR$/app/views/users/profile.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="169" selection-start="1137" selection-end="1152" vertical-scroll-proportion="0.0">
+        <state line="31" column="49" selection-start="1109" selection-end="1109" vertical-scroll-proportion="30.666666">
           <folding />
         </state>
       </provider>
@@ -617,9 +617,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/users/profile.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="49" selection-start="1109" selection-end="1109" vertical-scroll-proportion="-3.0134876">
+        <state line="59" column="5" selection-start="2232" selection-end="2232" vertical-scroll-proportion="0.7017544">
           <folding />
         </state>
       </provider>
