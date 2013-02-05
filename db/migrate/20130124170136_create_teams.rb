@@ -4,8 +4,10 @@ class CreateTeams < ActiveRecord::Migration
       t.integer :user_id
       t.integer :sport_id
       t.string :name
+      t.string :category
       t.date :init
       t.date :end
+      t.boolean :as_athlete
 
       t.timestamps
     end

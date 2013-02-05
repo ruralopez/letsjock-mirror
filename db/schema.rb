@@ -11,15 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130205153224) do
+ActiveRecord::Schema.define(:version => 20130205214530) do
 
   create_table "competitions", :force => true do |t|
     t.integer  "user_id"
     t.integer  "sport_id"
     t.integer  "event_id"
+    t.integer  "team_id"
+    t.string   "team_name"
     t.string   "name"
     t.date     "init"
     t.date     "end"
+    t.boolean  "as_athlete"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -27,6 +30,23 @@ ActiveRecord::Schema.define(:version => 20130205153224) do
   create_table "countries", :force => true do |t|
     t.string "iso"
     t.string "name"
+  end
+
+  create_table "educations", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "location"
+    t.integer  "state_id"
+    t.integer  "country_id"
+    t.string   "degree"
+    t.date     "init"
+    t.date     "end"
+    t.integer  "rank"
+    t.string   "career"
+    t.string   "gda"
+    t.string   "ncaa"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "events", :force => true do |t|
@@ -40,6 +60,14 @@ ActiveRecord::Schema.define(:version => 20130205153224) do
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "exams", :force => true do |t|
+    t.string   "name"
+    t.string   "iso"
+    t.integer  "country_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "messages", :force => true do |t|
     t.integer  "user_id"
     t.integer  "receiver_id"
@@ -47,6 +75,14 @@ ActiveRecord::Schema.define(:version => 20130205153224) do
     t.boolean  "read"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "outcomes", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "exam_id"
+    t.string   "score"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "photos", :force => true do |t|
@@ -71,8 +107,10 @@ ActiveRecord::Schema.define(:version => 20130205153224) do
     t.integer  "sport_id"
     t.integer  "competition_id"
     t.integer  "team_id"
+    t.string   "awarded_by"
     t.string   "description"
     t.date     "date"
+    t.boolean  "as_athlete"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
@@ -93,10 +131,11 @@ ActiveRecord::Schema.define(:version => 20130205153224) do
     t.integer  "sport_id"
     t.integer  "competition_id"
     t.integer  "team_id"
+    t.string   "position"
     t.integer  "value"
     t.string   "var"
-    t.string   "description"
     t.date     "date"
+    t.boolean  "as_athlete"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
@@ -119,8 +158,10 @@ ActiveRecord::Schema.define(:version => 20130205153224) do
     t.integer  "user_id"
     t.integer  "sport_id"
     t.string   "name"
+    t.string   "category"
     t.date     "init"
     t.date     "end"
+    t.boolean  "as_athlete"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -128,7 +169,7 @@ ActiveRecord::Schema.define(:version => 20130205153224) do
   create_table "trainees", :force => true do |t|
     t.integer  "user_id"
     t.integer  "sport_id"
-    t.integer  "team_id"
+    t.integer  "work_id"
     t.string   "name"
     t.integer  "trainee_id"
     t.date     "init"
@@ -182,9 +223,6 @@ ActiveRecord::Schema.define(:version => 20130205153224) do
     t.string   "resume"
     t.integer  "height"
     t.integer  "weight"
-    t.string   "highschool"
-    t.string   "college"
-    t.string   "university"
     t.string   "remember_token"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false

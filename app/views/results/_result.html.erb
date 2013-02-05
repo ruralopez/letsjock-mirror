@@ -1,14 +1,1 @@
-<div class="experienceItem relative">
-  <small> <%=	 result.date %></small>
-  <h4> <%	if result.competition_id  %> <%=	Competition.find(result.competition_id).name  %> <% end %>  <%=	 result.value %> <%=	 result.var %></h4>
-  <p><%=	 result.description %></p>
-  <a class="valid" data-placement="top" rel="tooltip" href="#" data-original-title="
-certificate"></a>
-  <% if signed_in? && current_user.id == result.user_id %>
-    <%= link_to "Delete", result, method: :delete %>
-    <%=	 form_for result do |f| %>
-        <%=	 f.text_field :description %>
-        <%=	 f.submit %>
-    <%	 end %>
-  <%  end %>
-</div>
+NO RENDEREA

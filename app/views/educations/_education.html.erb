@@ -1,0 +1,20 @@
+<ul class="experience">
+  <li><h5><%= education.name %></h5></li>
+  <li><i class="icon-map-marker"></i><%= education.location %>, <%= Country.find(education.country_id).name %></li>
+  <li class="calendar"><i class="icon-calendar"></i><%= education.init.strftime("%m/%Y") %>, to <%= education.end.strftime("%m/%Y") %></li>
+  <% if education.career %>
+      <li><i class="icon-film"></i><%= education.career %></li>
+  <% end %>
+  <% if education.degree %>
+      <li><i class="icon-heart"></i><%= education.degree %></li>
+  <% end %>
+  <% if education.rank %>
+      <li><i class="icon-ok"></i><%= education.rank %></li>
+  <% end %>
+  <% if education.gda %>
+      <li><i class="icon-off"></i><%= education.gda %></li>
+  <% end %>
+  <% if education.ncaa %>
+      <li><i class="icon-lock"></i><%= education.ncaa %></li>
+  <% end %>
+</ul>

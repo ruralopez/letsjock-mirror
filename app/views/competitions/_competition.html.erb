@@ -1,10 +1,31 @@
-<div class="experienceItem relative">
-          <small><%=	 competition.init.strftime("%m/%d/%Y") %> - <%	if competition.end && competition.end < Time.new %><%=    competition.end.strftime("%m/%d/%Y") %><% else%> Presente <%  end %></small>
-          <h4><%=	 competition.name %></h4>
-          <p></p>
-          <a class="valid" data-placement="top" rel="tooltip" href="#" data-original-title="
-certificate"></a>
+<% unless competition.team_id %>
+<ul class="experience">
+  <li><h5><%= competition.name %> <span><%=	 Sport.find(competition.sport_id).name %></span></h5></li>
+  <li class="calendar"><i class="icon-calendar"></i><%= competition.init.strftime("%m/%d/%Y") %>, to <%= competition.end.strftime("%m/%d/%Y") %></li>
+  <% if competition.team_name %>
+      <li><i class="icon-user"></i><%= competition.team_name %></li> <!-- ToolTip -->
+  <% end %>
+  <% @recognitions = Recognition.all(:conditions => ["user_id = ? AND competition_id = ?", competition.user_id, competition.id]) %>
+  <% if @recognitions %>
+      <% @recognitions = Array.new.push(@recognitions) %>
+      <% @recognitions.each do |recognition| %>
+          <li><i class="icon-star"></i><%= recognition.description %></li>
+      <% end %>
+  <% end %>
+  <% @results = Result.all(:conditions => ["user_id = ? AND competition_id = ?", competition.user_id, competition.id]) %>
+  <% if @results %>
+    <% @results = Array.new.push(@results) %>
+    <% @results.each do |result| %>
+          <% if result.position %>
+              <li><i class="icon-check"></i><%= result.position %></li>
+          <% end %>
+          <% if result.value %>
+              <li><i class="icon-tag"></i><%= result.value %> <%= result.var %></li>
+          <% end %>
+    <% end %>
+  <% end %>
   <% if signed_in? && current_user.id == competition.user_id %>
-     <%= link_to "Delete", competition, method: :delete%>
+      <%= link_to "Delete", competition, method: :delete%>
   <%  end %>
-</div>
+</ul>
+<% end %>

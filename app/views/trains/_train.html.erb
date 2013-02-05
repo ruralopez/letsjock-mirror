@@ -1,14 +1,9 @@
-<div class="experienceItem relative">
-  <small><%=	 train.init.strftime("%m/%d/%Y") %> - <%	if train.end && train.end < Time.new %><%=    train.end.strftime("%m/%d/%Y") %><% else%> Presente <%  end %></small>
-  <h4>Trained with <%=	 train.name %><%	 if train.team_id %>, on <%=    Team.find(train.team_id).name%><%	 end %></h4>
-  <p></p>
-  <a class="valid" data-placement="top" rel="tooltip" href="#" data-original-title="
-certificate"></a>
-  <% if signed_in? && current_user.id == train.user_id %>
-    <%= link_to "Delete", train, method: :delete %>
-    <%=	 form_for train do |f| %>
-        <%=	 f.text_field :name %>
-        <%=	 f.submit %>
-    <%  end %>
-  <%  end %>
-</div>
+<% unless train.team_id %>
+    <ul class="experience">
+      <li><h5>Trained by <% if User.find(train.trainer_id) %><%= link_to User.find(train.trainer_id).full_name, User.find(train.trainer_id) %><% else %><%= train.name %><% end %>  <span><%= Sport.find(train.sport_id).name %></span></h5></li>
+      <li class="calendar"><i class="icon-calendar"></i><%= train.init.strftime("%m/%Y") %>, to <%= train.end.strftime("%m/%Y") %></li>
+      <% if signed_in? && current_user.id == train.user_id %>
+          <%= link_to "Delete", train, method: :delete%>
+      <%  end %>
+    </ul>
+<% end %>

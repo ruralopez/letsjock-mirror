@@ -1,1 +1,9 @@
-Falta Trainee
+<% unless trainee.work_id %>
+    <ul class="experience">
+      <li><h5>Trained <% if User.find(trainee.trainee_id) %><%= link_to User.find(trainee.trainee_id).full_name, User.find(trainee.trainee_id) %><% else %><%= trainee.name %><% end %>  <span><%= Sport.find(trainee.sport_id).name %></span></h5></li>
+      <li class="calendar"><i class="icon-calendar"></i><%= trainee.init.strftime("%m/%Y") %>, to <%= trainee.end.strftime("%m/%Y") %></li>
+      <% if signed_in? && current_user.id == trainee.user_id %>
+          <%= link_to "Delete", trainee, method: :delete%>
+      <%  end %>
+    </ul>
+<% end %>

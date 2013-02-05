@@ -6,7 +6,8 @@ class CreateWorks < ActiveRecord::Migration
       t.integer :team_id
       t.string :company
       t.string :role
-      t.string :country
+      t.integer :country_id
+      t.string :location
       t.date :init
       t.date :end
 

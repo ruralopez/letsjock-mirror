@@ -13,7 +13,7 @@
         <%=	 link_to "Next week", '/events?page=' + (params[:page].to_i + 1).to_s, :class => "next_page", :rel => "next" %>
     <%	 end %>
 <% else %>
-    <span class="previous_page disables">Previous week</span>
+    <span class="previous_page disabled">Previous week</span>
     <%=  @date.strftime("%m/%d") %> - <%= @date.next_week.strftime("%m/%d")  %>
     <%=	 link_to "Next week", '/events?page=' + (params[:page].to_i + 1).to_s, :class => "next_page", :rel => "next" %>
 <% end %>
@@ -26,13 +26,13 @@
       <tr></thead>-->
       <tbody>
       <%  @eventsToday = @nextevents.detect{|ne| ne.date.to_date == @date.to_date} %>
-      <%	 if @eventsToday %>
-        <%	 @eventsToday = Array.new.push(@eventsToday) %>
+      <%  if @eventsToday %>
+        <%  @eventsToday = Array.new.push(@eventsToday) %>
         <%  @eventsToday.each do |nextevent| %>
             <% if @date.to_date == nextevent.date.to_date %>
-            <tr>
-                <%=	 render nextevent %>
-            </tr>
+                <tr>
+                    <%=	 render nextevent %>
+                </tr>
             <%  end %>
         <%	 end %>
       <% else %>

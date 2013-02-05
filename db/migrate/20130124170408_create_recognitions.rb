@@ -5,8 +5,10 @@ class CreateRecognitions < ActiveRecord::Migration
       t.integer :sport_id
       t.integer :competition_id
       t.integer :team_id
+      t.string :awarded_by
       t.string :description
       t.date :date
+      t.boolean :as_athlete
 
       t.timestamps
     end

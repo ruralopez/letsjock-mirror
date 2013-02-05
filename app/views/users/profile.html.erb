@@ -1,285 +1,157 @@
-<%= stylesheet_link_tag    "application", :media => "all" %>
+<%= stylesheet_link_tag    "users" %>
+<%= stylesheet_link_tag    "profile" %>
 <%= javascript_include_tag "application" %>
-<div class="lineTop">
-</div><!-- /lineTop -->
-<header>
-  <div class="wrapper relative">
-    <div class="logo">
-    </div><!-- /logo -->
-    <ul class="nav">
-      <li><%=  link_to 'news', '#'  %></li>
-      <li><%=  link_to 'events', root_url + 'events'  %></li>
-      <%  if signed_in? %>
-        <li><%=  link_to 'contacts', '#'  %></li>
-        <li class="btnInbox"><%=  link_to 'inbox ', root_url + 'inbox' %><span><%= @user.messages.count %></span></li>
-      <% end %>
-    </ul><!-- /nav -->
-    <ul class="navRight">
-      <li class="relative">
-        <input type="text" placeholder="Busca deportistas, entrenadores, eventos..." />
-        <button type="submit"></button>
-      </li>
-      <% if signed_in? %>
-          <li class="options"><a href="#"><%=  current_user.full_name %></a></li>
-      <% end %>
-    </ul><!-- /navRight -->
-  </div><!-- /wrapper -->
-</header>
-<span class="lineBr"></span>
 
-<div class="container wrapper">
-  <div class="profileColGraphic">
-    <div class="profileImg">
-      <!--<span></span>-->
-      <%= link_to image_tag(@user.profilephotourl, :id => 'test_pic') , '#'%>
-    </div><!-- /profileImg -->
+<%	 provide(:title, @user.full_name) %>
 
-    <div class="profileThumb">
-      <%  @photos.take(6).each do |photo| %>
-          <%= link_to image_tag(photo.url) , '#'%>
-      <%  end %>
-    </div><!-- /profileThumb -->
-    <br class="clear" />
-    <a href="#" class="buttonBlack">View more pictures</a>
-    <div class="profileVideo">
-      <iframe width="270" height="152" src="http://www.youtube.com/embed/mGOeXhK2_WE" frameborder="0" allowfullscreen></iframe>
-    </div><!-- /profileVideo -->
-    <a href="" class="buttonBlack">View more videos</a>
-  </div><!-- /profileColGraphic -->
-
-  <ul class="profileIcons">
-    <li><span class="iconProfile iconContacts"></span><a href="#">0 contacts</a></li>
-    <li><a href="#"><span class="iconProfile iconRecommendation"></span>0 recommendations</a></li>
-    <li><a href="#"><span class="iconProfile iconPictures"></span><%= @photos.count %> pictures</a></li>
-    <li><a href="#"><span class="iconProfile iconVideos"></span><%= @videos.count %> videos</a></li>
-  </ul><!-- /profileIcons -->
-
-  <div class="profileInfo relative">
-    <h1><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :name, :type => :input, :inner_class => "nameInput" %> <%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :lastname, :type => :input, :inner_class => "nameInput"  %></h1>
-    <p><strong></strong> <%  if @user.birth && @user.birth != "" %>/ <%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years<%  end %>
-      <%  if @user.citybirth != "" %>, <%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %>,
-      <%  end %><%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %></p>
-    <ul class="boxConnect">
-      <li><a class="verified" href="#"></a></li>
-      <li><a class="connect" href="#"><p>connect</p></a></li>
-      <li><%= render 'follow_form' if signed_in? %></li>
-    </ul><!-- /boxConect  -->
-  </div><!-- /profileInfo -->
-
-  <div class="experienceLine">
-    <ul>
-    <!-- Toggle Buttons -->
-    <li>
-      <button type="button" class="btn btn-info" id="btn-add">
-        Complete your profile!
-      </button>
-
-      </br>
-
-      <button type="button" id = "sport1" class="btn btn-danger btn-cat btn-sport">
-        Athlete
-      </button>
-      <button type="button" id = "sport2" class="btn btn-danger btn-cat btn-sport">
-        Sporty Work
-      </button>
-      <button type="button" id = "sport3" class="btn btn-danger btn-cat">
-        Non-sporty
-      </button>
-      <button type="button" id = "sport4" class="btn btn-danger btn-cat">
-        Educational
-      </button>
-
-      <br/>
-
-      <button type="button" id = "edu1" class="btn btn-primary btn-edu">
-        High School
-      </button>
-      <button type="button" id = "edu2" class="btn btn-primary btn-edu">
-        College
-      </button>
-      <button type="button" id = "edu3" class="btn btn-primary btn-edu">
-        University
-      </button>
-
-      <br/>
-
-      <div class="btn-group preLoad" id="sports">
-        <button class="btn btn-primary" id="dropdown-sports-btn">Sports</button>
-        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" id="dropdown-menu-sports">
-          <% @sports.each do |sport| %>
-              <% if  sport.fullpath == '/' + sport.id.to_s %>
-                  <li><a href="#" name_s=<%= sport.name %> ><%= sport.name %> </a></li>
-              <% end %>
-          <% end %>
-          <li class="divider"></li>
-          <li><a href="#">Sports</a></li>
-        </ul>
+<div class="container">
+  <div class="row">
+    <div class="box box-media span3">
+      <%= link_to image_tag(@user.profilephotourl, :class => "user-profile"), '#' %>
+      <!-- begin Pictures -->
+      <div class="user-pictures">
+        <%  @photos.take(6).each do |photo| %>
+            <%= link_to image_tag(photo.url) , '#'%>
+        <%  end %>
+      </div><!--user-pictures-->
+      <p><%= @photos.count %> pictures <a href="#">see more <i class="icon-camera"></i></a></p>
+      <a href="#" class="btn btn-mini pull-right">Upload <i class="icon-circle-arrow-up"></i></a>
+      <!-- end Pictures -->
+      <!-- begin Videos -->
+      <div class="user-video">
+        <iframe width="270" height="152" src="http://www.youtube.com/embed/mGOeXhK2_WE" frameborder="0" allowfullscreen></iframe>
+      </div><!--user-video-->
+      <p><%= @videos.count %> videos <a href="#">see more <i class="icon-facetime-video"></i></a></p>
+      <a href="#" class="btn btn-mini pull-right">Upload <i class="icon-circle-arrow-up"></i></a>
+      <!--end Videos -->
+    </div><!--box-media-->
+    <ul class="profileIcons span9">
+      <li><i class="icon-user icon-white"></i><a href="#"><%= @user.followers.count %> followers</a><a href="#"><%= @user.followed_users.count %> following</a></li>
+      <li><i class="icon-camera icon-white"></i><a href="#"><%= @photos.count %> pictures</a></li>
+      <li><i class="icon-facetime-video icon-white"></i><a href="#"><%= @videos.count %> videos</a></li>
+    </ul><!-- /profileIcons -->
+    <div class="profileInfo relative span9">
+      <div class="user">
+        <h2><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :name, :type => :input, :inner_class => "nameInput" %> <%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :lastname, :type => :input, :inner_class => "nameInput"  %></h2>
+        <p><%  if @user.birth && @user.birth != "" %>/ <%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years<%  end %>
+          <%  if @user.citybirth != "" %>, <%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %>,
+              <%  end %><%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %></p>
+      </div><!--user-->
+      <div class="connections">
+        <%=	 image_tag 'verified.png' %>
+        <%=	 render 'follow_form' if signed_in? %>
       </div>
+    </div><!-- /profileInfo -->
 
-      <br/>
+    <div class="box box-info span6">
+      <div class="resume">
+        <p>
+          <%=	 best_in_place_if (signed_in? && @user.id == current_user.id), @user, :resume, :type => :textarea %>
+        </p>
+      </div><!--resume-->
+      <div class="resume">
+        <h4>Sport Profile<a href="#" class="btn btn-success pull-right">Add new <i class="icon-plus icon-white"></i></a></h4>
 
-      <button type="button" id="hito1" class="btn btn-warning hito-click">Training</button>
-      <button type="button" id="hito2" class="btn btn-warning hito-click">Competition</button>
-      <button type="button" id="hito3" class="btn btn-warning hito-click">Team</button>
-      <button type="button" id="hito4" class="btn btn-warning hito-click">Result</button>
-      <button type="button" id="hito5" class="btn btn-warning hito-click">Award</button>
-      <button type="button" id="hito6" class="btn btn-warning hito-click">Job</button>
+      </div><!--resume-->
+      <div class="resume">
+        <h4>Working Experience<a href="#" class="btn btn-success pull-right">Add new <i class="icon-plus icon-white"></i></a></h4>
+
+      </div><!--resume-->
+      <div class="resume">
+        <h4>Education<a href="#" class="btn btn-success pull-right">Add new <i class="icon-plus icon-white"></i></a></h4>
+
+      </div><!--resume-->
+    </div>
+    <div class="box box-connect span3">
+      <div class="box-content">
+        <h4>Events Related</h4>
+        <ul class="aside connect-events">
+          <li>
+            <div class="img-container">
+              <%= image_tag 'slide-01.jpg' %>
+            </div>
+            <div class="metadata">
+              <a href="#">Event Name</a>
+              <p>invites <a href="#">Sponsor</a></p>
+              <p>date, hour</p>
+            </div>
+          </li>
+          <li>
+            <div class="img-container">
+              <%= image_tag 'slide-02.jpg' %>
+            </div>
+            <div class="metadata">
+              <a href="#">Event Name</a>
+              <p>invites <a href="#">Sponsor</a></p>
+              <p>date, hour</p>
+            </div>
+          </li>
+          <li>
+            <div class="img-container">
+              <%= image_tag 'slide-03.jpg' %>
+            </div>
+            <div class="metadata">
+              <a href="#">Event Name</a>
+              <p>invites <a href="#">Sponsor</a></p>
+              <p>date, hour</p>
+            </div>
+          </li>
+        </ul>
+        <a href="#" class="align-right">See more</a>
+      </div><!--box-content-->
+      <div class="box-content">
+        <h4>People you may know</h4>
+        <ul class="aside connect-people">
+          <li>
+            <div class="img-container">
+              <%= image_tag 'user-1.jpg' %>
+            </div>
+            <div class="metadata">
+              <a href="#">Username</a>
+              <p>sport</p>
+              <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
+            </div>
+          </li>
+          <li>
+            <div class="img-container">
+              <%= image_tag 'user-2.jpg' %>
+            </div>
+            <div class="metadata">
+              <a href="#">Username</a>
+              <p>sport</p>
+              <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
+            </div>
+          </li>
+          <li>
+            <div class="img-container">
+              <%= image_tag 'user-3.jpg' %>
+            </div>
+            <div class="metadata">
+              <a href="#">Username</a>
+              <p>sport</p>
+              <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
+            </div>
+          </li>
+        </ul>
+        <a href="#" class="align-right">See more</a>
+      </div>
+    </div><!--box-connect-->
+  </div>
+
+</div><!-- /.container -->
 
 
-      <script>
-          $(document).ready(function(){
-              $(".hito-click").hide();
-              $(".preLoad").hide();
-              $(".btn-cat").hide();
-              $(".btn-edu").hide();
 
-              $(".hito-click").click(function(){
-                  $idx = $(this).attr('id');
-                  $(".hito-click").each(function () {
-                      if ( $(this).attr('id') != $idx  ) {
-                          $(this).toggle("fast");}
-                  });
-              });
-              $("#btn-add").click(function(){
-                  if(!($("#sports").is(':hidden') && $("#edu1").is(':hidden') && $("#edu2").is(':hidden') && $("#edu3").is(':hidden'))){
-                      $(".hito-click").hide("fast");
-                      $(".preLoad").hide("normal");
-                      $(".btn-cat").show("normal");
-                      $(".btn-edu").hide("normal");
-                  }
-                  else   { $(".btn-cat").each(function () {
-                      $(this).toggle("normal");
-                  });}
-              });
-
-              $(".btn-sport").click(function(){
-                  $("#sports").toggle("normal");
-              });
-
-              $("#dropdown-sports-btn").click(function(){
-                  $(".hito-click").show("normal");
-              });
-
-              $("#sport4").click(function(){
-                  if($("#sport1").is(':hidden') && $("#sport2").is(':hidden') && $("#sport3").is(':hidden')){
-                      $(".btn-edu").hide("normal");
-                  }
-                  else {$(".btn-edu").toggle("normal");
-                  }
-              });
-              $(".btn-cat").click(function(){
-                  $idx = $(this).attr('id');
-                  $(".hito-click").hide("normal");
-                  $(".btn-cat").each(function () {
-                      if ( $(this).attr('id') != $idx  ) {
-                          $(this).toggle("normal");}
-                  });
-              });
-              $(".btn-edu").click(function(){
-                  $idx = $(this).attr('id');
-                  $(".btn-edu").each(function () {
-                      if ( $(this).attr('id') != $idx  ) {
-                          $(this).toggle("normal");}
-                  });
-              });
-              $("#dropdown-menu-sports a").click(function(){
-                  $ddm = document.getElementById('dropdown-sports-btn');
-                  $ddm.textContent = $(this).attr('name_s');
-                  $(".hito-click").show("normal");
-              });
-              jQuery(function($) {
-                  $('.dropdown-toggle').dropdown();
-              });
-          });</script>
-
-
-    </li>
-    <!-- End Toggle Buttons -->
-
-
-      <li>
-        <h2>Abstract</h2>
-        <% if signed_in? && current_user.id == @user.id %>
-            <p><%= best_in_place @user, :resume, :type => :input %></p>
-        <% else %>
-            <p><%= @user.resume%></p>
-        <%	 end %>
-      </li>
-
-      <li>
-        <h2>Latest honors</h2>
-        <%	if @honors.any?  %>
-            <%=	 render @honors %>
-        <%	end %>
-        <% if signed_in? && current_user.id == @user.id %>
-         <%	 end %>
-      </li>
-
-      <li>
-        <h2>Experience</h2>
-        <%	if @experiences.any?  %>
-            <%=	 render @experiences %>
-        <%	end %>
-        <% if signed_in? && current_user.id == @user.id %>
-        <% end %>
-      </li>
-
-    </ul>
-  </div><!-- /experienceLine -->
-
-  <div class="sidebar">
-    <div class="sidebarBox">
-      <a href="#"><h3>News and events</h3></a>
-      <a href="#">
-        <div class="sidebarBoxItem">
-          <p><small>News | Publicado 14 de Diciembre</small></p>
-          <p>Nuevo Evento: Corrida Milo</p>
-        </div><!-- /sidebarBoxItem -->
-      </a>
-      <a href="#">
-        <div class="sidebarBoxItem">
-          <p><small>News | Publicado 14 de Diciembre</small></p>
-          <p>Nuevo Torneo: Copa Copec</p>
-        </div><!-- /sidebarBoxItem -->
-      </a>
-      <a href="" class="buttonBlack">View more</a>
-    </div><!-- /sidebarBox -->
-
-    <div class="sidebarBox">
-      <a href="#"><h3>People you may know</h3></a>
-      <div class="sidebarBoxUser">
-        <div class="sidebarBoxUserImg">
-          <%=  image_tag('72x72.gif') %>
-        </div><!-- /sidebarBoxUserImg -->
-        <p>Friend 1</p>
-        <a href="#"><div class="miniConect">conectar</div></a>
-      </div><!-- /sidebarBoxUser -->
-
-      <div class="sidebarBoxUser">
-        <div class="sidebarBoxUserImg">
-          <%=  image_tag('72x72.gif') %>
-        </div><!-- /sidebarBoxUserImg -->
-        <a href="#"><p>Friend 2</p></a>
-        <a href="#"><div class="miniConect">conectar</div></a>
-      </div><!-- /sidebarBoxUser -->
-
-      <div class="sidebarBoxUser">
-        <div class="sidebarBoxUserImg">
-          <%=  image_tag('72x72.gif') %>
-        </div><!-- /sidebarBoxUserImg -->
-        <p>Friend 3</p>
-        <a href="#"><div class="miniConect">conectar</div></a>
-      </div><!-- /sidebarBoxUser -->
-
-      <a href="#" class="buttonBlack">View more</a>
-    </div><!-- /sidebarBox -->
-    <img src="220x220.gif" alt="" title="" />
-  </div><!-- /sidebar -->
-  <br class="clear" />
-</div><!-- /container -->
-
-<footer >
-</footer>
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script><iframe src="http://twitter.github.com/bootstrap/assets/js/Carousel Template · Bootstrap.htm" frameborder="0" style="border: 0px; visibility: visible; z-index: 2147483647; position: fixed; width: 100%; left: 0px; bottom: 0px; height: 300px; display: none;" id="FirebugUI"></iframe>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap.js"></script>
+<script>
+    !function ($) {
+        $(function(){
+            // carousel demo
+            $('#myCarousel').carousel()
+        })
+    }(window.jQuery)
+</script>

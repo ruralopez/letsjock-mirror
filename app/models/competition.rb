@@ -1,6 +1,7 @@
 class Competition < ActiveRecord::Base
   belongs_to :user
   belongs_to :sport
+  belongs_to :team
 
   has_many :results
   has_many :recognitions
@@ -8,5 +9,5 @@ class Competition < ActiveRecord::Base
   has_many :photos
   has_many :videos
 
-  attr_accessible :end, :event_id, :sport_id, :user_id, :init, :name
+  attr_accessible :end, :event_id, :sport_id, :user_id, :init, :name, :team_id, :team_name, :as_athlete
 end

@@ -1,14 +1,12 @@
-<div class="experienceItem relative">
-  <small><%=	 recognition.date.strftime("%m/%d/%Y") %></small>
-  <h4><%=	 recognition.description %></h4>
-  <p></p>
-  <a class="valid" data-placement="top" rel="tooltip" href="#" data-original-title="
-certificate"></a>
-  <% if signed_in? && current_user.id == recognition.user_id %>
-    <%= link_to "Delete", recognition, method: :delete%>
-    <%=	 form_for recognition do |f| %>
-        <%=	 f.text_field :description %>
-        <%=	 f.submit %>
-    <%	 end %>
-  <%  end %>
-</div>
+<% unless recognition.team_id || recognition.competition_id %>
+    <ul class="experience">
+      <li><h5><%= recognition.description %> <span><%= Sport.find(recognition.sport_id).name %></span></h5></li>
+      <li class="calendar"><i class="icon-calendar"></i><%= recognition.date.strftime("%d/%m/%Y") %></li>
+      <% if recognition.awarded_by%>
+          <li><i class="icon-pencil"></i>Awarded by <%= recognition.awarded_by %></li>
+      <% end %>
+      <% if signed_in? && current_user.id == recognition.user_id %>
+          <%= link_to "Delete", recognition, method: :delete%>
+      <%  end %>
+    </ul>
+<% end %>

@@ -1,0 +1,43 @@
+<header>
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="#">
+        <div class="logo"><%= image_tag 'logo.svg' %></div>
+      </a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li ><%= link_to 'News', '#' %></li>
+          <li class=<%= current_page?(:controller => 'events', :action => 'index') ? "active" : "" %>><%= link_to 'Events', '/events' %></li>
+          <li><%= link_to 'Contacts', '#' %></li>
+          <li class=<%= current_page?(:controller => 'messages', :action => 'index') ? "active" : "" %>><%= link_to 'Inbox', '/inbox' %></li>
+          <% if signed_in? %>
+            <li class=<%= current_page?(:controller => 'users') ? "active" : "" %>><%= link_to 'Profile', current_user %></li>
+          <% end %>
+        </ul>
+
+        <div class="pull-right">
+          <form class="navbar-form pull-left">
+            <input type="text" class="search-query" placeholder="Search athletes, coaches or events">
+          </form>
+          <div class="btn-group username pull-right">
+            <a class="btn" data-toggle="dropdown" href="#">
+              <%= image_tag 'jock-navbar.png', :class => "img-polaroid" %>
+              UserName<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Edit</a></li>
+              <li><%= link_to 'Logout', signout_path %></li>
+            </ul>
+          </div>
+        </div><!--pull-right-->
+      </div><!--/.nav-collapse -->
+    </div><!-- container -->
+  </div><!-- navbar-inner -->
+</div><!--navbar -->
+</header>

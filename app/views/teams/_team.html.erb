@@ -1,10 +1,30 @@
-<div class="experienceItem relative">
-  <small><%=	 team.init.strftime("%m/%d/%Y") %> - <%	if team.end && team.end < Time.new %><%=    team.end.strftime("%m/%d/%Y") %><% else%> Presente <%  end %></small>
-  <h4>Team <%=	 team.name %></h4>
-  <p></p>
-  <a class="valid" data-placement="top" rel="tooltip" href="#" data-original-title="
-certificate"></a>
+<%	 unless Work.all(:conditions => ["team_id = ?", team.id]) %>
+<ul class="experience">
+  <li><h5><%= team.name %> - <%= team.category %> <span><%= Sport.find(team.sport_id).name %></span></h5></li>
+  <li class="calendar"><i class="icon-calendar"></i><%= team.init.strftime("%m/%Y") %>, to <%= team.end.strftime("%m/%Y") %></li>
+  <% @competitions = Competition.all(:conditions => ["user_id = ? AND team_id = ?", team.user_id, team.id]) %>
+  <% if @competitions %>
+      <% @competitions = Array.new.push(@competitions) %>
+      <% @competitions.each do |competition| %>
+          <li><i class="icon-home"></i><%= render competition %></li>
+      <% end %>
+  <% end %>
+  <% @recognitions = Recognition.all(:conditions => ["user_id = ? AND team_id = ? AND competition_id IS NULL", team.user_id, team.id]) %>
+  <% if @recognitions %>
+      <% @recognitions = Array.new.push(@recognitions) %>
+      <% @recognitions.each do |recognition| %>
+          <li><i class="icon-star"></i><%= recognition.description %></li>
+      <% end %>
+  <% end %>
+  <% @trains = Train.all(:conditions => ["user_id = ? AND team_id = ?", team.user_id, team.id]) %>
+  <% if @trains %>
+      <% @trains = Array.new.push(@trains) %>
+      <% @trains.each do |train| %>
+          <li><i class="icon-flag"></i><% if train.trainer_id%><%= link_to User.find(train.trainer_id).full_name, User.find(train.trainer_id) %><% else%><%= train.name %><% end%>, from <%= train.init.strftime("%m/%d/%Y") %> to <%= train.end.strftime("%m/%d/%Y") %></li>
+      <% end %>
+  <% end %>
   <% if signed_in? && current_user.id == team.user_id %>
-    <%= link_to "Delete", team, method: :delete %>
+      <%= link_to "Delete", team, method: :delete%>
   <%  end %>
-</div>
+</ul>
+<%	 end %>

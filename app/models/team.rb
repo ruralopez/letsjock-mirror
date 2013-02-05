@@ -5,10 +5,10 @@ class Team < ActiveRecord::Base
   has_many :trains
   has_many :results
   has_many :recognitions
-  has_many :trainees
+  has_many :competitions
 
   has_many :photos
   has_many :videos
 
-  attr_accessible :end, :sport_id, :user_id, :init, :name
+  attr_accessible :end, :sport_id, :user_id, :init, :name, :category, :as_athlete
 end

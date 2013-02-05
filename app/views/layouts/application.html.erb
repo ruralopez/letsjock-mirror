@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Letsjock</title>
+  <title>Let's Jock - <%= yield(:title) %></title>
+  <% if @home %>
+      <%= stylesheet_link_tag    "home" %>
+  <% else %>
+      <%= stylesheet_link_tag    "application"%>
+      <%= stylesheet_link_tag    "http://twitter.github.com/bootstrap/assets/css/bootstrap.css" %>
+      <%= stylesheet_link_tag    "http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" %>
+  <% end %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+<%	 if !@home %>
+    <%=	 render 'layouts/header' %>
+<%	 end %>
 
 <%= yield %>
 
+<%	 if !@home %>
+    <%=	 render 'layouts/footer' %>
+<%	 end %>
 </body>
 </html>

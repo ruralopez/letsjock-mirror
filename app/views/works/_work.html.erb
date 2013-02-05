@@ -1,1 +1,14 @@
-Falta Work
+<ul class="experience">
+   <li><h5><%= work.company %> <span><% if work.sport_id %><%= Sport.find(work.sport_id).name %><% end %></span></h5></li>
+   <li class="calendar"><i class="icon-calendar"></i><%= work.init.strftime("%m/%Y")  %> to <%= work.end.strftime("%m/%Y") %></li>
+  <li><i class="icon-map-marker"></i><%= work.location %>, <%= Country.find(work.country_id).name %></li>
+   <% if work.role%>
+       <li><i class="icon-pencil"></i><%= work.role %></li>
+   <% end %>
+  <% if work.team_id%>
+      <%=   render Team.find(work.team_id) %>
+  <% end %>
+   <% if signed_in? && current_user.id == work.user_id %>
+       <%= link_to "Delete", work, method: :delete%>
+   <%  end %>
+</ul>

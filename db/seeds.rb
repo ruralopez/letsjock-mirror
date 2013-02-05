@@ -273,6 +273,102 @@ Sport.create( :name=> 'Raquetball' ,  :parent_id=> '' ,  :fullpath => '/162')
 #Softball -- id=163
 Sport.create( :name=> 'Softball' ,  :parent_id=> '' ,  :fullpath => '/163')
 
+#Sports + Sub-categories: 1 - 163
+#Positions: 164 - 241
+
+#POSITIONS
+Sport.create( :name=> 'Point Guard' ,  :parent_id=> '35' ,  :fullpath => '/35/164')
+Sport.create( :name=> 'Shooting Guard' ,  :parent_id=> '35' ,  :fullpath => '/35/165')
+Sport.create( :name=> 'Small Forward' ,  :parent_id=> '35' ,  :fullpath => '/35/166')
+Sport.create( :name=> 'Power Forward' ,  :parent_id=> '35' ,  :fullpath => '/35/167')
+Sport.create( :name=> 'Center' ,  :parent_id=> '35' ,  :fullpath => '/35/168')
+
+Sport.create( :name=> 'Goalkeeper' ,  :parent_id=> '36' ,  :fullpath => '/36/169')
+Sport.create( :name=> 'Wingman' ,  :parent_id=> '36' ,  :fullpath => '/36/170')
+Sport.create( :name=> 'Backcourt' ,  :parent_id=> '36' ,  :fullpath => '/36/171')
+Sport.create( :name=> 'Pivot' ,  :parent_id=> '36' ,  :fullpath => '/36/172')
+
+Sport.create( :name=> 'Goalkeeper' ,  :parent_id=> '47' ,  :fullpath => '/47/173')
+
+Sport.create( :name=> 'Defense' ,  :parent_id=> '47' ,  :fullpath => '/47/174')
+Sport.create( :name=> 'Centre-Back' ,  :parent_id=> '174' ,  :fullpath => '/47/174/175')
+Sport.create( :name=> 'Sweeper/Libero' ,  :parent_id=> '174' ,  :fullpath => '/47/174/176')
+Sport.create( :name=> 'Right Back' ,  :parent_id=> '174' ,  :fullpath => '/47/174/177')
+Sport.create( :name=> 'Left Back' ,  :parent_id=> '174' ,  :fullpath => '/47/174/178')
+
+Sport.create( :name=> 'Midfielder' ,  :parent_id=> '47' ,  :fullpath => '/47/179')
+Sport.create( :name=> 'Defensive' ,  :parent_id=> '179' ,  :fullpath => '/47/179/180')
+Sport.create( :name=> 'Centre' ,  :parent_id=> '179' ,  :fullpath => '/47/179/181')
+Sport.create( :name=> 'Attacking' ,  :parent_id=> '179' ,  :fullpath => '/47/179/182')
+Sport.create( :name=> 'Wide' ,  :parent_id=> '179' ,  :fullpath => '/47/179/183')
+
+Sport.create( :name=> 'Forward' ,  :parent_id=> '47' ,  :fullpath => '/47/184')
+Sport.create( :name=> 'Striker' ,  :parent_id=> '184' ,  :fullpath => '/47/184/185')
+Sport.create( :name=> 'Left Forward' ,  :parent_id=> '184' ,  :fullpath => '/47/184/186')
+Sport.create( :name=> 'Right Forward' ,  :parent_id=> '184' ,  :fullpath => '/47/184/187')
+Sport.create( :name=> 'Centre Forward' ,  :parent_id=> '184' ,  :fullpath => '/47/184/188')
+Sport.create( :name=> 'Second Striker' ,  :parent_id=> '184' ,  :fullpath => '/47/184/189')
+Sport.create( :name=> 'Winger' ,  :parent_id=> '184' ,  :fullpath => '/47/184/190')
+
+Sport.create( :name=> 'Goalkeeper' ,  :parent_id=> '63' ,  :fullpath => '/63/191')
+Sport.create( :name=> 'Defensive' ,  :parent_id=> '63' ,  :fullpath => '/63/192')
+Sport.create( :name=> 'Midfielder' ,  :parent_id=> '63' ,  :fullpath => '/63/193')
+Sport.create( :name=> 'Forward' ,  :parent_id=> '63' ,  :fullpath => '/63/194')
+
+Sport.create( :name=> 'Setter' ,  :parent_id=> '139' ,  :fullpath => '/139/195')
+Sport.create( :name=> 'Libero' ,  :parent_id=> '139' ,  :fullpath => '/139/196')
+Sport.create( :name=> 'Middle Blocker/Hitter' ,  :parent_id=> '139' ,  :fullpath => '/139/197')
+Sport.create( :name=> 'Outside Hitter' ,  :parent_id=> '139' ,  :fullpath => '/139/198')
+Sport.create( :name=> 'Opposite Hitter' ,  :parent_id=> '139' ,  :fullpath => '/139/199')
+
+Sport.create( :name=> 'Goalkeeper' ,  :parent_id=> '141' ,  :fullpath => '/141/200')
+Sport.create( :name=> 'Pit Player' ,  :parent_id=> '141' ,  :fullpath => '/141/201')
+Sport.create( :name=> 'Wing' ,  :parent_id=> '141' ,  :fullpath => '/141/202')
+Sport.create( :name=> 'Driver' ,  :parent_id=> '141' ,  :fullpath => '/141/203')
+Sport.create( :name=> 'Point' ,  :parent_id=> '141' ,  :fullpath => '/141/204')
+
+Sport.create( :name=> 'Fullback' ,  :parent_id=> '142' ,  :fullpath => '/142/205')
+Sport.create( :name=> 'Wing' ,  :parent_id=> '142' ,  :fullpath => '/142/206')
+Sport.create( :name=> 'Centre' ,  :parent_id=> '142' ,  :fullpath => '/142/207')
+Sport.create( :name=> 'Fly-Half' ,  :parent_id=> '142' ,  :fullpath => '/142/208')
+Sport.create( :name=> 'Scrum-Half' ,  :parent_id=> '142' ,  :fullpath => '/142/209')
+Sport.create( :name=> 'Number 8' ,  :parent_id=> '142' ,  :fullpath => '/142/210')
+Sport.create( :name=> 'Openside Flanker' ,  :parent_id=> '142' ,  :fullpath => '/142/211')
+Sport.create( :name=> 'Blind Flanker' ,  :parent_id=> '142' ,  :fullpath => '/142/212')
+Sport.create( :name=> 'Lock' ,  :parent_id=> '142' ,  :fullpath => '/142/213')
+Sport.create( :name=> 'Hooker' ,  :parent_id=> '142' ,  :fullpath => '/142/214')
+Sport.create( :name=> 'Prop' ,  :parent_id=> '142' ,  :fullpath => '/142/215')
+
+Sport.create( :name=> 'Offense' ,  :parent_id=> '147' ,  :fullpath => '/147/216')
+Sport.create( :name=> 'Centre' ,  :parent_id=> '216' ,  :fullpath => '/147/216/217')
+Sport.create( :name=> 'Guard' ,  :parent_id=> '216' ,  :fullpath => '/147/216/218')
+Sport.create( :name=> 'Tackle' ,  :parent_id=> '216' ,  :fullpath => '/147/216/219')
+Sport.create( :name=> 'Quarterback' ,  :parent_id=> '216' ,  :fullpath => '/147/216/220')
+Sport.create( :name=> 'Running Back' ,  :parent_id=> '216' ,  :fullpath => '/147/216/221')
+Sport.create( :name=> 'Wide Receiver' ,  :parent_id=> '216' ,  :fullpath => '/147/216/222')
+Sport.create( :name=> 'Tight End' ,  :parent_id=> '216' ,  :fullpath => '/147/216/223')
+
+Sport.create( :name=> 'Defense' ,  :parent_id=> '147' ,  :fullpath => '/147/224')
+Sport.create( :name=> 'Tackle' ,  :parent_id=> '224' ,  :fullpath => '/147/224/225')
+Sport.create( :name=> 'Defensive End' ,  :parent_id=> '224' ,  :fullpath => '/147/224/226')
+Sport.create( :name=> 'Middle Linebacker' ,  :parent_id=> '224' ,  :fullpath => '/147/224/227')
+Sport.create( :name=> 'Outside Linebacker' ,  :parent_id=> '224' ,  :fullpath => '/147/224/228')
+Sport.create( :name=> 'Cornerback' ,  :parent_id=> '224' ,  :fullpath => '/147/224/229')
+Sport.create( :name=> 'Safety' ,  :parent_id=> '224' ,  :fullpath => '/147/224/230')
+Sport.create( :name=> 'Nickelback' ,  :parent_id=> '224' ,  :fullpath => '/147/224/231')
+
+Sport.create( :name=> 'Kicker' ,  :parent_id=> '147' ,  :fullpath => '/147/232')
+Sport.create( :name=> 'Long Snapper' ,  :parent_id=> '147' ,  :fullpath => '/147/233')
+Sport.create( :name=> 'Punt Returner' ,  :parent_id=> '147' ,  :fullpath => '/147/234')
+Sport.create( :name=> 'Gunner' ,  :parent_id=> '147' ,  :fullpath => '/147/235')
+
+Sport.create( :name=> 'Pitcher' ,  :parent_id=> '150' ,  :fullpath => '/150/236')
+Sport.create( :name=> 'Catcher' ,  :parent_id=> '150' ,  :fullpath => '/150/237')
+Sport.create( :name=> 'Baseman' ,  :parent_id=> '150' ,  :fullpath => '/150/238')
+Sport.create( :name=> 'Shortstop' ,  :parent_id=> '150' ,  :fullpath => '/150/239')
+Sport.create( :name=> 'Fielder' ,  :parent_id=> '150' ,  :fullpath => '/150/240')
+Sport.create( :name=> 'Hitter' ,  :parent_id=> '150' ,  :fullpath => '/150/241')
+
 
 ###############COUNTRIES###############
 Country.create(:id=>1,:iso=>"AD",:name=>"Andorra")
