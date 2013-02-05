@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130201122913) do
+ActiveRecord::Schema.define(:version => 20130205153224) do
 
   create_table "competitions", :force => true do |t|
     t.integer  "user_id"
@@ -24,11 +24,17 @@ ActiveRecord::Schema.define(:version => 20130201122913) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "countries", :force => true do |t|
+    t.string "iso"
+    t.string "name"
+  end
+
   create_table "events", :force => true do |t|
     t.integer  "user_id"
     t.datetime "date"
     t.string   "description"
     t.string   "name"
+    t.string   "place"
     t.string   "imageurl"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
@@ -103,6 +109,12 @@ ActiveRecord::Schema.define(:version => 20130201122913) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "states", :force => true do |t|
+    t.string  "iso"
+    t.string  "name"
+    t.integer "country_id"
+  end
+
   create_table "teams", :force => true do |t|
     t.integer  "user_id"
     t.integer  "sport_id"
@@ -149,6 +161,7 @@ ActiveRecord::Schema.define(:version => 20130201122913) do
   create_table "user_sports", :id => false, :force => true do |t|
     t.integer  "user_id",    :null => false
     t.integer  "sport_id",   :null => false
+    t.string   "position"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -199,8 +212,9 @@ ActiveRecord::Schema.define(:version => 20130201122913) do
   create_table "works", :force => true do |t|
     t.integer  "user_id"
     t.integer  "sport_id"
-    t.string   "placename"
-    t.string   "position"
+    t.integer  "team_id"
+    t.string   "company"
+    t.string   "role"
     t.string   "country"
     t.date     "init"
     t.date     "end"

@@ -4,12 +4,15 @@ class EventsController < ApplicationController
   def index
     @date = Time.new
     if params[:page]
-      params[:page].to_i.times do
+      params[:page].to_i.times do |i|
         @date = @date.next_week
+        if i == params[:page].to_i - 1
+          @date = @date.tomorrow
+        end
       end
     end
     @events = Event.all.sort_by(&:date).reverse
-    @nextevents = Event.paginate(:page => params[:page], :per_page => 1, :conditions => ["date >= ?", Time.new])
+    @nextevents = Event.all(:conditions => ["date >= ?", Time.new])
     @previousevents = Event.all(:conditions => ["date < ?", Time.new]).sort_by(&:date).reverse
     @sports_list = Sport.select('name').all.map(&:name)
     @filters = Event.new
