@@ -50,16 +50,22 @@
         </p>
       </div><!--resume-->
       <div class="resume">
-        <h4>Sport Profile<a href="#" class="btn btn-success pull-right">Add new <i class="icon-plus icon-white"></i></a></h4>
-
+        <h4>Athlete Profile<a href="#" class="btn btn-success pull-right">Add new <i class="icon-plus icon-white"></i></a></h4>
+        <%	if @athleteExperiences.any?  %>
+            <%=	 render @athleteExperiences %>
+        <%	end %>
       </div><!--resume-->
       <div class="resume">
         <h4>Working Experience<a href="#" class="btn btn-success pull-right">Add new <i class="icon-plus icon-white"></i></a></h4>
-
+        <%	if @works.any?  %>
+            <%=	 render @works %>
+        <%	end %>
       </div><!--resume-->
       <div class="resume">
         <h4>Education<a href="#" class="btn btn-success pull-right">Add new <i class="icon-plus icon-white"></i></a></h4>
-
+        <%	if @educations.any?  %>
+            <%=	 render @educations %>
+        <%	end %>
       </div><!--resume-->
     </div>
     <div class="box box-connect span3">

@@ -91,15 +91,17 @@ class UsersController < ApplicationController
 
   def profile
     @user = User.find(params[:id])
-    #Juntar competitions, teams y trains en un arreglo, como experiences
-    @competitions = Competition.all(:conditions => ['user_id = ?', @user.id], :order => "init desc")
-    @teams = Team.all(:conditions => ['user_id = ?', @user.id], :order => "init desc")
+    #Juntar competitions, teams, trains, results y recognitions como athlete experiences
+    @competitions = Competition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "init desc")
+    @teams = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "init desc")
     @trains = Train.all(:conditions => ['user_id = ?', @user.id], :order => "init desc")
-    @experiences = (@competitions + @teams + @trains).sort_by(&:init).reverse
-    #Juntar results y recognitions en un arreglo, como honors
-    @results = Result.all(:conditions => ['user_id = ?', @user.id], :order => "date desc")
-    @recognitions = Recognition.all(:conditions => ['user_id = ?', @user.id], :order => "date desc")
-    @honors = (@results + @recognitions).sort_by(&:date).reverse
+    @results = Result.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date desc")
+    @recognitions = Recognition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date desc")
+    @athleteExperiences = (@competitions + @teams + @trains + @results + @recognitions).sort_by(&:init).reverse
+    #Juntar Works
+    @works = Work.all(:conditions => ['user_id = ?', @user.id])
+    #Juntar Educational
+    @educations = Education.all(:condition => ['user_id = ?', @user.id])
     #Crear variable para poder crear competition, team, train, result o recognition.
     #@competition = @user.competitions.build if signed_in?
     #@team = @user.teams.build if signed_in?
