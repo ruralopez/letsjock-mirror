@@ -1,13 +1,13 @@
 class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
-  def index
+  def inbox
     if signed_in?
-      @messages = Message.all(:conditions => ["user_id = ? OR receiver_id = ?", current_user.id, current_user.id])
-
+      ids = current_user.messages.collect(&:user_id) + current_user.messages.collect(&:receiver_id)
+      @users_contacted = User.all(:conditions => ["id IN (?)", ids])
       respond_to do |format|
         format.html # index.html.erb
-        format.json { render json: @messages }
+        format.js { render :nothing => true }
       end
     else
       flash[:error] = "You must be logged in."
@@ -49,14 +49,19 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(params[:message])
     if signed_in? && current_user.id == @message.user_id
-      respond_to do |format|
-        if @message.save
-          format.html { redirect_to @message, notice: 'Message was successfully created.' }
-          format.json { render json: @message, status: :created, location: @message }
-        else
-          format.html { render action: "new" }
-          format.json { render json: @message.errors, status: :unprocessable_entity }
+      if User.find(@message.receiver_id).following?(User.find(@message.user_id))
+        respond_to do |format|
+          if @message.save
+            format.html { redirect_to inbox_path, notice: 'Message was successfully created.' }
+            format.json { render json: @message, status: :created, location: @message }
+          else
+            format.html { render action: "new" }
+            format.json { render json: @message.errors, status: :unprocessable_entity }
+          end
         end
+      else
+        flash[:error] = "You can only send messages to your followers."
+        redirect_to inbox_path
       end
     else
       flash[:error] = "You must be logged in."

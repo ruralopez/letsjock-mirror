@@ -117,7 +117,17 @@ class EventsController < ApplicationController
         format.js { render :nothing => true }
       end
     end
+  end
 
+  def new_admin
+    @user = User.find_by_email(params[:email])
+    eventadmin = EventAdmin.new(:user_id => @user.id, :event_id => params[:id])
+    if eventadmin.save
+      respond_to do |format|
+        format.html { redirect_to root_url + 'events/' + params[:id].to_s }
+        format.js { render :nothing => true }
+      end
+    end
   end
 
 end

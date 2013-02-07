@@ -9,6 +9,7 @@ body {
 }
 
 footer{/*added all footer*/
+    clear: both;  /*SE LO AGREGUE YO, MARTIN ---- CONSULTAR*/
     padding:20px 0 10px;
     background-color:#111;
     color: #CCC;

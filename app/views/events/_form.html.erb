@@ -12,20 +12,24 @@
   <% end %>
   <% if signed_in? %>
   <div class="field">
-    <%= f.label :date %><br />
-    <%= f.datetime_select :date %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_field :description %>
-  </div>
-  <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </div>
   <div class="field">
+    <%= f.label :date %><br />
+    <%= f.datetime_select :date %>
+  </div>
+  <div class="field">
     <%= f.label :place %><br />
     <%= f.text_field :place %>
+  </div>
+  <div class="field">
+    <%= f.label :imageurl %><br />
+    <%= f.text_field :imageurl %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
   </div>
     <%= f.hidden_field :user_id, :value => current_user.id %>
   <div class="actions">

@@ -14,11 +14,9 @@
         <ul class="nav">
           <li ><%= link_to 'News', '#' %></li>
           <li class=<%= current_page?(:controller => 'events', :action => 'index') ? "active" : "" %>><%= link_to 'Events', '/events' %></li>
-          <li class=<%= current_page?(:controller => 'users', :action => 'social', :id => current_user.id) ? "active" : "" %>><%= link_to 'Contacts', social_path(current_user) %></li>
-          <li class=<%= current_page?(:controller => 'messages', :action => 'index') ? "active" : "" %>><%= link_to 'Inbox', '/inbox' %></li>
-          <% if signed_in? %>
-            <li class=<%= current_page?(:controller => 'users') ? "active" : "" %>><%= link_to 'Profile', current_user %></li>
-          <% end %>
+          <% if signed_in? %><li class=<%= current_page?(:controller => 'users', :action => 'social', :id => current_user.id) ? "active" : "" %>><%= link_to 'Contacts', social_path(current_user) %></li><% end %>
+          <li class=<%= current_page?(:controller => 'messages', :action => 'inbox') ? "active" : "" %>><%= link_to 'Inbox', '/inbox' %></li>
+          <% if signed_in? %> <li class=<%= current_page?(:controller => 'users', :action => 'profile', :id => current_user.id) ? "active" : "" %>><%= link_to 'Profile', current_user %></li><% end %>
         </ul>
 
         <div class="pull-right">

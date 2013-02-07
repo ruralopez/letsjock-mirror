@@ -24,6 +24,8 @@ class User < ActiveRecord::Base
 
   has_many :user_events, :dependent => :destroy
   has_many :events, :through => :user_events
+  has_many :event_admins, :dependent => :destroy
+  has_many :events, :through => :event_admins
 
   has_many :messages
 
@@ -61,6 +63,14 @@ class User < ActiveRecord::Base
 
   def profilepic
     self.profilephotourl ||= "default-profile.png"
+  end
+
+  def last_message_with(user)
+    Message.last(:conditions => ["(user_id = ? AND receiver_id = ?) OR (user_id = ? AND receiver_id = ?)", user.id, self.id, self.id, user.id])
+  end
+
+  def messages_with(user)
+    Message.all(:conditions => ["(user_id = ? AND receiver_id = ?) OR (user_id = ? AND receiver_id = ?)", user.id, self.id, self.id, user.id])
   end
 
   private

@@ -1,0 +1,20 @@
+#mensajes-left
+{
+    float: left;
+    width: 200px;
+}
+#mensajes-right
+{
+    float: right;
+    width: 200px;
+}
+#messages-box
+{
+    margin: auto;
+    width: 350px;
+}
+.inbox-flash
+{
+    width: 400px;
+    margin-top: 15px;
+}

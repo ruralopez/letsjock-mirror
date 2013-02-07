@@ -1,8 +1,15 @@
 class Event < ActiveRecord::Base
   has_many :user_events
   has_many :users, :through => :user_events
+  has_many :event_admins
+  has_many :users, :through => :event_admins
 
   attr_accessible :date, :description, :name, :imageurl, :user_id, :place
+
+  validates :name, presence: true
+  validates :user_id, presence: true
+  validates :place, presence: true
+  validates :date, presence: true
 
   def assistants
     @userevents = UserEvent.all(:conditions => ['event_id = ?', self.id])

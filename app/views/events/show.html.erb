@@ -17,6 +17,12 @@
 
 <%	 if signed_in? %>
     <%= link_to 'Join this event!', join_path, confirm: 'Are you sure?' %>
+    <% if @event.user_id == current_user.id %>
+        <%=	 form_tag(:controller => "events", :action => "new_admin") do%>
+            <%=	 text_field_tag(:email) %>
+            <%=	 submit_tag "Submit" %>
+        <% end %>
+    <% end %>
 <%	 end %>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |

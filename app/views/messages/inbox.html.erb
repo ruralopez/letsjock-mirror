@@ -1,0 +1,28 @@
+<%= stylesheet_link_tag    "messages"%>
+<% if flash[:error] %>
+    <div class="alert alert-error inbox-flash">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <h4></h4> <%=  flash[:error] %>
+    </div>
+<% end %>
+<% if flash[:success] %>
+    <div class="alert alert-success inbox-flash">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <%=  flash[:success] %>
+    </div>
+<% end %>
+<h1>Inbox</h1>
+
+<% unless @users_contacted.empty? %>
+    <% @users_contacted.each do |user| %>
+        <% if user.id != current_user.id %>
+            <p><%	 last = user.last_message_with(current_user) %>
+            <%=	 user.full_name %>
+            <%=	 link_to last.content, inbox_path, :remote => true, :id => 'conversation_link' %></p>
+        <% end %>
+    <% end %>
+<% end %>
+<div id="messages-box">
+
+</div>
+

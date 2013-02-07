@@ -13,7 +13,7 @@ Letsjock::Application.routes.draw do
   resources :photos, only: [:create, :update, :destroy]
   resources :videos, only: [:create, :update, :destroy]
   resources :events
-  resources :messages, only: [:new, :create, :show]
+  resources :messages, only: [:create, :show]
   resources :relationships, only: [:create, :destroy]
 
   root :to => 'home#index'
@@ -24,7 +24,9 @@ Letsjock::Application.routes.draw do
   match '/profile/:id', to: 'users#profile'
   match '/profile/:id/social', to: 'users#social', :as => :social
   match '/events/:id/join' => 'events#join', :as => :join
-  match '/inbox', to: 'messages#index', :as => :inbox
+  match '/events/:id/new_admin' => 'events#new_admin', :as => :event_new_admin
+  match '/inbox', to: 'messages#inbox', :as => :inbox
+  match '/inbox/new', to: 'messages#new', :as => :new_message
   match '/profile/:id/follow' => 'relationships#create', :as => :follow
   match '/profile/:id/unfollow' => 'relationships#destroy', :as => :unfollow
 
