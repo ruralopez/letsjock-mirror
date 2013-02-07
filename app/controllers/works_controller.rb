@@ -1,7 +1,7 @@
 class WorksController < ApplicationController
 
   def create
-    @work = User.find(params[:work][:user_id])
+    @user = User.find(params[:work][:user_id])
     if signed_in? && current_user.id == @user.id
       @work = @user.works.build(params[:work])
       if @work.save

@@ -1,7 +1,28 @@
-<%= form_for recognition do |f| %>
-    <%=	 f.label :description %>
-    <%=	 f.text_field :description %>
-    <%=	 f.label :date %>
-    <%=	 f.date_select :date %>
-    <%=	 f.submit "Add recognition!" %>
+<%= form_for @recognition do |f| %>
+    <fieldset>
+      <legend>Award</legend>
+      <%= f.text_field :description, :placeholder => "Title name" %>
+      <br>
+      <p>COMPETITION</p>
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-calendar"></i></span>
+        <%= f.date_select :date %>
+      </div>
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-user"></i></span>
+        <%= f.text_field :awarded_by, :placeholder => "Awarded by" %>
+      </div>
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-user"></i></span>
+        <p>TEAM</p>
+      </div>
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-pencil"></i></span>
+        <textarea rows="3"></textarea>
+      </div>
+      <%=	 f.hidden_field :user_id, :value => current_user.id %>
+      <%= f.hidden_field :sport_id, :value => 1 %>
+      <%= f.submit "Add recognition", :class => "btn" %>
+    </fieldset>
 <%  end %>
+

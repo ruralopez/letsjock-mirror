@@ -44,11 +44,6 @@ class MessagesController < ApplicationController
     end
   end
 
-  # GET /messages/1/edit
-  def edit
-    @message = Message.find(params[:id])
-  end
-
   # POST /messages
   # POST /messages.json
   def create

@@ -1,11 +1,30 @@
-<%= form_for result do |f| %>
-    <%=	 f.label :description %>
-    <%=	 f.text_field :description %>
-    <%=	 f.label :value %>
-    <%=	 f.text_field :value %>
-    <%=	 f.label :var %>
-    <%=	 f.text_field :var %>
-    <%=	 f.label :date %>
-    <%=	 f.date_select :date %>
-    <%=	 f.submit "Add result!" %>
+<%= form_for @result do |f| %>
+    <fieldset>
+      <legend>Result</legend>
+      <label>Position</label>
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-star"></i></span>
+        <%= f.select :position, [['First', 1], ['Second', 2], ['Third', 3], ['Fourth', 4], ['Fifth', 5]] %>
+      </div>
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-star"></i></span>
+        <%= f.text_field :value, :placeholder => "Type your mark" %>
+        <%= f.select :var, [['Seconds', "s"], ['Meters', "m"]], :class => "span1", :style => "margin-left:4px; border-radius:4px;" %>
+      </div>
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-user"></i></span>
+        <p>FALTA PARA LINKEAR A TEAM</p>
+      </div>
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-heart"></i></span>
+        <p>FALTA PARA LINKEAR A TEAM</p>
+      </div>
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-calendar"></i></span>
+        <%= f.date_select :date %>
+      </div>
+      <%=	 f.hidden_field :user_id, :value => current_user.id %>
+      <%= f.hidden_field :sport_id, :value => @sport_id %>
+      <%= f.submit "Add result", :class => "btn" %>
+    </fieldset>
 <%  end %>

@@ -1,0 +1,15 @@
+<div>
+  <h3><%= @user.full_name %> is</h3>
+  <h5>Following:</h5>
+  <% unless @followed.blank? %>
+      <%	 @followed.each do |followed| %>
+          <%=	 link_to followed.full_name, followed %>
+      <% end %>
+  <% end %>
+  <h5>Followed by:</h5>
+  <% unless @followers.blank? %>
+      <%	 @followers.each do |following| %>
+          <%=	 link_to following.full_name, following %>
+      <% end %>
+  <% end %>
+</div>

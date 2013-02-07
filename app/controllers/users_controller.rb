@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(:email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname])
+    @user = User.new(:citybirth => "City", :country => "Country", :resume => "Add resume here!", :email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname])
 
     respond_to do |format|
       if @user.save
@@ -92,22 +92,24 @@ class UsersController < ApplicationController
   def profile
     @user = User.find(params[:id])
     #Juntar competitions, teams, trains, results y recognitions como athlete experiences
-    @competitions = Competition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "init desc")
-    @teams = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "init desc")
+    @competitions = Competition.all(:conditions => ['user_id = ?', @user.id], :order => "init desc")
+    @teams = Team.all(:conditions => ['user_id = ?', @user.id], :order => "init desc")
     @trains = Train.all(:conditions => ['user_id = ?', @user.id], :order => "init desc")
-    @results = Result.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date desc")
-    @recognitions = Recognition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date desc")
-    @athleteExperiences = (@competitions + @teams + @trains + @results + @recognitions).sort_by(&:init).reverse
+    @results = Result.all(:conditions => ['user_id = ?', @user.id], :order => "date desc")
+    @recognitions = Recognition.all(:conditions => ['user_id = ?', @user.id], :order => "date desc")
+    @athleteExperiences = (@competitions + @teams + @trains + @results + @recognitions)
     #Juntar Works
     @works = Work.all(:conditions => ['user_id = ?', @user.id])
     #Juntar Educational
-    @educations = Education.all(:condition => ['user_id = ?', @user.id])
+    @educations = Education.all(:conditions => ['user_id = ?', @user.id])
     #Crear variable para poder crear competition, team, train, result o recognition.
-    #@competition = @user.competitions.build if signed_in?
-    #@team = @user.teams.build if signed_in?
-    #@train = @user.trains.build if signed_in?
-    #@result = @user.results.build if signed_in?
-    #@recognition = @user.recognitions.build if signed_in?
+    @competition = @user.competitions.build if signed_in?
+    @team = @user.teams.build if signed_in?
+    @train = @user.trains.build if signed_in?
+    @result = @user.results.build if signed_in?
+    @recognition = @user.recognitions.build if signed_in?
+    @work = @user.works.build if signed_in?
+    @education = @user.educations.build if signed_in?
     #Juntar photos y videos que el usuario ya tiene
     @photos = Photo.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
     @videos = Video.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
@@ -116,9 +118,23 @@ class UsersController < ApplicationController
     @video = @user.videos.build if signed_in?
     #Sacando todos los sports para los botones de agregar entrada
     @sports = Sport.all
+    @sport_id = 345
+    gon.sport_id = @sport_id
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
+    end
+  end
+
+  def social
+    if signed_in?
+      @user = User.find(params[:id])
+      @followers = @user.followers
+      @followed = @user.followed_users
+    else
+      flash[:error] = "You must be logged in."
+      sign_out
+      redirect_to root_path
     end
   end
 

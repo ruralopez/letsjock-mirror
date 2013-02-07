@@ -1,9 +1,20 @@
-<%= form_for competition do |f| %>
-    <%=	 f.label :name %>
-    <%=	 f.text_field :name %>
-    <%=	 f.label :init %>
-    <%=	 f.date_select :init %>
-    <%=	 f.label :end %>
-    <%=	 f.date_select :end %>
-    <%=	 f.submit "Add competition!" %>
+<%= form_for @competition do |f| %>
+    <fieldset>
+      <legend>Competition</legend>
+      <%= f.text_field :name, :placeholder => "Name" %>
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-calendar"></i></span>
+        <p><%= f.date_select :init %></p>
+        <p><%= f.date_select :end %></p>
+      </div>
+      <div class="input-prepend form-inline">
+        <span class="add-on"><i class="icon-user"></i></span>
+        <p>OTHER FRIENDS</p>
+        <%= link_to raw("<i class='icon-plus'></i>"), '#', :class => "btn btn-mini add" %>
+        <a class="btn btn-mini add"></a>
+      </div>
+      <%=	 f.hidden_field :user_id, :value => current_user.id %>
+      <%=    f.hidden_field :sport_id, :value => 1 %>
+      <%=	 f.submit "Add competition", :class => "btn" %>
+    </fieldset>
 <%  end %>

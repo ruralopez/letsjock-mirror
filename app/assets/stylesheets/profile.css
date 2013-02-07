@@ -4,9 +4,7 @@
 .box p{font-size:13px;}
 
 /*box-media: left box for photos, videos and more*/
-.box-media{
-    background:rgba(0,0,0,0.1);
-}
+.box-media{}/*added: background deleted*/
 
 img.user-profile{
     width:100%;
@@ -116,7 +114,14 @@ ul.profileIcons, .profileInfo{
 
 
 /*box-info: center box for Profile Info*/
-.box-info{}
+.box-info{/*all of this added*/
+    background:white;
+    box-shadow:-1px 0 1px #CCC;
+    -webkit-box-shadow:-1px 0 1px #CCC;
+    -moz-box-shadow:-1px 0 1px #CCC;
+    padding:0 30px;
+    margin-left:0;
+}
 
 .resume{
     padding: 10px 0;
@@ -170,6 +175,7 @@ li.trained{
 .box-connect{
     background: #2B2B2B;
     color:#CCC;
+    margin-left:0;
 }
 
 a.align-right{text-align:right; display:block; margin-bottom:20px;}

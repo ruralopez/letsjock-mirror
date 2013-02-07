@@ -2,9 +2,16 @@
 
 /*General*/
 body {
-    padding-bottom: 40px;
     color: #5a5a5a;
     margin-top:54px !important;
+    background-color:#F8F8F8;/*added*/
+    padding-bottom:0;/*added*/
+}
+
+footer{/*added all footer*/
+    padding:20px 0 10px;
+    background-color:#111;
+    color: #CCC;
 }
 
 a{color:#C6091C;}
@@ -215,4 +222,27 @@ a:hover.accordion-toggle{
 .w-20 {width:20%;}
 .w-30 {width:30%;}
 .w-50 {width:50%;}
-	
+
+/*added*/
+.box-index.box-connect{
+    margin-left:30px !important;
+    margin-top:-60px;
+    padding-top:60px;
+    position: relative;
+    overflow:visible;
+    padding-bottom:24px;
+}
+
+.box-index.box-connect:last-child:after{
+    background: none repeat scroll 0 0 #F8F8F8;
+    bottom: -20px;
+    content: " ";
+    display: block;
+    height: 45px;
+    left: -2px;
+    position: absolute;
+    transform: rotate(4deg);
+    -webkit-transform: rotate(4deg);
+    -moz-transform: rotate(4deg);
+    width: 102%;
+}

@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Let's Jock - <%= yield(:title) %></title>
+  <%= include_gon %>
   <% if @home %>
       <%= stylesheet_link_tag    "home" %>
   <% else %>

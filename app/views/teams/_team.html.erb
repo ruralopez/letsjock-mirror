@@ -1,4 +1,4 @@
-<%	 unless Work.all(:conditions => ["team_id = ?", team.id]) %>
+
 <ul class="experience">
   <li><h5><%= team.name %> - <%= team.category %> <span><%= Sport.find(team.sport_id).name %></span></h5></li>
   <li class="calendar"><i class="icon-calendar"></i><%= team.init.strftime("%m/%Y") %>, to <%= team.end.strftime("%m/%Y") %></li>
@@ -10,14 +10,14 @@
       <% end %>
   <% end %>
   <% @recognitions = Recognition.all(:conditions => ["user_id = ? AND team_id = ? AND competition_id IS NULL", team.user_id, team.id]) %>
-  <% if @recognitions %>
+  <% if !@recognitions.blank? %>
       <% @recognitions = Array.new.push(@recognitions) %>
       <% @recognitions.each do |recognition| %>
           <li><i class="icon-star"></i><%= recognition.description %></li>
       <% end %>
   <% end %>
   <% @trains = Train.all(:conditions => ["user_id = ? AND team_id = ?", team.user_id, team.id]) %>
-  <% if @trains %>
+  <% if !@trains.blank? %>
       <% @trains = Array.new.push(@trains) %>
       <% @trains.each do |train| %>
           <li><i class="icon-flag"></i><% if train.trainer_id%><%= link_to User.find(train.trainer_id).full_name, User.find(train.trainer_id) %><% else%><%= train.name %><% end%>, from <%= train.init.strftime("%m/%d/%Y") %> to <%= train.end.strftime("%m/%d/%Y") %></li>
@@ -27,4 +27,3 @@
       <%= link_to "Delete", team, method: :delete%>
   <%  end %>
 </ul>
-<%	 end %>

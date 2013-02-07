@@ -1,13 +1,31 @@
-<%= form_for work do |f| %>
-    <%=	 f.label :company %>
-    <%=	 f.text_field :company %>
-    <%=	 f.label :role %>
-    <%=	 f.text_field :role %>
-    <%=	 f.label :country %>
-    <%=	 f.text_field :country %>
-    <%=	 f.label :init %>
-    <%=	 f.date_select :init %>
-    <%=	 f.label :end %>
-    <%=	 f.date_select :end %>
-    <%=	 f.submit "Add work!" %>
+<%= form_for @work do |f| %>
+    <fieldset>
+      <legend>Job</legend>
+      <%= f.text_field :company, :placeholder => "Company" %>
+      <br>
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-user"></i></span>
+        <%= f.text_field :role, :placeholder => "Role" %>
+      </div>
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-calendar"></i></span>
+        <p><%=	 f.date_select :init %></p>
+        <p><%=	 f.date_select :end %></p>
+      </div>
+      <label>Country</label>
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-map-marker"></i></span>
+        <%= f.select :country_id, [["Chile", 1], ["USA", 2]] %>
+      </div>
+
+      <div class="input-prepend">
+        <span class="add-on"><i class="icon-pencil"></i></span>
+        <textarea rows="3"></textarea>
+      </div>
+      <label class="checkbox">
+        <p>Currently here</p>
+      </label>
+      <%= f.hidden_field :user_id, :value => current_user.id %>
+      <%=	 f.submit "Add job", :class => "btn" %>
+    </fieldset>
 <%  end %>

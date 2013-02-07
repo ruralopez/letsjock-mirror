@@ -9,6 +9,7 @@ Letsjock::Application.routes.draw do
   resources :recognitions, only: [:create, :update, :destroy]
   resources :trainees, only: [:create, :update, :destroy]
   resources :works, only: [:create, :update, :destroy]
+  resources :educations, only: [:create, :update, :destroy]
   resources :photos, only: [:create, :update, :destroy]
   resources :videos, only: [:create, :update, :destroy]
   resources :events
@@ -21,11 +22,11 @@ Letsjock::Application.routes.draw do
   match '/signin',  to: 'sessions#new', :as => :signin
   match '/signout', to: 'sessions#destroy', :as => :signout
   match '/profile/:id', to: 'users#profile'
+  match '/profile/:id/social', to: 'users#social', :as => :social
   match '/events/:id/join' => 'events#join', :as => :join
-  match '/inbox', to: 'messages#index', :as => :profile
+  match '/inbox', to: 'messages#index', :as => :inbox
   match '/profile/:id/follow' => 'relationships#create', :as => :follow
   match '/profile/:id/unfollow' => 'relationships#destroy', :as => :unfollow
-  match '/events/new/change_name' => 'events#change_name'
 
 
   # The priority is based upon order of creation:
