@@ -47,12 +47,6 @@
       <script>
           $(document).ready(function(){
               $(".hito-click").hide();
-              $(".hito-click2").hide();
-              $(".preLoad").hide();
-              $(".btn-edu").hide();
-              $("#div-render").hide();
-              $("#div-render2").hide();
-              $("#div-render3").hide();
 
               $(".hito-click").click(function(){
                   $idx = $(this).attr('id');
@@ -63,15 +57,6 @@
                   $("#div-render").toggle("normal");
                   if($("#div-render").is(':hidden')){$('.disappear1').html(' ');}
               });
-              $(".hito-click2").click(function(){
-                  $idx = $(this).attr('id');
-                  $(".hito-click2").each(function () {
-                      if ( $(this).attr('id') != $idx  ) {
-                          $(this).toggle("fast");}
-                  });
-                  $("#div-render2").toggle("normal");
-                  if($("#div-render2").is(':hidden')){$('.disappear2').html(' ');}
-              });
 
               $("#dropdown-sports-btn1").click(function(){
                   $ddm = document.getElementById('dropdown-sports-btn1');
@@ -80,94 +65,12 @@
                   $("#div-render").hide("normal");
                   $('#div-render').empty();}
               });
-              $("#dropdown-sports-btn2").click(function(){
-                  $ddm = document.getElementById('dropdown-sports-btn2');
-                  if(($ddm.textContent)!="Sport"){
-                      $(".hito-click2").show("normal");
-                      $("#div-render2").hide("normal");
-                      $('#div-render2').empty();}
-              });
+
               $('#hito1').click(function(){
                   $('#div-render').empty();
                   $('#div-render').append("<%= escape_javascript(render :partial => 'trains/form') %>");
               });
-              $('#hito2').click(function(){
-                  $('#div-render').empty();
-                  $('#div-render').append("<%= escape_javascript(render :partial => 'competitions/form') %>");
-              });
-              $('#hito3').click(function(){
-                  $('#div-render').empty();
-                  $('#div-render').append("<%= escape_javascript(render :partial => 'teams/form') %>");
-              });
-              $('#hito4').click(function(){
-                  $('#div-render').empty();
-                  $('#div-render').append("<%= escape_javascript(render :partial => 'results/form') %>");
-              });
-              $('#hito5').click(function(){
-                  $('#div-render').empty();
-                  $('#div-render').append("<%= escape_javascript(render :partial => 'recognitions/form') %>");
-              });
-              $('#hito6').click(function(){
-                  $('#div-render2').empty();
-                  $('#div-render2').append("<%= escape_javascript(render :partial => 'trains/form') %>");
-              });
-              $('#hito7').click(function(){
-                  $('#div-render2').empty();
-                  $('#div-render2').append("<%= escape_javascript(render :partial => 'competitions/form') %>");
-              });
-              $('#hito8').click(function(){
-                  $('#div-render2').empty();
-                  $('#div-render2').append("<%= escape_javascript(render :partial => 'teams/form') %>");
-              });
-              $('#hito9').click(function(){
-                  $('#div-render2').empty();
-                  $('#div-render2').append("<%= escape_javascript(render :partial => 'results/form') %>");
-              });
-              $('#hito10').click(function(){
-                  $('#div-render2').empty();
-                  $('#div-render2').append("<%= escape_javascript(render :partial => 'recognitions/form') %>");
-              });
-              $('#hito11').click(function(){
-                  $('#div-render2').empty();
-                  $('#div-render2').append("<%= escape_javascript(render :partial => 'works/form') %>");
-              });
-              $('#edu1').click(function(){
-                  $('#div-render3').empty();
-                  $('#div-render3').append("<%= escape_javascript(render :partial => 'educations/form') %>");
-              });
-              $('#edu2').click(function(){
-                  $('#div-render3').empty();
-                  $('#div-render3').append("<%= escape_javascript(render :partial => 'educations/form') %>");
-              });
-              $('#edu3').click(function(){
-                  $('#div-render3').empty();
-                  $('#div-render3').append("<%= escape_javascript(render :partial => 'educations/form', :locals => { :educationType => 3}) %>");
-              });
-              $('#edu4').click(function(){
-                  $('#div-render3').empty();
-                  $('#div-render3').append("<%= escape_javascript(render :partial => 'educations/form', :locals => { :educationType => 4}) %>");
-              });
 
-              $("#btn-add1").click(function(){
-                  if(!$("#sports1").is(':hidden')){
-                      $("#sports1").hide("normal");
-                      $(".hito-click").hide("normal");
-                      $("#div-render").hide("normal");
-                      $('#div-render').empty();
-                  }
-                  else {$("#sports1").toggle("normal");
-                  }
-              });
-              $("#btn-add2").click(function(){
-                  if(!$("#sports2").is(':hidden')){
-                      $("#sports2").hide("normal");
-                      $(".hito-click2").hide("normal");
-                      $("#div-render2").hide("normal");
-                      $('#div-render2').empty();
-                  }
-                  else {$("#sports2").toggle("normal");
-                  }
-              });
               $("#btn-add3").click(function(){
                   if($("#edu1").is(':hidden') || $("#edu2").is(':hidden') || $("#edu3").is(':hidden')){
                       $(".btn-edu").show("fast");
@@ -176,40 +79,25 @@
                   }
               });
 
-              $(".btn-edu").click(function(){
-                  $idx = $(this).attr('id');
-                  $(".btn-edu").each(function () {
-                      if ( $(this).attr('id') != $idx  ) {
-                          $(this).toggle("normal");}
-                  });
-                  $("#div-render3").toggle("normal");
-              });
               $("#dropdown-menu-sports1 a").click(function(){
                   $ddm = document.getElementById('dropdown-sports-btn1');
                   $ddm.textContent = $(this).attr('name_s');
                   gon.sport_id = $(this).attr('id_s');
                   $(".hito-click").show("normal");
               });
-              $("#dropdown-menu-sports2 a").click(function(){
-                  $ddm = document.getElementById('dropdown-sports-btn2');
-                  $ddm.textContent = $(this).attr('name_s');
-                  $(".hito-click2").show("normal");
-              });
+
               jQuery(function($) {
                   $('.dropdown-toggle').dropdown();
               });
 
               $("#upload-input").hide();
               $("#photo-link-input").hide();
-
               $('#btn-photo-1').click(function(){
                   $("#photo-link-input").toggle("normal");
               });
               $('#photo-submit').click(function(){
                   $("#new_photo").submit();
               });
-
-
           });</script>
       <div class="resume">
         <p>
@@ -219,32 +107,6 @@
       <div class="resume">
         <h4>Athlete Profile<a id="btn-add1" class="btn btn-success pull-right">Add new <i class="icon-plus icon-white"></i></a></h4>
 
-        <div class="btn-group preLoad" id="sports1">
-          <button class="btn btn-primary" id="dropdown-sports-btn1">Sport</button>
-          <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" id="dropdown-menu-sports1">
-            <% @sports.each do |sport| %>
-                <% if  sport.fullpath == '/' + sport.id.to_s %>
-                    <li><a id_s=<%= sport.id %> name_s=<%= sport.name %>><%= sport.name %></a></li>
-                <% end %>
-            <% end %>
-          </ul>
-        </div>
-
-        <button type="button" id="hito1" class="btn btn-danger hito-click">Training</button>
-        <button type="button" id="hito2" class="btn btn-danger hito-click">Competition</button>
-        <button type="button" id="hito3" class="btn btn-danger hito-click">Team</button>
-        <button type="button" id="hito4" class="btn btn-danger hito-click">Result</button>
-        <button type="button" id="hito5" class="btn btn-danger hito-click">Award</button>
-
-        </br>
-        <div id="div-render" class="disappear1">
-        </div>
-
-        </br>
-
         <%	if @athleteExperiences.any?  %>
             <%=	 render @athleteExperiences %>
         <%	end %>
@@ -252,60 +114,12 @@
       <div class="resume">
         <h4>Working Experience<a id="btn-add2" class="btn btn-success pull-right">Add new <i class="icon-plus icon-white"></i></a></h4>
 
-        <div class="btn-group preLoad" id="sports2">
-          <button class="btn btn-primary" id="dropdown-sports-btn2">Sport</button>
-          <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" id="dropdown-menu-sports2">
-            <% @sports.each do |sport| %>
-                <% if  sport.fullpath == '/' + sport.id.to_s %>
-                    <li><a name_s=<%= sport.name %> ><%= sport.name %> </a></li>
-                <% end %>
-            <% end %>
-          </ul>
-        </div>
-
-        <button type="button" id="hito6" class="btn btn-danger hito-click2">Training</button>
-        <button type="button" id="hito7" class="btn btn-danger hito-click2">Competition</button>
-        <button type="button" id="hito8" class="btn btn-danger hito-click2">Team</button>
-        <button type="button" id="hito9" class="btn btn-danger hito-click2">Result</button>
-        <button type="button" id="hito10" class="btn btn-danger hito-click2">Award</button>
-        <button type="button" id="hito11" class="btn btn-danger hito-click2">Job</button>
-
-        </br>
-             <div id="div-render2" class="disappear2">
-        </div>
-
-
-        </br>
-
         <%	if @works.any?  %>
             <%=	 render @works %>
         <%	end %>
       </div><!--resume-->
       <div class="resume">
         <h4>Education<a id="btn-add3" class="btn btn-success pull-right">Add new <i class="icon-plus icon-white"></i></a></h4>
-
-        <button type="button" id = "edu1" class="btn btn-danger btn-edu">
-          School
-        </button>
-        <button type="button" id = "edu2" class="btn btn-danger btn-edu">
-          High School
-        </button>
-        <button type="button" id = "edu3" class="btn btn-danger btn-edu">
-          College
-        </button>
-        <button type="button" id = "edu4" class="btn btn-danger btn-edu">
-          University
-        </button>
-
-        <!-- </br>
-             Render Educational Forms: edu1 - edu4
-        -->
-        </br>
-        <div id="div-render3" class="disappear3">
-        </div>
 
         <%	if @educations.any?  %>
             <%=	 render @educations %>
