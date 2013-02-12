@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   has_many :events, :through => :user_events
   has_many :event_admins, :dependent => :destroy
   has_many :events, :through => :event_admins
+  has_many :posts
 
   has_many :messages
 

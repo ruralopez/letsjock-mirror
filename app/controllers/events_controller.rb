@@ -26,7 +26,9 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @event = Event.find(params[:id])
-
+    @event_admins = EventAdmin.all(:conditions => ["event_id = ?", params[:id]])
+    @post = @event.posts.build if signed_in? && @event.admin?(current_user)
+    @posts = Post.all(:conditions => ["event_id = ?", @event.id])
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @event }
@@ -56,8 +58,11 @@ class EventsController < ApplicationController
     if signed_in? && current_user.id == @event.user_id
       respond_to do |format|
         if @event.save
-          format.html { redirect_to @event, notice: 'Event was successfully created.' }
-          format.json { render json: @event, status: :created, location: @event }
+          eventadmin = EventAdmin.new(:user_id => @event.user_id, :event_id => @event.id)
+          if eventadmin.save
+            format.html { redirect_to @event, notice: 'Event was successfully created.' }
+            format.json { render json: @event, status: :created, location: @event }
+          end
         else
           format.html { render action: "new" }
           format.json { render json: @event.errors, status: :unprocessable_entity }
@@ -120,13 +125,19 @@ class EventsController < ApplicationController
   end
 
   def new_admin
-    @user = User.find_by_email(params[:email])
-    eventadmin = EventAdmin.new(:user_id => @user.id, :event_id => params[:id])
-    if eventadmin.save
-      respond_to do |format|
-        format.html { redirect_to root_url + 'events/' + params[:id].to_s }
-        format.js { render :nothing => true }
+    if User.find_by_email(params[:email])
+      @user = User.find_by_email(params[:email])
+      eventadmin = EventAdmin.new(:user_id => @user.id, :event_id => params[:id])
+      if eventadmin.save
+        flash[:success] = @user.full_name + " has been granted with administration privileges."
+        respond_to do |format|
+          format.html { redirect_to event_path(params[:id]) }
+          format.js { render :nothing => true }
+        end
       end
+    else
+      flash[:error] = "The specified user does not exist."
+      redirect_to event_path(params[:id])
     end
   end
 

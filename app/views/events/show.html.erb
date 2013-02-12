@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-
+ <%= flash[:error] %>
 <p>
   <b>User:</b>
   <%= best_in_place @event, :user_id %>
@@ -15,14 +15,40 @@
   <%= best_in_place @event, :description, :type => :input %>
 </p>
 
+<% if @posts.any? %>
+    <% @posts.each do |post| %>
+        <div>
+          <h3><%= post.title %> by <%= link_to User.find(post.user_id).full_name, User.find(post.user_id) %></h3>
+          <p><%= post.content %></p>
+        </div>
+    <% end %>
+<% end %>
+
 <%	 if signed_in? %>
+    <% if @event.admin?(current_user) %>
+        <div>
+          <%= form_for @post do |f| %>
+              <%= f.text_field :title, :placeholder => "Title" %>
+              <%= f.text_area :content, :placeholder => "Write your post..." %>
+              <%= f.hidden_field :user_id, :value => current_user.id %>
+              <%= f.hidden_field :event_id, :value => @event.id %>
+              <%= f.submit "Post", class: "btn" %>
+          <% end %>
+        </div>
+    <% end %>
     <%= link_to 'Join this event!', join_path, confirm: 'Are you sure?' %>
-    <% if @event.user_id == current_user.id %>
+    <% if @event.admin?(current_user) %>
         <%=	 form_tag(:controller => "events", :action => "new_admin") do%>
             <%=	 text_field_tag(:email) %>
             <%=	 submit_tag "Submit" %>
         <% end %>
     <% end %>
+<%	 end %>
+
+<h3>Administradores:</h3>
+<%	 @event_admins.each do |event_admin| %>
+    <%	 user = User.find(event_admin.user_id) %>
+    <p><%=	 link_to user.full_name, user %></p>
 <%	 end %>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |

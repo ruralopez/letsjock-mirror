@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130205214530) do
+ActiveRecord::Schema.define(:version => 20130208200023) do
 
   create_table "competitions", :force => true do |t|
     t.integer  "user_id"
@@ -48,6 +48,15 @@ ActiveRecord::Schema.define(:version => 20130205214530) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "event_admins", :id => false, :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "event_id",   :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "event_admins", ["user_id", "event_id"], :name => "index_event_admins_on_user_id_and_event_id", :unique => true
 
   create_table "events", :force => true do |t|
     t.integer  "user_id"
@@ -100,6 +109,15 @@ ActiveRecord::Schema.define(:version => 20130205214530) do
     t.string   "comment"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+  end
+
+  create_table "posts", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "event_id",   :null => false
+    t.string   "title"
+    t.string   "content"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "recognitions", :force => true do |t|

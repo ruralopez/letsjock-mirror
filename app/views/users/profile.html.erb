@@ -15,14 +15,14 @@
         <%  end %>
       </div><!--user-pictures-->
       <p><%= @photos.count %> pictures <a href="#">see more <i class="icon-camera"></i></a></p>
-      <a href="#" class="btn btn-mini pull-right">Upload <i class="icon-circle-arrow-up"></i></a>
+      <a href="#photoModal" data-toggle="modal" role="button" id="btn-photo" class="btn btn-mini pull-right">Upload <i class="icon-circle-arrow-up"></i></a>
       <!-- end Pictures -->
       <!-- begin Videos -->
       <div class="user-video">
         <iframe width="270" height="152" src="http://www.youtube.com/embed/mGOeXhK2_WE" frameborder="0" allowfullscreen></iframe>
       </div><!--user-video-->
       <p><%= @videos.count %> videos <a href="#">see more <i class="icon-facetime-video"></i></a></p>
-      <a href="#" class="btn btn-mini pull-right">Upload <i class="icon-circle-arrow-up"></i></a>
+      <a href="#videoModal" data-toggle="modal" role="button" id="btn-video" class="btn btn-mini pull-right">Upload <i class="icon-circle-arrow-up"></i></a>
       <!--end Videos -->
     </div><!--box-media-->
     <ul class="profileIcons span9">
@@ -195,10 +195,21 @@
                   $ddm.textContent = $(this).attr('name_s');
                   $(".hito-click2").show("normal");
               });
-
               jQuery(function($) {
                   $('.dropdown-toggle').dropdown();
               });
+
+              $("#upload-input").hide();
+              $("#photo-link-input").hide();
+
+              $('#btn-photo-1').click(function(){
+                  $("#photo-link-input").toggle("normal");
+              });
+              $('#photo-submit').click(function(){
+                  $("#new_photo").submit();
+              });
+
+
           });</script>
       <div class="resume">
         <p>
@@ -376,9 +387,56 @@
       </div>
     </div><!--box-connect-->
   </div>
-
 </div><!-- /.container -->
+<div id="photoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Photos</h3>
+  </div>
+  <div class="modal-body">
+    <%= form_for @photo do |f| %>
+        <fieldset>
+          <%= f.text_field :title, :placeholder => "Title" %>
 
+          <div class="fileupload fileupload-new" data-provides="fileupload">
+            <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
+
+            <a role="button" id="btn-photo-1" href="#" class="btn btn-large btn-photo-link"><i class="icon-globe"></i> Link</a>
+            <a role="button" id="btn-photo-2" href="#" class="btn btn-large btn-file fileupload-new btn-photo-down"><i class="icon-download-alt"></i> Computer<input type="file" /></a>
+            <%= f.text_area :comment, :placeholder => "Comment", :id => "photo-comment-input" %>
+            <%= f.text_field :url, :placeholder => "Place your picture link here!", :id => "photo-link-input", :class => "span4" %>
+
+            <div>
+              <a href="#" class="btn fileupload-exists btn-large" data-dismiss="fileupload"><i class="icon-remove"></i> Remove</a>
+            </div>
+          </div>
+
+          <%=	 f.hidden_field :user_id, :value => current_user.id %>
+          <%=    f.hidden_field :sport_id, :value => 1 %>
+        </fieldset>
+    <%  end %>
+  </div>
+  <div class="modal-footer">
+
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button id="photo-submit" class="btn btn-primary">Upload</button>
+
+  </div>
+</div>
+
+<div id="videoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Videos</h3>
+  </div>
+  <div class="modal-body">
+    <a role="button" id="btn-video-1" href="#" class="btn btn-large"><i class="icon-globe"></i> Link</a> <input id="video-link-input" class="span4" type="text" placeholder="Place your video link here!">
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary">Upload</button>
+  </div>
+</div>
 
 
 <!-- Le javascript

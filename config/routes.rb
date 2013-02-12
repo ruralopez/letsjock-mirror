@@ -15,6 +15,7 @@ Letsjock::Application.routes.draw do
   resources :events
   resources :messages, only: [:create, :show]
   resources :relationships, only: [:create, :destroy]
+  resources :posts
 
   root :to => 'home#index'
 

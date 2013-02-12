@@ -51,6 +51,8 @@
 !binary "aW1nLWdvYWxrZWVwZXIvaW5kZXgucG5n": img-goalkeeper-f5f6c58901dd5cad7f75819363db185f.png
 !binary "aW1nSG9tZS5qcGc=": imgHome-fe03b908d03ba07f4f01278d339303ac.jpg
 !binary "aW1nSG9tZS9pbmRleC5qcGc=": imgHome-fe03b908d03ba07f4f01278d339303ac.jpg
+!binary "am9jay1uYXZiYXIucG5n": jock-navbar-eda1f4010f2e514e69a654484e7f96ed.png
+!binary "am9jay1uYXZiYXIvaW5kZXgucG5n": jock-navbar-eda1f4010f2e514e69a654484e7f96ed.png
 !binary "am9pbi5wbmc=": join-9bcdcd41877bb260a1379849a951420e.png
 !binary "am9pbi9pbmRleC5wbmc=": join-9bcdcd41877bb260a1379849a951420e.png
 !binary "bGV0c0pvY2tCaWcucG5n": letsJockBig-bf8bb4799fa9854befca9d3f6d5f9525.png
@@ -116,12 +118,12 @@
 !binary "aW5kZXguanM=": index-195b58a0f02fd763a311dcc5200af95a.js
 !binary "dmFsaWRhdGlvbnMuanM=": validations-9ed1735bd4843c8dedcb21f211da230b.js
 !binary "dmFsaWRhdGlvbnMvaW5kZXguanM=": validations-9ed1735bd4843c8dedcb21f211da230b.js
-!binary "YXBwbGljYXRpb24uY3Nz": application-b269031d99507a741e75a6abd7399039.css
-!binary "YXBwbGljYXRpb24vaW5kZXguY3Nz": application-b269031d99507a741e75a6abd7399039.css
+!binary "YXBwbGljYXRpb24uY3Nz": application-f52793770cb3af4c8994fff06d0cb9d0.css
+!binary "YXBwbGljYXRpb24vaW5kZXguY3Nz": application-f52793770cb3af4c8994fff06d0cb9d0.css
 !binary "aG9tZS5jc3M=": home-10b57606e1c938909f037a91d6a15862.css
 !binary "aG9tZS9pbmRleC5jc3M=": home-10b57606e1c938909f037a91d6a15862.css
-!binary "cHJvZmlsZS5jc3M=": profile-6538a13b243037b9c1b0995b3f4fbd55.css
-!binary "cHJvZmlsZS9pbmRleC5jc3M=": profile-6538a13b243037b9c1b0995b3f4fbd55.css
+!binary "cHJvZmlsZS5jc3M=": profile-744c2c184d75f66b1ee5fb56d3522b52.css
+!binary "cHJvZmlsZS9pbmRleC5jc3M=": profile-744c2c184d75f66b1ee5fb56d3522b52.css
 !binary "c2Vzc2lvbnMuY3Nz": sessions-4adad407f24e270eb9896e7f6d00d7e4.css
 !binary "c2Vzc2lvbnMvaW5kZXguY3Nz": sessions-4adad407f24e270eb9896e7f6d00d7e4.css
 !binary "dXNlcnMuY3Nz": users-7407fa5eabb826d32bc3aa46e1d94c29.css
