@@ -3,8 +3,13 @@ class MessagesController < ApplicationController
   # GET /messages.json
   def inbox
     if signed_in?
-      ids = current_user.messages.collect(&:user_id) + current_user.messages.collect(&:receiver_id)
-      @users_contacted = User.all(:conditions => ["id IN (?)", ids])
+      ids = Message.all(:conditions => ["user_id = ?", current_user.id]).collect(&:receiver_id) + Message.all(:conditions => ["receiver_id = ?", current_user.id]).collect(&:user_id)
+      @users_contacted = User.all(:conditions => ["id IN (?) AND id != ?", ids, current_user.id]).sort{|a,b| a.last_message_with(current_user).created_at <=> b.last_message_with(current_user).created_at}.reverse
+      @conversations = Hash.new
+      @users_contacted.each do |user|
+        @conversations[user.id] = current_user.messages_with(user).sort_by(&:created_at)
+      end
+      @message = Message.new
       respond_to do |format|
         format.html # index.html.erb
         format.js { render :nothing => true }

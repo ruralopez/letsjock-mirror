@@ -26,7 +26,7 @@
           <div class="btn-group username pull-right">
             <a class="btn" data-toggle="dropdown" href="#">
               <%= image_tag 'jock-navbar.png', :class => "img-polaroid" %>
-              UserName<span class="caret"></span>
+              <% if signed_in? %><%= current_user.full_name %><% else %>User Name<% end %><span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
               <li><a href="#">Edit</a></li>

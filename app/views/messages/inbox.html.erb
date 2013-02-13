@@ -1,28 +1,84 @@
-<%= stylesheet_link_tag    "messages"%>
-<% if flash[:error] %>
-    <div class="alert alert-error inbox-flash">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <h4></h4> <%=  flash[:error] %>
-    </div>
-<% end %>
-<% if flash[:success] %>
-    <div class="alert alert-success inbox-flash">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <%=  flash[:success] %>
-    </div>
-<% end %>
-<h1>Inbox</h1>
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
 
-<% unless @users_contacted.empty? %>
-    <% @users_contacted.each do |user| %>
-        <% if user.id != current_user.id %>
-            <p><%	 last = user.last_message_with(current_user) %>
-            <%=	 user.full_name %>
-            <%=	 link_to last.content, inbox_path, :remote => true, :id => 'conversation_link' %></p>
+<div class="container fixed">
+
+
+  <h3 class="inline">Inbox</h3>
+  <%= link_to "New message", '/inbox/new', :class => "btn btn-info pull-right", raw:("<i class='icon-white icon-envelope'></i>") %>
+  <% if flash[:error] %>
+      <div class="alert alert-error inbox-flash">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4></h4> <%=  flash[:error] %>
+      </div>
+  <% end %>
+  <% if flash[:success] %>
+      <div class="alert alert-success inbox-flash">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <%=  flash[:success] %>
+      </div>
+  <% end %>
+  <div class="inbox">
+    <div class="scrolleable">
+      <ul class="nav nav-tabs" id="myTab">
+        <% @users_contacted.each_with_index do |user, index| %>
+            <li <% if index == 0 %> class="active" <% end %>>
+              <%= link_to '#userID' + user.id.to_s, :'data-toggle' => "tab" do %>
+                  <%= image_tag user.profilephotourl, :class => "img-rounded" %>
+                  <div class="inbox-resume">
+                    <h5><%=	 user.full_name %></h5>
+                    <p><%= current_user.last_message_with(user).content %></p>
+                    <p><i>5 hours ago</i></p>
+                  </div>
+              <% end%>
+            </li>
         <% end %>
-    <% end %>
-<% end %>
-<div id="messages-box">
+      </ul>
+    </div>
 
+    <div class="tab-content">
+      <% @users_contacted.each_with_index do |user, index| %>
+          <div <% if index == 0 %> class="tab-pane active scrolleable" <% else %> class="tab-pane scrolleable" <% end %>id=<%= "userID"+user.id.to_s %>>
+            <% @conversations[user.id].each do |message| %>
+                <% if message.user_id == current_user.id %>
+                    <div class="user-message right-message pull-right">
+                      <p>
+                        <%= message.content %>
+                        <small><%= message.created_at.strftime("%m/%d/%Y")  %></small>
+                      </p>
+                    </div>
+                <% else %>
+                    <div class="user-message left-message">
+                      <p>
+                        <%= message.content %>
+                        <small><%= message.created_at.strftime("%m/%d/%Y")  %></small>
+                      </p>
+                    </div>
+                <% end %>
+            <% end %>
+          </div>
+          <div class="inbox-respond">
+            <div class="form-actions">
+              <%=	 form_for @message do |f| %>
+                  <%= f.text_area :content, :rows => 2 %>
+                  <%= f.hidden_field :user_id, :value => current_user.id %>
+                  <%= f.hidden_field :receiver_id, :value => user.id %>
+                  <%= f.submit "Send", :class => "btn btn-primary" %>
+              <%	 end %>
+            </div>
+          </div><!-- inbox-respond -->
+      <% end %>
+    </div>
+  </div>
 </div>
+<!-- /END THE FEATURETTES -->
 
+</div><!-- /.container -->
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script><iframe src="http://twitter.github.com/bootstrap/assets/js/Carousel Template · Bootstrap.htm" frameborder="0" style="border: 0px; visibility: visible; z-index: 2147483647; position: fixed; width: 100%; left: 0px; bottom: 0px; height: 300px; display: none;" id="FirebugUI"></iframe>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap.js"></script>

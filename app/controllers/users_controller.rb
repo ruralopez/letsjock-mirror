@@ -127,15 +127,86 @@ class UsersController < ApplicationController
   end
 
   def social
+
     if signed_in?
       @user = User.find(params[:id])
       @followers = @user.followers
       @followed = @user.followed_users
+
+      suma = @followers + @followed
+
+      @friends_list = []
+      suma.each do |user|
+        @friends_list.push(user.full_name)
+      end
+
     else
       flash[:error] = "You must be logged in."
       sign_out
       redirect_to root_path
     end
+
+  end
+
+  def add_new
+    if signed_in? && current_user.id == params[:user_id].to_i
+
+      if params[:sport_id] && params[:init] && params[:end]
+
+        if params[:team_name] && params[:team_category]
+          @team = Team.new(:name => params[:team_name], :category => params[:team_category], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
+          @team.save
+        end
+
+        if params[:train_name]
+          if @team
+            @train = Train.new(:name => params[:train_name], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => @team.id)
+          else
+            @train = Train.new(:name => params[:train_name], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
+          end
+          @train.save
+
+        end
+
+        if params[:result_position] && params[:result_value] && params[:result_var] && params[:competition_name]
+          if @team
+            @competition = Competition.new(:name => params[:competition_name],:sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => @team.id )
+            @competition.save
+            @result = Result.new(:position => params[:result_position],:value => params[:result_value], :var => params[:result_var], :sport_id => params[:sport_id], :user_id => params[:user_id], :competition_id => @competition.id, :date => params[:init], :team_id => @team.id )
+          else
+            @competition = Competition.new(:name => params[:competition_name],:sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end] )
+            @competition.save
+            @result = Result.new(:position => params[:result_position],:value => params[:result_value], :var => params[:result_var], :sport_id => params[:sport_id], :user_id => params[:user_id], :competition_id => @competition.id, :date => params[:init])
+          end
+          @result.save
+        end
+
+        if params[:award_title] && params[:award_by]
+          if @team && @competition
+            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init], :competition_id => @competition.id, :team_id => @team.id)
+          elsif  @competition
+            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init], :competition_id => @competition.id)
+          elsif  @team
+            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init], :team_id => @team.id)
+          else
+            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init])
+          end
+          @recognition.save
+        end
+
+      else
+        flash[:error] = "You must complete all the required params."
+        redirect_to current_user
+      end
+
+      redirect_to current_user
+
+    else
+      flash[:error] = "You must be logged in."
+      sign_out
+      redirect_to root_path
+    end
+
   end
 
 end

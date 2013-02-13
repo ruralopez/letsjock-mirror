@@ -15,7 +15,7 @@ group :production do
 end
 
 gem 'bcrypt-ruby', '~> 3.0.1'
-gem 'gon', '3.0.5'
+gem 'gon', '4.0.2'
 
 # Gems used only for assets and not required
 # in production environments by default.

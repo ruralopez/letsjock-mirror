@@ -24,6 +24,7 @@ Letsjock::Application.routes.draw do
   match '/signout', to: 'sessions#destroy', :as => :signout
   match '/profile/:id', to: 'users#profile'
   match '/profile/:id/social', to: 'users#social', :as => :social
+  match '/profile/:id/add_new', to: 'users#add_new', :as => :add_new
   match '/events/:id/join' => 'events#join', :as => :join
   match '/events/:id/new_admin' => 'events#new_admin', :as => :event_new_admin
   match '/inbox', to: 'messages#inbox', :as => :inbox
