@@ -26,6 +26,7 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @event = Event.find(params[:id])
+    @creator = User.find(@event.user_id)
     @event_admins = EventAdmin.all(:conditions => ["event_id = ?", params[:id]])
     @post = @event.posts.build if signed_in? && @event.admin?(current_user)
     @posts = Post.all(:conditions => ["event_id = ?", @event.id])

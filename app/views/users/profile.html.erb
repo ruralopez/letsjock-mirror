@@ -7,34 +7,50 @@
 <div class="container">
   <div class="row">
     <div class="box box-media span3">
-      <%= link_to image_tag(@user.profilephotourl, :class => "user-profile"), '#' %>
-      <!-- begin Pictures -->
-      <div class="user-pictures">
-        <%  @photos.take(6).each do |photo| %>
-            <%= link_to image_tag(photo.url) , '#'%>
-        <%  end %>
-      </div><!--user-pictures-->
-      <p><%= @photos.count %> pictures <a href="#">see more <i class="icon-camera"></i></a></p>
-      <a href="#photoModal" data-toggle="modal" role="button" id="btn-photo" class="btn btn-mini pull-right">Upload <i class="icon-circle-arrow-up"></i></a>
-      <!-- end Pictures -->
-      <!-- begin Videos -->
-      <div class="user-video">
-        <iframe width="270" height="152" src="http://www.youtube.com/embed/mGOeXhK2_WE" frameborder="0" allowfullscreen></iframe>
-      </div><!--user-video-->
-      <p><%= @videos.count %> videos <a href="#">see more <i class="icon-facetime-video"></i></a></p>
-      <a href="#videoModal" data-toggle="modal" role="button" id="btn-video" class="btn btn-mini pull-right">Upload <i class="icon-circle-arrow-up"></i></a>
-      <!--end Videos -->
+      <div class="img-polaroid">
+        <%= link_to image_tag(@user.profilephotourl, :class => "user-profile"), '#' %>
+      </div>
+        <!-- begin Pictures -->
+      <div class="event-info">
+        <h5><i class="icon-star"></i>Featured info 1</h5>
+        <h5><i class="icon-camera"></i><%= link_to 'Pictures' , pictures_path(@user) %></h5>
+        <div class="event-pictures">
+          <%  @photos.take(6).each do |photo| %>
+              <%	 if signed_in? && @user.id == current_user.id%>
+                  <%= link_to image_tag(photo.url) , :controller => 'users', :action => 'change_profile_pic', :url => photo.url %>
+              <% else %>
+                  <%= link_to image_tag(photo.url) , '#' %>
+              <% end %>
+          <%  end %>
+        </div><!--user-pictures-->
+        <h5 class="white">
+          <%= @photos.count %> pictures
+          <%= link_to 'see more' , pictures_path(@user) %>
+          <a href="#photoModal" data-toggle="modal" role="button" id="btn-photo" class="btn btn-mini btn-success pull-right">Upload <i class="icon-white icon-circle-arrow-up"></i></a>
+        </h5>
+        <h5><i class="icon-facetime-video"></i><a href="#">Videos</a></h5>
+        <div class="user-video">
+          <iframe width="270" height="152" src="http://www.youtube.com/embed/mGOeXhK2_WE" frameborder="0" allowfullscreen=""></iframe>
+        </div><!--user-video-->
+
+        <h5 class="white">
+          <%= @videos.count %> videos
+          <a href="#">see more</a>
+          <a href="#videoModal" data-toggle="modal" role="button" id="btn-video" class="btn btn-mini btn-success pull-right">Upload <i class="icon-white icon-circle-arrow-up"></i></a>
+        </h5>
+      </div>
     </div><!--box-media-->
+
     <ul class="profileIcons span9">
-      <li><i class="icon-user icon-white"></i><%= link_to @user.followers.count.to_s + " followers", social_path(@user) %><%= link_to @user.followed_users.count.to_s + " following", social_path(@user) %></li>
-      <li><i class="icon-camera icon-white"></i><a href="#"><%= @photos.count %> pictures</a></li>
+      <li><i class="icon-eye-open icon-white"></i><%= link_to @user.followers.count.to_s + " followers", social_path(@user) %><%= link_to @user.followed_users.count.to_s + " following", social_path(@user) %></li>
+      <li><i class="icon-camera icon-white"></i><%= link_to @photos.count.to_s + ' pictures' , pictures_path(@user) %></li>
       <li><i class="icon-facetime-video icon-white"></i><a href="#"><%= @videos.count %> videos</a></li>
     </ul><!-- /profileIcons -->
     <div class="profileInfo relative span9">
       <div class="user">
         <h2><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :name, :type => :input, :inner_class => "nameInput" %> <%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :lastname, :type => :input, :inner_class => "nameInput"  %></h2>
         <p><%  if @user.birth && @user.birth != "" %>/ <%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years<%  end %>
-          <%  if @user.citybirth != "" %>, <%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %>,
+          <%  if @user.citybirth != "" %> <%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %>,
               <%  end %><%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %></p>
       </div><!--user-->
       <div class="connections">
@@ -114,7 +130,7 @@
                   $('#divTrain').toggle("normal");
               });
               $('#hito5').click(function(){
-                  $('#divLocation').toggle("normal");
+                  $('#divDes').toggle("normal");
               });
               $(".hiddenDiv").hide();
 
@@ -125,21 +141,149 @@
         </p>
       </div><!--resume-->
       <div class="resume">
-        <h4>Athlete Profile<a data-toggle="modal" role="button" href="#addModal" id="btn-add1" class="btn btn-success pull-right">Add new <i class="icon-plus icon-white"></i></a></h4>
+        <h4>Athlete Profile</h4>
+        <div class="accordion" id="accordion3"> <!--mapa-->
+          <div class="accordion-group events-filter">
+            <div class="accordion-heading">
+              <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion3" href="#collapseAdd">
+              <span>+</span>Add new
+              </a>
+            </div>
+            <div id="collapseAdd" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <%	 if signed_in? %>
+                    <legend>What do you want to add?</legend>
+                    <div class="header-buttons">
+                      <a><button id="hito4" class="btn-success hito-click">
+                        <i class="icon-user icon-2x"></i>
+                        Training
+                      </button></a>
+                      <a><button id="hito3" class="btn-success hito-click">
+                        <i class="icon-group icon-2x"></i>
+                        Team
+                      </button></a>
+                      <a><button id="hito1" class="btn-success hito-click">
+                        <i class="icon-trophy icon-2x"></i>
+                        Award
+                      </button></a>
+                      <a><button id="hito2" class="btn-success hito-click">
+                        <i class="icon-star icon-2x"></i>
+                        Result
+                      </button></a>
+                      <a><button id="hito5" class="btn-success hito-click">
+                        <i class="icon-pencil icon-2x"></i>
+                        Description
+                      </button></a>
+                    </div>
+                    <%= render 'profile_form'  %>
+
+                <%	 else %>
+                    <p>You must be logged in to complete your profile!</p>
+                <%	 end %>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <%	if @athleteExperiences.any?  %>
             <%=	 render @athleteExperiences %>
         <%	end %>
       </div><!--resume-->
       <div class="resume">
-        <h4>Working Experience<a id="btn-add2" class="btn btn-success pull-right">Add new <i class="icon-plus icon-white"></i></a></h4>
+        <h4>Working Experience</h4>
+
+        <div class="accordion" id="accordion4"> <!--mapa-->
+          <div class="accordion-group events-filter">
+            <div class="accordion-heading">
+              <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion4" href="#collapseAdd2">
+                <span>+</span>Add new
+              </a>
+            </div>
+            <div id="collapseAdd2" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <%	 if signed_in? %>
+                    <legend>What do you want to add?</legend>
+                    <div class="header-buttons">
+                      <a><button id="hito4" class="btn-success hito-click">
+                        <i class="icon-user icon-2x"></i>
+                        Training
+                      </button></a>
+                      <a><button id="hito3" class="btn-success hito-click">
+                        <i class="icon-group icon-2x"></i>
+                        Team
+                      </button></a>
+                      <a><button id="hito1" class="btn-success hito-click">
+                        <i class="icon-trophy icon-2x"></i>
+                        Award
+                      </button></a>
+                      <a><button id="hito2" class="btn-success hito-click">
+                        <i class="icon-star icon-2x"></i>
+                        Result
+                      </button></a>
+                      <a><button id="hito5" class="btn-success hito-click">
+                        <i class="icon-pencil icon-2x"></i>
+                        Description
+                      </button></a>
+                    </div>
+                    <%= render 'profile_form'  %>
+
+                <%	 else %>
+                    <p>You must be logged in to complete your profile!</p>
+                <%	 end %>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <%	if @works.any?  %>
             <%=	 render @works %>
         <%	end %>
       </div><!--resume-->
       <div class="resume">
-        <h4>Education<a id="btn-add3" class="btn btn-success pull-right">Add new <i class="icon-plus icon-white"></i></a></h4>
+        <h4>Education</h4>
+
+        <div class="accordion" id="accordion5"> <!--mapa-->
+          <div class="accordion-group events-filter">
+            <div class="accordion-heading">
+              <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion5" href="#collapseAdd3">
+                <span>+</span>Add new
+              </a>
+            </div>
+            <div id="collapseAdd3" class="accordion-body collapse" style="height: 0px;">
+              <div class="accordion-inner">
+                <%	 if signed_in? %>
+                    <legend>What do you want to add?</legend>
+                    <div class="header-buttons">
+                      <a><button id="hito4" class="btn-success hito-click">
+                        <i class="icon-user icon-2x"></i>
+                        Training
+                      </button></a>
+                      <a><button id="hito3" class="btn-success hito-click">
+                        <i class="icon-group icon-2x"></i>
+                        Team
+                      </button></a>
+                      <a><button id="hito1" class="btn-success hito-click">
+                        <i class="icon-trophy icon-2x"></i>
+                        Award
+                      </button></a>
+                      <a><button id="hito2" class="btn-success hito-click">
+                        <i class="icon-star icon-2x"></i>
+                        Result
+                      </button></a>
+                      <a><button id="hito5" class="btn-success hito-click">
+                        <i class="icon-pencil icon-2x"></i>
+                        Description
+                      </button></a>
+                    </div>
+                    <%= render 'profile_form'  %>
+
+                <%	 else %>
+                    <p>You must be logged in to complete your profile!</p>
+                <%	 end %>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <%	if @educations.any?  %>
             <%=	 render @educations %>
@@ -237,9 +381,16 @@
             <div class="fileupload fileupload-new" data-provides="fileupload">
                 <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
 
-                <a role="button" id="btn-photo-1" href="#" class="btn btn-large btn-photo-link"><i class="icon-globe"></i> Link</a>
-                <a role="button" id="btn-photo-2" href="#" class="btn btn-large btn-file fileupload-new btn-photo-down"><i class="icon-download-alt"></i> Computer<input type="file" /></a>
-                <%= f.text_area :comment, :placeholder => "Comment", :id => "photo-comment-input" %>
+              <div>
+                <li>
+                  <a role="button" id="btn-photo-1" href="#" class="btn btn-large btn-photo-link"><i class="icon-globe"></i> Link</a>
+                  <a role="button" id="btn-photo-2" href="#" class="btn btn-large btn-file fileupload-new btn-photo-down"><i class="icon-download-alt"></i> Computer<input type="file" /></a>
+                </li>
+                <li>
+                  <%= f.text_area :comment, :placeholder => "Comment", :id => "photo-comment-input" %>
+                </li>
+              </div>
+
                 <%= f.text_field :url, :placeholder => "Place your picture link here!", :id => "photo-link-input", :class => "span4" %>
 
                 <div>
@@ -278,38 +429,12 @@
   </div>
 </div>
 
-<div id="addModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Add New</h3>
-  </div>
-  <div class="modal-body">
-    <%	 if signed_in? %>
-
-    <button type="button" id="hito1" class="btn btn-danger hito-click">Award</button>
-    <button type="button" id="hito2" class="btn btn-danger hito-click">Result</button>
-    <button type="button" id="hito3" class="btn btn-danger hito-click">Team</button>
-    <button type="button" id="hito4" class="btn btn-danger hito-click">Training</button>
-    <button type="button" id="hito5" class="btn btn-danger hito-click">Location</button>
-    </br>
-
-      <%= render 'profile_form'  %>
-    <%	 else %>
-      <p>You must be logged in to complete your profile!</p>
-    <%	 end %>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button id="add-submit" class="btn btn-primary">Add</button>
-  </div>
-</div>
-
 
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script><iframe src="http://twitter.github.com/bootstrap/assets/js/Carousel Template · Bootstrap.htm" frameborder="0" style="border: 0px; visibility: visible; z-index: 2147483647; position: fixed; width: 100%; left: 0px; bottom: 0px; height: 300px; display: none;" id="FirebugUI"></iframe>
-<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap.js"></script>
+
 <script>
     !function ($) {
         $(function(){

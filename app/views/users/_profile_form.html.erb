@@ -1,46 +1,73 @@
 <%= form_tag({:controller => 'users', :action => 'add_new'}, :id => 'new-profile-entry') do  %>
+
     <fieldset>
 
-      <%= select_tag :sport_id, options_for_select([['Athletics',1]])  %>
-      <%= hidden_field_tag :user_id, current_user.id %>
-
-      <div id="divAward" class="hiddenDiv">
-        <%= text_field_tag :award_title, nil, :placeholder => "Award Title" %>
-        <%= text_field_tag :award_by, nil, :placeholder => "Award By" %>
+      <div id="divSport" class="input-prepend">
+        <span class="add-on"><i class="icon-circle-blank"></i></span>
+        <%= select_tag :sport_id, options_for_select([['Athletics',1]])  %>
+        <%= hidden_field_tag :user_id, current_user.id %>
       </div>
 
-      <div id="divResult" class="hiddenDiv">
-        <%= text_field_tag :result_position, nil, :placeholder => "Result Position" %>
-        <%= text_field_tag :result_value, nil, :placeholder => "Value" %>
-        <%= text_field_tag :result_var, nil, :placeholder => "Variable" %>
-
-        <%= text_field_tag :competition_name, nil, :placeholder => "Competition Name" %>
+      <div id="divLocation" class="input-prepend">
+        <span class="add-on"><i class="icon-map-marker"></i></span>
+        <div class="input-append input-prepend">
+            <%= text_field_tag :country, nil, :placeholder => "Country" %>
+        </div>
+        <%= text_field_tag :city, nil, :placeholder => "City" %>
       </div>
 
-      <div id="divTeam" class="hiddenDiv">
-        <%= text_field_tag :team_name, nil, :placeholder => "Team Name" %>
-        <%= text_field_tag :team_category, nil, :placeholder => "Category" %>
+      <div id="divDate" class="input-prepend">
+        <div class="input-prepend date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+          <span class="add-on"><i class="icon-calendar"></i></span>
+          <%= text_field_tag :init, "12-02-2012", :class => "span2"%>
+        </div>
+        <div class="input-prepend date" id="dp4" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+          <span class="add-on"><i class="icon-calendar"></i></span>
+          <%= text_field_tag :end, "12-02-2012", :class => "span2" %>
+        </div>
       </div>
 
-      <div id="divTrain" class="hiddenDiv">
+      <div id="divTrain" class="hiddenDiv input-prepend">
+        <span class="add-on"><i class="icon-user"></i></span>
+        <select>
+          <option>Trained by</option>
+          <option>Training to</option>
+        </select>
         <%= text_field_tag :train_name, nil, :placeholder => "Trainer Name" %>
       </div>
 
-      <div id="divLocation" class="hiddenDiv">
-        <%= text_field_tag :city, nil, :placeholder => "City" %>
-        <%= text_field_tag :country, nil, :placeholder => "Country" %>
+
+      <div id="divTeam" class="hiddenDiv input-prepend">
+        <span class="add-on"><i class="icon-group"></i></span>
+        <div class="input-append input-prepend">
+            <%= text_field_tag :team_name, nil, :placeholder => "Team Name" %>
+        </div>
+        <%= text_field_tag :team_category, nil, :placeholder => "Category" %>
       </div>
 
-      <div id="divDate">
-        <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
-          <%= text_field_tag :init, "12-02-2012" %>
-          <span class="add-on"><i class="icon-calendar"></i></span>
+      <div id="divAward" class="hiddenDiv input-prepend">
+        <span class="add-on"><i class="icon-trophy"></i></span>
+        <div class="input-append input-prepend">
+            <%= text_field_tag :award_title, nil, :placeholder => "Award Title" %>
         </div>
-        <div class="input-append date" id="dp4" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
-          <%= text_field_tag :end, "12-02-2012" %>
-          <span class="add-on"><i class="icon-calendar"></i></span>
-        </div>
+        <%= text_field_tag :award_by, nil, :placeholder => "Award By" %>
       </div>
+
+      <div id="divResult" class="hiddenDiv input-prepend">
+        <span class="add-on"><i class="icon-star"></i></span>
+        <div class="input-append input-prepend">
+            <%= text_field_tag :competition_name, nil, :placeholder => "Competition Name" %>
+            <%= text_field_tag :result_position, nil, :placeholder => "Position", :class=> "span1" %>
+        </div>
+        <%= text_field_tag :result_value, nil, :placeholder => "Mark" %>
+        <%= hidden_field_tag :result_var, "s" %>
+      </div>
+
+      <div id="divDes" class="hiddenDiv input-prepend">
+      <span class="add-on"><i class="icon-pencil"></i></span>
+      <textarea rows="3"></textarea>
+      </div>
+
 
       <script>
           !function ($) {
@@ -50,6 +77,19 @@
               })
           }(window.jQuery)
       </script>
-
     </fieldset>
+    <div class="preview">
+      <h5>Preview</h5>
+      <ul class="experience">
+        <li><h5>Championship or Event <span>Name Sport</span></h5></li>
+        <li><i class="icon-user"></i>Team, Trained by <a href="#">Username</a></li>
+        <li><i class="icon-star"></i>Award</li>
+        <li class="calendar"><i class="icon-calendar"></i>Month Year, to Mont Year</li>
+        <li>
+          <p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+        </li>
+      </ul>
+      <button type="submit" class="pull-right btn btn-success"><b>Add</b></button>
+      <div class="clearfix"></div>
+    </div><!--preview-->
 <%  end %>

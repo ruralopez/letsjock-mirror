@@ -120,10 +120,24 @@ class UsersController < ApplicationController
     @sports = Sport.all
     @sport_id = 345
     gon.sport_id = @sport_id
+    #Creando array de Countries para auto-complete
+    @countries = Country.select('name').all.map(&:name)
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
     end
+  end
+
+  def change_profile_pic
+
+    @user = User.find(params[:id])
+    Photo.create({:title => "Test", :url => @user.profilephotourl, :user_id => params[:id]})
+    @user.update_attribute(:profilephotourl, params[:url])
+    @photo = Photo.find(:first, :conditions => ['user_id = ? AND url = ?', @user.id, params[:url]])
+    @photo.destroy
+
+    redirect_to current_user
+
   end
 
   def social
@@ -132,6 +146,15 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
       @followers = @user.followers
       @followed = @user.followed_users
+      @message = Message.new
+
+      @followers_list = Hash.new
+
+      unless @followers.blank?
+        @followers.each do |user|
+          @followers_list[user.full_name] = user.id
+        end
+      end
 
       suma = @followers + @followed
 
@@ -139,6 +162,20 @@ class UsersController < ApplicationController
       suma.each do |user|
         @friends_list.push(user.full_name)
       end
+
+    else
+      flash[:error] = "You must be logged in."
+      sign_out
+      redirect_to root_path
+    end
+
+  end
+
+  def pictures
+
+    if signed_in?
+      @user = User.find(params[:id])
+      @photos = Photo.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
 
     else
       flash[:error] = "You must be logged in."

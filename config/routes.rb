@@ -24,6 +24,7 @@ Letsjock::Application.routes.draw do
   match '/signout', to: 'sessions#destroy', :as => :signout
   match '/profile/:id', to: 'users#profile'
   match '/profile/:id/social', to: 'users#social', :as => :social
+  match '/profile/:id/pictures', to: 'users#pictures', :as => :pictures
   match '/profile/:id/add_new', to: 'users#add_new', :as => :add_new
   match '/events/:id/join' => 'events#join', :as => :join
   match '/events/:id/new_admin' => 'events#new_admin', :as => :event_new_admin
@@ -31,7 +32,7 @@ Letsjock::Application.routes.draw do
   match '/inbox/new', to: 'messages#new', :as => :new_message
   match '/profile/:id/follow' => 'relationships#create', :as => :follow
   match '/profile/:id/unfollow' => 'relationships#destroy', :as => :unfollow
-
+  match '/profile/:id/change_profile_pic' => 'users#change_profile_pic', :as => :change_profile_pic
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

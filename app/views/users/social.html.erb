@@ -3,13 +3,19 @@
 
 <body>
 
-<div class="container fixed">
+<div class="container">
 
 <!-- Three columns of text below the carousel -->
 <div class="row">
-  <div class="span9">
-    <h3 class="inline">Contacts</h3>
+  <div class="span12">
+    <div class="page-title margin-10">
+      <h3 class="inline">Contacts</h3>
+    </div>
+  </div>
+
     </br> </br>
+
+    <div class="span9">
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#followers" data-toggle="tab"><%= @followers.count.to_s%> followers</a></li>
       <li><a href="#following" data-toggle="tab"><%= @followed.count.to_s%> following</a></li>
@@ -42,7 +48,7 @@
             </div>
             <div class="item-info secondary-info">
               <p><b><%= link_to follower.followers.count.to_s + " followers", social_path(follower) %></b> | <%= link_to follower.followed_users.count.to_s + "  following", social_path(follower) %></p>
-              <a href="#" class="send-message"><i class="icon-envelope"></i></a>
+              <a href="#inboxModal" data-toggle="modal" role="button" id="new-inbox-btn" class="send-message"><i class="icon-envelope"></i></a>
             </div>
           </div>
       <% end %>
@@ -54,7 +60,7 @@
 
   <% unless @followed.blank? %>
       <%	 @followed.each do |followed| %>
-          <div class="item-block span2">
+          <div id='following-block-<%= followed.id %>' class="item-block span2">
             <div class="item-img">
               <%= link_to image_tag(followed.profilephotourl) , followed%>
             </div>
@@ -79,6 +85,7 @@
     jQuery(document).ready(function ($) {
         $('#tabs').tab();
     });
+
 </script>
 
 </div><!--row>
@@ -145,6 +152,7 @@
   </div>
 </div><!--box-connect-->
 </div>
+  <%=  render :partial => 'messages/form', :locals => {:followers_list => @followers_list} %>
 </div><!-- /.container -->
 
 
@@ -154,7 +162,13 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script><iframe src="http://twitter.github.com/bootstrap/assets/js/Carousel Template · Bootstrap.htm" frameborder="0" style="border: 0px; visibility: visible; z-index: 2147483647; position: fixed; width: 100%; left: 0px; bottom: 0px; height: 300px; display: none;" id="FirebugUI"></iframe>
 <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#appendedInput').keyup(function(){
 
+        });
+    });
+</script>
 </body>
 
 

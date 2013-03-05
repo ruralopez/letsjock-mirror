@@ -1,7 +1,7 @@
 /*Profile CSS */
 
 /*.box{background:aqua;}*/
-.box p{font-size:13px;}
+.box p, .box ul, .box ol{font-size:13px;}
 
 /*box-media: left box for photos, videos and more*/
 .box-media{}/*added: background deleted*/
@@ -64,6 +64,7 @@ ul.profileIcons li:first-child{
 
 /*<div class="profileInfo">*/
 .profileInfo{
+    background-color: rgb(198,9,28);
     background-image: linear-gradient(left top, rgb(198,9,28) 44%, rgb(140,13,26) 72%);
     background-image: -o-linear-gradient(left top, rgb(198,9,28) 44%, rgb(140,13,26) 72%);
     background-image: -moz-linear-gradient(left top, rgb(198,9,28) 44%, rgb(140,13,26) 72%);
@@ -78,6 +79,11 @@ ul.profileIcons li:first-child{
     );
     color:white;
     position:relative;
+}
+
+.profileInfo a{
+    color:white;
+    /*margin-right:6px;*//*added this: remove margin-right*/
 }
 
 .profileInfo h2{
@@ -99,13 +105,12 @@ ul.profileIcons li:first-child{
     display:inline-block; float:left;
 }
 .connections img{margin-top:9px;}
-.btn-jock{position:absolute; top:0; right:0; width:90px; height:100%; background:#333; text-align:center;}
+a.btn-jock{position:absolute; top:0; right:0; width:90px; height:100%; background:#333; text-align:center;  color:#CCC; text-decoration:none; font-weight:bold;}
+a.btn-jock  i{margin-top:14px;}
+a.btn-jock:hover{text-decoration:none; color:#0079FC;}
+/*.jock-on{background:url("img/eye.png") center no-repeat; width:27px; height:15px; padding:4px 16px; margin:18px auto 0;}*/
+/*a:hover .jock-on{background:url("img/eye-hover.png") center no-repeat;}*/
 
-.jock-on{background:url("eye.png") center no-repeat; width:27px; height:15px; padding:4px 16px; margin:18px auto 0;}
-a:hover .jock-on{background:url("eye-hover.png") center no-repeat;}
-a.btn-jock p{color:#999;}
-a.btn-jock:hover{text-decoration:none;}
-a.btn-jock:hover p{color:#0079FC;}
 
 ul.profileIcons, .profileInfo{
     margin-left:0;
@@ -126,7 +131,7 @@ ul.profileIcons, .profileInfo{
 .resume{
     padding: 10px 0;
     margin-bottom:10px;
-    border-bottom:1px solid gray;
+    border-bottom:1px solid #EEE;/*added*/
 }
 
 .box-info h4{
@@ -134,9 +139,9 @@ ul.profileIcons, .profileInfo{
 }
 
 ul.experience{
-    border-bottom:1px dotted gray;
+    border-bottom:1px dotted #EEE; /*added*/
     margin:0;
-    padding:0 0 10px 25px;
+    padding:10px 0 10px 25px;
 }
 
 /*ultima lista del div*/
@@ -148,11 +153,15 @@ ul.experience li{
     list-style:none outside none;
 }
 /*titulo en lista*/
-ul.experience li h5{margin-bottom:0;}
+ul.experience li h5{margin-top:0; margin-bottom:0;}
 
 /*deporte en el titulo y fecha el lista*/
 ul.experience li h5 span,
 li.calendar{font-size:small; color:gray; font-weight:normal;}
+
+/*separador en la lista*/
+.experience hr{margin:8px 0 6px; border-width:0;}
+form .experience hr{border-width:1px;}
 
 /*iconos en lista*/
 ul.experience li i{
@@ -175,7 +184,7 @@ li.trained{
 .box-connect{
     background: #2B2B2B;
     color:#CCC;
-    margin-left:0;
+    margin-left:0;/*added*/
 }
 
 a.align-right{text-align:right; display:block; margin-bottom:20px;}
@@ -218,147 +227,104 @@ a.follow:hover{background:#CCC; text-decoration:none;}
     padding:0 10px;
 }
 
-/*FILE UPLOADING*/
+/*Extra: Forms with bottom*/
+.btn.add{margin:4px 0 0 4px;}
+.form-inline{margin-bottom:5px;}
+.resume textarea{border-top-left-radius:0;}
+/*.resume .input-append .add-on, .resume .input-prepend .add-on{background:#C6091C;}*/
 
-.clearfix {
-    *zoom: 1;
+/*add new*/
+.add-new, .add-new:visited{
+    color: #51A351;
+    font-size: 12px;
+    font-weight: bold;
 }
-.clearfix:before,
-.clearfix:after {
-    display: table;
-    content: "";
-    line-height: 0;
+.add-new:hover, .add-new:active{color:#51A351; text-decoration:none;}
+.add-new span{
+    font-size: 19px;
+    font-weight: bolder;
+    margin: 0 4px;
+    vertical-align: baseline;
 }
-.clearfix:after {
-    clear: both;
-}
-.hide-text {
-    font: 0/0 a;
-    color: transparent;
-    text-shadow: none;
-    background-color: transparent;
-    border: 0;
-}
-.input-block-level {
-    display: block;
-    width: 100%;
-    min-height: 30px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-.btn-file {
-    overflow: hidden;
-    position: relative;
-    vertical-align: middle;
-}
-.btn-file > input {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    opacity: 0;
-    filter: alpha(opacity=0);
-    transform: translate(-300px, 0) scale(4);
-    font-size: 23px;
-    direction: ltr;
-    cursor: pointer;
-}
-.fileupload {
-    margin-bottom: 9px;
-    position: relative;
-}
-.btn-photo-link{
-    position: absolute;
-    width: 115px;
-}
-.btn-photo-down{
-    float: right;
-    width: 115px;
-}
-.fileupload .uneditable-input {
-    display: inline-block;
-    margin-bottom: 0px;
-    vertical-align: middle;
-    cursor: text;
-}
-.fileupload .thumbnail {
-    overflow: hidden;
-    display: inline-block;
-    margin-bottom: 5px;
-    vertical-align: middle;
-    text-align: center;
-}
-.fileupload .thumbnail > img {
-    display: inline-block;
-    vertical-align: middle;
-    max-height: 100%;
-}
-.fileupload .btn {
-    vertical-align: middle;
-}
-.fileupload-exists .fileupload-new,
-.fileupload-new .fileupload-exists {
-    display: none;
-}
-.fileupload-inline .fileupload-controls {
-    display: inline;
-}
-.fileupload-new .input-append .btn-file {
-    -webkit-border-radius: 0 3px 3px 0;
-    -moz-border-radius: 0 3px 3px 0;
-    border-radius: 0 3px 3px 0;
-}
-.thumbnail-borderless .thumbnail {
+
+/*Formularios*/
+
+.box-info .resume form{
+    margin:10px -30px 10px;
+    padding:20px 30px;
+    background-color:#F6F6F6;
     border: none;
-    padding: 0;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-}
-.fileupload-new.thumbnail-borderless .thumbnail {
-    border: 1px solid #ddd;
-}
-.control-group.warning .fileupload .uneditable-input {
-    color: #a47e3c;
-    border-color: #a47e3c;
-}
-.control-group.warning .fileupload .fileupload-preview {
-    color: #a47e3c;
-}
-.control-group.warning .fileupload .thumbnail {
-    border-color: #a47e3c;
-}
-.control-group.error .fileupload .uneditable-input {
-    color: #b94a48;
-    border-color: #b94a48;
-}
-.control-group.error .fileupload .fileupload-preview {
-    color: #b94a48;
-}
-.control-group.error .fileupload .thumbnail {
-    border-color: #b94a48;
-}
-.control-group.success .fileupload .uneditable-input {
-    color: #468847;
-    border-color: #468847;
-}
-.control-group.success .fileupload .fileupload-preview {
-    color: #468847;
-}
-.control-group.success .fileupload .thumbnail {
-    border-color: #468847;
-}
-#photo-comment-input
-{
-    float: right;
-    position: absolute;
-    width: 290px;
-    height: 100px;
-    margin-top: 50px;
-    margin-left: 15px;
+    border-radius:4px;
+    font-size: 13px;
 }
 
+.box-info .resume form fieldset{
+    padding-bottom:10px;
+    border-bottom:1px solid #DDD;
+    margin-bottom:7px;
+}
+
+p.detail{display:inline-block; font-size:12px; margin:6px 0 0 10px; font-style:italic;}
+p.detail:before{content:"* ";}
+
+legend{
+    font-size:16px;
+    line-height:140%;
+    margin-bottom:10px;
+    color:#888;
+    font-weight:bold;
+    border-bottom:none;
+}
+
+.header-buttons{
+    -moz-column-count: 4;
+    -moz-column-gap: 8px;
+    -webkit-column-count: 4;
+    -webkit-column-gap: 8px;
+    column-count: 4;
+    column-gap: 8px;
+    width:100%;
+    margin-bottom:20px;
+}
+
+.header-buttons button{
+    display: inline-block; /* Display inline-block, and absolutely NO FLOATS! */
+    width: 100%;
+    color:white;
+    font-size:13px;
+    padding: 5px;
+    border:none;
+    border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    font-weight:bold;
+}
+.header-buttons a button:hover, .header-buttons a button:active{
+    background-color:#51A351 !important;
+    background-image:none;
+    box-shadow:inset  0px 1px 2px rgba(0,0,0,0.30);
+    -moz-box-shadow:inset  0px 1px 2px rgba(0,0,0,0.30);
+    -webkit-box-shadow:inset  0px 1px 2px rgba(0,0,0,0.30);
+}
+
+.header-buttons a i {display:block;}
+
+.main-fields{margin-bottom:18px;}
+/*inputs*/
+
+.box-info .resume .added-fields .input-append, .box-info .resume .added-fields .input-prepend{display:block;}
+.box-info .resume .add-form{display: inline !important;}
+.box-info .resume .add-form span:last-child{background-color:white;}
+.box-info .resume input, .box-info .resume select, .box-info .resume textarea{font-size:12px;}
+.box-info .resume select{padding-top:6px;}
+
+.input-append select, .input-prepend select{
+    width:118px;
+    border-right:none;
+    border-radius:0; -moz-border-radius:0; -webkit-border-radius:0;
+}
+.input-append input, .input-prepend input{border-radius:0; -moz-border-radius:0; -webkit-border-radius:0; border-right:none;}
+input.last-input, .input-append input:last-child, .input-prepend input:last-child{border-radius:0 4px 4px 0; -moz-border-radius:0 4px 4px 0; -webkit-border-radius:0 4px 4px 0; border-right:1px solid #CCC;}
+
+/*Preview*/
+.preview{}

@@ -1,0 +1,29 @@
+<%= stylesheet_link_tag    "profile" %>
+<%= stylesheet_link_tag    "carousel" %>
+
+<div class="container">
+
+  <div class="row">
+    <div class="span12">
+      <div class="page-title margin-10">
+        <h3 class="inline"><a href="#"><%= link_to @user.full_name, @user %> </a><span><i class="icon-camera icon-white"></i> <%=  @photos.count %> pictures</span></h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="row relative">
+
+    <div class="images span12">
+      <div class="image-gallery">
+        <%  @photos.each do |photo| %>
+            <%= image_tag(photo.url) %>
+        <%  end %>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script><iframe src="http://twitter.github.com/bootstrap/assets/js/Carousel Template · Bootstrap.htm" frameborder="0" style="border: 0px; visibility: visible; z-index: 2147483647; position: fixed; width: 100%; left: 0px; bottom: 0px; height: 300px; display: none;" id="FirebugUI"></iframe>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap.js"></script>

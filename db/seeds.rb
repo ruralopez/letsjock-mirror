@@ -4435,3 +4435,102 @@ State.create(:id=>3806,:iso=>"09",:name=>"Bulawayo",:country_id=>249)
 State.create(:id=>3807,:iso=>"10",:name=>"Harare Province",:country_id=>249)
 
 
+###############EXAMS###############
+#Australia
+Exam.create(:name=>"Special Tertiary Admissions Test", :iso=>"STAT", :country_id=>13)
+Exam.create(:name=>"Undergraduate Medical Admissions Test", :iso=>"UMAT", :country_id=>13)
+Exam.create(:name=>"Personal Qualities Assessment", :iso=>"PQA", :country_id=>13)
+Exam.create(:name=>"General Achievement Test", :iso=>"GAT", :country_id=>13)
+Exam.create(:name=>"Higher School Certificate", :iso=>"HSC", :country_id=>13)
+#Brasil
+Exam.create(:name=>"Vestibular", :iso=>"VEST", :country_id=>31)
+Exam.create(:name=>"Exame Nacional do Ensino Medio", :iso=>"ENEM", :country_id=>31)
+#Chile
+Exam.create(:name=>"Prueba de Seleccion Universitaria", :iso=>"PSU", :country_id=>46)
+#China
+Exam.create(:name=>"National College Entrance Examination", :iso=>"NCEE", :country_id=>48)
+Exam.create(:name=>"Ameson Scholastic Test", :iso=>"AST", :country_id=>48)
+#Colombia
+Exam.create(:name=>"Examen SABER 11", :iso=>"SABER", :country_id=>49)
+#France
+Exam.create(:name=>"Baccalaureat", :iso=>"LEBAC", :country_id=>75)
+#Germany
+Exam.create(:name=>"Abitur", :iso=>"ABI", :country_id=>57)
+#Hong Kong
+Exam.create(:name=>"Hong Kong Advanced Level Examination", :iso=>"HKALE", :country_id=>95)
+Exam.create(:name=>"Hong Kong Diploma of Secondary Education", :iso=>"HKDSE", :country_id=>95)
+#Hungary
+Exam.create(:name=>"The European Language Certificates", :iso=>"CEFR", :country_id=>100)
+Exam.create(:name=>"Budapest University of Technology and Economics (Language Exam)", :iso=>"BUTEL", :country_id=>100)
+#India
+Exam.create(:name=>"All India Engineering Entrance Examination", :iso=>"AIEEE", :country_id=>105)
+Exam.create(:name=>"Birla Institute of Technology and Science Admission Test", :iso=>"BITSAT", :country_id=>105)
+Exam.create(:name=>"Common Entrance Test Delhi Technological University", :iso=>"CEE", :country_id=>105)
+Exam.create(:name=>"Common Entrance Test Delhi", :iso=>"CET", :country_id=>105)
+Exam.create(:name=>"Indian Institute of Technology Joint Entrance Examination", :iso=>"IIT-JEE", :country_id=>105)
+Exam.create(:name=>"Common Law Admission Test", :iso=>"CLAT", :country_id=>105)
+#Indonesia
+Exam.create(:name=>"Universitas Padjadjaran Indonesia Test", :iso=>"TKB", :country_id=>101)
+Exam.create(:name=>"Gadjah Mada Entrance Test", :iso=>"GADJAH", :country_id=>101)
+#Israel
+Exam.create(:name=>"Psychometric Entrance Test", :iso=>"PSY", :country_id=>103)
+#Iran
+Exam.create(:name=>"Iranian University Entrance Exam", :iso=>"KONK", :country_id=>108)
+#Ireland
+Exam.create(:name=>"Health Professions Admissions Test", :iso=>"HPAT", :country_id=>102)
+#Japan
+Exam.create(:name=>"National Center Test for University Admissions", :iso=>"JPNT", :country_id=>114)
+Exam.create(:name=>"Examination for Japanese University Admission", :iso=>"EJU", :country_id=>114)
+#Malaysia
+Exam.create(:name=>"Malaysia Higher School Certificate", :iso=>"SIJIL", :country_id=>159)
+#Pakistan
+Exam.create(:name=>"National Aptitude Test", :iso=>"NAT", :country_id=>179)
+Exam.create(:name=>"Graduate Assessment Test", :iso=>"GAT", :country_id=>179)
+#Russia
+Exam.create(:name=>"Unified State Exam", :iso=>"EGE", :country_id=>192)
+Exam.create(:name=>"Unified Republic Exam", :iso=>"ERE", :country_id=>192)
+#Saudi Arabia
+Exam.create(:name=>"Qudurat or Quiyas", :iso=>"QIYAS", :country_id=>194)
+#Singapore
+Exam.create(:name=>"Singapore-Cambridge GCE Ordinary Level", :iso=>"GCEO", :country_id=>199)
+Exam.create(:name=>"Singapore-Cambridge GCE Advanced Level", :iso=>"GCEA", :country_id=>199)
+#Sweden
+Exam.create(:name=>"Hogskoleprovet", :iso=>"HOGS", :country_id=>198)
+Exam.create(:name=>"Karolinska Institute Admission Test", :iso=>"PIL", :country_id=>198)
+#South Korea
+Exam.create(:name=>"College Scholastic Ability Test, Suneung", :iso=>"SUNE", :country_id=>122)
+#Turkey
+Exam.create(:name=>"Transition to Higher Education Examination", :iso=>"YGS", :country_id=>225)
+Exam.create(:name=>"Undergraduate Placement Examination", :iso=>"LYS", :country_id=>225)
+Exam.create(:name=>"Examination for Foreign Students, Turkey", :iso=>"YOS", :country_id=>225)
+#Ukraine
+Exam.create(:name=>"Ukrainian External Independent Evaluation Test", :iso=>"UKR", :country_id=>230)
+#United Kingdom
+Exam.create(:name=>"History Aptitude Test", :iso=>"HAT", :country_id=>77)
+Exam.create(:name=>"National Admissions Test for Law", :iso=>"LNAT", :country_id=>77)
+Exam.create(:name=>"Biomedical Admissions Test", :iso=>"BMAT", :country_id=>77)
+Exam.create(:name=>"United Kingdom Clinical Aptitude Test", :iso=>"UKCAT", :country_id=>77)
+Exam.create(:name=>"English Literature Admissions Test", :iso=>"ELAT", :country_id=>77)
+Exam.create(:name=>"Modern and Medieval Languages Test", :iso=>"MAM", :country_id=>77)
+Exam.create(:name=>"Sixth Term Examination Paper", :iso=>"STEP", :country_id=>77)
+Exam.create(:name=>"Thinking Skills Assessment Oxford", :iso=>"TSAO", :country_id=>77)
+Exam.create(:name=>"Philosophy, Politics and Economics Admissions Test Oxford", :iso=>"PPE", :country_id=>77)
+Exam.create(:name=>"Thinking Skills Assessment UCL", :iso=>"TSAUCL", :country_id=>77)
+Exam.create(:name=>"Graduate Medical School Admissions Test", :iso=>"GAMSAT", :country_id=>77)
+Exam.create(:name=>"Health Professions Admissions Test", :iso=>"HPAT", :country_id=>77)
+#United States & Canada
+Exam.create(:name=>"Scholastic Aptitude Test", :iso=>"SAT", :country_id=>233)
+Exam.create(:name=>"American College Testing Program", :iso=>"ACT", :country_id=>233)
+Exam.create(:name=>"Texas Higher Education Assessment", :iso=>"THEA", :country_id=>233)
+Exam.create(:name=>"High School Diploma Equivalent", :iso=>"GED", :country_id=>233)
+#Vietnam
+Exam.create(:name=>"Tuyen Sinh Ðai Hoc, Vietnam", :iso=>"TSDH", :country_id=>241)
+#Language
+Exam.create(:name=>"First Certificate of English", :iso=>"FCE", :country_id=>77)
+Exam.create(:name=>"Test Of English as a Foreign Language", :iso=>"TOEFL", :country_id=>233)
+Exam.create(:name=>"Test of English for International Communication", :iso=>"TOEIC", :country_id=>233)
+Exam.create(:name=>"Preliminary English Test", :iso=>"PET", :country_id=>77)
+Exam.create(:name=>"International English Language Testing System", :iso=>"IELTS", :country_id=>77)
+Exam.create(:name=>"Business English Certificate", :iso=>"BEC", :country_id=>77)
+Exam.create(:name=>"Cambridge English Advanced Exam", :iso=>"CAE", :country_id=>77)
+Exam.create(:name=>"Certificate of Proficiency in English ", :iso=>"CPE", :country_id=>77)

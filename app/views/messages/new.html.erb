@@ -1,5 +1,27 @@
 <h1>New message</h1>
 
-<%= render 'form' %>
+<%= form_for(@message) do |f| %>
+    <% if @message.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@message.errors.count, "error") %> prohibited this message from being saved:</h2>
 
-<%= link_to 'Back', messages_path %>
+          <ul>
+            <% @message.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.select :receiver_id, @followers_list %>
+    </div>
+    <div class="field">
+      <%= f.text_area :content, :placeholder => "Type your message here!" %>
+    </div>
+    <div class="field">
+      <%= f.hidden_field :read, :value => false %>
+      <%= f.hidden_field :user_id, :value => current_user.id %>
+    </div>
+    <%= f.submit :class => "btn btn-primary", :value => "Send" %>
+<% end %>

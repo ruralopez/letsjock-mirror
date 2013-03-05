@@ -1,55 +1,245 @@
-<p id="notice"><%= notice %></p>
- <%= flash[:error] %>
-<p>
-  <b>User:</b>
-  <%= best_in_place @event, :user_id %>
-</p>
+<%=	stylesheet_link_tag "profile" %>
 
-<p>
-  <b>Date:</b>
-  <%= best_in_place @event, :date %>
-</p>
-
-<p>
-  <b>Description:</b>
-  <%= best_in_place @event, :description, :type => :input %>
-</p>
-
-<% if @posts.any? %>
-    <% @posts.each do |post| %>
-        <div>
-          <h3><%= post.title %> by <%= link_to User.find(post.user_id).full_name, User.find(post.user_id) %></h3>
-          <p><%= post.content %></p>
+<div class="container">
+<div class="row">
+<div class="box box-media span3 event-single">
+  <div class="img-polaroid">
+    <%= link_to image_tag(@event.imageurl) , "#", :class => "user-profile" %>
+  </div>
+  <h4>Invites <%= link_to @creator.full_name, @creator %></h4>
+  <!-- begin Sponsors -->
+  <div class="sponsors">
+    <ul class="sponsor-main">
+      <li>
+        <div class="img-container">
+          <%= image_tag 'company-1.gif'%>
         </div>
-    <% end %>
-<% end %>
+        <div class="metadata">
+          <a href="#">Milo</a>
+          <p>12112 Followers</p>
+        </div>
+      </li>
+      <li>
+        <div class="img-container">
+          <%= image_tag 'company-2.gif'%>
+        </div>
+        <div class="metadata">
+          <a href="#">Cerelac</a>
+          <p>1322 Followers</p>
+        </div>
+      </li>
+    </ul>
+    <h5>Also invites</h5>
+    <ul class="sponsor-second">
+      <li>
+        <div class="img-container">
+          <%= image_tag 'company-1.gif'%>
+        </div>
+        <div class="metadata">
+          <a href="#">Milo</a>
+          <p>12112 Followers</p>
+        </div>
+      </li>
+      <li>
+        <div class="img-container">
+          <%= image_tag 'company-2.gif'%>
+        </div>
+        <div class="metadata">
+          <a href="#">Cerelac</a>
+          <p>1322 Followers</p>
+        </div>
+      </li>
+      <li>
+        <div class="img-container">
+          <%= image_tag 'company-1.gif'%>
+        </div>
+        <div class="metadata">
+          <a href="#">Milo</a>
+          <p>12112 Followers</p>
+        </div>
+      </li>
+      <li>
+        <div class="img-container">
+          <%= image_tag 'company-2.gif'%>
+        </div>
+        <div class="metadata">
+          <a href="#">Cerelac</a>
+          <p>1322 Followers</p>
+        </div>
+      </li>
+    </ul>
+  </div><!--sponsors-->
+  <!--end Sponsors -->
+  <br>
+  <div class="event-info">
+    <h5><i class="icon-camera"></i><a href="#">Pictures</a></h5>
+    <div class="event-pictures">
+      <%= link_to image_tag('slide-02.jpg'), "#" %>
+      <%= link_to image_tag('user-2.jpg'), "#" %>
+      <%= link_to image_tag('user-4.jpg'), "#" %>
+      <%= link_to image_tag('sport-1.jpg'), "#" %>
+      <%= link_to image_tag('user-12.jpg'), "#" %>
+    </div><!--user-pictures-->
+    <h5 class="white">5 pictures <a href="#">see more</a></h5>
 
-<%	 if signed_in? %>
-    <% if @event.admin?(current_user) %>
-        <div>
-          <%= form_for @post do |f| %>
-              <%= f.text_field :title, :placeholder => "Title" %>
-              <%= f.text_area :content, :placeholder => "Write your post..." %>
-              <%= f.hidden_field :user_id, :value => current_user.id %>
-              <%= f.hidden_field :event_id, :value => @event.id %>
-              <%= f.submit "Post", class: "btn" %>
+  </div><!--event info-->
+
+</div><!--box-media-->
+<div class="profileInfo relative span9">
+  <div class="user">
+    <h2><%= @event.name %></h2>
+    <p>Sport1 Sport 2</p>
+  </div><!--user-->
+  <div class="connections action-buttons span3">
+    <p>
+      <%= link_to content_tag(:button, "Join", :type=> "button", :class => "btn btn-large btn-success"), join_path %>
+    </p>
+  </div>
+</div><!-- /profileInfo -->
+
+<div class="box box-info span6 event-single">
+  <div class="resume">
+    <h4><i class="icon-calendar"></i><%= @event.date.strftime("%A, %B %d, %Y") %></h4>
+      <% if @event.admin?(current_user) %>
+          <h4><%= link_to 'Edit Event', edit_event_path(@event), :class => "pull-right" %> </h4>
+      <% end %>
+
+    <h4><i class="icon-time"></i><%= @event.date.strftime("%H:%M") %></h4>
+    <!--<h4><i class="icon-map-marker"></i>Movistar Innova Center, Providencia 299</h4>-->
+
+
+    <div class="accordion" id="accordion2"> <!--mapa-->
+      <div class="accordion-group events-filter">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+            <h4><i class="icon-map-marker"></i><%= @event.place %></h4>
+          </a>
+        </div>
+        <div id="collapseTwo" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <iframe width="100%" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=es&amp;geocode=&amp;q=Providencia+299,+Santiago,+Chile&amp;aq=0&amp;oq=Providencia+ncia+299&amp;sll=37.0625,-95.677068&amp;sspn=37.735377,86.572266&amp;t=m&amp;ie=UTF8&amp;hq=&amp;hnear=Providencia+299,+Providencia,+Santiago,+Regi%C3%B3n+Metropolitana,+Chile&amp;view=map&amp;ll=-33.435826,-70.630066&amp;spn=0.010064,0.021136&amp;z=14&amp;iwloc=A&amp;output=embed"></iframe>
+          </div>
+        </div>
+      </div>
+    </div><!--termina filtro accordion-->
+
+    <p><b><%= @event.description %></b></p>
+
+  </div><!--resume-->
+  <div class="post resume">
+    <h4><span>-</span> Latest Post <span>-</span></h4>
+    <ul>
+      <% if @posts.any? %>
+          <% @posts.each do |post| %>
+              <li>
+                  <%= link_to image_tag(User.find(post.user_id).profilepic), User.find(post.user_id), :class => "img-polaroid"%>
+                <div class="single-post">
+                  <%= link_to User.find(post.user_id).full_name, User.find(post.user_id)%>
+                  <p><b><%= post.title %></b></p>
+                  <p><%= post.content %></p>
+                  <p><small>posted on February 18th</small></p>
+                </div>
+              </li>
           <% end %>
-        </div>
-    <% end %>
-    <%= link_to 'Join this event!', join_path, confirm: 'Are you sure?' %>
-    <% if @event.admin?(current_user) %>
-        <%=	 form_tag(:controller => "events", :action => "new_admin") do%>
-            <%=	 text_field_tag(:email) %>
-            <%=	 submit_tag "Submit" %>
-        <% end %>
-    <% end %>
-<%	 end %>
+      <% end %>
 
-<h3>Administradores:</h3>
-<%	 @event_admins.each do |event_admin| %>
-    <%	 user = User.find(event_admin.user_id) %>
-    <p><%=	 link_to user.full_name, user %></p>
-<%	 end %>
+    </ul>
+  </div>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+  <%	 if signed_in? %>
+      <% if @event.admin?(current_user) %>
+
+          <div class="post resume">
+            <h4><span>-</span> New Post <span>-</span></h4>
+            <ul>
+              <div>
+                <%= form_for @post do |f| %>
+                    <%= f.text_field :title, :placeholder => "Title" %>
+                    <%= f.text_area :content, :placeholder => "Write your post...", :size => "50x2" %>
+                    <%= f.hidden_field :user_id, :value => current_user.id %>
+                    <%= f.hidden_field :event_id, :value => @event.id %>
+                    <%= f.submit "Post", :class => "btn" %>
+                <% end %>
+              </div>
+            </ul>
+          </div>
+
+      <% end %>
+
+      <% if @event.admin?(current_user) %>
+          <h4><span>-</span> New Admin <span>-</span></h4>
+          <%=	 form_tag(:controller => "events", :action => "new_admin") do%>
+              <%=	 text_field_tag(:email) %>
+              <%=	 submit_tag "Submit email", :class => "btn btn-small" %>
+          <% end %>
+
+      <% end %>
+  <%	 end %>
+
+
+</div>
+<div class="box box-connect span3 event-single">
+  <div class="box-content">
+    <h4><%= @event.assistants.count %> Joined</h4>
+    <ul class="sponsor-main">
+
+      <% unless @event.assistants.blank? %>
+          <%	 @event.assistants.take(6).each do |join| %>
+              <li>
+                <div class="img-container">
+                  <%= image_tag join.profilephotourl %>
+                </div>
+                <div class="metadata">
+                  <a href="#"><%=link_to join.full_name, join %></a>
+                  <p><%= join.followers.count %> Followers</p>
+                </div>
+              </li>
+          <% end %>
+      <% end %>
+
+    </ul>
+
+    <a href="#" class="align-right">See more</a>
+  </div><!--box-content-->
+
+  <div class="box-content">
+    <h4><%= @event_admins.count %> Administrator</h4>
+    <ul class="sponsor-main">
+
+      <% unless @event_admins.blank? %>
+          <%	 @event_admins.each do |admin| %>
+              <%	 user = User.find(admin.user_id) %>
+              <li>
+                <div class="img-container">
+                  <%= image_tag user.profilephotourl %>
+                </div>
+                <div class="metadata">
+                  <a href="#"><%=link_to user.full_name, user %></a>
+                  <p><%= user.followers.count %> Followers</p>
+                </div>
+              </li>
+          <% end %>
+      <% end %>
+
+    </ul>
+
+  </div><!--box-content-->
+</div><!--box-connect-->
+</div>
+
+</div><!-- /.container -->
+
+
+
+
+
+<script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script><iframe src="http://twitter.github.com/bootstrap/assets/js/Carousel Template · Bootstrap.htm" frameborder="0" style="border: 0px; visibility: visible; z-index: 2147483647; position: fixed; width: 100%; left: 0px; bottom: 0px; height: 300px; display: none;" id="FirebugUI"></iframe>
+<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap.js"></script>
+<script>
+    !function ($) {
+        $(function(){
+            // carousel demo
+            $('#myCarousel').carousel()
+        })
+    }(window.jQuery)
+</script>

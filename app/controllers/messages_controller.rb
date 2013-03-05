@@ -10,6 +10,25 @@ class MessagesController < ApplicationController
         @conversations[user.id] = current_user.messages_with(user).sort_by(&:created_at)
       end
       @message = Message.new
+      @user = current_user
+      @followers = @user.followers
+
+      #@followers_list = []
+
+      #unless @followers.blank?
+        #@followers.each do |user|
+          #@followers_list.push(user.full_name)
+        #end
+      #end
+
+      @followers_list = Hash.new
+
+      unless @followers.blank?
+        @followers.each do |user|
+          @followers_list[user.full_name] = user.id
+        end
+      end
+
       respond_to do |format|
         format.html # index.html.erb
         format.js { render :nothing => true }
@@ -42,6 +61,24 @@ class MessagesController < ApplicationController
   # GET /messages/new.json
   def new
     @message = Message.new
+
+    if signed_in?
+      @user = current_user
+      @followers = @user.followers
+
+      @followers_list = Hash.new
+
+      unless @followers.blank?
+        @followers.each do |user|
+          @followers_list[user.full_name] = user.id
+        end
+      end
+
+    else
+      flash[:error] = "You must be logged in."
+      sign_out
+      redirect_to root_path
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -95,5 +132,6 @@ class MessagesController < ApplicationController
       redirect_to signin_path
     end
   end
+
 
 end
