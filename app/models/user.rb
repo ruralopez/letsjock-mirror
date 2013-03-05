@@ -2,6 +2,10 @@ class User < ActiveRecord::Base
   has_many :user_sports, :dependent => :destroy
   has_many :sports, :through => :user_sports
 
+  has_one :publishers
+  has_many :subscriptions
+  has_many :activities
+
   has_many :educations, :dependent => :destroy
   has_many :outcomes
   has_many :exams, :through => :outcomes
@@ -30,11 +34,12 @@ class User < ActiveRecord::Base
 
   has_many :messages
 
-  attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country, :phone, :resume, :height, :weight, :profilephotourl
+  attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country, :phone, :resume, :height, :weight, :profilephotourl, :authentic_email
 
   before_save :profilepic
   before_save { |user| user.email = email.downcase}
   before_create :create_remember_token
+  before_create :create_email_token
 
   has_secure_password
 
@@ -56,10 +61,14 @@ class User < ActiveRecord::Base
 
   def follow!(other_user)
     self.relationships.create!(followed_id: other_user.id)
+    Subscription.new(:user_id => self.id, :publisher_id => Publisher.find_by_user_id(other_user.id).id).save
+    Activity.new(:publisher_id => Publisher.find_by_user_id(self.id).id, :user_id => other_user.id, :act_type => "010").save
+    Activity.new(:publisher_id => Publisher.find_by_user_id(other_user.id).id, :act_type => "011").save
   end
 
   def unfollow!(other_user)
     relationships.first(:conditions => ["followed_id = ?", other_user.id]).destroy
+    Subscription.first(:conditions => ["user_id = ? AND publisher_id = ?", self.id, Publisher.find_by_user_id(other_user.id).id]).destroy
   end
 
   def profilepic
@@ -77,6 +86,10 @@ class User < ActiveRecord::Base
   private
   def create_remember_token
     self.remember_token = SecureRandom.urlsafe_base64
+  end
+
+  def create_email_token
+    self.email_token = SecureRandom.urlsafe_base64
   end
 
 end

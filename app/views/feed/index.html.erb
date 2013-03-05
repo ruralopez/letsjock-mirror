@@ -1,0 +1,23 @@
+<% @news.each do |n| %>
+
+<% if n.act_type == "000"%>
+    <p>User Update Profile</p>
+<% elsif n.act_type == "010"%>
+        <p>User Following Y</p>
+<% elsif n.act_type == "011"%>
+        <p>User has new Follower</p>
+<% elsif n.act_type == "020"%>
+        <p>User New Photo</p>
+<% elsif n.act_type == "030"%>
+        <p>User Joins Event</p>
+<% elsif n.act_type == "031"%>
+        <p>User Creates Event</p>
+<% elsif n.act_type == "100"%>
+       <p>Event Update Info</p>
+<% elsif n.act_type == "101"%>
+        <p>Event new Post</p>
+<%else%>
+        <p>Event new Admin</p>
+
+    <%end%>
+<%end%>

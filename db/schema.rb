@@ -11,7 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130208200023) do
+ActiveRecord::Schema.define(:version => 20130305181528) do
+
+  create_table "activities", :force => true do |t|
+    t.integer  "publisher_id"
+    t.integer  "post_id"
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.integer  "photo_id"
+    t.integer  "video_id"
+    t.string   "act_type"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "competitions", :force => true do |t|
     t.integer  "user_id"
@@ -120,6 +132,14 @@ ActiveRecord::Schema.define(:version => 20130208200023) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "publishers", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.string   "pub_type"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "recognitions", :force => true do |t|
     t.integer  "user_id"
     t.integer  "sport_id"
@@ -170,6 +190,13 @@ ActiveRecord::Schema.define(:version => 20130208200023) do
     t.string  "iso"
     t.string  "name"
     t.integer "country_id"
+  end
+
+  create_table "subscriptions", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "publisher_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "teams", :force => true do |t|
@@ -242,6 +269,8 @@ ActiveRecord::Schema.define(:version => 20130208200023) do
     t.integer  "height"
     t.integer  "weight"
     t.string   "remember_token"
+    t.string   "email_token"
+    t.boolean  "authentic_email"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end

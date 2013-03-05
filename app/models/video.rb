@@ -10,5 +10,7 @@ class Video < ActiveRecord::Base
   belongs_to :trainee
   belongs_to :work
 
+  has_many :activities
+
   attr_accessible :comment, :title, :url, :user_id, :competition_id, :recognition_id, :result_id, :team_id, :train_id, :sport_id, :trainee_id, :work_id
 end

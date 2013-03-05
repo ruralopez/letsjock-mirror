@@ -15,6 +15,8 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :height
       t.integer :weight
       t.string :remember_token
+      t.string :email_token
+      t.boolean :authentic_email
 
       t.timestamps
     end

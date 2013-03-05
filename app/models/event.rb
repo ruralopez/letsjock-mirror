@@ -5,6 +5,9 @@ class Event < ActiveRecord::Base
   has_many :users, :through => :event_admins
   has_many :posts
 
+  has_one :publishers
+  has_many :activities
+
   attr_accessible :date, :description, :name, :imageurl, :user_id, :place
 
   validates :name, presence: true

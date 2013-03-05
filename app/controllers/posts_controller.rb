@@ -44,6 +44,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
+        Activity.new(:publisher_id => Publisher.find_by_event_id(params[:post][:event_id]).id, :post_id => @post.id, :act_type => "101").save
         format.html { redirect_to event_path(@post.event_id), notice: 'Post was successfully created.' }
         format.json { render json: @post, status: :created, location: @post }
       else

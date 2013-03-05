@@ -40,9 +40,13 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        sign_in @user
-        format.html { redirect_to '/profile/' + @user.id.to_s, notice: 'User was successfully created.' }
-        format.json { render json: @user, status: :created, location: @user }
+        publisher = Publisher.new(:user_id => @user.id, :pub_type => "U")
+        if publisher.save
+          sign_in @user
+          UserMailer.registration_confirmation(@user).deliver
+          format.html { redirect_to '/profile/' + @user.id.to_s, notice: 'User was successfully created.' }
+          format.json { render json: @user, status: :created, location: @user }
+        end
       else
         format.html { render action: "new" }
         format.json { render json: @user, status: :unprocessable_entity }
@@ -57,6 +61,9 @@ class UsersController < ApplicationController
     if signed_in? && current_user.id == @user.id
       respond_to do |format|
         if @user.update_attributes(params[:user])
+
+          Activity.new(:publisher_id => Publisher.find_by_user_id(@user.id).id, :act_type => "000").save
+
           format.html { redirect_to @user, notice: 'User was successfully updated.' }
           format.json { head :no_content }
         else
@@ -185,17 +192,32 @@ class UsersController < ApplicationController
 
   end
 
+  def auth_email
+    @user = User.find(params[:id])
+    if @user.authentic_email
+      flash[:error] = "Your email has already been validated."
+    else
+      if params[:token] && params[:token] == @user.email_token
+        @user.update_attributes(:authentic_email => true)
+        flash[:success] = "Your email is now validated."
+      else
+        flash[:error] = "Wrong token."
+      end
+    end
+    respond_to do |format|
+      format.html
+      format.json { render json: @user }
+    end
+  end
+
   def add_new
     if signed_in? && current_user.id == params[:user_id].to_i
-
-      if params[:sport_id] && params[:init] && params[:end]
-
-        if params[:team_name] && params[:team_category]
+      if params[:sport_id] != "" && params[:init] != "" && params[:end] != ""
+        if params[:team_name] != "" && params[:team_category] != ""
           @team = Team.new(:name => params[:team_name], :category => params[:team_category], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
           @team.save
         end
-
-        if params[:train_name]
+        if params[:train_name] != ""
           if @team
             @train = Train.new(:name => params[:train_name], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => @team.id)
           else
@@ -204,8 +226,7 @@ class UsersController < ApplicationController
           @train.save
 
         end
-
-        if params[:result_position] && params[:result_value] && params[:result_var] && params[:competition_name]
+        if params[:result_position] != "" && params[:result_value] != "" && params[:result_var] != "" && params[:competition_name] != ""
           if @team
             @competition = Competition.new(:name => params[:competition_name],:sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => @team.id )
             @competition.save
@@ -217,8 +238,7 @@ class UsersController < ApplicationController
           end
           @result.save
         end
-
-        if params[:award_title] && params[:award_by]
+        if params[:award_title] != "" && params[:award_by] != ""
           if @team && @competition
             @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init], :competition_id => @competition.id, :team_id => @team.id)
           elsif  @competition
@@ -230,20 +250,16 @@ class UsersController < ApplicationController
           end
           @recognition.save
         end
-
       else
         flash[:error] = "You must complete all the required params."
         redirect_to current_user
       end
-
       redirect_to current_user
-
     else
       flash[:error] = "You must be logged in."
       sign_out
       redirect_to root_path
     end
-
   end
 
 end

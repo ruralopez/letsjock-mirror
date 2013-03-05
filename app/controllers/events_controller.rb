@@ -59,8 +59,10 @@ class EventsController < ApplicationController
     if signed_in? && current_user.id == @event.user_id
       respond_to do |format|
         if @event.save
+          publisher = Publisher.new(:event_id => @event.id, :pub_type => "E")
           eventadmin = EventAdmin.new(:user_id => @event.user_id, :event_id => @event.id)
-          if eventadmin.save
+          if eventadmin.save && publisher.save
+            Activity.new(:publisher_id => Publisher.find_by_user_id(current_user.id).id, :event_id => @event.id, :act_type => "031").save
             format.html { redirect_to @event, notice: 'Event was successfully created.' }
             format.json { render json: @event, status: :created, location: @event }
           end
@@ -83,6 +85,7 @@ class EventsController < ApplicationController
     if signed_in? && current_user.id == @event.user_id
       respond_to do |format|
         if @event.update_attributes(params[:event])
+          Activity.new(:publisher_id => Publisher.find_by_event_id(@event.id).id, :act_type => "100").save
           format.html { redirect_to @event, notice: 'Event was successfully updated.' }
           format.json { head :no_content }
         else
@@ -117,7 +120,9 @@ class EventsController < ApplicationController
 
   def join
     userevent = UserEvent.new(:user_id => current_user.id, :event_id => params[:id])
-    if userevent.save
+    subscription = Subscription.new(:user_id => current_user.id, :publisher_id => Publisher.find_by_event_id(params[:id]).id)
+    if userevent.save && subscription.save
+      Activity.new(:publisher_id => Publisher.find_by_user_id(current_user.id).id, :event_id => params[:id], :act_type => "030").save
       respond_to do |format|
         format.html { redirect_to root_url + 'events/' + params[:id].to_s }
         format.js { render :nothing => true }
@@ -130,6 +135,7 @@ class EventsController < ApplicationController
       @user = User.find_by_email(params[:email])
       eventadmin = EventAdmin.new(:user_id => @user.id, :event_id => params[:id])
       if eventadmin.save
+        Activity.new(:publisher_id => Publisher.find_by_event_id(params[:id]).id, :user_id => @user.id, :act_type => "102").save
         flash[:success] = @user.full_name + " has been granted with administration privileges."
         respond_to do |format|
           format.html { redirect_to event_path(params[:id]) }
