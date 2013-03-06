@@ -7,6 +7,7 @@ class Event < ActiveRecord::Base
 
   has_one :publishers
   has_many :activities
+  has_many :notifications
 
   attr_accessible :date, :description, :name, :imageurl, :user_id, :place
 

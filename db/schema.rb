@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130305181528) do
+ActiveRecord::Schema.define(:version => 20130306185215) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -96,6 +96,16 @@ ActiveRecord::Schema.define(:version => 20130305181528) do
     t.boolean  "read"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "notifications", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "user2_id"
+    t.integer  "event_id"
+    t.boolean  "read"
+    t.string   "not_type"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "outcomes", :force => true do |t|

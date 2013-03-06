@@ -1,3 +1,4 @@
+<%= javascript_include_tag "application" %>
 <%=	 provide(:title, "Events")%>
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -100,12 +101,11 @@
 
 </div><!-- /.container -->
 
-
-
-
-<script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script>
+<script>
+    $("[rel=popover]").popover()
+</script>
 <iframe src="http://twitter.github.com/bootstrap/assets/js/Carousel Template · Bootstrap.htm" frameborder="0" style="border: 0px; visibility: visible; z-index: 2147483647; position: fixed; width: 100%; left: 0px; bottom: 0px; height: 300px; display: none;" id="FirebugUI"></iframe>
-<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap.js"></script>
+
 <script>
     !function ($) {
         $(function(){

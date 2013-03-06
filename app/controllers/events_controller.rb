@@ -86,6 +86,10 @@ class EventsController < ApplicationController
       respond_to do |format|
         if @event.update_attributes(params[:event])
           Activity.new(:publisher_id => Publisher.find_by_event_id(@event.id).id, :act_type => "100").save
+          userevents = UserEvent.all(:conditions => ["event_id = ?", @event.id])
+          userevents.each do |userevent|
+          Notification.new(:user_id => userevent.user_id, :event_id => @event.id, :read => false, :not_type => "104").save
+          end
           format.html { redirect_to @event, notice: 'Event was successfully updated.' }
           format.json { head :no_content }
         else

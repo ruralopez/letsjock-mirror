@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_one :publishers
   has_many :subscriptions
   has_many :activities
+  has_many :notifications
 
   has_many :educations, :dependent => :destroy
   has_many :outcomes
@@ -64,6 +65,7 @@ class User < ActiveRecord::Base
     Subscription.new(:user_id => self.id, :publisher_id => Publisher.find_by_user_id(other_user.id).id).save
     Activity.new(:publisher_id => Publisher.find_by_user_id(self.id).id, :user_id => other_user.id, :act_type => "010").save
     Activity.new(:publisher_id => Publisher.find_by_user_id(other_user.id).id, :act_type => "011").save
+    Notification.new(:user_id => other_user.id, :user2_id => self.id, :read => false, :not_type => "003").save
   end
 
   def unfollow!(other_user)
