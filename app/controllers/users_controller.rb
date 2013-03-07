@@ -126,7 +126,6 @@ class UsersController < ApplicationController
     #Sacando todos los sports para los botones de agregar entrada
     @sports = Sport.all
     @sport_id = 345
-    gon.sport_id = @sport_id
     #Creando array de Countries para auto-complete
     @countries = Country.select('name').all.map(&:name)
     respond_to do |format|
