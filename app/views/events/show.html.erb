@@ -1,3 +1,4 @@
+<%= javascript_include_tag "application" %>
 <%=	stylesheet_link_tag "profile" %>
 
 <div class="container">
@@ -108,14 +109,14 @@
     <!--<h4><i class="icon-map-marker"></i>Movistar Innova Center, Providencia 299</h4>-->
 
 
-    <div class="accordion" id="accordion2"> <!--mapa-->
+    <div class="accordion" id="accordion6"> <!--mapa-->
       <div class="accordion-group events-filter">
         <div class="accordion-heading">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion6" href="#collapseThree">
             <h4><i class="icon-map-marker"></i><%= @event.place %></h4>
           </a>
         </div>
-        <div id="collapseTwo" class="accordion-body collapse">
+        <div id="collapseThree" class="accordion-body collapse">
           <div class="accordion-inner">
             <iframe width="100%" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=es&amp;geocode=&amp;q=Providencia+299,+Santiago,+Chile&amp;aq=0&amp;oq=Providencia+ncia+299&amp;sll=37.0625,-95.677068&amp;sspn=37.735377,86.572266&amp;t=m&amp;ie=UTF8&amp;hq=&amp;hnear=Providencia+299,+Providencia,+Santiago,+Regi%C3%B3n+Metropolitana,+Chile&amp;view=map&amp;ll=-33.435826,-70.630066&amp;spn=0.010064,0.021136&amp;z=14&amp;iwloc=A&amp;output=embed"></iframe>
           </div>
@@ -229,17 +230,3 @@
 
 </div><!-- /.container -->
 
-
-
-
-
-<script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script><iframe src="http://twitter.github.com/bootstrap/assets/js/Carousel Template · Bootstrap.htm" frameborder="0" style="border: 0px; visibility: visible; z-index: 2147483647; position: fixed; width: 100%; left: 0px; bottom: 0px; height: 300px; display: none;" id="FirebugUI"></iframe>
-<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap.js"></script>
-<script>
-    !function ($) {
-        $(function(){
-            // carousel demo
-            $('#myCarousel').carousel()
-        })
-    }(window.jQuery)
-</script>
