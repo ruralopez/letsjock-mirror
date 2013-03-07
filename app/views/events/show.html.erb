@@ -5,7 +5,11 @@
 <div class="row">
 <div class="box box-media span3 event-single">
   <div class="img-polaroid">
-    <%= link_to image_tag(@event.imageurl) , "#", :class => "user-profile" %>
+    <% if @event.imageurl %>
+        <%= link_to image_tag(@event.imageurl) , "#", :class => "user-profile" %>
+    <% else %>
+        <%= link_to image_tag(@creator.profilephotourl) , "#", :class => "user-profile" %>
+    <% end %>
   </div>
   <h4>Invites <%= link_to @creator.full_name, @creator %></h4>
   <!-- begin Sponsors -->

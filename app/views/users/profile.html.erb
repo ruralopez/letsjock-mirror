@@ -371,26 +371,26 @@
         <%= form_for @photo do |f| %>
             <fieldset>
             <%= f.text_field :title, :placeholder => "Title" %>
-
+            <!--
             <div class="fileupload fileupload-new" data-provides="fileupload">
                 <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
-
-              <div>
+            -->
+              <div style="list-style: none;">
                 <li>
                   <a role="button" id="btn-photo-1" href="#" class="btn btn-large btn-photo-link"><i class="icon-globe"></i> Link</a>
-                  <a role="button" id="btn-photo-2" href="#" class="btn btn-large btn-file fileupload-new btn-photo-down"><i class="icon-download-alt"></i> Computer<input type="file" /></a>
+                  <!--<a role="button" id="btn-photo-2" href="#" class="btn btn-large btn-file fileupload-new btn-photo-down"><i class="icon-download-alt"></i> Computer<input type="file" /></a> -->
                 </li>
                 <li>
-                  <%= f.text_area :comment, :placeholder => "Comment", :id => "photo-comment-input" %>
+                  <%= f.text_area :comment, :placeholder => "Comment", :id => "photo-comment-input", :rows => "10" %>
                 </li>
               </div>
 
                 <%= f.text_field :url, :placeholder => "Place your picture link here!", :id => "photo-link-input", :class => "span4" %>
-
+              <!--
                 <div>
                 <a href="#" class="btn fileupload-exists btn-large" data-dismiss="fileupload"><i class="icon-remove"></i> Remove</a>
                 </div>
-            </div>
+            </div>  -->
 
             <%=	   f.hidden_field :user_id, :value => current_user.id %>
             <%=    f.hidden_field :sport_id, :value => 1 %>
