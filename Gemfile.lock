@@ -46,9 +46,6 @@ GEM
     excon (0.16.10)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    gon (4.0.2)
-      actionpack (>= 2.3.0)
-      json
     heroku (2.33.2)
       heroku-api (~> 0.3.7)
       launchy (>= 0.3.2)
@@ -131,7 +128,6 @@ DEPENDENCIES
   bcrypt-ruby (~> 3.0.1)
   best_in_place
   coffee-rails (~> 3.2.1)
-  gon (= 4.0.2)
   heroku
   jquery-rails
   mysql2
