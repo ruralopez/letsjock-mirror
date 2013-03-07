@@ -1,8 +1,7 @@
 ActionMailer::Base.smtp_settings = {
 :address => "smtp.gmail.com",
 :port => "587",
-:domain => "letsjock.com",
-:user_name => "letsjock",
+:user_name => "letsjock@gmail.com",
 :password => "1Proy2.cl",
 :authentication => "plain",
 :enable_starttls_auto => true

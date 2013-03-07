@@ -26,11 +26,13 @@
             <i class="icon-globe icon-white"></i>
           </a>
           <ul class="dropdown-menu">
-            <% @global_notifications.each do |notification| %>
-                <% if notification.not_type == "003" %>
-                    <li><%= link_to User.find(notification.user2_id).full_name + " is now following you", User.find(notification.user2_id) %></li>
-                <% elsif notification.not_type == "104" %>
-                    <li><%= link_to Event.find(notification.event_id).name + " has updated information", Event.find(notification.event_id) %></li>
+            <%	 if @global_notifications %>
+                <% @global_notifications.each do |notification| %>
+                    <% if notification.not_type == "003" %>
+                        <li><%= link_to User.find(notification.user2_id).full_name + " is now following you", User.find(notification.user2_id) %></li>
+                    <% elsif notification.not_type == "104" %>
+                        <li><%= link_to Event.find(notification.event_id).name + " has updated information", Event.find(notification.event_id) %></li>
+                    <% end %>
                 <% end %>
             <% end %>
           </ul>

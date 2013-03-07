@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_filter :get_notifications
   def get_notifications
     if signed_in?
-    @global_notifications = Notification.find(:all, :conditions => ["user_id = ?", current_user.id])
+      @global_notifications = Notification.all(:conditions => ["user_id = ?", current_user.id])
     end
   end
 end
