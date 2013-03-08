@@ -7,14 +7,14 @@
   <% end %>
   <% @recognitions = Recognition.all(:conditions => ["user_id = ? AND competition_id = ?", competition.user_id, competition.id]) %>
   <% if !@recognitions.blank? %>
-      <% @recognitions = Array.new.push(@recognitions) %>
+
       <% @recognitions.each do |recognition| %>
           <li><i class="icon-star"></i><%= recognition.description %></li>
       <% end %>
   <% end %>
   <% @results = Result.all(:conditions => ["user_id = ? AND competition_id = ?", competition.user_id, competition.id]) %>
   <% if !@results.blank? %>
-    <% @results = Array.new.push(@results) %>
+
     <% @results.each do |result| %>
           <% if result.position %>
               <li><i class="icon-check"></i><%= result.position %></li>
