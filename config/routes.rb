@@ -1,40 +1,40 @@
 Letsjock::Application.routes.draw do
   resources :users
-  resources :sessions, only: [:new, :create, :destroy]
+  resources :sessions, :only => [:new, :create, :destroy]
   resources :sports
-  resources :competitions, only: [:create, :update, :destroy]
-  resources :teams, only: [:create, :update, :destroy]
-  resources :trains, only: [:create, :update, :destroy]
-  resources :results, only: [:create, :update, :destroy]
-  resources :recognitions, only: [:create, :update, :destroy]
-  resources :trainees, only: [:create, :update, :destroy]
-  resources :works, only: [:create, :update, :destroy]
-  resources :educations, only: [:create, :update, :destroy]
-  resources :photos, only: [:create, :update, :destroy]
-  resources :videos, only: [:create, :update, :destroy]
+  resources :competitions, :only => [:create, :update, :destroy]
+  resources :teams, :only => [:create, :update, :destroy]
+  resources :trains, :only => [:create, :update, :destroy]
+  resources :results, :only => [:create, :update, :destroy]
+  resources :recognitions, :only => [:create, :update, :destroy]
+  resources :trainees, :only => [:create, :update, :destroy]
+  resources :works, :only => [:create, :update, :destroy]
+  resources :educations, :only => [:create, :update, :destroy]
+  resources :photos, :only => [:create, :update, :destroy]
+  resources :videos, :only => [:create, :update, :destroy]
   resources :events
-  resources :messages, only: [:create, :show]
-  resources :relationships, only: [:create, :destroy]
+  resources :messages, :only => [:create, :show]
+  resources :relationships, :only => [:create, :destroy]
   resources :posts
 
   root :to => 'home#index'
 
-  match '/news', to: 'feed#index', :as => :news
-  match '/signup',  to: 'users#new', :as => :signup
-  match '/signin',  to: 'sessions#new', :as => :signin
-  match '/signout', to: 'sessions#destroy', :as => :signout
-  match '/profile/:id', to: 'users#profile'
-  match '/profile/:id/social', to: 'users#social', :as => :social
-  match '/profile/:id/pictures', to: 'users#pictures', :as => :pictures
-  match '/profile/:id/add_new', to: 'users#add_new', :as => :add_new
+  match '/news' => 'feed#index', :as => :news
+  match '/signup' => 'users#new', :as => :signup
+  match '/signin' => 'sessions#new', :as => :signin
+  match '/signout' => 'sessions#destroy', :as => :signout
+  match '/profile/:id' => 'users#profile'
+  match '/profile/:id/social' => 'users#social', :as => :social
+  match '/profile/:id/pictures' => 'users#pictures', :as => :pictures
+  match '/profile/:id/add_new' => 'users#add_new', :as => :add_new
   match '/events/:id/join' => 'events#join', :as => :join
   match '/events/:id/new_admin' => 'events#new_admin', :as => :event_new_admin
-  match '/inbox', to: 'messages#inbox', :as => :inbox
-  match '/inbox/new', to: 'messages#new', :as => :new_message
+  match '/inbox'=> 'messages#inbox', :as => :inbox
+  match '/inbox/new'=> 'messages#new', :as => :new_message
   match '/profile/:id/follow' => 'relationships#create', :as => :follow
   match '/profile/:id/unfollow' => 'relationships#destroy', :as => :unfollow
   match '/profile/:id/change_profile_pic' => 'users#change_profile_pic', :as => :change_profile_pic
-  match '/profile/:id/email_authentication/:token', to: 'users#auth_email', :as => :auth_email
+  match '/profile/:id/email_authentication/:token' => 'users#auth_email', :as => :auth_email
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

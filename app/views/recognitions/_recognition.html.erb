@@ -6,7 +6,7 @@
           <li><i class="icon-pencil"></i>Awarded by <%= recognition.awarded_by %></li>
       <% end %>
       <% if signed_in? && current_user.id == recognition.user_id %>
-          <%= link_to "Delete", recognition, method: :delete%>
+          <%= link_to "Delete", recognition, :method => :delete%>
       <%  end %>
     </ul>
 <% end %>
