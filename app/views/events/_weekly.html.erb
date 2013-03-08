@@ -1,21 +1,29 @@
 <%	 if params[:page] %>
     <%	 if params[:page].to_i > 1 %>
+        <h4>
         <%=	 link_to "Previous week", '/events?page=' + (params[:page].to_i - 1).to_s, :class => "previous_page", :rel => "prev"  %>
         <%=  @date.strftime("%m/%d") %> - <%= @date.next_week.strftime("%m/%d")  %>
         <%=	 link_to "Next week", '/events?page=' + (params[:page].to_i + 1).to_s, :class => "next_page", :rel => "next" %>
+        </h4>
     <%	 elsif params[:page].to_i == 1 %>
+        <h4>
         <%=	 link_to "Previous week", '/events', :class => "previous_page", :rel => "prev"  %>
         <%=  @date.strftime("%m/%d") %> - <%= @date.next_week.strftime("%m/%d")  %>
         <%=	 link_to "Next week", '/events?page=' + (params[:page].to_i + 1).to_s, :class => "next_page", :rel => "next" %>
+        </h4>
     <%	 else %>
+        <h4>
         <span class="previous_page disabled">Previous week</span>
         <%=  @date.strftime("%m/%d") %> - <%= @date.next_week.strftime("%m/%d")  %>
         <%=	 link_to "Next week", '/events?page=' + (params[:page].to_i + 1).to_s, :class => "next_page", :rel => "next" %>
+        </h4>
     <%	 end %>
 <% else %>
+    <h4>
     <span class="previous_page disabled">Previous week</span>
     <%=  @date.strftime("%m/%d") %> - <%= @date.next_week.strftime("%m/%d")  %>
     <%=	 link_to "Next week", '/events?page=' + (params[:page].to_i + 1).to_s, :class => "next_page", :rel => "next" %>
+    </h4>
 <% end %>
 
 <%	 7.times do |i| %>

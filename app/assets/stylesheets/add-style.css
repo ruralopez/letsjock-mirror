@@ -18,7 +18,8 @@ footer{/*added all footer*/
 header .container{padding-bottom:0;}/*added*/
 
 a{color:#C6091C;}
-a:hover{color:#8C0D1A;}
+a:hover, a:active{color:#8C0D1A;}
+.green {color:#51A351;}
 
 /*hovers*/.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-submenu:hover > a, .dropdown-submenu:focus > a{
               background-color:#7F0000; background-image:none;
@@ -82,7 +83,7 @@ header .navbar{
 /*.nav-top p {display:inline; color:white; font-size:12px;}*/
 .logo{float:left; margin-right:20px;}
 .logo img{width:100px;}
-.notifications{padding:15px; display:inline-block;}
+a.notifications{padding:15px; display:inline-block; text-decoration:none; color:white;}
 a.notifications:hover{background:#222;}
 
 
@@ -132,6 +133,83 @@ input.search-query{
     color:white;
 }
 
+/*NEWS*/
+.post{}
+
+.letsjock{
+    width:100%;
+    margin:-10px 0 30px !important;
+}
+
+.letsjock-header{width:100%; display:block; position:relative;}
+.letsjock-header a img{width:46px; padding:2px; height:auto; position:absolute; margin-left:-60px; border:1px solid;}
+
+.letsjock-content{
+}
+
+.letsjock ul, .letsjock .carousel{display:inline-block; margin:0; width:49%; vertical-align:top;}
+.letsjock .carousel{margin:0; max-height:270px; overflow:hidden;}
+.letsjock .carousel .carousel-caption {margin-top:10px !important;}
+.letsjock .carousel .carousel-caption h1{font-size:18px; padding:10px;}
+.letsjock .carousel .carousel-caption p{font-size:14px; padding-left:10px;}
+.letsjock .carousel .carousel-inner .container{width:100%;}
+
+.letsjock ul li .single-post{margin-left:10px !important;}
+
+.feeds{
+    margin-top:-10px;
+    -moz-column-count: 2;
+    -moz-column-gap: 40px;
+    -moz-column-rule:3px solid #CCC;
+
+    -webkit-column-count: 2;
+    -webkit-column-gap: 40px;
+    -webkit-column-rule:3px solid #CCC;
+
+    column-count: 2;
+    column-gap: 40px;
+    column-rule:3px solid #CCC;
+    padding:0 20px 20px;
+
+    border-top:10px solid #C6091C;
+    border-right:1px solid #CCC;
+    border-left:1px solid #CCC;
+}
+
+.letsjock, .post.feeds ul li{
+    display: inline-block; /* Display inline-block, and absolutely NO FLOATS! */
+    width: 94%;
+    padding:10px 3%;
+    background:white;
+    margin:20px 0 0;
+    box-shadow:0 1px 1px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.post.feeds ul li [class*="img"], .post.feeds ul li  .single-post .user-avatar img{width:40px; height:40px; overflow:hidden;}
+.post.feeds ul li  .single-post .user-avatar i{width:40px; height:36px; vertical-align:top; background:#EEE; padding:2px 0;}
+.user-avatar i span{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-size:12px;}
+.post.feeds ul li .single-post{margin-left:54px; border:none; padding:0;}
+
+.post.feeds ul li  .single-post [class*="img"]{
+    width:96%;
+    height:auto;
+    position:inherit;
+    margin:3px 0;
+}
+.post.feeds a{text-decoration:none;}
+.post.feeds a[class*="img"]{text-align:center;}
+
+.company-resume, .post .company-resume h4{
+    text-align:left;
+    margin:0;
+}
+.company-resume img{float:left; width:55%; margin-right:10px;}
+.company-resume i {float:left;}
+.company-resume p{margin-bottom:10px !important;}
+.see-more{display:block; font-style:italic; text-align:right;}
+/*.company-resume button{display:block;}*/
 /*Events*/
 
 /*Slideshow Carousel*/
@@ -381,9 +459,9 @@ ul .metadata p{text-align:left;}
 .post h4 span {font-size: 40px; font-weight: 100; vertical-align: sub; color:#CCC;}
 .post ul{margin:0;}
 .post ul li{list-style:none outside none; position:relative; min-height: 74px; margin-bottom:16px;}
-.post ul li .img-polaroid{width:64px; position:absolute;}
+.post ul li [class*="img"]{width:64px; position:absolute;}
 .post ul li .single-post {margin-left:88px; border-bottom:1px solid #EEE; padding-bottom:14px;}
-.post ul li p{margin-bottom:0;}
+.post ul li p{margin-bottom:0; font-size:13px;}
 .post ul li p small{color:#999;}
 /*INBOX*/
 
@@ -730,4 +808,16 @@ ul.nav.affix li:last-child{border-bottom:none;}
 
 a.add-new{
     color: #51A351;
+}
+
+/*NEWS V2*/
+.letsjock .carousel.version2{
+    height:310px;
+    max-height:310px;
+}
+
+.feeds.span-12{
+    -moz-column-count: 3;
+    -webkit-column-count: 3;
+    column-count: 3;
 }
