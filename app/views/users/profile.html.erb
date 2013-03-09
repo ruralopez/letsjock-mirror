@@ -53,9 +53,16 @@
           <%  if @user.citybirth != "" %> <%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %>,
               <%  end %><%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %></p>
       </div><!--user-->
-      <div class="connections">
-        <%=	 image_tag 'verified.png' %>
+      <div class="connections" style="padding-top: 20px;">
+        <!-- <%=	 image_tag 'verified.png' %> -->
+        <% if signed_in? && @user.id == current_user.id  %>
+            <%= link_to(edit_user_path(@user), :class => "pull-right", :style => "list-style: none;") do %>
+                <i class='icon-pencil icon-2x'></i>
+            <% end %>
+        <% end %>
+
         <%=	 render 'follow_form' if signed_in? %>
+
       </div>
     </div><!-- /profileInfo -->
 

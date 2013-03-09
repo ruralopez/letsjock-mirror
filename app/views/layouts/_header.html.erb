@@ -21,12 +21,12 @@
                 <%= current_page?(:controller => 'messages', :action => 'inbox') ? "active" : "" %>>
               <i class="icon-envelope icon-white"></i><% if current_user.unread_messages.count > 0 %><span style="color: red;"> (<%= current_user.unread_messages.count %>)</span><% end %>
               </a>
+
+              <a href="#" data-toggle="dropdown" class="notifications" style="color: #666666; text-decoration: none;">
+                <i class="icon-globe icon-white"></i><% if  current_user.new_notifications.count > 0 %> <span style="color: red;"> (<%= current_user.new_notifications.count %>)</span><% end %>
+              </a>
           <% end %>
 
-
-          <a href="#" data-toggle="dropdown" class="notifications" style="color: #666666; text-decoration: none;">
-            <i class="icon-globe icon-white"></i><% if current_user.new_notifications.count > 0 %> <span style="color: red;"> (<%= current_user.new_notifications.count %>)</span><% end %>
-          </a>
           <ul class="dropdown-menu">
             <%	 if @global_notifications %>
                 <% @global_notifications.each do |notification| %>
@@ -46,9 +46,23 @@
             <input type="text" class="search-query" placeholder="Search athletes, coaches or events">
           </form>
           <div class="btn-group username pull-right">
+
+            <%	if signed_in?  %>
+            <a class="btn" href=<%=  profile_path(current_user) %>>
+              <%= image_tag current_user.profilepic %>
+              <%= current_user.full_name %>
+            </a>
+
+            <%	else  %>
+                <a class="btn" href="#">
+                  <%= image_tag 'jock-navbar.png', :class => "img-polaroid" %>
+                  User Name
+                </a>
+
+            <%	end  %>
+
             <a class="btn" data-toggle="dropdown" href="#">
-              <%= image_tag 'jock-navbar.png', :class => "img-polaroid" %>
-              <% if signed_in? %><%= current_user.full_name %><% else %>User Name<% end %><span class="caret"></span>
+              <i class="icon-chevron-down"></i>
             </a>
             <ul class="dropdown-menu">
               <li><a href="#">Account: basic</a></li>

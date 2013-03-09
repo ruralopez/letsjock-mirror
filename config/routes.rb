@@ -23,7 +23,7 @@ Letsjock::Application.routes.draw do
   match '/signup' => 'users#new', :as => :signup
   match '/signin' => 'sessions#new', :as => :signin
   match '/signout' => 'sessions#destroy', :as => :signout
-  match '/profile/:id' => 'users#profile'
+  match '/profile/:id' => 'users#profile', :as => :profile
   match '/profile/:id/social' => 'users#social', :as => :social
   match '/profile/:id/pictures' => 'users#pictures', :as => :pictures
   match '/profile/:id/add_new' => 'users#add_new', :as => :add_new
