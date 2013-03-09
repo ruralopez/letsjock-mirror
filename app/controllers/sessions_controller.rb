@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
     end
     if user && user.authenticate(@pass)
       sign_in user
-      redirect_to user
+      redirect_to news_path
     else
       flash[:error] = 'Invalid email/password combination'
       redirect_to root_url

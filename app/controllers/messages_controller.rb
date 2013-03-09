@@ -9,6 +9,9 @@ class MessagesController < ApplicationController
       @users_contacted.each do |user|
         @conversations[user.id] = current_user.messages_with(user).sort_by(&:created_at)
       end
+      current_user.unread_messages.each do |um|
+        um.update_attributes(:read => true)
+      end
       @message = Message.new
       @user = current_user
       @followers = @user.followers

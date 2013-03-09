@@ -85,6 +85,28 @@ class User < ActiveRecord::Base
     Message.all(:conditions => ["(user_id = ? AND receiver_id = ?) OR (user_id = ? AND receiver_id = ?)", user.id, self.id, self.id, user.id])
   end
 
+  def unread_messages
+    @aux = Message.all(:conditions => ["receiver_id = ?", self.id])
+    @unread = []
+    @aux.each do |um|
+      unless um.read
+        @unread << um
+      end
+    end
+    @unread
+  end
+
+  def new_notifications
+    @aux = Notification.all(:conditions => ["user_id = ?", self.id])
+    @new = []
+    @aux.each do |nn|
+      unless nn.read
+        @new << nn
+      end
+    end
+    @new
+  end
+
   private
   def create_remember_token
     self.remember_token = SecureRandom.urlsafe_base64

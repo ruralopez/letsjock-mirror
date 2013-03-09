@@ -8,22 +8,24 @@
         <span class="icon-bar"></span>
       </a>
 
-        <%= link_to (image_tag 'logo_header.png'), current_user, :class => "logo" %>
+        <%= link_to (image_tag 'logo_header.png'), news_path, :class => "logo" %>
 
       <div class="nav-collapse collapse">
         <ul class="nav">
           <li class=<%= current_page?(:controller => 'feed', :action => 'index') ? "active" : "" %>><%= link_to 'News', news_path %></li>
           <li class=<%= current_page?(:controller => 'events', :action => 'index') ? "active" : "" %>><%= link_to 'Events', '/events' %></li>
-          <% if signed_in? %><li class=<%= current_page?(:controller => 'users', :action => 'social', :id => current_user.id) ? "active" : "" %>><%= link_to 'Contacts', social_path(current_user) %></li><% end %>
+          <% if signed_in? %>
+              <li class=<%= current_page?(:controller => 'users', :action => 'social', :id => current_user.id) ? "active" : "" %>><%= link_to 'Contacts', social_path(current_user) %></li>
 
-          <a href="/inbox" rel="tooltip" title="0 new messages" class="notifications" style="color: #666666; text-decoration: none;"
-             <%= current_page?(:controller => 'messages', :action => 'inbox') ? "active" : "" %>>
-            <i class="icon-envelope icon-white"></i>
-          </a>
+              <a href="/inbox" rel="tooltip" title="<%= current_user.unread_messages.count %> new messages" class="notifications" style="color: #666666; text-decoration: none;"
+                <%= current_page?(:controller => 'messages', :action => 'inbox') ? "active" : "" %>>
+              <i class="icon-envelope icon-white"></i><% if current_user.unread_messages.count > 0 %><span style="color: red;"> (<%= current_user.unread_messages.count %>)</span><% end %>
+              </a>
+          <% end %>
 
 
           <a href="#" data-toggle="dropdown" class="notifications" style="color: #666666; text-decoration: none;">
-            <i class="icon-globe icon-white"></i>
+            <i class="icon-globe icon-white"></i><% if current_user.new_notifications.count > 0 %> <span style="color: red;"> (<%= current_user.new_notifications.count %>)</span><% end %>
           </a>
           <ul class="dropdown-menu">
             <%	 if @global_notifications %>
