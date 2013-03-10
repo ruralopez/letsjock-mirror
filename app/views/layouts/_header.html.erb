@@ -31,9 +31,9 @@
             <%	 if @global_notifications %>
                 <% @global_notifications.each do |notification| %>
                     <% if notification.not_type == "003" %>
-                        <li><%= link_to User.find(notification.user2_id).full_name + " is now following you", User.find(notification.user2_id) %></li>
+                        <li><%= link_to User.find(notification.user2_id).full_name + " is now following you", :controller => "users", :action => "read_notification", :id => notification.id %></li>
                     <% elsif notification.not_type == "104" %>
-                        <li><%= link_to Event.find(notification.event_id).name + " has updated information", Event.find(notification.event_id) %></li>
+                        <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
                     <% end %>
                 <% end %>
             <% end %>

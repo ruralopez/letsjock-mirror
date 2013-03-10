@@ -261,4 +261,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def read_notification
+    notification = Notification.find(params[:id])
+    notification.update_attributes(:read => true)
+    if notification.not_type == "003"
+      redirect_to User.find(notification.user2_id)
+    elsif notification.not_type == "104"
+      redirect_to Event.find(notification.event_id)
+    end
+  end
+
+
 end
