@@ -6,7 +6,7 @@
   <div class="row">
     <div class="span12">
       <div class="page-title margin-10">
-        <h3 class="inline"><a href="#"><%= link_to @user.full_name, @user %> </a><span><i class="icon-camera icon-white"></i> <%=  @photos.count %> pictures</span></h3>
+        <h3 class="inline"><a href="#"><%= link_to @user.full_name, @user %> </a><span><i class="icon-camera icon-white"></i> <%=  @photos.count %> pictures   </span><span><i class="icon-facetime-video icon-white"></i> <%=  @videos.count %> videos</span></h3>
       </div>
     </div>
   </div>
@@ -17,6 +17,9 @@
       <div class="image-gallery">
         <%  @photos.each do |photo| %>
             <%= image_tag(photo.url) %>
+        <%  end %>
+        <%  @videos.each do |video| %>
+            <%= raw(youtube_embed(video.url,170,120)) %>
         <%  end %>
       </div>
     </div>

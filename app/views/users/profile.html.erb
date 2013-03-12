@@ -30,12 +30,14 @@
         </h5>
         <h5><i class="icon-facetime-video"></i><a href="#">Videos</a></h5>
         <div class="user-video">
-          <iframe width="270" height="152" src="http://www.youtube.com/embed/mGOeXhK2_WE" frameborder="0" allowfullscreen=""></iframe>
+          <%  @videos.take(3).each do |video| %>
+              <%= raw(youtube_embed(video.url,270,152)) %>
+          <%  end %>
         </div><!--user-video-->
 
         <h5 class="white">
           <%= @videos.count %> videos
-          <a href="#">see more</a>
+          <%= link_to 'see more' , pictures_path(@user) %>
           <a href="#videoModal" data-toggle="modal" role="button" id="btn-video" class="btn btn-mini btn-success pull-right">Upload <i class="icon-white icon-circle-arrow-up"></i></a>
         </h5>
       </div>
@@ -44,19 +46,19 @@
     <ul class="profileIcons span9">
       <li><i class="icon-eye-open icon-white"></i><%= link_to @user.followers.count.to_s + " followers", social_path(@user) %><%= link_to @user.followed_users.count.to_s + " following", social_path(@user) %></li>
       <li><i class="icon-camera icon-white"></i><%= link_to @photos.count.to_s + ' pictures' , pictures_path(@user) %></li>
-      <li><i class="icon-facetime-video icon-white"></i><a href="#"><%= @videos.count %> videos</a></li>
+      <li><i class="icon-facetime-video icon-white"></i><%= link_to @videos.count.to_s + ' videos' , pictures_path(@user) %></li>
     </ul><!-- /profileIcons -->
     <div class="profileInfo relative span9">
       <div class="user">
         <h2><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :name, :type => :input, :inner_class => "nameInput" %> <%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :lastname, :type => :input, :inner_class => "nameInput"  %></h2>
-        <p><%  if @user.birth && @user.birth != "" %>/ <%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years<%  end %>
+        <p><b>Sport </b><%  if @user.birth && @user.birth != "" %><%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years, <%else%>Age, <%  end %>
           <%  if @user.citybirth != "" %> <%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %>,
               <%  end %><%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %></p>
       </div><!--user-->
       <div class="connections" style="padding-top: 20px;">
         <!-- <%=	 image_tag 'verified.png' %> -->
         <% if signed_in? && @user.id == current_user.id  %>
-            <%= link_to(edit_user_path(@user), :class => "pull-right", :style => "list-style: none;") do %>
+            <%= link_to(edit_user_path(@user), :class => "pull-right link-on", :style => "list-style: none;") do %>
                 <i class='icon-pencil icon-2x'></i>
             <% end %>
         <% end %>
@@ -120,6 +122,9 @@
               });
               $('#photo-submit').click(function(){
                   $("#new_photo").submit();
+              });
+              $('#video-submit').click(function(){
+                  $("#new_video").submit();
               });
               $('#add-submit').click(function(){
                   $("#new-profile-entry").submit();
@@ -374,35 +379,35 @@
   </div>
   <div class="modal-body">
    <% if signed_in? %>
-      <% unless @photo.blank? %>
-        <%= form_for @photo do |f| %>
-            <fieldset>
-            <%= f.text_field :title, :placeholder => "Title" %>
-            <!--
-            <div class="fileupload fileupload-new" data-provides="fileupload">
-                <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
-            -->
-              <div style="list-style: none;">
-                <li>
-                  <a role="button" id="btn-photo-1" href="#" class="btn btn-large btn-photo-link"><i class="icon-globe"></i> Link</a>
-                  <!--<a role="button" id="btn-photo-2" href="#" class="btn btn-large btn-file fileupload-new btn-photo-down"><i class="icon-download-alt"></i> Computer<input type="file" /></a> -->
-                </li>
-                <li>
-                  <%= f.text_area :comment, :placeholder => "Comment", :id => "photo-comment-input", :rows => "10" %>
-                </li>
-              </div>
+                <% unless @photo.blank? %>
+                    <%= form_for @photo do |f| %>
+                        <fieldset>
+                          <%= f.text_field :title, :placeholder => "Title" %>
+                          <!--
+                          <div class="fileupload fileupload-new" data-provides="fileupload">
+                              <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
+                          -->
+                          <div style="list-style: none;">
+                            <li>
+                              <a role="button" id="btn-photo-1" href="#" class="btn btn-large btn-photo-link"><i class="icon-globe"></i> Link</a>
+                              <!--<a role="button" id="btn-photo-2" href="#" class="btn btn-large btn-file fileupload-new btn-photo-down"><i class="icon-download-alt"></i> Computer<input type="file" /></a> -->
+                            </li>
+                            <li>
+                              <%= f.text_area :comment, :placeholder => "Comment", :id => "photo-comment-input", :rows => "10" %>
+                            </li>
+                          </div>
 
-                <%= f.text_field :url, :placeholder => "Place your picture link here!", :id => "photo-link-input", :class => "span4" %>
-              <!--
-                <div>
-                <a href="#" class="btn fileupload-exists btn-large" data-dismiss="fileupload"><i class="icon-remove"></i> Remove</a>
-                </div>
-            </div>  -->
+                          <%= f.text_field :url, :placeholder => "Place your picture link here!", :id => "photo-link-input", :class => "span4" %>
+                          <!--
+                            <div>
+                            <a href="#" class="btn fileupload-exists btn-large" data-dismiss="fileupload"><i class="icon-remove"></i> Remove</a>
+                            </div>
+                        </div>  -->
 
-            <%=	   f.hidden_field :user_id, :value => current_user.id %>
-            <%=    f.hidden_field :sport_id, :value => 1 %>
-            </fieldset>
-        <%  end %>
+                          <%=	   f.hidden_field :user_id, :value => current_user.id %>
+                          <%=    f.hidden_field :sport_id, :value => 1 %>
+                        </fieldset>
+                    <%  end %>
       <% end%>
      <% else %>
      <p>You must be logged in to upload photos!</p>
@@ -422,11 +427,41 @@
     <h3 id="myModalLabel">Videos</h3>
   </div>
   <div class="modal-body">
-    <a role="button" id="btn-video-1" href="#" class="btn btn-large"><i class="icon-globe"></i> Link</a> <input id="video-link-input" class="span4" type="text" placeholder="Place your video link here!">
+    <% if signed_in? %>
+        <% unless @video.blank? %>
+            <%= form_for @video do |v| %>
+                <fieldset>
+                  <%= v.text_field :title, :placeholder => "Title" %>
+                  <!--
+                  <div class="fileupload fileupload-new" data-provides="fileupload">
+                      <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
+                  -->
+                  <div style="list-style: none;">
+                    <li>
+                      <a role="button" id="btn-video-1" href="#" class="btn btn-large"><i class="icon-globe"></i> Link</a>
+                      <!--<a role="button" id="btn-photo-2" href="#" class="btn btn-large btn-file fileupload-new btn-photo-down"><i class="icon-download-alt"></i> Computer<input type="file" /></a> -->
+                    </li>
+                  </div>
+
+                  <%= v.text_field :url, :placeholder => "Place your video link here!", :class => "span4" %>
+                  <!--
+                    <div>
+                    <a href="#" class="btn fileupload-exists btn-large" data-dismiss="fileupload"><i class="icon-remove"></i> Remove</a>
+                    </div>
+                </div>  -->
+
+                  <%=	   v.hidden_field :user_id, :value => current_user.id %>
+                  <%=    v.hidden_field :sport_id, :value => 1 %>
+                </fieldset>
+            <%  end %>
+        <% end%>
+    <% else %>
+        <p>You must be logged in to upload videos!</p>
+    <% end %>
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary">Upload</button>
+    <button id="video-submit" class="btn btn-primary">Upload</button>
   </div>
 </div>
 

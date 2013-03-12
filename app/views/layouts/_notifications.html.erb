@@ -1,0 +1,137 @@
+
+  <div class="arrow"></div>
+  <h3 class="popover-title">Notifications</h3>
+  <ul class="popover-content">
+
+      <%	 if @global_notifications %>
+         <% @global_notifications.each do |notification| %>
+
+            <% if notification.not_type == "003" %>
+                <li>
+                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                      <div class="popover-left">
+                        <%= image_tag (User.find(notification.user2_id).profilepic)%>
+                      </div><!--popover-left-->
+                      <div class="popover-right">
+                        <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
+                        <small>5 hours ago</small>
+                      </div>
+                  <% end %>
+                </li>
+
+            <% elsif notification.not_type == "104" %>
+                <li>
+                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                      <div class="popover-left">
+                        <%= image_tag (Event.find(notification.event_id).imageurl)%>
+                        <i class="icon-calendar"></i>
+                      </div><!--popover-left-->
+                      <div class="popover-right">
+                        <span><%=	Event.find(notification.event_id).name %></span> has new information
+                        <small>5 hours ago</small>
+                      </div>
+                  <% end %>
+                </li>
+
+            <% elsif notification.not_type == "000" %>
+                <li>
+                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                      <div class="popover-left">
+                        <%= image_tag (User.find(notification.user2_id).profilepic)%>
+                      </div><!--popover-left-->
+                      <div class="popover-right">
+                        <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
+                        <small>5 hours ago</small>
+                      </div>
+                  <% end %>
+                </li>
+                <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+
+            <% elsif notification.not_type == "001" %>
+              <li>
+                <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                    <div class="popover-left">
+                      <%= image_tag (User.find(notification.user2_id).profilepic)%>
+                    </div><!--popover-left-->
+                    <div class="popover-right">
+                      <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
+                      <small>5 hours ago</small>
+                    </div>
+                <% end %>
+              </li>
+              <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+
+            <% elsif notification.not_type == "002" %>
+              <li>
+                <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                    <div class="popover-left">
+                      <%= image_tag (User.find(notification.user2_id).profilepic)%>
+                    </div><!--popover-left-->
+                    <div class="popover-right">
+                      <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
+                      <small>5 hours ago</small>
+                    </div>
+                <% end %>
+              </li>
+              <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+
+            <% elsif notification.not_type == "100" %>
+              <li>
+                <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                    <div class="popover-left">
+                      <%= image_tag (User.find(notification.user2_id).profilepic)%>
+                    </div><!--popover-left-->
+                    <div class="popover-right">
+                      <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
+                      <small>5 hours ago</small>
+                    </div>
+                <% end %>
+              </li>
+              <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+
+            <% elsif notification.not_type == "101" %>
+              <li>
+                <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                    <div class="popover-left">
+                      <%= image_tag (User.find(notification.user2_id).profilepic)%>
+                    </div><!--popover-left-->
+                    <div class="popover-right">
+                      <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
+                      <small>5 hours ago</small>
+                    </div>
+                <% end %>
+              </li>
+              <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+
+            <% elsif notification.not_type == "102" %>
+              <li>
+                <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                    <div class="popover-left">
+                      <%= image_tag (User.find(notification.user2_id).profilepic)%>
+                    </div><!--popover-left-->
+                    <div class="popover-right">
+                      <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
+                      <small>5 hours ago</small>
+                    </div>
+                <% end %>
+              </li>
+              <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+
+            <% elsif notification.not_type == "103" %>
+              <li>
+                <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                    <div class="popover-left">
+                      <%= image_tag (User.find(notification.user2_id).profilepic)%>
+                    </div><!--popover-left-->
+                    <div class="popover-right">
+                      <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
+                      <small>5 hours ago</small>
+                    </div>
+                <% end %>
+              </li>
+              <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+
+            <% end %>
+         <% end %>
+      <% end %>
+  </ul>

@@ -37,7 +37,7 @@
 
 /* Navbar links: increase padding for taller navbar */
 .navbar .nav > li > a {
-    padding: 15px 20px !important;
+    padding: 15px 20px;
 }
 
 /* Offset the responsive button for proper vertical alignment */
@@ -53,7 +53,6 @@
 /* Carousel base class */
 .carousel {
     margin-bottom: 60px;
-    background-color:black;
     margin-top:-25px;/*add*/
 }
 
@@ -84,8 +83,8 @@
 }
 
 .carousel-caption {
-    background-color: transparent !important;
-    position: static !important;
+    background-color: transparent;
+    position: static;
     max-width: 550px;
     padding: 0 20px;
     margin-top: 200px;

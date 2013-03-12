@@ -12,6 +12,10 @@
       jQuery(function($) {
           $('[data-toggle=dropdown]').dropdown();
           $('[data-toggle=collapse]').collapse();
+          $('[rel=popover]').popover();
+          $('#notifications-button').click(function(){
+              $('#notifications-pop').toggle();
+          });
       });
   </script>
 

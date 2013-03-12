@@ -182,6 +182,7 @@ class UsersController < ApplicationController
     if signed_in?
       @user = User.find(params[:id])
       @photos = Photo.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
+      @videos = Video.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
 
     else
       flash[:error] = "You must be logged in."

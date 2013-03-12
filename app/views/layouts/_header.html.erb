@@ -22,23 +22,14 @@
               <i class="icon-envelope icon-white"></i><% if current_user.unread_messages.count > 0 %><span style="color: red;"> (<%= current_user.unread_messages.count %>)</span><% end %>
               </a>
 
-              <a href="#" data-toggle="dropdown" class="notifications" style="color: #666666; text-decoration: none;">
+
+              <a href="#" id="notifications-button" class="notifications" style="color: #666666; text-decoration: none;">
                 <i class="icon-globe icon-white"></i><% if  current_user.new_notifications.count > 0 %> <span style="color: red;"> (<%= current_user.new_notifications.count %>)</span><% end %>
               </a>
+              <div class="popover fade bottom in" id="notifications-pop" style="display: none; top: 40px; left: 180px;">
+                <%=	 render 'layouts/notifications' %>
+              </div>
           <% end %>
-
-          <ul class="dropdown-menu">
-            <%	 if @global_notifications %>
-                <% @global_notifications.each do |notification| %>
-                    <% if notification.not_type == "003" %>
-                        <li><%= link_to User.find(notification.user2_id).full_name + " is now following you", :controller => "users", :action => "read_notification", :id => notification.id %></li>
-                    <% elsif notification.not_type == "104" %>
-                        <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
-                    <% end %>
-                <% end %>
-            <% end %>
-          </ul>
-
         </ul>
 
         <div class="pull-right">
