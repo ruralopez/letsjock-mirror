@@ -12,7 +12,7 @@
       </div>
         <!-- begin Pictures -->
       <div class="event-info">
-        <h5><i class="icon-star"></i>Featured info 1</h5>
+        <h5><i class="icon-star"></i>Featured info</h5>
         <h5><i class="icon-camera"></i><%= link_to 'Pictures' , pictures_path(@user) %></h5>
         <div class="event-pictures">
           <%  @photos.take(6).each do |photo| %>
@@ -51,7 +51,7 @@
     <div class="profileInfo relative span9">
       <div class="user">
         <h2><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :name, :type => :input, :inner_class => "nameInput" %> <%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :lastname, :type => :input, :inner_class => "nameInput"  %></h2>
-        <p><b>Athletics </b><%  if @user.birth && @user.birth != "" %><%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years, <%else%><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :phone, :type => :input, :inner_class => "nameInput"  %>, <%  end %>
+        <p><b>Athletics </b><%  if @user.birth && @user.birth != "" %><%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years, <%else%><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :phone, :type => :input, :inner_class => "nameInput"  %> years old, <%  end %>
           <%  if @user.citybirth != "" %> <%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %>,
               <%  end %><%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %></p>
       </div><!--user-->
@@ -239,7 +239,55 @@
             </div>
           </div>
         </div>
+        <% if @user.id == 16 %>
+            <div class="preview">
+              <ul class="experience">
+                <li><h5><i class="icon-star"></i>Coach of the year <span>Athletics</span></h5></li>
+                <li><i class="icon-user"></i>Awarded by <a href="#">United States Coaches Association (USTCA)</a></li>
+                <li><i class="icon-flag"></i>NCAA Championship</li>
+                <li class="calendar"><i class="icon-calendar"></i>2012</li>
+                <li>
+                  <p></p>
+                </li>
+              </ul>
+            </div>
 
+            <div class="preview">
+              <ul class="experience">
+                <li><h5><i class="icon-user"></i>UCLA Women's Team <span>Athletics</span></h5></li>
+                <li><i class="icon-check"></i>Place: <a href="#">3rd</a></li>
+                <li><i class="icon-flag"></i>NCAA women's outdoor track and field championship </li>
+                <li class="calendar"><i class="icon-calendar"></i>2011 - 2012</li>
+                <li>
+                  <p></p>
+                </li>
+              </ul>
+            </div>
+
+            <div class="preview">
+              <ul class="experience">
+                <li><h5><i class="icon-user"></i>UCLA Women's Team <span>Athletics</span></h5></li>
+                <li><i class="icon-check"></i>Place: <a href="#">5th</a></li>
+                <li><i class="icon-flag"></i>NCAA women's indoor track and field championship </li>
+                <li class="calendar"><i class="icon-calendar"></i>2010 - 2011</li>
+                <li>
+                  <p></p>
+                </li>
+              </ul>
+            </div>
+
+            <div class="preview">
+              <ul class="experience">
+                <li><h5><i class="icon-user"></i>UCLA Women's Team <span>Athletics</span></h5></li>
+                <li><i class="icon-check"></i>Place: <a href="#">3rd</a></li>
+                <li><i class="icon-flag"></i>NCAA women's outdoor track and field championship </li>
+                <li class="calendar"><i class="icon-calendar"></i>2008 - 2009</li>
+                <li>
+                  <p></p>
+                </li>
+              </ul>
+            </div>
+        <% end %>
         <%	if @works.any?  %>
             <%=	 render @works %>
         <%	end %>
