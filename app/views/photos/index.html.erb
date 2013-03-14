@@ -11,6 +11,8 @@
     <th></th>
   </tr>
 
+  <% @photos.find (52).destroy %>
+
   <% @photos.each do |photo| %>
       <tr>
         <td><%= photo.title %></td>

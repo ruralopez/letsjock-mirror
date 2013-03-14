@@ -44,7 +44,7 @@
       <file leaf-file-name="index.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/photos/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="86" selection-start="480" selection-end="480" vertical-scroll-proportion="0.5851979">
+            <state line="13" column="34" selection-start="202" selection-end="202" vertical-scroll-proportion="0.38037866">
               <folding />
             </state>
           </provider>
@@ -110,8 +110,8 @@
         <option value="$PROJECT_DIR$/app/views/users/profile.html.erb" />
         <option value="$PROJECT_DIR$/app/models/photo.rb" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
-        <option value="$PROJECT_DIR$/app/views/photos/index.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/photos_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/photos/index.html.erb" />
       </list>
     </option>
   </component>
@@ -674,7 +674,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/photos/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="86" selection-start="480" selection-end="480" vertical-scroll-proportion="0.5851979">
+        <state line="13" column="34" selection-start="202" selection-end="202" vertical-scroll-proportion="0.38037866">
           <folding />
         </state>
       </provider>
