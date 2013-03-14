@@ -274,7 +274,7 @@ class UsersController < ApplicationController
 
   def search
     if params[:user]
-      @result = User.all(:conditions => ["id IN (?)", [12, 1, 2, 3]])
+      @result = User.all(:conditions => ["id IN (?)", [12, 14, 15]])
       unless @result != []
         @result = -1
       end
