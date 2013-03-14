@@ -30,6 +30,7 @@ Letsjock::Application.routes.draw do
   match '/notification/:id' => 'users#read_notification', :as => :follow_notification
   match '/search' => 'users#search', :as => :search
   match '/events/:id/join' => 'events#join', :as => :join
+  match '/events/:id/disjoin' => 'events#disjoin', :as => :disjoin
   match '/events/:id/new_admin' => 'events#new_admin', :as => :event_new_admin
   match '/inbox'=> 'messages#inbox', :as => :inbox
   match '/inbox/new'=> 'messages#new', :as => :new_message

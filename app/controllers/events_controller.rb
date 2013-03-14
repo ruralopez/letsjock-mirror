@@ -61,7 +61,9 @@ class EventsController < ApplicationController
         if @event.save
           publisher = Publisher.new(:event_id => @event.id, :pub_type => "E")
           eventadmin = EventAdmin.new(:user_id => @event.user_id, :event_id => @event.id)
-          if eventadmin.save && publisher.save
+          eventuser = UserEvent.new(:user_id => current_user.id, :event_id => @event.id)
+          if eventadmin.save && publisher.save && eventuser.save
+            Subscription.new(:user_id => current_user.id, :publisher_id => publisher.id).save
             Activity.new(:publisher_id => Publisher.find_by_user_id(current_user.id).id, :event_id => @event.id, :act_type => "031").save
             format.html { redirect_to @event, notice: 'Event was successfully created.' }
             format.json { render json: @event, status: :created, location: @event }
@@ -131,6 +133,19 @@ class EventsController < ApplicationController
         format.html { redirect_to root_url + 'events/' + params[:id].to_s }
         format.js { render :nothing => true }
       end
+    end
+  end
+
+  def disjoin
+    if signed_in?
+      userevent = UserEvent.first(:conditions => ["user_id = ? AND event_id = ?", current_user.id, params[:id].to_i])
+      userevent.destroy
+      subscription = Subscription.first(:conditions => ["user_id = ? AND publisher_id = ?", current_user.id, Publisher.find_by_event_id(params[:id]).id])
+      subscription.destroy
+        respond_to do |format|
+          format.html { redirect_to root_url + 'events/' + params[:id].to_s }
+          format.js { render :nothing => true }
+        end
     end
   end
 

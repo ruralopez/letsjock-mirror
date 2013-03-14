@@ -97,7 +97,11 @@
   </div><!--user-->
   <div class="connections action-buttons span3">
     <p>
-      <%= link_to content_tag(:button, "Join", :type=> "button", :class => "btn btn-large btn-success"), join_path %>
+      <% unless UserEvent.exists?(:user_id => current_user.id,  :event_id => @event.id) %>
+        <%= link_to content_tag(:button, "Join", :type=> "button", :class => "btn btn-large btn-success"), join_path %>
+      <% else %>
+        <%= link_to content_tag(:button, "Disjoin", :type=> "button", :class => "btn btn-large btn-danger"), disjoin_path %>
+      <% end %>
     </p>
   </div>
 </div><!-- /profileInfo -->
