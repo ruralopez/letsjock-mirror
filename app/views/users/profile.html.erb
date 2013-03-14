@@ -51,7 +51,7 @@
     <div class="profileInfo relative span9">
       <div class="user">
         <h2><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :name, :type => :input, :inner_class => "nameInput" %> <%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :lastname, :type => :input, :inner_class => "nameInput"  %></h2>
-        <p><b>Sport </b><%  if @user.birth && @user.birth != "" %><%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years, <%else%>Age, <%  end %>
+        <p><b>Athletics </b><%  if @user.birth && @user.birth != "" %><%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years, <%else%><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :phone, :type => :input, :inner_class => "nameInput"  %>, <%  end %>
           <%  if @user.citybirth != "" %> <%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %>,
               <%  end %><%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %></p>
       </div><!--user-->

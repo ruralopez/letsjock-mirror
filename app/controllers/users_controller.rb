@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(:citybirth => "City", :country => "Country", :resume => "Add resume here!", :email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname])
+    @user = User.new(:phone => 18, :citybirth => "City", :country => "Country", :resume => "Add resume here!", :email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname])
 
     respond_to do |format|
       if @user.save
@@ -125,9 +125,9 @@ class UsersController < ApplicationController
     @video = @user.videos.build if signed_in?
     #Sacando todos los sports para los botones de agregar entrada
     @sports = Sport.all
-    @sport_id = 345
     #Creando array de Countries para auto-complete
     @countries = Country.select('name').all.map(&:name)
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
@@ -274,7 +274,7 @@ class UsersController < ApplicationController
 
   def search
     if params[:user]
-      @result = User.all(:conditions => ["id IN (?)", [12, 14, 15]])
+      @result = User.all(:conditions => ["id IN (?)", [12, 14, 15]]).sort_by(&:id)
       unless @result != []
         @result = -1
       end

@@ -41,7 +41,7 @@
 <%	 if @result %>
       <% if @result == -1 %>
         <p>No matches found.</p>
-      <% end %>
+      <% else %>
       <div style="clear:both;">
         <h3>Results</h3>
         <%	 @result.each do |user| %>
@@ -61,6 +61,7 @@
             </div>
         <% end %>
       </div>
+      <% end %>
 <%  end%>
 </div><!--span-->
 
