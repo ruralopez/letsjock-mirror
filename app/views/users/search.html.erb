@@ -31,7 +31,7 @@
       </div><!--span-->
       <div class="span3">
         <h5>Currently</h5>
-        <%= f.select :lastname, ["Amateur", "College", "Professional", "National Team", "National Team - U20", "National Team - U16"], :class => "span3" %>
+        <%= f.select :lastname, ["Amateur", "College", "Professional", "National Team", "National Team - U20", "National Team - U18"], :class => "span3" %>
       </div><!--span-->
       </br></br></br></br></br></br></br></br></br>
       <%= f.submit "Find", :class => "btn btn-primary", :style=>"margin-left:30px;" %>
@@ -51,7 +51,7 @@
               </div>
               <div class="item-info">
                 <h4><%=	 link_to user.full_name, user %></h4>
-                <p><b>Athletics</b> and 200m</p>
+                <p><b>Athletics</b> / 200m</p>
                 <p class="special"><%= user.citybirth %>, <%= user.country %></p>
               </div>
               <div class="item-info secondary-info">

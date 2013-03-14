@@ -32,10 +32,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="profile.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="profile.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/users/profile.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="288" column="18" selection-start="13198" selection-end="13198" vertical-scroll-proportion="1.125">
+            <state line="288" column="18" selection-start="13198" selection-end="13198" vertical-scroll-proportion="-23.538462">
               <folding>
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -43,10 +43,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="search.html.erb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="search.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/users/search.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="44" selection-start="1777" selection-end="1777" vertical-scroll-proportion="-8.884615">
+            <state line="53" column="51" selection-start="1779" selection-end="1779" vertical-scroll-proportion="0.34375">
               <folding />
             </state>
           </provider>
@@ -102,9 +102,9 @@
         <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/users/_form.html.erb" />
         <option value="$PROJECT_DIR$/app/views/layouts/_footer.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/users/search.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/add-style.css" />
         <option value="$PROJECT_DIR$/app/views/users/profile.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/users/search.html.erb" />
       </list>
     </option>
   </component>
@@ -664,13 +664,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/users/pictures.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="64" selection-start="664" selection-end="664" vertical-scroll-proportion="-9.153846">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/events_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="4" selection-start="525" selection-end="576" vertical-scroll-proportion="0.0">
@@ -692,19 +685,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/users/search.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/users/profile.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="44" selection-start="1777" selection-end="1777" vertical-scroll-proportion="-8.884615">
+        <state line="288" column="18" selection-start="13198" selection-end="13198" vertical-scroll-proportion="-23.538462">
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/users/pictures.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="64" selection-start="664" selection-end="664" vertical-scroll-proportion="-9.153846">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/users/profile.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/users/search.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="288" column="18" selection-start="13198" selection-end="13198" vertical-scroll-proportion="1.125">
-          <folding>
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
+        <state line="53" column="51" selection-start="1779" selection-end="1779" vertical-scroll-proportion="0.34375">
+          <folding />
         </state>
       </provider>
     </entry>
