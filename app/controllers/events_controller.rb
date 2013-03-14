@@ -138,7 +138,7 @@ class EventsController < ApplicationController
 
   def disjoin
     if signed_in?
-      userevent = UserEvent.first(:conditions => ["user_id = ? AND event_id = ?", current_user.id, params[:id].to_i])
+      userevent = UserEvent.first(:conditions => ["user_id = ? AND event_id = ?", current_user.id, params[:id]])
       userevent.destroy
       subscription = Subscription.first(:conditions => ["user_id = ? AND publisher_id = ?", current_user.id, Publisher.find_by_event_id(params[:id]).id])
       subscription.destroy
