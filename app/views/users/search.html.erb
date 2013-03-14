@@ -1,0 +1,129 @@
+<%= javascript_include_tag "application" %>
+<%= stylesheet_link_tag    "profile" %>
+
+<div class="container">
+
+<div class="row">
+  <div class="span12">
+    <div class="page-title margin-10">
+      <h3 class="inline">Search</h3>
+    </div>
+  </div>
+</div>
+
+<div class="row relative">
+<div class="span9">
+
+
+<div>
+  <%=  form_for @filters, :url => {:action => "search"} do |f| %>
+      <div class="span3">
+        <h5>Gender</h5>
+        <%= f.select :gender, ["Female", "Male"], :class => "span3" %>
+      </div><!--span-->
+      <div class="span3">
+        <h5>Age</h5>
+        <%= f.text_field :name, :class => "span3" %>
+      </div><!--span-->
+      <div class="span3">
+        <h5>Sport</h5>
+        <input class="span3" type="text" placeholder="Type a Sport" data-provide="typeahead" data-source= '<%= @sports_list %>' data-items="4">
+      </div><!--span-->
+      <div class="span3">
+        <h5>Currently</h5>
+        <%= f.select :lastname, ["Amateur", "College", "Professional", "NT"], :class => "span3" %>
+      </div><!--span-->
+      </br></br></br></br></br></br></br></br></br>
+      <%= f.submit "Find", :class => "btn btn-primary", :style=>"margin-left:30px;" %>
+  <% end %>
+
+</div><!--post feeds-->
+<%	 if @result %>
+      <% if @result == -1 %>
+        <p>No matches found.</p>
+      <% end %>
+      <div style="clear:both;">
+        <h3>Results</h3>
+        <%	 @result.each do |user| %>
+            <div class="item-block span2">
+              <div class="item-img">
+                <%= link_to image_tag(user.profilephotourl) , user%>
+              </div>
+              <div class="item-info">
+                <h4><%=	 link_to user.full_name, user %></h4>
+                <p><b>Sport</b> and position</p>
+                <p class="special"><%= user.citybirth %>, <%= user.country %></p>
+              </div>
+              <div class="item-info secondary-info">
+                <p><b><%= link_to user.followers.count.to_s + " followers", social_path(user) %></b> | <%= link_to user.followed_users.count.to_s + "  following", social_path(user) %></p>
+                <a href="#inboxModal" data-toggle="modal" role="button" id="new-inbox-btn" class="send-message"><i class="icon-envelope"></i></a>
+              </div>
+            </div>
+        <% end %>
+      </div>
+<%  end%>
+</div><!--span-->
+
+<!-- /END THE FEATURETTES -->
+
+
+<div class="box-index box-connect box-contact span3">
+  <div class="box-content">
+    <h4>People you may know</h4>
+    <ul class="aside connect-people">
+      <li>
+        <div class="img-container">
+          <%= image_tag 'user-1.jpg'%>
+        </div>
+        <div class="metadata">
+          <a href="#">Username</a>
+          <p>sport</p>
+          <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
+        </div>
+      </li>
+      <li>
+        <div class="img-container">
+          <%= image_tag 'user-2.jpg'%>
+        </div>
+        <div class="metadata">
+          <a href="#">Username</a>
+          <p>sport</p>
+          <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
+        </div>
+      </li>
+      <li>
+        <div class="img-container">
+          <%= image_tag 'user-3.jpg'%>
+        </div>
+        <div class="metadata">
+          <a href="#">Username</a>
+          <p>sport</p>
+          <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
+        </div>
+      </li>
+      <li>
+        <div class="img-container">
+          <%= image_tag 'user-4.jpg'%>
+        </div>
+        <div class="metadata">
+          <a href="#">Username</a>
+          <p>sport</p>
+          <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
+        </div>
+      </li>
+      <li>
+        <div class="img-container">
+          <%= image_tag 'user-5.jpg'%>
+        </div>
+        <div class="metadata">
+          <a href="#">Username</a>
+          <p>sport</p>
+          <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
+        </div>
+      </li>
+    </ul>
+    <a href="#" class="align-right">See more</a>
+  </div>
+</div><!--box-connect-->
+</div>
+</div><!-- /.container -->

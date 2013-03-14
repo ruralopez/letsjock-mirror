@@ -272,5 +272,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def search
+    if params[:user]
+      @result = User.all(:conditions => ["id IN (?)", [12, 1, 2, 3]])
+      unless @result != []
+        @result = -1
+      end
+    end
+    @filters = User.new
+    @sports_list = Sport.select('name').all.map(&:name)
+  end
 
 end
