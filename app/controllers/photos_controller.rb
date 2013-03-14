@@ -1,5 +1,14 @@
 class PhotosController < ApplicationController
 
+  def index
+    @photos = Photo.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @photos }
+    end
+  end
+
   def create
     @user = User.find(params[:photo][:user_id])
     if signed_in? && current_user.id == @user.id

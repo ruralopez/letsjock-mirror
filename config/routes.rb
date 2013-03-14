@@ -10,7 +10,7 @@ Letsjock::Application.routes.draw do
   resources :trainees, :only => [:create, :update, :destroy]
   resources :works, :only => [:create, :update, :destroy]
   resources :educations, :only => [:create, :update, :destroy]
-  resources :photos, :only => [:create, :update, :destroy]
+  resources :photos
   resources :videos, :only => [:create, :update, :destroy]
   resources :events
   resources :messages, :only => [:create, :show]
