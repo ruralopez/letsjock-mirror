@@ -38,7 +38,7 @@
 
   <% unless @followers.blank? %>
       <%	 @followers.each do |follower| %>
-          <div class="item-block span2">
+          <div class="item-block span2 socialDiv">
             <div class="item-img">
               <%= link_to image_tag(follower.profilephotourl) , follower%>
             </div>
@@ -61,7 +61,7 @@
 
   <% unless @followed.blank? %>
       <%	 @followed.each do |followed| %>
-          <div id='following-block-<%= followed.id %>' class="item-block span2">
+          <div id='following-block-<%= followed.id %>' class="item-block span2 socialDiv">
             <div class="item-img">
               <%= link_to image_tag(followed.profilephotourl) , followed%>
             </div>
