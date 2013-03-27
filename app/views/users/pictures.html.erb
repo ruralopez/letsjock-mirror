@@ -19,7 +19,7 @@
             <%= image_tag(photo.url) %>
         <%  end %>
         <%  @videos.each do |video| %>
-            <%= raw(youtube_embed(video.url,240,200,false)) %>
+            <%= raw(youtube_embed(video.url,240,200,true)) %>
         <%  end %>
       </div>
     </div>
