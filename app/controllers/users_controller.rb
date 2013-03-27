@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(:phone => 18, :citybirth => "City", :country => "Country", :resume => "Add resume here!", :email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname])
+    @user = User.new(:phone => 18, :citybirth => "City", :country => "Country", :resume => "Add resume here!", :email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname], :isSponsor => false)
 
     respond_to do |format|
       if @user.save
@@ -137,10 +137,12 @@ class UsersController < ApplicationController
   def change_profile_pic
 
     @user = User.find(params[:id])
-    Photo.create({:title => "Test", :url => @user.profilephotourl, :user_id => params[:id]})
+
+    if @user.profilephotourl != "default-profile.png"
+      Photo.create({:title => "Test", :url => @user.profilephotourl, :user_id => params[:id]})
+    end
+
     @user.update_attribute(:profilephotourl, params[:url])
-    @photo = Photo.find(:first, :conditions => ['user_id = ? AND url = ?', @user.id, params[:url]])
-    @photo.destroy
 
     redirect_to current_user
 
@@ -249,6 +251,83 @@ class UsersController < ApplicationController
             @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init])
           end
           @recognition.save
+        end
+      else
+        flash[:error] = "You must complete all the required params."
+        redirect_to current_user
+      end
+      redirect_to current_user
+    else
+      flash[:error] = "You must be logged in."
+      sign_out
+      redirect_to root_path
+    end
+  end
+
+  def add_new_working
+    if signed_in? && current_user.id == params[:user_id].to_i
+      if params[:sport_id] != "" && params[:init] != "" && params[:end] != ""
+        if params[:team_name] != "" && params[:team_category] != ""
+          @team = Team.new(:name => params[:team_name], :category => params[:team_category], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :as_athlete => true)
+          @team.save
+        end
+        if params[:train_name] != ""
+          if @team
+            @train = Train.new(:name => params[:train_name], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => @team.id, :as_athlete => true)
+          else
+            @train = Train.new(:name => params[:train_name], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :as_athlete => true)
+          end
+          @train.save
+
+        end
+        if params[:result_position] != "" && params[:result_value] != "" && params[:result_var] != "" && params[:competition_name] != ""
+          if @team
+            @competition = Competition.new(:name => params[:competition_name],:sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => @team.id, :as_athlete => true)
+            @competition.save
+            @result = Result.new(:position => params[:result_position],:value => params[:result_value], :var => params[:result_var], :sport_id => params[:sport_id], :user_id => params[:user_id], :competition_id => @competition.id, :date => params[:init], :team_id => @team.id, :as_athlete => true)
+          else
+            @competition = Competition.new(:name => params[:competition_name],:sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :as_athlete => true)
+            @competition.save
+            @result = Result.new(:position => params[:result_position],:value => params[:result_value], :var => params[:result_var], :sport_id => params[:sport_id], :user_id => params[:user_id], :competition_id => @competition.id, :date => params[:init], :as_athlete => true)
+          end
+          @result.save
+        end
+        if params[:award_title] != "" && params[:award_by] != ""
+          if @team && @competition
+            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init], :competition_id => @competition.id, :team_id => @team.id, :as_athlete => true)
+          elsif  @competition
+            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init], :competition_id => @competition.id, :as_athlete => true)
+          elsif  @team
+            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init], :team_id => @team.id, :as_athlete => true)
+          else
+            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init], :as_athlete => true)
+          end
+          @recognition.save
+        end
+      else
+        flash[:error] = "You must complete all the required params."
+        redirect_to current_user
+      end
+      redirect_to current_user
+    else
+      flash[:error] = "You must be logged in."
+      sign_out
+      redirect_to root_path
+    end
+  end
+
+  def add_new_educational
+    if signed_in? && current_user.id == params[:user_id].to_i
+      if params[:init] != "" && params[:end] != ""
+        if params[:highschool_name] != ""
+          @education = Education.new(:name => params[:highschool_name], :rank => params[:rank], :gda => params[:gda], :ncaa => params[:ncaa], :country_id => 1, :location => params[:city], :init => params[:init], :end => params[:end])
+          @education.save
+        elsif params[:school_name] != ""
+          @education = Education.new(:name => params[:school_name], :career => params[:career], :degree => params[:degree], :country_id => 1, :location => params[:city], :init => params[:init], :end => params[:end])
+          @education.save
+        else
+          flash[:error] = "You must complete all the required params."
+          redirect_to current_user
         end
       else
         flash[:error] = "You must complete all the required params."

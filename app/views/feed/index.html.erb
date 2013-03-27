@@ -58,15 +58,15 @@
       <li>
         <div class="single-post">
           <a href="#">Let's Jock</a>
-          <p>Nullam quis risus eget urna mollis ornare vel eu leo. <b>Cum sociis natoque penatibus</b> et magnis dis parturient montes,</p>
-          <p><small>posted on February 18th</small></p>
+          <p>Lanzamiento oficial de Let's Jock! <b>Revisa nuestras noticias periódicamente</b> para saber más sobre las últimas actualizaciones,</p>
+          <p><small>posted on March 27th</small></p>
         </div>
       </li>
       <li>
         <div class="single-post">
           <a href="#">Let's Jock</a>
-          <p>Nullam quis risus eget urna mollis ornare vel eu leo. <b>Cum sociis natoque penatibus</b> et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-          <p><small>posted on February 18th</small></p>
+          <p>Versión Beta en rodaje. <b>Inscríbete en letsjock.com y podrás ser betauser!</b> No esperes más para ser parte de la plataforma que cambiará el mundo del deporte para siempre.</p>
+          <p><small>posted on March 23rd</small></p>
         </div>
       </li>
     </ul>
@@ -77,38 +77,128 @@
 
 <div class="post feeds">
 <ul>
-<li><!--NOMBRE_APELLIDO has updated his/her profile-->
-  <a class="img-rounded">
-    <%= image_tag 'user-1.jpg'%>
-  </a>
-  <div class="single-post">
-    <a href="#">Username</a>
-    <p><b>Has updated</b> his/her profile</p>
-    <p><small>on February 18th</small></p>
-  </div>
-</li>
-<li><!--NOMBRE_APELLIDO added a new photo-->
-  <a class="img-rounded">
-    <%= image_tag 'user-7.jpg'%>
-  </a>
-  <div class="single-post">
-    <a href="#">Username</a>
-    <p>add a new photo</p>
-    <%= image_tag 'user-7.jpg', :class => "img-polaroid"%>
-    <p><small>posted on February 18th</small></p>
-  </div>
-</li>
-<li><!--NOMBRE_APELLIDO added a new video--><!--FALTA-->
-  <a class="img-rounded">
-    <%= image_tag 'user-8.jpg'%>
-  </a>
-  <div class="single-post">
-    <a href="#">Username</a>
-    <p>add a new video</p>
-    <%= image_tag 'user-7.jpg', :class => "img-polaroid"%>
-    <p><small>posted on February 18th</small></p>
-  </div>
-</li>
+<% @news.each do |n| %>
+
+    <% if n.act_type == "000"%>
+        <li><!--NOMBRE_APELLIDO has updated his/her profile-->
+          <a class="img-rounded">
+            <%= image_tag User.find(Publisher.find(n.publisher_id).user_id).profilephotourl%>
+          </a>
+          <div class="single-post">
+            <%= link_to User.find(Publisher.find(n.publisher_id).user_id).full_name, User.find(Publisher.find(n.publisher_id).user_id)%>
+            <p><b>Has updated</b> his/her profile</p>
+            <p><small>on <%= n.created_at.strftime("%B %d")%></small></p>
+          </div>
+        </li>
+    <% elsif n.act_type == "010"%>
+        <li><!-- NOMBRE_APELLIDO is following NOMBRE_APELLIDO-->
+          <a class="img-rounded" href="#">
+            <%= image_tag User.find(Publisher.find(n.publisher_id).user_id).profilephotourl%>
+          </a>
+          <div class="single-post">
+            <%= link_to User.find(Publisher.find(n.publisher_id).user_id).full_name, User.find(Publisher.find(n.publisher_id).user_id)%>
+            <p>is following <%= link_to User.find(n.user_id).full_name, User.find(n.user_id)%></p>
+            <div class="user-avatar">
+              <%= link_to image_tag(User.find(n.user_id).profilephotourl, :class => "img-rounded"), User.find(n.user_id) %>
+            </div>
+            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+          </div>
+        </li>
+    <% elsif n.act_type == "011"%>
+        <li><!--NOMBRE_APELLIDO has a new follower-->
+          <a class="img-rounded" href="#">
+            <%= image_tag User.find(Publisher.find(n.publisher_id).user_id).profilephotourl%>
+          </a>
+          <div class="single-post">
+            <%= link_to User.find(Publisher.find(n.publisher_id).user_id).full_name, User.find(Publisher.find(n.publisher_id).user_id)%>
+            <p>has a new follower</p>
+            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+          </div>
+        </li>
+    <% elsif n.act_type == "020"%>
+        <%	if Photo.find(n.photo_id)  %>
+        <li><!--NOMBRE_APELLIDO added a new photo-->
+          <a class="img-rounded">
+            <%= image_tag User.find(Publisher.find(n.publisher_id).user_id).profilephotourl%>
+          </a>
+          <div class="single-post">
+            <%= link_to User.find(Publisher.find(n.publisher_id).user_id).full_name, User.find(Publisher.find(n.publisher_id).user_id)%>
+            <p>added a new photo</p>
+            <%= image_tag Photo.find(n.photo_id).url, :class => "img-polaroid"%>
+            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+          </div>
+        </li>
+        <%	end  %>
+    <% elsif n.act_type == "021"%>
+        <%	if Video.find(n.video_id)  %>
+            <li><!--NOMBRE_APELLIDO added a new video-->
+              <a class="img-rounded">
+                <%= image_tag User.find(Publisher.find(n.publisher_id).user_id).profilephotourl%>
+              </a>
+              <div class="single-post">
+                <%= link_to User.find(Publisher.find(n.publisher_id).user_id).full_name, User.find(Publisher.find(n.publisher_id).user_id)%>
+                <p>added a new video</p>
+                <%= raw(youtube_embed(Video.find(n.video_id).url,305,230,true)) %>
+                <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+              </div>
+            </li>
+        <%	end  %>
+    <% elsif n.act_type == "030"%>
+        <li><!--NOMBRE_APELLIDO joined NOMBRE_EVENTO on FECHA-->
+          <a class="img-rounded" href="#">
+            <%= image_tag User.find(Publisher.find(n.publisher_id).user_id).profilephotourl%>
+          </a>
+          <div class="single-post">
+            <%= link_to User.find(Publisher.find(n.publisher_id).user_id).full_name, User.find(Publisher.find(n.publisher_id).user_id)%>
+            <p>joined <%= link_to Event.find(n.event_id).name, Event.find(n.event_id)%> on <b><%= Event.find(n.event_id).date.strftime("%B %d") %></b></p>
+            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+          </div>
+        </li>
+    <% elsif n.act_type == "031"%>
+        <li><!--NOMBRE_INSTITUCIÓN posted a new event NOMBRE_EVENTO on FECHA-->
+          <a class="img-rounded" href="#">
+            <%= image_tag User.find(Publisher.find(n.publisher_id).user_id).profilephotourl%>
+          </a>
+          <div class="single-post">
+            <%= link_to User.find(Publisher.find(n.publisher_id).user_id).full_name, User.find(Publisher.find(n.publisher_id).user_id)%>
+            <p>Posted a new event <%= link_to Event.find(n.event_id).name, Event.find(n.event_id)%> on <b><%= Event.find(n.event_id).date.strftime("%B %d") %></b></p>
+            <div class="img-polaroid company-resume">
+              <%= image_tag Event.find(n.event_id).imageurl %>
+              <h4><%= link_to Event.find(n.event_id).name, Event.find(n.event_id)%></h4>
+              <i class="icon-calendar"></i><p><%= Event.find(n.event_id).date.strftime("%B %d") %></p>
+              <i class="icon-time"></i><p><%= Event.find(n.event_id).date.strftime("%R") %></p>
+              <i class="icon-map-marker"></i><p><%= Event.find(n.event_id).place %></p>
+            </div>
+            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+          </div>
+        </li>
+    <% elsif n.act_type == "100"%>
+        <!-- <p>Event Update Info</p> -->
+    <% elsif n.act_type == "101"%>
+        <li><!-- NOMBRE_EVENTO has new post -->
+          <a class="img-rounded" href="#">
+            <i class="icon-calendar icon-2x"></i>
+          </a>
+          <div class="single-post">
+            <p><%= link_to Event.find(Publisher.find(n.publisher_id).event_id).name, Event.find(Publisher.find(n.publisher_id).event_id)%> has a new post</p>
+            <div class="img-polaroid company-resume">
+              <i class="icon-bullhorn"></i><br>
+              <p> <%=  Post.find(n.post_id).content %>
+                <%= link_to 'See more', Event.find(Publisher.find(n.publisher_id).event_id), :class => 'see-more'%>
+              </p>
+            </div>
+            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+          </div>
+        </li>
+    <%else%>
+        <p>Event new Admin</p>
+
+    <%end%>
+<%end%>
+
+
+
+
 <li><!--NOMBRE_APELLIDO and NÚMERO others updated his/her profile-->
   <a class="img-rounded">
     <%= image_tag 'user-7.jpg'%>
@@ -197,32 +287,6 @@
     <p><small>posted on February 18th</small></p>
   </div>
 </li>
-<li><!--NOMBRE_APELLIDO has a new follower-->
-  <a class="img-rounded" href="#">
-    <%= image_tag 'user-2.jpg'%>
-  </a>
-  <div class="single-post">
-    <a href="#">Username</a>
-    <p>has a new follower</p>
-    <div class="user-avatar">
-      <%= link_to image_tag('user-1.jpg', :class => "img-rounded"), '#' %>
-    </div>
-    <p><small>posted on February 18th</small></p>
-  </div>
-</li>
-<li><!-- NOMBRE_APELLIDO is following NOMBRE_APELLIDO-->
-  <a class="img-rounded" href="#">
-    <%= image_tag 'user-10.jpg'%>
-  </a>
-  <div class="single-post">
-    <a href="#">Username</a>
-    <p>is following <a href="#">Username</a></p>
-    <div class="user-avatar">
-      <%= link_to image_tag('user-1.jpg', :class => "img-rounded"), '#' %>
-    </div>
-    <p><small>posted on February 18th</small></p>
-  </div>
-</li>
 <li><!--NOMBRE_INSTITUCIÓN has a new follower-->
   <a class="img-rounded" href="#">
     <%= image_tag 'company-1.gif'%>
@@ -254,48 +318,6 @@
       <h4>Milo</h4>
       <p>3000 followers</p>
       <div class="user-avatar"><a href="#"><i class="img-rounded icon-eye-open"><span>follow</span></i></a></div>
-    </div>
-    <p><small>posted on February 18th</small></p>
-  </div>
-</li>
-<li><!--NOMBRE_INSTITUCIÓN posted a new event NOMBRE_EVENTO on FECHA-->
-  <a class="img-rounded" href="#">
-    <%= image_tag 'company-1.gif'%>
-  </a>
-  <div class="single-post">
-    <a href="#">Company</a>
-    <p>Posted a new event <a href="#">Event name</a> on <b>March 18th</b></p>
-    <div class="img-polaroid company-resume">
-      <%= image_tag 'http://atperu.org/protenis/wp-content/uploads/2007/12/Afiche%20copa%20milo.jpg'%>
-      <h4>Event Name</h4>
-      <i class="icon-calendar"></i><p>March 18th</p>
-      <i class="icon-time"></i><p>18:00 hrs</p>
-      <i class="icon-map-marker"></i><p>Movistar Innova Center, Providencia 299</p>
-    </div>
-    <p><small>posted on February 18th</small></p>
-  </div>
-</li>
-<li><!--NOMBRE_APELLIDO joined NOMBRE_EVENTO on FECHA-->
-  <a class="img-rounded" href="#">
-    <%= image_tag 'user-2.jpg'%>
-  </a>
-  <div class="single-post">
-    <a href="#">Username</a>
-    <p>joined <a href="#">Event name</a> on <b>March 18th</b></p>
-    <p><small>posted on February 18th</small></p>
-  </div>
-</li>
-<li><!-- NOMBRE_EVENTO has new information -->
-  <a class="img-rounded" href="#">
-    <i class="icon-calendar icon-2x"></i>
-  </a>
-  <div class="single-post">
-    <p><a href="#">Event name</a> has a new information</p>
-    <div class="img-polaroid company-resume">
-      <i class="icon-bullhorn"></i><br>
-      <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vulputate pulvinar varius. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus at nunc leo. Sed sit amet mi id diam facilisis aliquam. Duis et lorem purus
-        <a class="see-more" href="#">See more</a>
-      </p>
     </div>
     <p><small>posted on February 18th</small></p>
   </div>
@@ -401,38 +423,3 @@
         })
     }(window.jQuery)
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-<% @news.each do |n| %>
-
-<% if n.act_type == "000"%>
-    <p>User Update Profile</p>
-<% elsif n.act_type == "010"%>
-        <p>User Following Y</p>
-<% elsif n.act_type == "011"%>
-        <p>User has new Follower</p>
-<% elsif n.act_type == "020"%>
-        <p>User New Photo</p>
-<% elsif n.act_type == "030"%>
-        <p>User Joins Event</p>
-<% elsif n.act_type == "031"%>
-        <p>User Creates Event</p>
-<% elsif n.act_type == "100"%>
-       <p>Event Update Info</p>
-<% elsif n.act_type == "101"%>
-        <p>Event new Post</p>
-<%else%>
-        <p>Event new Admin</p>
-
-    <%end%>
-<%end%>

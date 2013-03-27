@@ -782,6 +782,7 @@ ul.sponsor-third li:first-child:before, ul.sponsor-third li:after{
 .image-gallery > img:hover{opacity:1; cursor:pointer;}
 
 .image-gallery img, .image-feature img{width:100%; height:auto;}
+.image-gallery object, .image-gallery iframe {width:100%; height:100%;}
 
 .image-feature{}
 
@@ -847,6 +848,13 @@ ul#myTab.span3 li.active > a, ul#myTab.span3 li.active > a:hover, ul#myTab.span3
     padding-bottom:1.8em;
 }
 
+#my-tab-content.span9 .tab-pane {
+    padding-right:60px;
+    padding-bottom:10px;
+    text-align:justify;
+}
+
+
 
 /*NEWS V2*//*this will be deleted later*/
 .letsjock .carousel.version2{
@@ -865,7 +873,7 @@ ul#myTab.span3 li.active > a, ul#myTab.span3 li.active > a:hover, ul#myTab.span3
     height:190px;
     overflow:hidden;
     margin-left:0;
-    background: url("img/imgHome2.jpg") center center no-repeat;
+    background: url("imgHome3.jpg") center center no-repeat;
     padding-left:30px;
     border-top:1px solid #222;
     border-bottom: 1px solid #222;

@@ -9,4 +9,8 @@ class Result < ActiveRecord::Base
   has_many :videos
 
   attr_accessible :date, :position, :competition_id, :sport_id, :team_id, :user_id, :value, :var, :as_athlete
+
+  def full_mark
+    value.to_s + var
+  end
 end

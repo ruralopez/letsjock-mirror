@@ -51,8 +51,11 @@
 <div class="container marketing">
 
   <!-- Three columns of text below the carousel -->
+  <% if current_user.isSponsor %>
 
-  <%= link_to 'New Event', 'events/new', :class => "btn btn-primary btn-large"%>
+      <%= link_to 'New Event', 'events/new', :class => "btn btn-primary btn-large"%>
+
+  <% end %>
 
   <div class="accordion" id="accordion2"> <!--filtro-->
     <div class="accordion-group events-filter">

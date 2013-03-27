@@ -69,6 +69,10 @@ img-goalkeeper.png: img-goalkeeper-f5f6c58901dd5cad7f75819363db185f.png
 img-goalkeeper/index.png: img-goalkeeper-f5f6c58901dd5cad7f75819363db185f.png
 imgHome.jpg: imgHome-fe03b908d03ba07f4f01278d339303ac.jpg
 imgHome/index.jpg: imgHome-fe03b908d03ba07f4f01278d339303ac.jpg
+imgHome2.jpg: imgHome2-8b88f3bf0f23c1c03a1f51896937cc40.jpg
+imgHome2/index.jpg: imgHome2-8b88f3bf0f23c1c03a1f51896937cc40.jpg
+imgHome3.jpg: imgHome3-765b5aa84f444993f1fe04d4862a3433.jpg
+imgHome3/index.jpg: imgHome3-765b5aa84f444993f1fe04d4862a3433.jpg
 jock-navbar.png: jock-navbar-eda1f4010f2e514e69a654484e7f96ed.png
 jock-navbar/index.png: jock-navbar-eda1f4010f2e514e69a654484e7f96ed.png
 join.png: join-9bcdcd41877bb260a1379849a951420e.png
@@ -154,8 +158,8 @@ application/index.js: application-026679effef98ae20eb816526e64769f.js
 index.js: index-195b58a0f02fd763a311dcc5200af95a.js
 validations.js: validations-9ed1735bd4843c8dedcb21f211da230b.js
 validations/index.js: validations-9ed1735bd4843c8dedcb21f211da230b.js
-application.css: application-29a6fd72fc0c9f9a33f435c2cf1f6a8c.css
-application/index.css: application-29a6fd72fc0c9f9a33f435c2cf1f6a8c.css
+application.css: application-b3a7cafb54701ea9fb9fe5ebb2db9236.css
+application/index.css: application-b3a7cafb54701ea9fb9fe5ebb2db9236.css
 home.css: home-10b57606e1c938909f037a91d6a15862.css
 home/index.css: home-10b57606e1c938909f037a91d6a15862.css
 profile.css: profile-9c46c73b9e575861cbef9cd84c26b550.css

@@ -1,122 +1,64 @@
-<% if @educationType == 1 %>
-    <%=	 form_for @education do |f| %>
-        <fieldset>
-          <legend>Educational School</legend>
-          <%=   f.text_field :name, :placeholder => "Name" %>
-          <label>Country</label>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-map-marker"></i></span>
-            <%= f.select :country_id, [["Chile", 1], ["USA", 2]] %>
-          </div>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-map-marker"></i></span>
-            <%=	 f.text_field :location, :placeholder => "Location" %>
-          </div>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-calendar"></i></span>
-            <p><%=	 f.date_select :init %></p>
-            <p><%=	 f.date_select :end %></p>
-          </div>
-          <label class="checkbox">
-            <input type="checkbox"> Currently here
-          </label>
-          <%= f.submit "Add School Education", :class => "btn" %>
-        </fieldset>
-    <% end %>
-<% elsif @educationType == 2 %>
-    <%=	 form_for @education do |f| %>
-        <fieldset>
-          <legend>High School</legend>
-          <%=   f.text_field :name, :placeholder => "Name" %>
-          <label>Class Rank</label>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-user"></i></span>
-            <%= f.select :rank, [["Rank 1", 1], ["Rank 2", 2], ["Rank 3"], 3] %>
-          </div>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-user"></i></span>
-            <%=	 f.text_field :gda, :placeholder => "GDA" %>
-          </div>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-user"></i></span>
-            <%=	 f.text_field :ncaa, :placeholder => "NCAA" %>
-          </div>
-          <label>Country</label>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-map-marker"></i></span>
-            <%= f.select :country_id, [["Chile", 1], ["USA", 2]] %>
-          </div>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-map-marker"></i></span>
-            <%=	 f.text_field :location, :placeholder => "Location" %>
-          </div>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-calendar"></i></span>
-            <p><%=	 f.date_select :init %></p>
-            <p><%=	 f.date_select :end %></p>
-          </div>
-          <label class="checkbox">
-            <input type="checkbox"> Currently here
-          </label>
-          <%= f.submit "Add High School Education", :class => "btn" %>
-        </fieldset>
-    <% end %>
-<% elsif @educationType == 3 %>
-    <%=	 form_for @education do |f| %>
-        <fieldset>
-          <legend>College</legend>
-          <%=   f.text_field :name, :placeholder => "Name" %>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-user"></i></span>
-            <%= f.text_field :degree, :placeholder => "Degree" %>
-          </div>
-          <label>Country</label>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-map-marker"></i></span>
-            <%= f.select :country_id, [["Chile", 1], ["USA", 2]] %>
-          </div>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-map-marker"></i></span>
-            <%=	 f.text_field :location, :placeholder => "Location" %>
-          </div>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-calendar"></i></span>
-            <p><%=	 f.date_select :init %></p>
-            <p><%=	 f.date_select :end %></p>
-          </div>
-          <label class="checkbox">
-            <input type="checkbox"> Currently here
-          </label>
-          <%= f.submit "Add College Education", :class => "btn" %>
-        </fieldset>
-    <% end %>
-<% else %>
-    <%=	 form_for @education do |f| %>
-        <fieldset>
-          <legend>University</legend>
-          <%=   f.text_field :name, :placeholder => "Name" %>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-user"></i></span>
-            <%= f.text_field :career, :placeholder => "Career" %>
-          </div>
-          <label>Country</label>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-map-marker"></i></span>
-            <%= f.select :country_id, [["Chile", 1], ["USA", 2]] %>
-          </div>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-map-marker"></i></span>
-            <%=	 f.text_field :location, :placeholder => "Location" %>
-          </div>
-          <div class="input-prepend">
-            <span class="add-on"><i class="icon-calendar"></i></span>
-            <p><%=	 f.date_select :init %></p>
-            <p><%=	 f.date_select :end %></p>
-          </div>
-          <label class="checkbox">
-            <input type="checkbox"> Currently here
-          </label>
-          <%= f.submit "Add University Education", :class => "btn" %>
-        </fieldset>
-    <% end %>
-<% end %>
+<%= form_tag({:controller => 'users', :action => 'add_new_educational'}, :id => 'new-educational-profile-entry') do  %>
+
+    <fieldset>
+      <%= hidden_field_tag :user_id, current_user.id %>
+      <div id="divHighSchool-educational" class="hiddenDiv input-prepend">
+        <p>
+          <span class="add-on"><i class="icon-book"></i></span>
+          <%= text_field_tag :highschool_name, nil, :placeholder => "High School Name" %>
+          <%= select_tag :rank, options_for_select([["Rank 1", 1], ["Rank 2", 2], ["Rank 3", 3]]) %>
+        </p>
+        <span class="add-on"><i class="icon-book"></i></span>
+        <%=	text_field_tag :gda, nil, :placeholder => "GDA" %>
+        <%=	text_field_tag :ncaa, nil, :placeholder => "NCAA" %>
+      </div>
+
+      <div id="divSchool-educational" class="hiddenDiv input-prepend">
+        <p>
+          <span class="add-on"><i class="icon-briefcase"></i></span>
+          <%= text_field_tag :school_name, nil, :placeholder => "School Name" %>
+          <%=	text_field_tag :career, nil, :placeholder => "Career" %>
+        </p>
+        <span class="add-on"><i class="icon-briefcase"></i></span>
+        <%=	text_field_tag :degree, nil, :placeholder => "Degree" %>
+      </div>
+
+      <p>
+      <div id="divLocation-educational" class="input-prepend">
+        <span class="add-on"><i class="icon-map-marker"></i></span>
+        <div class="input-append input-prepend">
+          <%= text_field_tag :country, nil, :placeholder => "Country" %>
+        </div>
+        <%= text_field_tag :city, nil, :placeholder => "City" %>
+      </div>
+
+      <div id="divDate-educational" class="input-prepend">
+        <div class="input-prepend date" id="dp7" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+          <span class="add-on"><i class="icon-calendar"></i></span>
+          <%= text_field_tag :init, "12-02-2012", :class => "span2"%>
+        </div>
+        <div class="input-prepend date" id="dp8" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+          <span class="add-on"><i class="icon-calendar"></i></span>
+          <%= text_field_tag :end, "12-02-2012", :class => "span2" %>
+        </div>
+      </div>
+      </p>
+
+      <div id="divDes-working" class="hiddenDiv input-prepend">
+        <span class="add-on"><i class="icon-pencil"></i></span>
+        <textarea rows="3"></textarea>
+      </div>
+
+
+      <script>
+          !function ($) {
+              $(function(){
+                  $('#dp7').datepicker()
+                  $('#dp8').datepicker()
+              })
+          }(window.jQuery)
+      </script>
+    </fieldset>
+    <button type="submit" class="pull-right btn btn-success"><b>Add</b></button>
+    <div class="clearfix"></div>
+<%  end %>

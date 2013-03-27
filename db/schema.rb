@@ -281,6 +281,7 @@ ActiveRecord::Schema.define(:version => 20130306185215) do
     t.string   "remember_token"
     t.string   "email_token"
     t.boolean  "authentic_email"
+    t.boolean  "isSponsor"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end

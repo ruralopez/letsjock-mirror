@@ -36,10 +36,10 @@ module Letsjock
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 	
-	# Add the fonts path
-	config.assets.paths << "#{Rails.root}/app/assets/fonts"
-	# Precompile additional assets
-	config.assets.precompile += %w( .svg .eot .woff .ttf )
+	  # Add the fonts path
+	  config.assets.paths << "#{Rails.root}/app/assets/fonts"
+	  # Precompile additional assets
+	  config.assets.precompile += %w( .svg .eot .woff .ttf )
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]

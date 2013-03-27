@@ -1,0 +1,253 @@
+<%= stylesheet_link_tag    "users" %>
+<%= stylesheet_link_tag    "profile" %>
+<%= javascript_include_tag "application" %>
+
+<div class="container">
+<div class="row">
+<div class="box box-media span3 event-single">
+  <div class="img-polaroid">
+    <%=	 image_tag 'company-1.gif', :class => 'user-profile' %>
+  </div>
+  <div class="event-info">
+    <h5><i class="icon-building"></i>Industry<span>sports, educational, accounting, airlines/aviation, animation, apparel
+& fashion, architecture, art & design, automotive</span></h5>
+    <h5>Founded<span>1980</span></h5>
+    <h5><i class="icon-map-marker"></i>Headquarters<span>Location</span></h5>
+    <h5><i class="icon-group"></i>Size<span>501-1000 employees</span><small><a href="#"> (see all)</a></small></h5>
+    <div class="sponsor-pictures employees"><!--maximo 4-->
+      <%= link_to image_tag('user-9.jpg', :class => "user-profile"), '#' %>
+      <%= link_to image_tag('user-10.jpg', :class => "user-profile"), '#' %>
+      <%= link_to image_tag('user-11.jpg', :class => "user-profile"), '#' %>
+      <%= link_to image_tag('user-12.jpg', :class => "user-profile"), '#' %>
+    </div><!--sponsor-pictures eployees-->
+  </div><!--event info-->
+
+</div><!--box-media-->
+
+<div class="span9 company-header">
+
+</div><!-- /profileIcons -->
+
+<div class="profileInfo relative span9">
+  <div class="user">
+    <h2>Milo</h2>
+    <p>
+      <i class="icon-globe icon-large"></i>
+      <a href="http://www.melapuedo.cl/milo/"> http://www.melapuedo.cl/milo/</a>
+    </p>
+  </div><!--user-->
+  <div class="connections action-buttons span3">
+    <p>
+      <button class="btn btn-large btn-success" type="button"><i class="icon-eye-open icon-white"></i> Follow</button>
+    </p>
+  </div>
+</div><!-- /profileInfo -->
+
+<div class="box box-info span6 company">
+  <div class="resume">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis porta risus. Ut eleifend, turpis vitae auctor euismod, mauris justo tincidunt purus, eget commodo arcu nibh vitae dolor. Nam arcu erat, mattis vitae commodo dictum, fermentum id felis. Etiam malesuada felis ac lectus pretium eu posuere magna porttitor. </p>
+  </div><!--resume-->
+  <div class="post resume">
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+      <li class="active"><a href="#next-events" data-toggle="tab">
+        <h4>Next Events</h4></a>
+      </li>
+      <li><a href="#pre-events" data-toggle="tab">
+        <h4>Previous Events</h4></a>
+      </li>
+    </ul>
+
+    <div id="my-tab-content" class="tab-content">
+      <div class="tab-pane active" id="next-events">
+
+        <h5>March</h5>
+        <table class="table table-bordered event-table">
+          <tbody>
+          <tr><!-- comienza bloque evento -->
+            <td><i class="icon-calendar"></i> Monday, March 25th, 2013
+              <a href="#"><h4>Event Name</h4></a>
+            </td>
+            <td class="w-30">10 Assistants
+              <div class="assistants"><!--maximo 4 -->
+                <%= link_to image_tag('user-1.jpg', :class => "img-rounded"), '#' %>
+                <%= link_to image_tag('user-2.jpg', :class => "img-rounded"), '#' %>
+                <%= link_to image_tag('user-3.jpg', :class => "img-rounded"), '#' %>
+                <%= link_to image_tag('user-7.jpg', :class => "img-rounded"), '#' %>
+              </div>
+            </td>
+            <td class="w-10"><a href="#">14:00</a></td>
+          </tr><!--termina bloque evento-->
+          <tr><!-- comienza bloque evento -->
+            <td><i class="icon-calendar"></i> Friday, March 29th, 2013
+              <a href="#"><h4>Event Name</h4></a>
+            </td>
+            <td class="w-30">10 Assistants
+              <div class="assistants"><!--maximo 4 -->
+                <%= link_to image_tag('user-8.jpg', :class => "img-rounded"), '#' %>
+                <%= link_to image_tag('user-9.jpg', :class => "img-rounded"), '#' %>
+                <%= link_to image_tag('user-1.jpg', :class => "img-rounded"), '#' %>
+                <%= link_to image_tag('user-2.jpg', :class => "img-rounded"), '#' %>
+              </div>
+            </td>
+            <td class="w-10"><a href="#">14:00</a></td>
+          </tr><!--termina bloque evento-->
+          </tbody>
+        </table>
+
+        <h5>April</h5>
+        <table class="table table-bordered event-table">
+          <!--<thead><tr>
+                                      <th></th>
+                                  <tr></thead>-->
+          <tbody>
+          <tr><!-- comienza bloque evento -->
+            <td><i class="icon-calendar"></i> Monday, April 1st, 2013
+              <a href="#"><h4>Event Name</h4></a>
+            </td>
+            <td class="w-30">123 Assistants
+              <div class="assistants"><!--maximo 4 -->
+                <%= link_to image_tag('user-1.jpg', :class => "img-rounded"), '#' %>
+                <%= link_to image_tag('user-2.jpg', :class => "img-rounded"), '#' %>
+                <%= link_to image_tag('user-3.jpg', :class => "img-rounded"), '#' %>
+                <%= link_to image_tag('user-7.jpg', :class => "img-rounded"), '#' %>
+              </div>
+            </td>
+            <td class="w-10"><a href="#">14:00</a></td>
+          </tr><!--termina bloque evento-->
+          </tbody>
+        </table>
+
+        <h5>July</h5>
+        <table class="table table-bordered event-table">
+          <!--<thead><tr>
+                                      <th></th>
+                                  <tr></thead>-->
+          <tbody>
+          <tr><!-- comienza bloque evento -->
+            <td><i class="icon-calendar"></i> Saturday, July 19th, 2013
+              <a href="#"><h4>Event Name</h4></a>
+            </td>
+            <td class="w-30">0 Assistants
+              <div class="assistants"><!--maximo 4 -->
+              </div>
+            </td>
+            <td class="w-10"><a href="#">14:00</a></td>
+          </tr><!--termina bloque evento-->
+          </tbody>
+        </table>
+
+
+      </div><!-- #next-events -->
+
+      <div class="tab-pane" id="pre-events">
+        <div class="item-block">
+          <a href="#">
+            <div class="item-img">
+              <%=	 image_tag 'company-1.gif' %>
+            </div>
+            <div class="item-info">
+              <h4>Name of the event</h4>
+              <p><b>21 assistants</b> on January 1st</p>
+            </div>
+          </a>
+        </div><!--item-block-->
+        <div class="item-block">
+          <a href="#">
+            <div class="item-img">
+              <%=	 image_tag 'company-2.gif' %>
+            </div>
+            <div class="item-info">
+              <h4>Name of the event</h4>
+              <p><b>21 assistants</b> on January 1st</p>
+            </div>
+          </a>
+        </div><!--item-block-->
+        <div class="item-block">
+          <a href="#">
+            <div class="item-img">
+              <%=	 image_tag 'company-1.gif' %>
+            </div>
+            <div class="item-info">
+              <h4>Name of the event</h4>
+              <p><b>21 assistants</b> on January 1st</p>
+            </div>
+          </a>
+        </div><!--item-block-->
+      </div><!-- #pre-events -->
+    </div><!-- #my-tab-content-->
+
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('#tabs').tab();
+        });
+    </script>
+
+  </div><!--post resume-->
+</div><!--span6 company-->
+
+<div class="box box-connect span3">
+  <div class="box-content">
+    <h4><span>1230</span> Followers</h4>
+    <ul class="sponsor-main">
+      <li>
+        <div class="img-container">
+          <%=	 image_tag 'user-1.jpg' %>
+        </div>
+        <div class="metadata">
+          <a href="#">Username</a>
+          <p>12112 Followers</p>
+        </div>
+      </li>
+      <li>
+        <div class="img-container">
+          <%=	 image_tag 'user-2.jpg' %>
+        </div>
+        <div class="metadata">
+          <a href="#">Username</a>
+          <p>1322 Followers</p>
+        </div>
+      </li>
+      <li>
+        <div class="img-container">
+          <%=	 image_tag 'user-3.jpg' %>
+        </div>
+        <div class="metadata">
+          <a href="#">Username</a>
+          <p>12112 Followers</p>
+        </div>
+      </li>
+      <li>
+        <div class="img-container">
+          <%=	 image_tag 'user-4.jpg' %>
+        </div>
+        <div class="metadata">
+          <a href="#">Username</a>
+          <p>1322 Followers</p>
+        </div>
+      </li>
+      <li>
+        <div class="img-container">
+          <%=	 image_tag 'user-5.jpg' %>
+        </div>
+        <div class="metadata">
+          <a href="#">Username</a>
+          <p>1322 Followers</p>
+        </div>
+      </li>
+      <li>
+        <div class="img-container">
+          <%=	 image_tag 'user-7.jpg' %>
+        </div>
+        <div class="metadata">
+          <a href="#">Username</a>
+          <p>1322 Followers</p>
+        </div>
+      </li>
+    </ul>
+
+    <a href="#" class="align-right">See more</a>
+  </div><!--box-content-->
+</div><!--box-connect-->
+</div>
+
+</div><!-- /.container -->

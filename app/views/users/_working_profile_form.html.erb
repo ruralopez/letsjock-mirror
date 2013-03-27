@@ -1,25 +1,24 @@
-<%= form_tag({:controller => 'users', :action => 'add_new'}, :id => 'new-profile-entry') do  %>
+<%= form_tag({:controller => 'users', :action => 'add_new_working'}, :id => 'new-working-profile-entry') do  %>
 
     <fieldset>
-
       <p>
-      <div id="divSport" class="input-prepend">
+      <div id="divSport-working" class="input-prepend">
         <span class="add-on"><i class="icon-circle-blank"></i></span>
         <%= select_tag :sport_id, options_for_select([['Athletics',1]])  %>
         <%= hidden_field_tag :user_id, current_user.id %>
       </div>
       </p>
 
-      <div id="divTrain" class="hiddenDiv input-prepend">
+      <div id="divTrain-working" class="hiddenDiv input-prepend">
         <span class="add-on"><i class="icon-user"></i></span>
         <select>
-          <option>Trained by</option>
+          <option>Trained</option>
         </select>
-        <%= text_field_tag :train_name, nil, :placeholder => "Trainer Name" %>
+        <%= text_field_tag :trainee_name, nil, :placeholder => "Trainee Name" %>
       </div>
 
 
-      <div id="divTeam" class="hiddenDiv input-prepend">
+      <div id="divTeam-working" class="hiddenDiv input-prepend">
         <span class="add-on"><i class="icon-group"></i></span>
         <div class="input-append input-prepend">
           <%= text_field_tag :team_name, nil, :placeholder => "Team Name" %>
@@ -27,7 +26,7 @@
         <%= text_field_tag :team_category, nil, :placeholder => "Category" %>
       </div>
 
-      <div id="divAward" class="hiddenDiv input-prepend">
+      <div id="divAward-working" class="hiddenDiv input-prepend">
         <span class="add-on"><i class="icon-trophy"></i></span>
         <div class="input-append input-prepend">
           <%= text_field_tag :award_title, nil, :placeholder => "Award Title" %>
@@ -35,7 +34,7 @@
         <%= text_field_tag :award_by, nil, :placeholder => "Awarded By" %>
       </div>
 
-      <div id="divResult" class="hiddenDiv input-prepend">
+      <div id="divResult-working" class="hiddenDiv input-prepend">
         <span class="add-on"><i class="icon-star"></i></span>
         <div class="input-append input-prepend">
           <%= text_field_tag :competition_name, nil, :placeholder => "Competition Name" %>
@@ -46,7 +45,7 @@
       </div>
 
       <p>
-      <div id="divLocation" class="input-prepend">
+      <div id="divLocation-working" class="input-prepend">
         <span class="add-on"><i class="icon-map-marker"></i></span>
         <div class="input-append input-prepend">
           <%= text_field_tag :country, nil, :placeholder => "Country" %>
@@ -54,19 +53,19 @@
         <%= text_field_tag :city, nil, :placeholder => "City" %>
       </div>
 
-      <div id="divDate" class="input-prepend">
-        <div class="input-prepend date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+      <div id="divDate-working" class="input-prepend">
+        <div class="input-prepend date" id="dp5" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
           <span class="add-on"><i class="icon-calendar"></i></span>
           <%= text_field_tag :init, "12-02-2012", :class => "span2"%>
         </div>
-        <div class="input-prepend date" id="dp4" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+        <div class="input-prepend date" id="dp6" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
           <span class="add-on"><i class="icon-calendar"></i></span>
           <%= text_field_tag :end, "12-02-2012", :class => "span2" %>
         </div>
       </div>
       </p>
 
-      <div id="divDes" class="hiddenDiv input-prepend">
+      <div id="divDes-working" class="hiddenDiv input-prepend">
         <span class="add-on"><i class="icon-pencil"></i></span>
         <textarea rows="3"></textarea>
       </div>
@@ -75,14 +74,12 @@
       <script>
           !function ($) {
               $(function(){
-                  $('#dp3').datepicker()
-                  $('#dp4').datepicker()
+                  $('#dp5').datepicker()
+                  $('#dp6').datepicker()
               })
           }(window.jQuery)
       </script>
     </fieldset>
-
-      <button type="submit" class="pull-right btn btn-success"><b>Add</b></button>
-      <div class="clearfix"></div>
-
+    <button type="submit" class="pull-right btn btn-success"><b>Add</b></button>
+    <div class="clearfix"></div>
 <%  end %>
