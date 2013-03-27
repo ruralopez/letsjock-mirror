@@ -139,7 +139,9 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if @user.profilephotourl != "default-profile.png"
-      Photo.create({:title => "Test", :url => @user.profilephotourl, :user_id => params[:id]})
+      if  !(Photo.exists?(:url => @user.profilephotourl, :user_id => params[:id]))
+        Photo.create({:title => "Test", :url => @user.profilephotourl, :user_id => params[:id]})
+      end
     end
 
     @user.update_attribute(:profilephotourl, params[:url])
