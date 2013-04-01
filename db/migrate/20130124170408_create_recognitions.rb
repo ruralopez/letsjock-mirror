@@ -5,6 +5,7 @@ class CreateRecognitions < ActiveRecord::Migration
       t.integer :sport_id
       t.integer :competition_id
       t.integer :team_id
+      t.integer :work_id
       t.string :awarded_by
       t.string :description
       t.date :date

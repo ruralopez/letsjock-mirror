@@ -2,6 +2,15 @@
 
     <fieldset>
       <p>
+
+      <div id="divCompany-working" class="input-prepend">
+        <span class="add-on"><i class="icon-briefcase"></i></span>
+        <div class="input-append input-prepend">
+          <%= text_field_tag :company, nil, :placeholder => "Company" %>
+        </div>
+        <%= text_field_tag :role, nil, :placeholder => "Role" %>
+      </div>
+
       <div id="divSport-working" class="input-prepend">
         <span class="add-on"><i class="icon-circle-blank"></i></span>
         <%= select_tag :sport_id, options_for_select([['Athletics',1]])  %>

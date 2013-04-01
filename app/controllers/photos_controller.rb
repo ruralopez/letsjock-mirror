@@ -24,4 +24,21 @@ class PhotosController < ApplicationController
     end
   end
 
+  def destroy
+    @photo = Photo.find(params[:id])
+    if signed_in? && current_user.id == 1
+      Activity.where(["publisher_id = ? AND photo_id = ? AND act_type = ?", Publisher.find_by_user_id(@photo.user_id).id,@photo.id, "020"]).first.destroy
+      @photo.destroy
+
+      respond_to do |format|
+        format.html { redirect_to photos_url }
+        format.json { head :no_content }
+      end
+    else
+      flash[:error] = "You must be logged in."
+      sign_out
+      redirect_to signin_path
+    end
+  end
+
 end

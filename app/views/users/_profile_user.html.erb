@@ -9,19 +9,18 @@
 <div class="box box-media span3">
   <div class="img-polaroid">
     <%= link_to image_tag(@user.profilephotourl, :class => "user-profile"), '#' %>
+       <% if signed_in? &&  @user.id == current_user.id %>
+    <a href="#profilePictureModal" data-toggle="modal" role="button"><h5><i class="icon-picture"></i> Change profile picture</h5></a>
+       <% end %>
   </div>
   <!-- begin Pictures -->
   <div class="event-info">
-    <h5><i class="icon-star"></i>Featured info</h5>
+    <!-- <h5><i class="icon-star"></i>Featured info</h5> -->
     <h5><i class="icon-camera"></i><%= link_to 'Pictures' , pictures_path(@user) %></h5>
     <div class="event-pictures">
       <%  @photos.take(6).each do |photo| %>
           <%	 if photo.url != @user.profilephotourl %>
-              <%	 if signed_in? && @user.id == current_user.id%>
-                  <%= link_to image_tag(photo.url) , :controller => 'users', :action => 'change_profile_pic', :url => photo.url %>
-              <% else %>
                   <%= link_to image_tag(photo.url) , '#' %>
-              <% end %>
           <% end %>
       <%  end %>
     </div><!--user-pictures-->
@@ -49,6 +48,7 @@
   <li><i class="icon-eye-open icon-white"></i><%= link_to @user.followers.count.to_s + " followers", social_path(@user) %><%= link_to @user.followed_users.count.to_s + " following", social_path(@user) %></li>
   <li><i class="icon-camera icon-white"></i><%= link_to @photos.count.to_s + ' pictures' , pictures_path(@user) %></li>
   <li><i class="icon-facetime-video icon-white"></i><%= link_to @videos.count.to_s + ' videos' , pictures_path(@user) %></li>
+  <li><i class="icon-calendar icon-white"></i><%= link_to @events.count.to_s + ' events' , '#eventModal', :data => {:toggle => "modal"}, :role => "button" %></li>
 </ul><!-- /profileIcons -->
 <div class="profileInfo relative span9">
   <div class="user">
@@ -192,7 +192,7 @@
   </p>
 </div><!--resume-->
 <div class="resume">
-  <h4>Athlete Profile</h4>
+  <h4>Jock Information</h4>
   <div class="accordion" id="accordion3"> <!--mapa-->
     <div class="accordion-group events-filter">
       <div class="accordion-heading">
@@ -277,55 +277,7 @@
       </div>
     </div>
   </div>
-  <% if @user.id == 16 %>
-      <div class="preview">
-        <ul class="experience">
-          <li><h5><i class="icon-star"></i>Coach of the year <span>Athletics</span></h5></li>
-          <li><i class="icon-user"></i>Awarded by <a href="#">United States Coaches Association (USTCA)</a></li>
-          <li><i class="icon-flag"></i>NCAA Championship</li>
-          <li class="calendar"><i class="icon-calendar"></i>2012</li>
-          <li>
-            <p></p>
-          </li>
-        </ul>
-      </div>
 
-      <div class="preview">
-        <ul class="experience">
-          <li><h5><i class="icon-user"></i>UCLA Women's Team <span>Athletics</span></h5></li>
-          <li><i class="icon-check"></i>Place: <a href="#">3rd</a></li>
-          <li><i class="icon-flag"></i>NCAA women's outdoor track and field championship </li>
-          <li class="calendar"><i class="icon-calendar"></i>2011 - 2012</li>
-          <li>
-            <p></p>
-          </li>
-        </ul>
-      </div>
-
-      <div class="preview">
-        <ul class="experience">
-          <li><h5><i class="icon-user"></i>UCLA Women's Team <span>Athletics</span></h5></li>
-          <li><i class="icon-check"></i>Place: <a href="#">5th</a></li>
-          <li><i class="icon-flag"></i>NCAA women's indoor track and field championship </li>
-          <li class="calendar"><i class="icon-calendar"></i>2010 - 2011</li>
-          <li>
-            <p></p>
-          </li>
-        </ul>
-      </div>
-
-      <div class="preview">
-        <ul class="experience">
-          <li><h5><i class="icon-user"></i>UCLA Women's Team <span>Athletics</span></h5></li>
-          <li><i class="icon-check"></i>Place: <a href="#">3rd</a></li>
-          <li><i class="icon-flag"></i>NCAA women's outdoor track and field championship </li>
-          <li class="calendar"><i class="icon-calendar"></i>2008 - 2009</li>
-          <li>
-            <p></p>
-          </li>
-        </ul>
-      </div>
-  <% end %>
   <%	if @works.any?  %>
       <%=	 render @works %>
   <%	end %>
@@ -446,98 +398,11 @@
 </div><!--box-connect-->
 </div>
 </div><!-- /.container -->
-<div id="photoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Photos</h3>
-  </div>
-  <div class="modal-body">
-    <% if signed_in? %>
-        <% unless @photo.blank? %>
-            <%= form_for @photo do |f| %>
-                <fieldset>
-                  <%= f.text_field :title, :placeholder => "Title" %>
-                  <!--
-                  <div class="fileupload fileupload-new" data-provides="fileupload">
-                      <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
-                  -->
-                  <div style="list-style: none;">
-                    <li>
-                      <a role="button" id="btn-photo-1" href="#" class="btn btn-large btn-photo-link"><i class="icon-globe"></i> Link</a>
-                      <!--<a role="button" id="btn-photo-2" href="#" class="btn btn-large btn-file fileupload-new btn-photo-down"><i class="icon-download-alt"></i> Computer<input type="file" /></a> -->
-                    </li>
-                    <li>
-                      <%= f.text_area :comment, :placeholder => "Comment", :id => "photo-comment-input", :rows => "10" %>
-                    </li>
-                  </div>
 
-                  <%= f.text_field :url, :placeholder => "Place your picture link here!", :id => "photo-link-input", :class => "span4" %>
-                  <!--
-                    <div>
-                    <a href="#" class="btn fileupload-exists btn-large" data-dismiss="fileupload"><i class="icon-remove"></i> Remove</a>
-                    </div>
-                </div>  -->
-
-                  <%=	   f.hidden_field :user_id, :value => current_user.id %>
-                  <%=    f.hidden_field :sport_id, :value => 1 %>
-                </fieldset>
-            <%  end %>
-        <% end%>
-    <% else %>
-        <p>You must be logged in to upload photos!</p>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button id="photo-submit" class="btn btn-primary">Upload</button>
-
-  </div>
-</div>
-
-<div id="videoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Videos</h3>
-  </div>
-  <div class="modal-body">
-    <% if signed_in? %>
-        <% unless @video.blank? %>
-            <%= form_for @video do |v| %>
-                <fieldset>
-                  <%= v.text_field :title, :placeholder => "Title" %>
-                  <!--
-                  <div class="fileupload fileupload-new" data-provides="fileupload">
-                      <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
-                  -->
-                  <div style="list-style: none;">
-                    <li>
-                      <a role="button" id="btn-video-1" href="#" class="btn btn-large"><i class="icon-globe"></i> Link</a>
-                      <!--<a role="button" id="btn-photo-2" href="#" class="btn btn-large btn-file fileupload-new btn-photo-down"><i class="icon-download-alt"></i> Computer<input type="file" /></a> -->
-                    </li>
-                  </div>
-
-                  <%= v.text_field :url, :placeholder => "Place your video link here!", :class => "span4" %>
-                  <!--
-                    <div>
-                    <a href="#" class="btn fileupload-exists btn-large" data-dismiss="fileupload"><i class="icon-remove"></i> Remove</a>
-                    </div>
-                </div>  -->
-
-                  <%=	   v.hidden_field :user_id, :value => current_user.id %>
-                  <%=    v.hidden_field :sport_id, :value => 1 %>
-                </fieldset>
-            <%  end %>
-        <% end%>
-    <% else %>
-        <p>You must be logged in to upload videos!</p>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button id="video-submit" class="btn btn-primary">Upload</button>
-  </div>
-</div>
+<%=  render 'photos/photo_modal' %>
+<%=  render 'videos/video_modal' %>
+<%=  render 'events/event_modal' %>
+<%=  render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
 
 
 <!-- Le javascript

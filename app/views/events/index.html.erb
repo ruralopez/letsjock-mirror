@@ -57,45 +57,6 @@
 
   <% end %>
 
-  <div class="accordion" id="accordion2"> <!--filtro-->
-    <div class="accordion-group events-filter">
-      <div class="accordion-heading btn btn-primary btn-small pull-right">
-        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-          Filter by <span class="caret"></span>
-        </a>
-      </div>
-      <div id="collapseTwo" class="accordion-body collapse">
-        <div class="accordion-inner">
-          <div class="row">
-            <%=	 form_for @filters do |f| %>
-                <div class="span3">
-                  <h5>Sports</h5> j
-                  <input class="span3" type="text" placeholder="Type a Sport" data-provide="typeahead" data-source= '<%= @sports_list %>' data-items="4">
-                </div><!--span-->
-                <div class="span3">
-                  <h5>Order by</h5>
-                  <select class="span3">
-                    <option>Week</option>
-                    <option>Month</option>
-                  </select>
-                </div><!--span-->
-                <div class="span3">
-                  <h5>Location</h5>
-                  <input class="span3" type="text" placeholder="Type a Location">
-                </div><!--span-->
-            <%	 end %>
-          </div><!--row-->
-          <div class="group pull-right">
-            <div class="pull-right">
-              <a data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">Cancel</a>
-              <a class="btn btn-primary">Find</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div><!--termina filtro accordion-->
-
 
 <div id="filtered-events">
   <%= render 'weekly' %>

@@ -10,7 +10,7 @@ class CreateVideos < ActiveRecord::Migration
       t.integer :sport_id
       t.integer :trainee_id
       t.integer :work_id
-      t.string :url
+      t.text :url
       t.string :title
       t.string :comment
 

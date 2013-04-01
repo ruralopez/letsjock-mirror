@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20130306185215) do
     t.integer  "sport_id"
     t.integer  "event_id"
     t.integer  "team_id"
+    t.integer  "work_id"
     t.string   "team_name"
     t.string   "name"
     t.date     "init"
@@ -126,7 +127,7 @@ ActiveRecord::Schema.define(:version => 20130306185215) do
     t.integer  "sport_id"
     t.integer  "trainee_id"
     t.integer  "work_id"
-    t.string   "url"
+    t.text     "url"
     t.string   "title"
     t.string   "comment"
     t.datetime "created_at",     :null => false
@@ -155,6 +156,7 @@ ActiveRecord::Schema.define(:version => 20130306185215) do
     t.integer  "sport_id"
     t.integer  "competition_id"
     t.integer  "team_id"
+    t.integer  "work_id"
     t.string   "awarded_by"
     t.string   "description"
     t.date     "date"
@@ -179,6 +181,7 @@ ActiveRecord::Schema.define(:version => 20130306185215) do
     t.integer  "sport_id"
     t.integer  "competition_id"
     t.integer  "team_id"
+    t.integer  "work_id"
     t.string   "position"
     t.integer  "value"
     t.string   "var"
@@ -212,6 +215,7 @@ ActiveRecord::Schema.define(:version => 20130306185215) do
   create_table "teams", :force => true do |t|
     t.integer  "user_id"
     t.integer  "sport_id"
+    t.integer  "work_id"
     t.string   "name"
     t.string   "category"
     t.date     "init"
@@ -224,9 +228,10 @@ ActiveRecord::Schema.define(:version => 20130306185215) do
   create_table "trainees", :force => true do |t|
     t.integer  "user_id"
     t.integer  "sport_id"
-    t.integer  "work_id"
     t.string   "name"
     t.integer  "trainee_id"
+    t.integer  "team_id"
+    t.integer  "work_id"
     t.date     "init"
     t.date     "end"
     t.datetime "created_at", :null => false
@@ -298,7 +303,7 @@ ActiveRecord::Schema.define(:version => 20130306185215) do
     t.integer  "sport_id"
     t.integer  "trainee_id"
     t.integer  "work_id"
-    t.string   "url"
+    t.text     "url"
     t.string   "title"
     t.string   "comment"
     t.datetime "created_at",     :null => false
@@ -308,7 +313,6 @@ ActiveRecord::Schema.define(:version => 20130306185215) do
   create_table "works", :force => true do |t|
     t.integer  "user_id"
     t.integer  "sport_id"
-    t.integer  "team_id"
     t.string   "company"
     t.string   "role"
     t.integer  "country_id"

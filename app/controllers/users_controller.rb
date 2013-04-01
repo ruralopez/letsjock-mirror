@@ -36,7 +36,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(:phone => 18, :citybirth => "City", :country => "Country", :resume => "Add resume here!", :email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname], :isSponsor => false)
+    @user = User.new(:phone => 18, :citybirth => "City", :country => "Country", :resume => "", :email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname], :isSponsor => false)
 
     respond_to do |format|
       if @user.save
@@ -82,7 +82,7 @@ class UsersController < ApplicationController
   # DELETE /users/1.json
   def destroy
     @user = User.find(params[:id])
-    if signed_in? && current_user.id == @user.id
+    if signed_in? && current_user.id == 1
       @user.destroy
 
       respond_to do |format|
@@ -99,13 +99,18 @@ class UsersController < ApplicationController
   def profile
     @user = User.find(params[:id])
     #Juntar competitions, teams, trains, results y recognitions como athlete experiences
-    @competitions = Competition.all(:conditions => ['user_id = ?', @user.id], :order => "init desc")
-    @teams = Team.all(:conditions => ['user_id = ?', @user.id], :order => "init desc")
+    @competitions = Competition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "init desc")
+    @teams = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "init desc")
     @trains = Train.all(:conditions => ['user_id = ?', @user.id], :order => "init desc")
-    @results = Result.all(:conditions => ['user_id = ?', @user.id], :order => "date desc")
-    @recognitions = Recognition.all(:conditions => ['user_id = ?', @user.id], :order => "date desc")
+    @results = Result.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date desc")
+    @recognitions = Recognition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date desc")
     @athleteExperiences = (@competitions + @teams + @trains + @results + @recognitions)
     #Juntar Works
+    @teams_work = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, false], :order => "init desc")
+    @trains_work = Trainee.all(:conditions => ['user_id = ?', @user.id], :order => "init desc")
+    @results_work = Result.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, false], :order => "date desc")
+    @recognitions_work = Recognition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, false], :order => "date desc")
+    @workExperiences = (@teams_work + @trains_work + @results_work + @recognitions_work)
     @works = Work.all(:conditions => ['user_id = ?', @user.id])
     #Juntar Educational
     @educations = Education.all(:conditions => ['user_id = ?', @user.id])
@@ -127,7 +132,8 @@ class UsersController < ApplicationController
     @sports = Sport.all
     #Creando array de Countries para auto-complete
     @countries = Country.select('name').all.map(&:name)
-
+    #Mis eventos para mostrar en el modal
+    @events = UserEvent.all(:conditions => ['user_id = ?', @user.id])
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
@@ -187,6 +193,8 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
       @photos = Photo.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
       @videos = Video.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
+      @photo = @user.photos.build if signed_in?
+      @video = @user.videos.build if signed_in?
 
     else
       flash[:error] = "You must be logged in."
@@ -218,7 +226,7 @@ class UsersController < ApplicationController
     if signed_in? && current_user.id == params[:user_id].to_i
       if params[:sport_id] != "" && params[:init] != "" && params[:end] != ""
         if params[:team_name] != "" && params[:team_category] != ""
-          @team = Team.new(:name => params[:team_name], :category => params[:team_category], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
+          @team = Team.new(:name => params[:team_name], :category => params[:team_category], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :as_athlete => true)
           @team.save
         end
         if params[:train_name] != ""
@@ -232,63 +240,11 @@ class UsersController < ApplicationController
         end
         if params[:result_position] != "" && params[:result_value] != "" && params[:result_var] != "" && params[:competition_name] != ""
           if @team
-            @competition = Competition.new(:name => params[:competition_name],:sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => @team.id )
+            @competition = Competition.new(:name => params[:competition_name],:sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => @team.id, :as_athlete => true )
             @competition.save
-            @result = Result.new(:position => params[:result_position],:value => params[:result_value], :var => params[:result_var], :sport_id => params[:sport_id], :user_id => params[:user_id], :competition_id => @competition.id, :date => params[:init], :team_id => @team.id )
+            @result = Result.new(:position => params[:result_position],:value => params[:result_value], :var => params[:result_var], :sport_id => params[:sport_id], :user_id => params[:user_id], :competition_id => @competition.id, :date => params[:init], :team_id => @team.id, :as_athlete => true )
           else
-            @competition = Competition.new(:name => params[:competition_name],:sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end] )
-            @competition.save
-            @result = Result.new(:position => params[:result_position],:value => params[:result_value], :var => params[:result_var], :sport_id => params[:sport_id], :user_id => params[:user_id], :competition_id => @competition.id, :date => params[:init])
-          end
-          @result.save
-        end
-        if params[:award_title] != "" && params[:award_by] != ""
-          if @team && @competition
-            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init], :competition_id => @competition.id, :team_id => @team.id)
-          elsif  @competition
-            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init], :competition_id => @competition.id)
-          elsif  @team
-            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init], :team_id => @team.id)
-          else
-            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init])
-          end
-          @recognition.save
-        end
-      else
-        flash[:error] = "You must complete all the required params."
-        redirect_to current_user
-      end
-      redirect_to current_user
-    else
-      flash[:error] = "You must be logged in."
-      sign_out
-      redirect_to root_path
-    end
-  end
-
-  def add_new_working
-    if signed_in? && current_user.id == params[:user_id].to_i
-      if params[:sport_id] != "" && params[:init] != "" && params[:end] != ""
-        if params[:team_name] != "" && params[:team_category] != ""
-          @team = Team.new(:name => params[:team_name], :category => params[:team_category], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :as_athlete => true)
-          @team.save
-        end
-        if params[:train_name] != ""
-          if @team
-            @train = Train.new(:name => params[:train_name], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => @team.id, :as_athlete => true)
-          else
-            @train = Train.new(:name => params[:train_name], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :as_athlete => true)
-          end
-          @train.save
-
-        end
-        if params[:result_position] != "" && params[:result_value] != "" && params[:result_var] != "" && params[:competition_name] != ""
-          if @team
-            @competition = Competition.new(:name => params[:competition_name],:sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => @team.id, :as_athlete => true)
-            @competition.save
-            @result = Result.new(:position => params[:result_position],:value => params[:result_value], :var => params[:result_var], :sport_id => params[:sport_id], :user_id => params[:user_id], :competition_id => @competition.id, :date => params[:init], :team_id => @team.id, :as_athlete => true)
-          else
-            @competition = Competition.new(:name => params[:competition_name],:sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :as_athlete => true)
+            @competition = Competition.new(:name => params[:competition_name],:sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :as_athlete => true )
             @competition.save
             @result = Result.new(:position => params[:result_position],:value => params[:result_value], :var => params[:result_var], :sport_id => params[:sport_id], :user_id => params[:user_id], :competition_id => @competition.id, :date => params[:init], :as_athlete => true)
           end
@@ -318,14 +274,68 @@ class UsersController < ApplicationController
     end
   end
 
+  def add_new_working
+    if signed_in? && current_user.id == params[:user_id].to_i
+      if params[:sport_id] != "" && params[:init] != "" && params[:end] != "" && params[:company] != "" && params[:role] != ""
+        @work = Work.new(:company => params[:company], :role => params[:role], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :country_id => 1, :location => params[:city])
+        @work.save
+        if params[:team_name] != "" && params[:team_category] != ""
+          @team = Team.new(:name => params[:team_name], :category => params[:team_category], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :as_athlete => false, :work_id => @work.id)
+          @team.save
+        end
+        if params[:trainee_name] != ""
+          if @team
+            @trainee = Trainee.new(:name => params[:trainee_name], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => @team.id, :work_id => @work.id)
+          else
+            @trainee = Trainee.new(:name => params[:trainee_name], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :work_id => @work.id)
+          end
+          @trainee.save
+
+        end
+        if params[:result_position] != "" && params[:result_value] != "" && params[:result_var] != "" && params[:competition_name] != ""
+          if @team
+            @competition = Competition.new(:name => params[:competition_name],:sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => @team.id, :as_athlete => false, :work_id => @work.id)
+            @competition.save
+            @result = Result.new(:position => params[:result_position],:value => params[:result_value], :var => params[:result_var], :sport_id => params[:sport_id], :user_id => params[:user_id], :competition_id => @competition.id, :date => params[:init], :team_id => @team.id, :as_athlete => false, :work_id => @work.id)
+          else
+            @competition = Competition.new(:name => params[:competition_name],:sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :as_athlete => false, :work_id => @work.id)
+            @competition.save
+            @result = Result.new(:position => params[:result_position],:value => params[:result_value], :var => params[:result_var], :sport_id => params[:sport_id], :user_id => params[:user_id], :competition_id => @competition.id, :date => params[:init], :as_athlete => false, :work_id => @work.id)
+          end
+          @result.save
+        end
+        if params[:award_title] != "" && params[:award_by] != ""
+          if @team && @competition
+            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init], :competition_id => @competition.id, :team_id => @team.id, :as_athlete => false, :work_id => @work.id)
+          elsif  @competition
+            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init], :competition_id => @competition.id, :as_athlete => false, :work_id => @work.id)
+          elsif  @team
+            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init], :team_id => @team.id, :as_athlete => false, :work_id => @work.id)
+          else
+            @recognition = Recognition.new(:description => params[:award_title], :awarded_by => params[:award_by], :sport_id => params[:sport_id], :user_id => params[:user_id], :date => params[:init], :as_athlete => false, :work_id => @work.id)
+          end
+          @recognition.save
+        end
+      else
+        flash[:error] = "You must complete all the required params."
+        redirect_to current_user
+      end
+      redirect_to current_user
+    else
+      flash[:error] = "You must be logged in."
+      sign_out
+      redirect_to root_path
+    end
+  end
+
   def add_new_educational
     if signed_in? && current_user.id == params[:user_id].to_i
       if params[:init] != "" && params[:end] != ""
         if params[:highschool_name] != ""
-          @education = Education.new(:name => params[:highschool_name], :rank => params[:rank], :gda => params[:gda], :ncaa => params[:ncaa], :country_id => 1, :location => params[:city], :init => params[:init], :end => params[:end])
+          @education = Education.new(:name => params[:highschool_name], :rank => params[:rank], :gda => params[:gda], :ncaa => params[:ncaa], :country_id => 1, :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
           @education.save
         elsif params[:school_name] != ""
-          @education = Education.new(:name => params[:school_name], :career => params[:career], :degree => params[:degree], :country_id => 1, :location => params[:city], :init => params[:init], :end => params[:end])
+          @education = Education.new(:name => params[:school_name], :career => params[:career], :degree => params[:degree], :country_id => 1, :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
           @education.save
         else
           flash[:error] = "You must complete all the required params."

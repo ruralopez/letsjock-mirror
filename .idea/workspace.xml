@@ -26,77 +26,39 @@
       <file leaf-file-name="_profile_user.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/users/_profile_user.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="66" selection-start="968" selection-end="968" vertical-scroll-proportion="-6.5384617">
+            <state line="35" column="21" selection-start="1561" selection-end="1561" vertical-scroll-proportion="143.84616">
               <folding>
                 <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#4;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#fieldset#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#fieldset#0;n#div#1;n#div#2;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="users_controller.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="_work.html.erb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/works/_work.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="128" selection-start="522" selection-end="522" vertical-scroll-proportion="0.1734694">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_team.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/teams/_team.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="124" selection-start="753" selection-end="821" vertical-scroll-proportion="-5.8846154">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="users_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/users_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="142" column="60" selection-start="4917" selection-end="4917" vertical-scroll-proportion="0.47643098">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pictures.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/users/pictures.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="0" selection-start="845" selection-end="845" vertical-scroll-proportion="-17.26923">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/user.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_working_profile_form.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/users/_working_profile_form.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="83" column="32" selection-start="3579" selection-end="3579" vertical-scroll-proportion="-17.923077">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_profile_form.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/users/_profile_form.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="82" column="25" selection-start="3387" selection-end="3387" vertical-scroll-proportion="-14.653846">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="result.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/result.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="5" selection-start="312" selection-end="312" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_train.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/trains/_train.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="9" selection-start="552" selection-end="552" vertical-scroll-proportion="-3.2692308">
+            <state line="279" column="30" selection-start="11365" selection-end="11365" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -112,22 +74,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/layouts/_notifications.html.erb" />
-        <option value="$PROJECT_DIR$/config/routes.rb" />
-        <option value="$PROJECT_DIR$/app/views/educations/_form.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/competitions/_competition.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/recognitions/_recognition.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/teams/_team.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/trains/_train.html.erb" />
         <option value="$PROJECT_DIR$/app/views/users/_working_profile_form.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/users/_profile_form.html.erb" />
+        <option value="$PROJECT_DIR$/db/migrate/20130201122001_create_works.rb" />
         <option value="$PROJECT_DIR$/app/models/team.rb" />
+        <option value="$PROJECT_DIR$/app/models/recognition.rb" />
+        <option value="$PROJECT_DIR$/app/models/trainee.rb" />
         <option value="$PROJECT_DIR$/app/models/result.rb" />
+        <option value="$PROJECT_DIR$/db/migrate/20130124170321_create_results.rb" />
+        <option value="$PROJECT_DIR$/db/migrate/20130201122913_create_trainees.rb" />
+        <option value="$PROJECT_DIR$/db/migrate/20130124170408_create_recognitions.rb" />
+        <option value="$PROJECT_DIR$/db/migrate/20130124170136_create_teams.rb" />
         <option value="$PROJECT_DIR$/app/views/users/_profile_user.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/events/_event.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/users/pictures.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/add-style.css" />
+        <option value="$PROJECT_DIR$/app/models/competition.rb" />
+        <option value="$PROJECT_DIR$/db/migrate/20130124165938_create_competitions.rb" />
         <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
+        <option value="$PROJECT_DIR$/app/models/work.rb" />
+        <option value="$PROJECT_DIR$/app/views/works/_work.html.erb" />
       </list>
     </option>
   </component>
@@ -191,7 +153,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -208,6 +174,14 @@
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="teams" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -220,10 +194,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -558,77 +528,77 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/educations/_education.html.erb">
+    <entry file="file://$PROJECT_DIR$/db/migrate/20130124170408_create_recognitions.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="7" column="24" selection-start="234" selection-end="234" vertical-scroll-proportion="0.19604613">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/competitions/_competition.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/models/recognition.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="51" selection-start="909" selection-end="909" vertical-scroll-proportion="-7.1923075">
+        <state line="11" column="49" selection-start="232" selection-end="232" vertical-scroll-proportion="0.3148148">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/recognitions/_recognition.html.erb">
+    <entry file="file://$PROJECT_DIR$/db/migrate/20130124170136_create_teams.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="5" selection-start="1087" selection-end="1087" vertical-scroll-proportion="-7.8461537">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/teams/_team.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="40" selection-start="850" selection-end="850" vertical-scroll-proportion="-7.1923075">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/trains/_train.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="9" selection-start="552" selection-end="552" vertical-scroll-proportion="-3.2692308">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/users/_working_profile_form.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="32" selection-start="3579" selection-end="3579" vertical-scroll-proportion="-17.923077">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/users/_profile_form.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="25" selection-start="3387" selection-end="3387" vertical-scroll-proportion="-14.653846">
+        <state line="5" column="24" selection-start="163" selection-end="163" vertical-scroll-proportion="0.14003295">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/team.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="5" selection-start="383" selection-end="383" vertical-scroll-proportion="0.0">
+        <state line="14" column="93" selection-start="332" selection-end="332" vertical-scroll-proportion="0.39209226">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/result.rb">
+    <entry file="file://$PROJECT_DIR$/app/views/users/_working_profile_form.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="5" selection-start="312" selection-end="312" vertical-scroll-proportion="0.0">
+        <state line="6" column="53" selection-start="250" selection-end="250" vertical-scroll-proportion="0.1734694">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/events/_event.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/competitions/_competition.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="77" selection-start="842" selection-end="842" vertical-scroll-proportion="0.43430656">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
+    <entry file="file://$PROJECT_DIR$/app/models/competition.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="113" selection-start="315" selection-end="315" vertical-scroll-proportion="0.33224756">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20130201122001_create_works.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20130124165938_create_competitions.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="21" selection-start="225" selection-end="225" vertical-scroll-proportion="0.18979266">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/train.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/recognitions/_recognition.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
@@ -637,42 +607,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/users/_profile_user.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="66" selection-start="968" selection-end="968" vertical-scroll-proportion="-6.5384617">
+        <state line="35" column="21" selection-start="1561" selection-end="1561" vertical-scroll-proportion="143.84616">
           <folding>
             <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#3;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#4;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#fieldset#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#fieldset#0;n#div#1;n#div#2;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/application.css">
+    <entry file="file://$PROJECT_DIR$/app/models/work.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/users/pictures.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="0" selection-start="845" selection-end="845" vertical-scroll-proportion="-17.26923">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/add-style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="785" column="25" selection-start="18394" selection-end="18394" vertical-scroll-proportion="0.75084174">
+        <state line="2" column="19" selection-start="70" selection-end="70" vertical-scroll-proportion="0.054226477">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/users_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="60" selection-start="4917" selection-end="4917" vertical-scroll-proportion="0.47643098">
+        <state line="279" column="30" selection-start="11365" selection-end="11365" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/teams/_team.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="124" selection-start="753" selection-end="821" vertical-scroll-proportion="-5.8846154">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/works/_work.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="128" selection-start="522" selection-end="522" vertical-scroll-proportion="0.1734694">
           <folding />
         </state>
       </provider>

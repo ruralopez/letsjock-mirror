@@ -3,7 +3,6 @@ class CreateWorks < ActiveRecord::Migration
     create_table :works do |t|
       t.integer :user_id
       t.integer :sport_id
-      t.integer :team_id
       t.string :company
       t.string :role
       t.integer :country_id

@@ -1,0 +1,43 @@
+<div id="videoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Videos</h3>
+  </div>
+  <div class="modal-body">
+    <% if signed_in? %>
+        <% unless @video.blank? %>
+            <%= form_for @video do |v| %>
+                <fieldset>
+                  <%= v.text_field :title, :placeholder => "Title" %>
+                  <!--
+                  <div class="fileupload fileupload-new" data-provides="fileupload">
+                      <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
+                  -->
+                  <div style="list-style: none;">
+                    <li>
+                      <a role="button" id="btn-video-1" href="#" class="btn btn-large"><i class="icon-globe"></i> Link</a>
+                      <!--<a role="button" id="btn-photo-2" href="#" class="btn btn-large btn-file fileupload-new btn-photo-down"><i class="icon-download-alt"></i> Computer<input type="file" /></a> -->
+                    </li>
+                  </div>
+
+                  <%= v.text_field :url, :placeholder => "Place your video link here!", :class => "span4" %>
+                  <!--
+                    <div>
+                    <a href="#" class="btn fileupload-exists btn-large" data-dismiss="fileupload"><i class="icon-remove"></i> Remove</a>
+                    </div>
+                </div>  -->
+
+                  <%=	   v.hidden_field :user_id, :value => current_user.id %>
+                  <%=    v.hidden_field :sport_id, :value => 1 %>
+                </fieldset>
+            <%  end %>
+        <% end%>
+    <% else %>
+        <p>You must be logged in to upload videos!</p>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button id="video-submit" class="btn btn-primary">Upload</button>
+  </div>
+</div>

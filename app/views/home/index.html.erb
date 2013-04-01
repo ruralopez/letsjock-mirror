@@ -98,7 +98,7 @@
   </div><!-- /logoHome -->
 
   <div class="register">
-    <%= form_for(:session, url: sessions_path, :html => { :class => "loginForm"}) do |f| %>
+    <%= form_for(:session, :url => sessions_path, :html => { :class => "loginForm"}) do |f| %>
         <%= f.text_field :email, :name => "email", :placeholder => "Email", :validation => 'email required notBlank' %>
         <div class="passLogin">
             <%= f.password_field :password, :class => "passLogin", :name => "password", :placeholder => "Password", :validation => 'required lengthMin6 notBlank' %>

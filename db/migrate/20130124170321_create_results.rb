@@ -5,6 +5,7 @@ class CreateResults < ActiveRecord::Migration
       t.integer :sport_id
       t.integer :competition_id
       t.integer :team_id
+      t.integer :work_id
       t.string :position
       t.integer :value
       t.string :var

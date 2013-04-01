@@ -1,7 +1,10 @@
+<%= javascript_include_tag "application" %>
+
 <h1>Listing photos</h1>
 
 <table>
   <tr>
+    <th>Photo ID</th>
     <th>Title</th>
     <th>URL</th>
     <th>Comment</th>
@@ -13,11 +16,12 @@
 
   <% @photos.each do |photo| %>
       <tr>
+        <td><%= photo.id %></td>
         <td><%= photo.title %></td>
         <td><%= photo.url %></td>
         <td><%= photo.comment %></td>
         <td><%= photo.user_id %></td>
-        <td><%= link_to 'Destroy', photo, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', photo, :method => :delete, :confirm => "Are you sure ?"%></td>
       </tr>
   <% end %>
 </table>
