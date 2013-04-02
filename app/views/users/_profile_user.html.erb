@@ -173,6 +173,12 @@
         $('#edit-profile-link').click(function(){
             $('#edit-profile').toggle("normal");
         });
+        $('#link-unfollow').live("mouseover", function(){
+            document.getElementById("link-unfollow-text").innerHTML = "unfollow";
+        });
+        $('#link-unfollow').live("mouseleave", function(){
+            document.getElementById("link-unfollow-text").innerHTML = "following";
+        });
     });</script>
 <div id="edit-profile" class="hiddenDiv">
   </br>
@@ -186,141 +192,145 @@
       <%= f.submit "Edit", :class => "btn" %>
   <% end %>
 </div>
-<div class="resume">
-  <p>
-    <%=	 best_in_place_if (signed_in? && @user.id == current_user.id), @user, :resume, :type => :textarea %>
-  </p>
-</div><!--resume-->
-<div class="resume">
-  <h4>Jock Information</h4>
-  <div class="accordion" id="accordion3"> <!--mapa-->
-    <div class="accordion-group events-filter">
-      <div class="accordion-heading">
-        <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion3" href="#collapseAdd">
-          <span>+</span>Add new
-        </a>
-      </div>
-      <div id="collapseAdd" class="accordion-body collapse" style="height: 0px;">
-        <div class="accordion-inner">
-          <%	 if signed_in? %>
-              <legend>What do you want to add?</legend>
-              <div class="header-buttons">
-                <a><button id="hito4" class="btn-success hito-click">
-                  <i class="icon-user icon-2x"></i>
-                  Training
-                </button></a>
-                <a><button id="hito3" class="btn-success hito-click">
-                  <i class="icon-group icon-2x"></i>
-                  Team
-                </button></a>
-                <a><button id="hito1" class="btn-success hito-click">
-                  <i class="icon-trophy icon-2x"></i>
-                  Award
-                </button></a>
-                <a><button id="hito2" class="btn-success hito-click">
-                  <i class="icon-star icon-2x"></i>
-                  Result
-                </button></a>
+<% if signed_in? && (@user.following?(current_user) || current_user.id == @user.id) %>
+    <div class="resume">
+      <%= @user.resume %>
+    </div><!--resume-->
+    <div class="resume">
+      <h4>Jock Information</h4>
+      <% if signed_in? && current_user.id == @user.id %>
+          <div class="accordion" id="accordion3"> <!--mapa-->
+            <div class="accordion-group events-filter">
+              <div class="accordion-heading">
+                <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion3" href="#collapseAdd">
+                  <span>+</span>Add new
+                </a>
               </div>
-              <%= render 'profile_form'  %>
+              <div id="collapseAdd" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                  <%	 if signed_in? %>
+                      <legend>What do you want to add?</legend>
+                      <div class="header-buttons">
+                        <a><button id="hito4" class="btn-success hito-click">
+                          <i class="icon-user icon-2x"></i>
+                          Training
+                        </button></a>
+                        <a><button id="hito3" class="btn-success hito-click">
+                          <i class="icon-group icon-2x"></i>
+                          Team
+                        </button></a>
+                        <a><button id="hito1" class="btn-success hito-click">
+                          <i class="icon-trophy icon-2x"></i>
+                          Award
+                        </button></a>
+                        <a><button id="hito2" class="btn-success hito-click">
+                          <i class="icon-star icon-2x"></i>
+                          Result
+                        </button></a>
+                      </div>
+                      <%= render 'profile_form'  %>
 
-          <%	 else %>
-              <p>You must be logged in to complete your profile!</p>
-          <%	 end %>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <%	if @athleteExperiences.any?  %>
-      <%=	 render @athleteExperiences %>
-  <%	end %>
-</div><!--resume-->
-<div class="resume">
-  <h4>Working Experience</h4>
-
-  <div class="accordion" id="accordion4"> <!--mapa-->
-    <div class="accordion-group events-filter">
-      <div class="accordion-heading">
-        <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion4" href="#collapseAdd2">
-          <span>+</span>Add new
-        </a>
-      </div>
-      <div id="collapseAdd2" class="accordion-body collapse" style="height: 0px;">
-        <div class="accordion-inner">
-          <%	 if signed_in? %>
-              <legend>What do you want to add?</legend>
-              <div class="header-buttons">
-                <a><button id="work-train" class="btn-success hito-click">
-                  <i class="icon-user icon-2x"></i>
-                  Training
-                </button></a>
-                <a><button id="work-team" class="btn-success hito-click">
-                  <i class="icon-group icon-2x"></i>
-                  Team
-                </button></a>
-                <a><button id="work-award" class="btn-success hito-click">
-                  <i class="icon-trophy icon-2x"></i>
-                  Award
-                </button></a>
-                <a><button id="work-result" class="btn-success hito-click">
-                  <i class="icon-star icon-2x"></i>
-                  Result
-                </button></a>
+                  <%	 else %>
+                      <p>You must be logged in to complete your profile!</p>
+                  <%	 end %>
+                </div>
               </div>
-              <%= render 'working_profile_form'  %>
+            </div>
+          </div>
+      <% end %>
 
-          <%	 else %>
-              <p>You must be logged in to complete your profile!</p>
-          <%	 end %>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <%	if @works.any?  %>
-      <%=	 render @works %>
-  <%	end %>
-</div><!--resume-->
-<div class="resume">
-  <h4>Education</h4>
-
-  <div class="accordion" id="accordion5"> <!--mapa-->
-    <div class="accordion-group events-filter">
-      <div class="accordion-heading">
-        <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion5" href="#collapseAdd3">
-          <span>+</span>Add new
-        </a>
-      </div>
-      <div id="collapseAdd3" class="accordion-body collapse" style="height: 0px;">
-        <div class="accordion-inner">
-          <%	 if signed_in? %>
-              <legend>What do you want to add?</legend>
-              <div class="header-buttons">
-                <a><button id="education-highschool" class="btn-success hito-click">
-                  <i class="icon-book icon-2x"></i>
-                  High School
-                </button></a>
-                <a><button id="education-school" class="btn-success hito-click">
-                  <i class="icon-briefcase icon-2x"></i>
-                  School
-                </button></a>
+      <%	if @athleteExperiences.any?  %>
+          <%=	 render @athleteExperiences %>
+      <%	end %>
+    </div><!--resume-->
+    <div class="resume">
+      <h4>Working Experience</h4>
+      <% if signed_in? && current_user.id == @user.id %>
+          <div class="accordion" id="accordion4"> <!--mapa-->
+            <div class="accordion-group events-filter">
+              <div class="accordion-heading">
+                <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion4" href="#collapseAdd2">
+                  <span>+</span>Add new
+                </a>
               </div>
+              <div id="collapseAdd2" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                  <%	 if signed_in? %>
+                      <legend>What do you want to add?</legend>
+                      <div class="header-buttons">
+                        <a><button id="work-train" class="btn-success hito-click">
+                          <i class="icon-user icon-2x"></i>
+                          Training
+                        </button></a>
+                        <a><button id="work-team" class="btn-success hito-click">
+                          <i class="icon-group icon-2x"></i>
+                          Team
+                        </button></a>
+                        <a><button id="work-award" class="btn-success hito-click">
+                          <i class="icon-trophy icon-2x"></i>
+                          Award
+                        </button></a>
+                        <a><button id="work-result" class="btn-success hito-click">
+                          <i class="icon-star icon-2x"></i>
+                          Result
+                        </button></a>
+                      </div>
+                      <%= render 'working_profile_form'  %>
 
-              <%= render 'educations/form'  %>
+                  <%	 else %>
+                      <p>You must be logged in to complete your profile!</p>
+                  <%	 end %>
+                </div>
+              </div>
+            </div>
+          </div>
+      <% end %>
 
-          <%	 else %>
-              <p>You must be logged in to complete your profile!</p>
-          <%	 end %>
-        </div>
-      </div>
-    </div>
-  </div>
+      <%	if @works.any?  %>
+          <%=	 render @works %>
+      <%	end %>
+    </div><!--resume-->
+    <div class="resume">
+      <h4>Education</h4>
+      <% if signed_in? && current_user.id == @user.id %>
+          <div class="accordion" id="accordion5"> <!--mapa-->
+            <div class="accordion-group events-filter">
+              <div class="accordion-heading">
+                <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion5" href="#collapseAdd3">
+                  <span>+</span>Add new
+                </a>
+              </div>
+              <div id="collapseAdd3" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                  <%	 if signed_in? %>
+                      <legend>What do you want to add?</legend>
+                      <div class="header-buttons">
+                        <a><button id="education-highschool" class="btn-success hito-click">
+                          <i class="icon-book icon-2x"></i>
+                          High School
+                        </button></a>
+                        <a><button id="education-school" class="btn-success hito-click">
+                          <i class="icon-briefcase icon-2x"></i>
+                          School
+                        </button></a>
+                      </div>
 
-  <%	if @educations.any?  %>
-      <%=	 render @educations %>
-  <%	end %>
-</div><!--resume-->
+                      <%= render 'educations/form'  %>
+
+                  <%	 else %>
+                      <p>You must be logged in to complete your profile!</p>
+                  <%	 end %>
+                </div>
+              </div>
+            </div>
+          </div>
+      <% end %>
+
+      <%	if @educations.any?  %>
+          <%=	 render @educations %>
+      <%	end %>
+    </div><!--resume-->
+<% end %>
 </div>
 <div class="box box-connect span3">
   <div class="box-content">

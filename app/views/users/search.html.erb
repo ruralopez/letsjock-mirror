@@ -14,36 +14,36 @@
 <div class="row relative">
 <div class="span9">
 
-
+<!--
 <div>
   <%=  form_for @filters, :url => {:action => "search"} do |f| %>
       <div class="span3">
         <h5>Gender</h5>
         <%= f.select :gender, ["Female", "Male"], :class => "span3" %>
-      </div><!--span-->
+      </div>
       <div class="span3">
         <h5>Age</h5>
         <%= f.text_field :name, :class => "span3" %>
-      </div><!--span-->
+      </div>
       <div class="span3">
         <h5>Sport</h5>
         <input class="span3" type="text" placeholder="Type a Sport" data-provide="typeahead" data-source= '<%= @sports_list %>' data-items="4">
-      </div><!--span-->
+      </div>
       <div class="span3">
         <h5>Currently</h5>
         <%= f.select :lastname, ["Amateur", "College", "Professional", "National Team", "National Team - U20", "National Team - U18"], :class => "span3" %>
-      </div><!--span-->
+      </div>
       </br></br></br></br></br></br></br></br></br>
       <%= f.submit "Find", :class => "btn btn-primary", :style=>"margin-left:30px;" %>
   <% end %>
-
-</div><!--post feeds-->
+</div>
+ -->
 <%	 if @result %>
+      <h3>Results <small>Query: <%= @query %></small></h3>
       <% if @result == -1 %>
         <p>No matches found.</p>
       <% else %>
       <div style="clear:both;">
-        <h3>Results</h3>
         <%	 @result.each do |user| %>
             <div class="item-block span2">
               <div class="item-img">

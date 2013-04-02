@@ -364,8 +364,14 @@ class UsersController < ApplicationController
   end
 
   def search
-    if params[:user]
-      @result = User.all(:conditions => ["id IN (?)", [12, 14, 15]]).sort_by(&:id)
+    if params[:query]
+      @query = params[:query]
+      queries = @query.split(" ")
+      @result = []
+      queries.each do |qy|
+        @result += User.all(:conditions => ["name LIKE ? OR lastname LIKE ?", "%#{qy}%", "%#{qy}%" ]).sort_by(&:id)
+      end
+      @result = @result.uniq
       unless @result != []
         @result = -1
       end
