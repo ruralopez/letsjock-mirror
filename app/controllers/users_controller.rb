@@ -369,7 +369,7 @@ class UsersController < ApplicationController
       queries = @query.split(" ")
       @result = []
       queries.each do |qy|
-        @result += User.all(:conditions => ["name LIKE ? OR lastname LIKE ?", "%#{qy}%", "%#{qy}%" ]).sort_by(&:id)
+        @result += User.all(:conditions => ["lower(name) LIKE ? OR lower(lastname) LIKE ?", "%#{qy}%".downcase, "%#{qy}%".downcase ]).sort_by(&:id)
       end
       @result = @result.uniq
       unless @result != []
