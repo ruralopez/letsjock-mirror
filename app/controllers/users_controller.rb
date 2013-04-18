@@ -208,10 +208,12 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if @user.authentic_email
       flash[:error] = "Your email has already been validated."
+      redirect_to profile_path(current_user)
     else
       if params[:token] && params[:token] == @user.email_token
         @user.update_attributes(:authentic_email => true)
         flash[:success] = "Your email is now validated."
+        redirect_to welcome_path
       else
         flash[:error] = "Wrong token."
       end
@@ -220,6 +222,11 @@ class UsersController < ApplicationController
       format.html
       format.json { render json: @user }
     end
+  end
+
+  def profile_new
+    @user = current_user
+
   end
 
   def add_new
@@ -238,7 +245,7 @@ class UsersController < ApplicationController
           @train.save
 
         end
-        if params[:result_position] != "" && params[:result_value] != "" && params[:result_var] != "" && params[:competition_name] != ""
+        if params[:result_position] != "" && params[:competition_name] != ""
           if @team
             @competition = Competition.new(:name => params[:competition_name],:sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => @team.id, :as_athlete => true )
             @competition.save

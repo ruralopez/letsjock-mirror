@@ -1,0 +1,138 @@
+<%= stylesheet_link_tag    "profile" %>
+<%= javascript_include_tag "application" %>
+
+<div class="container">
+  <div class="row">
+    <div class="box box-media span3 event-single">
+      <div class="img-polaroid">
+        <i class="default-icon icon-user icon-4x">
+          <a href="#imageModal" role="button" data-toggle="modal" class="btn btn-success btn-small">
+            <i class="icon-arrow-up"></i> Upload a photo
+          </a>
+        </i>
+      </div>
+
+      <!-- Modal -->
+      <div id="imageModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel"><i class="icon-camera"></i> Upload Photos</h3>
+        </div>
+        <div class="modal-body">
+
+          <div class="btn-group">
+            <button class="btn btn-success">Browse</button>
+            <button class="btn"><i class="icon-link"></i> URL</button>
+          </div>
+          <input class="span3" type="text" placeholder="http://">
+          <img class="preview" src="img/company-1.gif">
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+          <button class="btn btn-primary btn-success"><i class="icon-arrow-up"></i> Upload</button>
+        </div>
+      </div>
+
+
+      <div class="event-info">
+
+
+      </div><!--event info-->
+
+    </div><!--box-media-->
+
+    <div class="profileInfo relative span9">
+      <div class="user">
+        <br>
+        <h3 class="inline">Fill out your profile</h3>
+        <p>This will help you to connect with other Users and Recruiters</p>
+      </div><!--user-->
+    </div><!-- /profileInfo -->
+
+    <div class="box box-info span6 company">
+      <div class="resume">
+        <!--begin form-->
+        <form class="edit-profile edit-company">
+          <fieldset>
+            <h4>General Information</h4>
+            <!-- Name-->
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-user"></i></span>
+              <input type="text" placeholder="First Name">
+              <input type="text" placeholder="Last Name">
+            </div>
+            <!--Sport-->
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-circle"></i></span>
+              <select>
+                <option>Sport 1</option>
+                <option>Sport 2</option>
+                <option>Sport 3</option>
+                <option>Sport 4</option>
+                <option>Sport 5</option>
+              </select>
+              <input type="text" placeholder="position">
+            </div>
+            <br>
+            <h4 class="inline">Personal Information</h4><p>Location, Birthday and Description</p>
+            <!--Location-->
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-map-marker"></i></span>
+              <select>
+                <option>Country 1</option>
+                <option>Country 2</option>
+                <option>Country 3</option>
+                <option>Country 4</option>
+                <option>Country 5</option>
+              </select>
+              <input type="text" placeholder="location">
+            </div>
+            <!--Date-->
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-calendar"></i></span>
+              <select>
+                <option>January</option>
+                <option>February</option>
+                <option>March</option>
+                <option>April</option>
+                <option>May</option>
+                <option>June</option>
+              </select>
+              <input type="text" placeholder="year">
+            </div>
+            <!--Description-->
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-pencil"></i></span>
+              <!--debe haber una manera de guardar las descripciones previas-->
+              <textarea class="span5" rows="4" placeholder="description"></textarea>
+            </div>
+
+          </fieldset>
+          <div class="pull-right">
+            <button type="submit" class="btn btn-success">Save</button>
+          </div>
+          <div class="clearfix"></div>
+        </form>
+        <!--end form-->
+      </div><!--resume-->
+    </div><!--span6 company-->
+
+    <div class="box box-connect span3">
+      <div class="box-content">
+        <h4>Tips</h4>
+        <ul class="sponsor-main">
+          <li>This information will make you visible in <span>Let's Jock</span> and help you to connect with other Users and Recruiters</li>
+          <li class="divider"></li>
+          <li><i class="icon-user"></i> Complete your information</li>
+          <li><i class="icon-picture"></i> Upload your public profile picture</li>
+          <li><i class="icon-edit"></i> A description is always better! Talk about yourself, and <span>share your skills and aspirations</span></li>
+          <li class="divider"></li>
+          <li><i class="icon-question-sign"></i> Need some help? Check out our <a href="about.html">FAQ</a> or <a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </div><!--box-connect-->
+
+
+  </div>
+
+</div>

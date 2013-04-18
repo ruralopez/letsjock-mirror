@@ -1,40 +1,39 @@
 <div id="photoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Photos</h3>
+    <h3 id="myModalLabel"><i class="icon-camera"></i> Upload Photos</h3>
   </div>
   <div class="modal-body">
     <% if signed_in? %>
-        <% unless @photo.blank? %>
-            <%= form_for @photo do |f| %>
-                <fieldset>
-                  <%= f.text_field :title, :placeholder => "Title" %>
-                  <!--
-                  <div class="fileupload fileupload-new" data-provides="fileupload">
-                      <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
-                  -->
-                  <div style="list-style: none;">
-                    <li>
-                      <a role="button" id="btn-photo-1" href="#" class="btn btn-large btn-photo-link"><i class="icon-globe"></i> Link</a>
-                      <!--<a role="button" id="btn-photo-2" href="#" class="btn btn-large btn-file fileupload-new btn-photo-down"><i class="icon-download-alt"></i> Computer<input type="file" /></a> -->
-                    </li>
-                    <li>
-                      <%= f.text_area :comment, :placeholder => "Comment", :id => "photo-comment-input", :rows => "10" %>
-                    </li>
-                  </div>
 
-                  <%= f.text_field :url, :placeholder => "Place your picture link here!", :id => "photo-link-input", :class => "span4" %>
-                  <!--
-                    <div>
-                    <a href="#" class="btn fileupload-exists btn-large" data-dismiss="fileupload"><i class="icon-remove"></i> Remove</a>
-                    </div>
-                </div>  -->
+        <div class="fileupload fileupload-new" data-provides="fileupload">
+        <div class="btn-group">
+          <button class="btn btn-success btn-file fileupload-new btn-photo-down">Browse<input type="file" /></button>
+          <button class="btn btn-success btn-file fileupload-exists">Change<input type="file" /></button>
+          <button class="btn" id="btn-photo-1" data-toggle="button"><i class="icon-link"></i> URL</button>
+        </div>
 
-                  <%=	   f.hidden_field :user_id, :value => current_user.id %>
-                  <%=    f.hidden_field :sport_id, :value => 1 %>
-                </fieldset>
-            <%  end %>
-        <% end%>
+          <% unless @photo.blank? %>
+              <%= form_for @photo do |f| %>
+                  <fieldset>
+                    <%= f.text_field :url, :placeholder => "http://", :id => "photo-link-input", :class => "span3" %>
+
+
+                    <%=    f.hidden_field :comment, :value => "Comment" %>
+                    <%=    f.hidden_field :title, :value => "Title" %>
+                    <%=	   f.hidden_field :user_id, :value => current_user.id %>
+                    <%=    f.hidden_field :sport_id, :value => 1 %>
+                  </fieldset>
+              <%  end %>
+          <% end%>
+
+        <div style="height: 240px">
+          <div class="event-pictures fileupload-preview fileupload-exists thumbnail" style="height: 230px; width: 350px; margin: 0 auto;"></div>
+          <div class="event-pictures fileupload-new thumbnail" style="width: 350px; height: 230px; margin: 0 auto;"><img id="image-upload-input" src="" /></div>
+          <a class="close fileupload-exists" data-dismiss="fileupload" aria-hidden="true">×</a>
+        </div>
+        </div>
+
     <% else %>
         <p>You must be logged in to upload photos!</p>
     <% end %>

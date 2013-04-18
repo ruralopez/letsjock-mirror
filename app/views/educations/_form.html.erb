@@ -6,19 +6,19 @@
         <p>
           <span class="add-on"><i class="icon-book"></i></span>
           <%= text_field_tag :highschool_name, nil, :placeholder => "High School Name" %>
-          <%= select_tag :rank, options_for_select([["Rank 1", 1], ["Rank 2", 2], ["Rank 3", 3]]) %>
+          <%= select_tag :rank, options_for_select([["Top 1%", 1], ["Top 5%", 2], ["Top 10%", 3], ["Top 15%", 4], ["Other", 5]]) %>
         </p>
         <span class="add-on"><i class="icon-book"></i></span>
         <%=	text_field_tag :gda, nil, :placeholder => "GPA" %>
-        <%=	text_field_tag :ncaa, nil, :placeholder => "NCAA" %>
+        <%=	hidden_field_tag :ncaa, 'YES' %>
       </div>
 
       <div id="divSchool-educational" class="hiddenDiv input-prepend">
-        <p>
+
           <span class="add-on"><i class="icon-briefcase"></i></span>
           <%= text_field_tag :school_name, nil, :placeholder => "School Name" %>
-          <%=	text_field_tag :career, nil, :placeholder => "Career" %>
-        </p>
+          <%=	hidden_field_tag :career, 'Default' %>
+
         <span class="add-on"><i class="icon-briefcase"></i></span>
         <%=	text_field_tag :degree, nil, :placeholder => "Degree" %>
       </div>

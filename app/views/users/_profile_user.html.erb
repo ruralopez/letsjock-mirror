@@ -10,7 +10,15 @@
   <div class="img-polaroid">
     <%= link_to image_tag(@user.profilephotourl, :class => "user-profile"), '#' %>
        <% if signed_in? &&  @user.id == current_user.id %>
-    <a href="#profilePictureModal" data-toggle="modal" role="button"><h5><i class="icon-picture"></i> Change profile picture</h5></a>
+        <div class="dropdown">
+          <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-pencil"></i> Change Photo</a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <li><a href="#profilePictureModal" data-toggle="modal"><i class="icon-picture"></i> Choose from photos</a></li>
+            <li><a href="#photoModal" data-toggle="modal"><i class="icon-arrow-up"></i> Upload a photo</a></li>
+            <!-- <li><a><i class="icon-pencil"></i> Edit thumbnail</a></li> -->
+            <li><a><i class="icon-remove"></i> Remove</a></li>
+          </ul>
+        </div>
        <% end %>
   </div>
   <!-- begin Pictures -->
@@ -119,6 +127,33 @@
         $("#upload-input").hide();
         $("#photo-link-input").hide();
 
+        function ValidUrl(str) {
+            var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+                    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+                    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+                    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+            if(!pattern.test(str)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        window.onload = function() {
+            document.getElementById('photo-link-input').addEventListener('input',handleInput,false);
+        }
+
+        function handleInput(ev) {
+            if(ValidUrl(ev.target.value)){
+                $link = document.getElementById('photo-link-input').value;
+                document.getElementById('image-upload-input').setAttr('src', $link);
+            }
+            else
+            alert("Not");
+        }
+
         $('#btn-photo-1').click(function(){
             $("#photo-link-input").toggle("normal");
         });
@@ -183,13 +218,44 @@
 <div id="edit-profile" class="hiddenDiv">
   </br>
   <%= form_for current_user do |f| %>
-      <p><%= f.text_field :name, :value => current_user.name, :placeholder => "Name" %></p>
-      <p><%= f.text_field :lastname, :value => current_user.lastname, :placeholder => "Last Name" %></p>
-      <p><%= f.text_field :phone, :value => current_user.phone, :placeholder => "Age" %></p>
-      <p><%= f.text_field :citybirth, :value => current_user.citybirth, :placeholder => "City" %></p>
-      <p><%= f.text_field :country, :value => current_user.country, :placeholder => "Country" %></p>
-      <p><%= f.text_area :resume, :value => current_user.resume, :placeholder => "Resume", :cols => 80, :rows => 5 %></p>
-      <%= f.submit "Edit", :class => "btn" %>
+      <div class="main-fields">
+        <!--First Name-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-user"></i></span>
+          <%= f.text_field :name, :value => current_user.name, :placeholder => "Name" %>
+        </div>
+        <!--Last Name-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-user"></i></span>
+          <%= f.text_field :lastname, :value => current_user.lastname, :placeholder => "Last Name" %>
+        </div>
+        <!--Sport-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-circle"></i></span>
+          <select>
+            <option>Athletics</option>
+          </select>
+        </div>
+        <!--Location-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-map-marker"></i></span>
+          <%= f.text_field :country, :value => current_user.country, :placeholder => "Country" %>
+          <%= f.text_field :citybirth, :value => current_user.citybirth, :placeholder => "City" %>
+        </div>
+        <!--Date-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-calendar"></i></span>
+          <%= f.text_field :phone, :value => current_user.phone, :placeholder => "Age" %>
+        </div>
+        <!--Description-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-pencil"></i></span>
+          <!--debe haber una manera de guardar las descripciones previas-->
+          <%= f.text_area :resume, :class => "span5", :value => current_user.resume, :placeholder => "Resume", :rows => 4 %>
+        </div>
+
+      </div>
+      <%= f.submit "Save", :class => "btn" %>
   <% end %>
 </div>
 <% if signed_in? && (@user.following?(current_user) || current_user.id == @user.id) %>
@@ -256,26 +322,30 @@
               <div id="collapseAdd2" class="accordion-body collapse" style="height: 0px;">
                 <div class="accordion-inner">
                   <%	 if signed_in? %>
-                      <legend>What do you want to add?</legend>
+
+                      <%= render 'working_profile_form'  %>
+
+                      <legend>What else do you want to add?</legend>
                       <div class="header-buttons">
-                        <a><button id="work-train" class="btn-success hito-click">
-                          <i class="icon-user icon-2x"></i>
-                          Training
-                        </button></a>
-                        <a><button id="work-team" class="btn-success hito-click">
+                        <!-- <a><button id="work-train" class="btn-success hito-click">
+                         <i class="icon-user icon-2x"></i>
+                         Training
+                       </button></a> -->
+                        <a><button id="work-team" class="btn-success hito-click" style="height: 35px;">
                           <i class="icon-group icon-2x"></i>
                           Team
                         </button></a>
-                        <a><button id="work-award" class="btn-success hito-click">
+                        <a><button id="work-award" class="btn-success hito-click" style="height: 35px;">
                           <i class="icon-trophy icon-2x"></i>
                           Award
                         </button></a>
-                        <a><button id="work-result" class="btn-success hito-click">
+                        <a><button id="work-result" class="btn-success hito-click" style="height: 35px;">
                           <i class="icon-star icon-2x"></i>
                           Result
                         </button></a>
+
                       </div>
-                      <%= render 'working_profile_form'  %>
+
 
                   <%	 else %>
                       <p>You must be logged in to complete your profile!</p>
