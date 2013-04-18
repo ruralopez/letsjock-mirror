@@ -218,10 +218,6 @@ class UsersController < ApplicationController
         flash[:error] = "Wrong token."
       end
     end
-    respond_to do |format|
-      format.html
-      format.json { render json: @user }
-    end
   end
 
   def profile_new

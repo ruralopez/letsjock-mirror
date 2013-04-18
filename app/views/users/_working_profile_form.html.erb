@@ -11,8 +11,9 @@
         <%= text_field_tag :role, nil, :placeholder => "Title" %>
       </div>
 
-      <div id="divSport-working" class="input-prepend">
-        <%= hidden_field_tag :sport_id, 1  %>
+      <div id="divSport-working" class="hiddenDiv input-prepend">
+        <span class="add-on"><i class="icon-circle"></i></span>
+        <%= select_tag :sport_id, options_for_select([['Athletics', 1], ['Soccer', 47], ['Volleyball', 139]]) %>
         <%= hidden_field_tag :user_id, current_user.id %>
       </div>
       </p>
