@@ -123,10 +123,7 @@
         jQuery(function($) {
             $('.dropdown-toggle').dropdown();
         });
-
-        $("#upload-input").hide();
-        $("#photo-link-input").hide();
-
+        
         function ValidUrl(str) {
             var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
                     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
@@ -140,26 +137,7 @@
                 return true;
             }
         }
-
-        window.onload = function() {
-            document.getElementById('photo-link-input').addEventListener('input',handleInput,false);
-        }
-
-        function handleInput(ev) {
-            if(ValidUrl(ev.target.value)){
-                $link = document.getElementById('photo-link-input').value;
-                document.getElementById('image-upload-input').setAttr('src', $link);
-            }
-            else
-            alert("Not");
-        }
-
-        $('#btn-photo-1').click(function(){
-            $("#photo-link-input").toggle("normal");
-        });
-        $('#photo-submit').click(function(){
-            $("#new_photo").submit();
-        });
+        
         $('#video-submit').click(function(){
             $("#new_video").submit();
         });
