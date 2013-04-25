@@ -11,3 +11,9 @@
     height: 13px;
     font-size: 13px;
 }
+
+span.errorClass span
+{
+    font-size: 10px;
+
+}

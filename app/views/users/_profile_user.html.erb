@@ -1,6 +1,7 @@
 <%= stylesheet_link_tag    "users" %>
 <%= stylesheet_link_tag    "profile" %>
 <%= javascript_include_tag "application" %>
+<%= javascript_include_tag "users_validations" %>
 
 <%	 provide(:title, @user.full_name) %>
 
@@ -53,7 +54,7 @@
 <div class="profileInfo relative span9">
   <div class="user">
     <h2><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :name, :type => :input, :inner_class => "nameInput" %> <%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :lastname, :type => :input, :inner_class => "nameInput"  %></h2>
-    <p><b>Athletics </b><%  if @user.birth && @user.birth != "" %><%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years, <%else%><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :phone, :type => :input, :inner_class => "nameInput"  %> years old, <%  end %>
+    <p><b>Athletics </b><%  if @user.birth && @user.birth != "" %><%= @user.age  %>, <%else%> Age not verified, <%  end %>
       <%  if @user.citybirth != "" %> <%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %>,
           <%  end %><%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %></p>
   </div><!--user-->
@@ -182,14 +183,47 @@
     });</script>
 <div id="edit-profile" class="hiddenDiv">
   </br>
-  <%= form_for current_user do |f| %>
-      <p><%= f.text_field :name, :value => current_user.name, :placeholder => "Name" %></p>
-      <p><%= f.text_field :lastname, :value => current_user.lastname, :placeholder => "Last Name" %></p>
-      <p><%= f.text_field :phone, :value => current_user.phone, :placeholder => "Age" %></p>
-      <p><%= f.text_field :citybirth, :value => current_user.citybirth, :placeholder => "City" %></p>
-      <p><%= f.text_field :country, :value => current_user.country, :placeholder => "Country" %></p>
-      <p><%= f.text_area :resume, :value => current_user.resume, :placeholder => "Resume", :cols => 80, :rows => 5 %></p>
-      <%= f.submit "Edit", :class => "btn" %>
+  <%= form_for current_user, :class => "edit_user" do |f| %>
+      <div class="main-fields">
+        <!--First Name-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-user"></i></span>
+          <%= f.text_field :name, :value => current_user.name, :placeholder => "Name", :validation => 'required notBlank' %>
+        </div>
+        <!--Last Name-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-user"></i></span>
+          <%= f.text_field :lastname, :value => current_user.lastname, :placeholder => "Last Name" %>
+        </div>
+        <!--Sport-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-circle"></i></span>
+          <select>
+            <option>Athletics</option>
+          </select>
+        </div>
+        <!--Location-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-map-marker"></i></span>
+          <%= f.text_field :country, :value => current_user.country, :placeholder => "Country" %>
+          <%= f.text_field :citybirth, :value => current_user.citybirth, :placeholder => "City" %>
+        </div>
+        <!--Date-->
+        <div id="divDate" class="input-prepend">
+          <div class="input-prepend date" id="dp3" data-date="1995-01-01" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+            <span class="add-on"><i class="icon-calendar"></i></span>
+            <%= text_field_tag :birth, current_user.birth, :class => "span2"%>
+          </div>
+        </div>
+        <!--Description-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-pencil"></i></span>
+          <!--debe haber una manera de guardar las descripciones previas-->
+          <%= f.text_area :resume, :class => "span5", :value => current_user.resume, :placeholder => "Resume", :rows => 4, :validation => 'lengthMax255' %>
+        </div>
+
+      </div>
+      <%= f.submit "Save", :class => "btn" %>
   <% end %>
 </div>
 <% if signed_in? && (@user.following?(current_user) || current_user.id == @user.id) %>
