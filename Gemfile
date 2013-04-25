@@ -6,6 +6,7 @@ gem 'rails', '3.2.9'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'heroku'
+gem 'aws-s3', '0.6.3', :require => 'aws/s3'
 
 group :development, :test do
   gem 'mysql2'
