@@ -4,12 +4,14 @@ class EventsController < ApplicationController
   def index
     @date = Time.new
     if params[:page]
-      params[:page].to_i.times do |i|
-        @date = @date.next_week
-        if i == params[:page].to_i - 1
-          @date = @date.tomorrow
-        end
+      if params[:page].to_i > 0
+        @date += params[:page].to_i.weeks
+      else
+        @date -= params[:page].to_i.abs.weeks
       end
+
+    else
+      params[:page] = 0
     end
     @events = Event.all.sort_by(&:date).reverse
     @nextevents = Event.all(:conditions => ["date >= ?", Time.new])
