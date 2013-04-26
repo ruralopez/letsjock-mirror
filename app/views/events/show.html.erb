@@ -1,4 +1,5 @@
 <%= javascript_include_tag "application" %>
+<%= javascript_include_tag "events" %>
 <%=	stylesheet_link_tag "profile" %>
 
 <div class="container">
@@ -96,12 +97,8 @@
     <p>Sport1 Sport 2</p>
   </div><!--user-->
   <div class="connections action-buttons span3">
-    <p>
-      <% unless UserEvent.exists?(:user_id => current_user.id,  :event_id => @event.id) %>
-        <%= link_to content_tag(:button, "Join", :type=> "button", :class => "btn btn-large btn-success"), join_path %>
-      <% else %>
-        <%= link_to content_tag(:button, "Disjoin", :type=> "button", :class => "btn btn-large btn-danger"), disjoin_path %>
-      <% end %>
+    <p id="join_form">
+        <%= render 'join_form' %>
     </p>
   </div>
 </div><!-- /profileInfo -->

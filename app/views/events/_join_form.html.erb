@@ -1,0 +1,5 @@
+<% unless UserEvent.exists?(:user_id => current_user.id,  :event_id => @event.id) %>
+    <%= render 'join_action' %>
+<% else %>
+   <%= render 'disjoin_action' %>
+<% end %>

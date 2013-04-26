@@ -132,8 +132,8 @@ class EventsController < ApplicationController
     if userevent.save && subscription.save
       Activity.new(:publisher_id => Publisher.find_by_user_id(current_user.id).id, :event_id => params[:id], :act_type => "030").save
       respond_to do |format|
-        format.html { redirect_to root_url + 'events/' + params[:id].to_s }
-        format.js { render :nothing => true }
+        format.html { redirect_to Event.find(params[:id]) }
+        format.js
       end
     end
   end
@@ -145,8 +145,8 @@ class EventsController < ApplicationController
       subscription = Subscription.first(:conditions => ["user_id = ? AND publisher_id = ?", current_user.id, Publisher.find_by_event_id(params[:id]).id])
       subscription.destroy
         respond_to do |format|
-          format.html { redirect_to root_url + 'events/' + params[:id].to_s }
-          format.js { render :nothing => true }
+          format.html { redirect_to Event.find(params[:id]) }
+          format.js
         end
     end
   end
