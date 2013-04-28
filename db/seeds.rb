@@ -33,7 +33,7 @@ Sport.create( :name=> 'Triple Jump' ,  :parent_id=> '21' ,  :fullpath => '/1/21/
 Sport.create( :name=> 'Throw' ,  :parent_id=> '1' ,  :fullpath => '/1/26')
 Sport.create( :name=> 'Hammer' ,  :parent_id=> '26' ,  :fullpath => '/1/26/27')
 Sport.create( :name=> 'Discus' ,  :parent_id=> '26' ,  :fullpath => '/1/26/28')
-Sport.create( :name=> 'Javalin' ,  :parent_id=> '26' ,  :fullpath => '/1/26/29')
+Sport.create( :name=> 'Javelin' ,  :parent_id=> '26' ,  :fullpath => '/1/26/29')
 Sport.create( :name=> 'Shot Put' ,  :parent_id=> '26' ,  :fullpath => '/1/26/30')
 
 Sport.create( :name=> 'Combined' ,  :parent_id=> '1' ,  :fullpath => '/1/31')

@@ -180,6 +180,372 @@
         $('#link-unfollow').live("mouseleave", function(){
             document.getElementById("link-unfollow-text").innerHTML = "following";
         });
+
+        $('#select-sport').change(function(){
+            var selValue = (this).options[(this).selectedIndex].value
+            if(selValue == 1)
+            {
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="2">Speed</option>');
+                $('#select-sport').append('<option value="12">Endurance</option>');
+                $('#select-sport').append('<option value="21">Jump</option>');
+                $('#select-sport').append('<option value="26">Throw</option>');
+                $('#select-sport').append('<option value="31">Combined</option>');
+            } else if(selValue == 2){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="3">4x400</option>');
+                $('#select-sport').append('<option value="4">4x100</option>');
+                $('#select-sport').append('<option value="5">50m</option>');
+                $('#select-sport').append('<option value="6">100m</option>');
+                $('#select-sport').append('<option value="7">200m</option>');
+                $('#select-sport').append('<option value="8">400m</option>');
+                $('#select-sport').append('<option value="9">100m hurdles</option>');
+                $('#select-sport').append('<option value="10">110m hurdles</option>');
+                $('#select-sport').append('<option value="11">400m hurdles</option>');
+            } else if(selValue == 12){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="13">800m</option>');
+                $('#select-sport').append('<option value="14">1500m</option>');
+                $('#select-sport').append('<option value="15">5000m</option>');
+                $('#select-sport').append('<option value="16">10000m</option>');
+                $('#select-sport').append('<option value="17">30000m obstacles</option>');
+                $('#select-sport').append('<option value="18">Marathon</option>');
+                $('#select-sport').append('<option value="19">Walk 20</option>');
+                $('#select-sport').append('<option value="20">Walk 50</option>');
+            } else if(selValue == 21){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="22">High Jump</option>');
+                $('#select-sport').append('<option value="23">Long Jump</option>');
+                $('#select-sport').append('<option value="24">Pole Vault</option>');
+                $('#select-sport').append('<option value="25">Triple Jump</option>');
+            }  else if(selValue == 26){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="27">Hammer</option>');
+                $('#select-sport').append('<option value="28">Discus</option>');
+                $('#select-sport').append('<option value="29">Javelin</option>');
+                $('#select-sport').append('<option value="30">Shot Put</option>');
+            }  else if(selValue == 31){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="32">Heptathlon</option>');
+                $('#select-sport').append('<option value="33">Decathlon</option>');
+            } else if(selValue == 35){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="164">Point Guard</option>');
+                $('#select-sport').append('<option value="165">Shooting Guard</option>');
+                $('#select-sport').append('<option value="166">Small Forward</option>');
+                $('#select-sport').append('<option value="167">Power Forward</option>');
+                $('#select-sport').append('<option value="168">Center</option>');
+            } else if(selValue == 36){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="169">Goalkeeper</option>');
+                $('#select-sport').append('<option value="170">Wingman</option>');
+                $('#select-sport').append('<option value="171">Backcourt</option>');
+                $('#select-sport').append('<option value="172">Pivot</option>');
+            } else if(selValue == 39){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="40">Road</option>');
+                $('#select-sport').append('<option value="41">Track</option>');
+                $('#select-sport').append('<option value="42">Mountain</option>');
+                $('#select-sport').append('<option value="43">BMX</option>');
+            } else if(selValue == 44){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="45">Epee</option>');
+                $('#select-sport').append('<option value="46">Foil</option>');
+            } else if(selValue == 47){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                alert("revisar este deporte! Inconsistencia en BD");
+            } else if(selValue == 50){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="51">Artistic</option>');
+                $('#select-sport').append('<option value="52">Individual Complete</option>');
+                $('#select-sport').append('<option value="53">Floor</option>');
+                $('#select-sport').append('<option value="54">Floor Exercise</option>');
+                $('#select-sport').append('<option value="55">Rings</option>');
+                $('#select-sport').append('<option value="56">Vault</option>');
+                $('#select-sport').append('<option value="57">Parallel Bars</option>');
+                $('#select-sport').append('<option value="58">Pommel Horse</option>');
+                $('#select-sport').append('<option value="59">Uneven Bars</option>');
+                $('#select-sport').append('<option value="60">Balance Beam</option>');
+            } else if(selValue == 63){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                alert("revisar este deporte! Inconsistencia en BD");
+            } else if(selValue == 69){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="70">Synchronized</option>');
+                $('#select-sport').append('<option value="71">10k</option>');
+                $('#select-sport').append('<option value="72">Freestyle</option>');
+                $('#select-sport').append('<option value="80">Backstroke</option>');
+                $('#select-sport').append('<option value="83">Breaststroke</option>');
+                $('#select-sport').append('<option value="86">Butterfly</option>');
+                $('#select-sport').append('<option value="89">Medley</option>');
+            } else if(selValue == 72){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="73">50m</option>');
+                $('#select-sport').append('<option value="74">100m</option>');
+                $('#select-sport').append('<option value="75">200m</option>');
+                $('#select-sport').append('<option value="76">400m</option>');
+                $('#select-sport').append('<option value="77">1500m</option>');
+                $('#select-sport').append('<option value="78">4x200</option>');
+                $('#select-sport').append('<option value="79">4x100</option>');
+            } else if(selValue == 80){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="81">100m</option>');
+                $('#select-sport').append('<option value="82">200m</option>');
+            } else if(selValue == 83){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="84">100m</option>');
+                $('#select-sport').append('<option value="85">200m</option>');
+            } else if(selValue == 86){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="87">100m</option>');
+                $('#select-sport').append('<option value="88">200m</option>');
+            } else if(selValue == 89){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="90">200m</option>');
+                $('#select-sport').append('<option value="91">400m</option>');
+                $('#select-sport').append('<option value="92">4x100</option>');
+            } else if(selValue == 93){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="94">M1X</option>');
+                $('#select-sport').append('<option value="95">M2X</option>');
+                $('#select-sport').append('<option value="96">M4X</option>');
+                $('#select-sport').append('<option value="97">M2-</option>');
+                $('#select-sport').append('<option value="98">M4-</option>');
+                $('#select-sport').append('<option value="99">M8+</option>');
+                $('#select-sport').append('<option value="100">LM2X</option>');
+                $('#select-sport').append('<option value="101">LM4X</option>');
+            } else if(selValue == 102){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="103">Synchronized</option>');
+                $('#select-sport').append('<option value="106">Individual</option>');
+            } else if(selValue == 103){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="104">3m</option>');
+                $('#select-sport').append('<option value="105">10m</option>');
+            } else if(selValue == 106){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="107">3m</option>');
+                $('#select-sport').append('<option value="108">10m</option>');
+            } else if(selValue == 110){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="111">Singles</option>');
+                $('#select-sport').append('<option value="112">Doubles</option>');
+            } else if(selValue == 113){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="114">Singles</option>');
+                $('#select-sport').append('<option value="115">Doubles</option>');
+            } else if(selValue == 116){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="117">Rifle</option>');
+                $('#select-sport').append('<option value="121">Pistol</option>');
+                $('#select-sport').append('<option value="125">Trap</option>');
+                $('#select-sport').append('<option value="126">Double Trap</option>');
+                $('#select-sport').append('<option value="127">Skeet</option>');
+            } else if(selValue == 117){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="118">3 pos</option>');
+                $('#select-sport').append('<option value="119">50 down</option>');
+                $('#select-sport').append('<option value="120">10 air</option>');
+            } else if(selValue == 121){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="122">50m</option>');
+                $('#select-sport').append('<option value="123">25m</option>');
+                $('#select-sport').append('<option value="124">10m</option>');
+            } else if(selValue == 128){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="129">Individual</option>');
+                $('#select-sport').append('<option value="130">Team</option>');
+            } else if(selValue == 132){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="133">RS=>X</option>');
+                $('#select-sport').append('<option value="134">Laser</option>');
+                $('#select-sport').append('<option value="135">470</option>');
+                $('#select-sport').append('<option value="136">Star</option>');
+                $('#select-sport').append('<option value="137">49er</option>');
+                $('#select-sport').append('<option value="138">Finn</option>');
+            } else if(selValue == 139){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="195">Setter</option>');
+                $('#select-sport').append('<option value="196">Libero</option>');
+                $('#select-sport').append('<option value="197">Middle Blocker/Hitter</option>');
+                $('#select-sport').append('<option value="198">Outside Hitter</option>');
+                $('#select-sport').append('<option value="199">Opposite Hitter</option>');
+            } else if(selValue == 141){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="200">Goalkeeper</option>');
+                $('#select-sport').append('<option value="201">Pit Player</option>');
+                $('#select-sport').append('<option value="202">Wing</option>');
+                $('#select-sport').append('<option value="203">Driver</option>');
+                $('#select-sport').append('<option value="204">Point</option>');
+            } else if(selValue == 142){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="205">Fullback</option>');
+                $('#select-sport').append('<option value="206">Wing</option>');
+                $('#select-sport').append('<option value="207">Centre</option>');
+                $('#select-sport').append('<option value="208">Fly-half</option>');
+                $('#select-sport').append('<option value="209">Scrum-half</option>');
+                $('#select-sport').append('<option value="210">Number 8</option>');
+                $('#select-sport').append('<option value="211">Openside Flanker</option>');
+                $('#select-sport').append('<option value="212">Blind flanker</option>');
+                $('#select-sport').append('<option value="213">Lock</option>');
+                $('#select-sport').append('<option value="214">Hooper</option>');
+                $('#select-sport').append('<option value="215">Prop</option>');
+            } else if(selValue == 143){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="144">Jump</option>');
+                $('#select-sport').append('<option value="145">Slalom</option>');
+            } else if(selValue == 147){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="216">Offense</option>');
+                $('#select-sport').append('<option value="224">Defense</option>');
+                $('#select-sport').append('<option value="232">Kicker</option>');
+                $('#select-sport').append('<option value="233">Long Snapper</option>');
+                $('#select-sport').append('<option value="234">Punt Returner</option>');
+                $('#select-sport').append('<option value="235">Gunner</option>');
+            } else if(selValue == 216){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="217">Centre</option>');
+                $('#select-sport').append('<option value="218">Guard</option>');
+                $('#select-sport').append('<option value="219">Tackle</option>');
+                $('#select-sport').append('<option value="220">Quarterback</option>');
+                $('#select-sport').append('<option value="221">Running Back</option>');
+                $('#select-sport').append('<option value="222">Wide Receiver</option>');
+                $('#select-sport').append('<option value="223">Tight End</option>');
+            } else if(selValue == 224){
+                $('<p id="sport-tag2">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="225">Tackle</option>');
+                $('#select-sport').append('<option value="226">Defensive End</option>');
+                $('#select-sport').append('<option value="227">Middle Linebacker</option>');
+                $('#select-sport').append('<option value="228">Outside Linebacker</option>');
+                $('#select-sport').append('<option value="229">Cornerback</option>');
+                $('#select-sport').append('<option value="230">Safety</option>');
+                $('#select-sport').append('<option value="231">Nickelback</option>');
+            } else if(selValue == 150){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="236">Pitcher</option>');
+                $('#select-sport').append('<option value="237">Catcher</option>');
+                $('#select-sport').append('<option value="238">Baseman</option>');
+                $('#select-sport').append('<option value="239">Shortstop</option>');
+                $('#select-sport').append('<option value="240">Fielder</option>');
+                $('#select-sport').append('<option value="241">Hitter</option>');
+            } else if(selValue == 151){
+                $('<p id="sport-tag">' + (this).options[(this).selectedIndex].text + '</p>').insertBefore('#divSport');
+                $('#select-sport option').each(function(){
+                    $(this).remove();
+                });
+                $('#select-sport').append('<option value="152">Wall</option>');
+                $('#select-sport').append('<option value="153">Mountaineering</option>');
+            }
+        });
+
     });</script>
 <div id="edit-profile" class="hiddenDiv">
   </br>

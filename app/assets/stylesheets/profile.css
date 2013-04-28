@@ -316,7 +316,7 @@ legend{
 .box-info .resume .add-form{display: inline !important;}
 .box-info .resume .add-form span:last-child{background-color:white;}
 .box-info .resume input, .box-info .resume select, .box-info .resume textarea{font-size:12px;}
-.box-info .resume select{padding-top:6px;}
+.box-info .resume select{padding-top:6px; width:150px;}
 
 .input-append select, .input-prepend select{
     width:118px;

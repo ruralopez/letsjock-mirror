@@ -18,6 +18,13 @@ class Sport < ActiveRecord::Base
 
   after_save :create_full_path
 
+  def full_name
+    if self.parent_id
+      self.name + "-" + Sport.find(self.parent_id).full_name
+    else
+      self.name
+    end
+  end
 
   private
   def create_full_path

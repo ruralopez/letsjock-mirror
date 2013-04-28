@@ -129,7 +129,7 @@ class UsersController < ApplicationController
     @photo = @user.photos.build if signed_in?
     @video = @user.videos.build if signed_in?
     #Sacando todos los sports para los botones de agregar entrada
-    @sports = Sport.all
+    @sports = Sport.where("parent_id IS NULL").sort_by(&:name)
     #Creando array de Countries para auto-complete
     @countries = Country.select('name').all.map(&:name)
     #Mis eventos para mostrar en el modal
