@@ -61,6 +61,14 @@ class User < ActiveRecord::Base
     now.year - self.birth.year - (self.birth.to_date.change(:year => now.year) > now ? 1 : 0)
   end
 
+  def sport_show
+    if UserSport.exists?(:user_id => self.id)
+      Sport.find(UserSport.all(:conditions => ["user_id = ?", self.id]).last.sport_id).full_name
+    else
+      "No sport yet!"
+    end
+  end
+
   def following?(other_user)
     relationships.find_by_followed_id(other_user.id)
   end

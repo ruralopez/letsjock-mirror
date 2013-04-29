@@ -44,7 +44,6 @@
     </h5>
   </div>
 </div><!--box-media-->
-
 <ul class="profileIcons span9">
   <li><i class="icon-eye-open icon-white"></i><%= link_to @user.followers.count.to_s + " followers", social_path(@user) %><%= link_to @user.followed_users.count.to_s + " following", social_path(@user) %></li>
   <li><i class="icon-camera icon-white"></i><%= link_to @photos.count.to_s + ' pictures' , pictures_path(@user) %></li>
@@ -54,7 +53,7 @@
 <div class="profileInfo relative span9">
   <div class="user">
     <h2><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :name, :type => :input, :inner_class => "nameInput" %> <%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :lastname, :type => :input, :inner_class => "nameInput"  %></h2>
-    <p><b>Athletics </b><%  if @user.birth && @user.birth != "" %><%= @user.age  %>, <%else%> Age not verified, <%  end %>
+    <p><b><%= @user.sport_show %> </b><%  if @user.birth && @user.birth != "" %><%= @user.age  %>, <%else%> Age not verified, <%  end %>
       <%  if @user.citybirth != "" %> <%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %>,
           <%  end %><%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %></p>
   </div><!--user-->
