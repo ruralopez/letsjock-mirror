@@ -2,24 +2,31 @@
 <%= stylesheet_link_tag    "profile" %>
 <%= javascript_include_tag "application" %>
 
+<% provide(:title, @user.name) %>
+
 <div class="container">
 <div class="row">
 <div class="box box-media span3 event-single">
   <div class="img-polaroid">
-    <%=	 image_tag 'company-1.gif', :class => 'user-profile' %>
+    <%=	link_to image_tag(@user.profilepic, :class => 'user-profile'), '#' %>
+    <% if signed_in? && current_user.isAdmin? %>
+    <div class="dropdown">
+      <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-pencil"></i> Change Photo</a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <li><a href="#photoModal" data-toggle="modal"><i class="icon-arrow-up"></i> Upload a photo</a></li>
+      </ul>
+     </div>
+    <% end %>
   </div>
   <div class="event-info">
-    <h5><i class="icon-building"></i>Industry<span>sports, educational, accounting, airlines/aviation, animation, apparel
-& fashion, architecture, art & design, automotive</span></h5>
-    <h5>Founded<span>1980</span></h5>
-    <h5><i class="icon-map-marker"></i>Headquarters<span>Location</span></h5>
-    <h5><i class="icon-group"></i>Size<span>501-1000 employees</span><small><a href="#"> (see all)</a></small></h5>
-    <div class="sponsor-pictures employees"><!--maximo 4-->
-      <%= link_to image_tag('user-9.jpg', :class => "user-profile"), '#' %>
-      <%= link_to image_tag('user-10.jpg', :class => "user-profile"), '#' %>
-      <%= link_to image_tag('user-11.jpg', :class => "user-profile"), '#' %>
-      <%= link_to image_tag('user-12.jpg', :class => "user-profile"), '#' %>
-    </div><!--sponsor-pictures eployees-->
+    <h5><i class="icon-building"></i>Industry<span><%= @user.preferences[:industries].join(", ") %></span></h5>
+    <h5>
+      <i class="icon-calendar"></i>Founded<span><%= ( @user.birth && @user.birth != "" ) ? @user.birth.year : "?" %></span>
+    </h5>
+    <h5>
+      <i class="icon-map-marker"></i>Headquarters<span><%= @user.citybirth ? @user.citybirth : "Location" %>, <%= @user.country ? @user.country : "Country" %></span>
+    </h5>
+    <h5><i class="icon-group"></i>Size<span><%= @user.preferences[:size] %> employees</span></h5>
   </div><!--event info-->
 
 </div><!--box-media-->
@@ -30,22 +37,22 @@
 
 <div class="profileInfo relative span9">
   <div class="user">
-    <h2>Milo</h2>
+    <h2><%= @user.name %></h2>
     <p>
       <i class="icon-globe icon-large"></i>
-      <a href="http://www.melapuedo.cl/milo/"> http://www.melapuedo.cl/milo/</a>
+      <%= link_to @user.preferences[:url], @user.preferences[:url] %>
     </p>
   </div><!--user-->
   <div class="connections action-buttons span3">
-    <p>
-      <button class="btn btn-large btn-success" type="button"><i class="icon-eye-open icon-white"></i> Follow</button>
-    </p>
+    
+    <%=	 render 'follow_form' if signed_in? %>
+    
   </div>
 </div><!-- /profileInfo -->
 
 <div class="box box-info span6 company">
   <div class="resume">
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis porta risus. Ut eleifend, turpis vitae auctor euismod, mauris justo tincidunt purus, eget commodo arcu nibh vitae dolor. Nam arcu erat, mattis vitae commodo dictum, fermentum id felis. Etiam malesuada felis ac lectus pretium eu posuere magna porttitor. </p>
+    <p><%= @user.resume %></p>
   </div><!--resume-->
   <div class="post resume">
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
@@ -59,127 +66,59 @@
 
     <div id="my-tab-content" class="tab-content">
       <div class="tab-pane active" id="next-events">
-
-        <h5>March</h5>
+    <% if @next_events.count > 0 %>
+      <% @next_events.each do |month, events| %>
+        <h5><%= Date::MONTHNAMES[month] %></h5>
         <table class="table table-bordered event-table">
           <tbody>
+          <% events.collect do |event| %>
           <tr><!-- comienza bloque evento -->
-            <td><i class="icon-calendar"></i> Monday, March 25th, 2013
-              <a href="#"><h4>Event Name</h4></a>
+            <td><i class="icon-calendar"></i> <%= event.date.strftime("%A, %B #{event.date.day.ordinalize}, %Y") %>
+              <a href="<%= event_path(event) %>"><h4><%= event.name %></h4></a>
             </td>
-            <td class="w-30">10 Assistants
+            <td class="w-30"><%= event.user_events.count %> Assistants
               <div class="assistants"><!--maximo 4 -->
-                <%= link_to image_tag('user-1.jpg', :class => "img-rounded"), '#' %>
-                <%= link_to image_tag('user-2.jpg', :class => "img-rounded"), '#' %>
-                <%= link_to image_tag('user-3.jpg', :class => "img-rounded"), '#' %>
-                <%= link_to image_tag('user-7.jpg', :class => "img-rounded"), '#' %>
+              <% event.user_events.limit(4).each do |user_event| %>
+                <%= link_to image_tag(user_event.user.profilepic, :class => "img-rounded"), '#' %>
+              <% end %>
               </div>
             </td>
-            <td class="w-10"><a href="#">14:00</a></td>
+            <td class="w-10"><a href="<%= event_path(event) %>"><%= event.date.strftime("%H:%M") %></a></td>
           </tr><!--termina bloque evento-->
-          <tr><!-- comienza bloque evento -->
-            <td><i class="icon-calendar"></i> Friday, March 29th, 2013
-              <a href="#"><h4>Event Name</h4></a>
-            </td>
-            <td class="w-30">10 Assistants
-              <div class="assistants"><!--maximo 4 -->
-                <%= link_to image_tag('user-8.jpg', :class => "img-rounded"), '#' %>
-                <%= link_to image_tag('user-9.jpg', :class => "img-rounded"), '#' %>
-                <%= link_to image_tag('user-1.jpg', :class => "img-rounded"), '#' %>
-                <%= link_to image_tag('user-2.jpg', :class => "img-rounded"), '#' %>
-              </div>
-            </td>
-            <td class="w-10"><a href="#">14:00</a></td>
-          </tr><!--termina bloque evento-->
+          <% end %>
           </tbody>
         </table>
-
-        <h5>April</h5>
-        <table class="table table-bordered event-table">
-          <!--<thead><tr>
-                                      <th></th>
-                                  <tr></thead>-->
-          <tbody>
-          <tr><!-- comienza bloque evento -->
-            <td><i class="icon-calendar"></i> Monday, April 1st, 2013
-              <a href="#"><h4>Event Name</h4></a>
-            </td>
-            <td class="w-30">123 Assistants
-              <div class="assistants"><!--maximo 4 -->
-                <%= link_to image_tag('user-1.jpg', :class => "img-rounded"), '#' %>
-                <%= link_to image_tag('user-2.jpg', :class => "img-rounded"), '#' %>
-                <%= link_to image_tag('user-3.jpg', :class => "img-rounded"), '#' %>
-                <%= link_to image_tag('user-7.jpg', :class => "img-rounded"), '#' %>
-              </div>
-            </td>
-            <td class="w-10"><a href="#">14:00</a></td>
-          </tr><!--termina bloque evento-->
-          </tbody>
-        </table>
-
-        <h5>July</h5>
-        <table class="table table-bordered event-table">
-          <!--<thead><tr>
-                                      <th></th>
-                                  <tr></thead>-->
-          <tbody>
-          <tr><!-- comienza bloque evento -->
-            <td><i class="icon-calendar"></i> Saturday, July 19th, 2013
-              <a href="#"><h4>Event Name</h4></a>
-            </td>
-            <td class="w-30">0 Assistants
-              <div class="assistants"><!--maximo 4 -->
-              </div>
-            </td>
-            <td class="w-10"><a href="#">14:00</a></td>
-          </tr><!--termina bloque evento-->
-          </tbody>
-        </table>
-
-
+      <% end %>
+    <% else %>
+        <h3>No upcoming events</h3>
+    <% end %>
       </div><!-- #next-events -->
-
+      
       <div class="tab-pane" id="pre-events">
+    <% if @prev_events.count > 0 %>
+      <% @prev_events.each do |event| %>
         <div class="item-block">
-          <a href="#">
+          <a href="<%= event_path(event) %>">
             <div class="item-img">
-              <%=	 image_tag 'company-1.gif' %>
+              <%= image_tag 'company-1.gif' %>
             </div>
             <div class="item-info">
-              <h4>Name of the event</h4>
-              <p><b>21 assistants</b> on January 1st</p>
+              <h4><%= event.name %></h4>
+              <p><b>21 assistants</b> <%= event.date.strftime("on %B #{event.date.day.ordinalize}") %></p>
             </div>
           </a>
         </div><!--item-block-->
-        <div class="item-block">
-          <a href="#">
-            <div class="item-img">
-              <%=	 image_tag 'company-2.gif' %>
-            </div>
-            <div class="item-info">
-              <h4>Name of the event</h4>
-              <p><b>21 assistants</b> on January 1st</p>
-            </div>
-          </a>
-        </div><!--item-block-->
-        <div class="item-block">
-          <a href="#">
-            <div class="item-img">
-              <%=	 image_tag 'company-1.gif' %>
-            </div>
-            <div class="item-info">
-              <h4>Name of the event</h4>
-              <p><b>21 assistants</b> on January 1st</p>
-            </div>
-          </a>
-        </div><!--item-block-->
+      <% end %>
+    <% else %>
+      <h3>No previous events</h3>
+    <% end %>
       </div><!-- #pre-events -->
     </div><!-- #my-tab-content-->
 
     <script type="text/javascript">
-        jQuery(document).ready(function ($) {
-            $('#tabs').tab();
-        });
+      jQuery(document).ready(function ($) {
+        $('#tabs').tab();
+      });
     </script>
 
   </div><!--post resume-->
@@ -251,3 +190,5 @@
 </div>
 
 </div><!-- /.container -->
+
+<%=  render 'photos/photo_modal' %>
