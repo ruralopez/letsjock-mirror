@@ -60,21 +60,22 @@
 </ul><!-- /profileIcons -->
 <div class="profileInfo relative span9">
   <div class="user">
+    <% if signed_in? && @user.id == current_user.id  %>
+      <%= link_to('#', :class => "pull-right link-on", :style => "list-style: none; padding-top: 20px;", :id => "edit-profile-link") do %>
+        <i class='icon-pencil icon-2x'></i>
+      <% end %>
+    <% end %>
+    
     <h2><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :name, :type => :input, :inner_class => "nameInput" %> <%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :lastname, :type => :input, :inner_class => "nameInput"  %></h2>
     <p><b>Athletics </b><%  if @user.birth && @user.birth != "" %><%=  ((Time.new - @user.birth)/1.year).ceil - 1 %> years, <%else%><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :phone, :type => :input, :inner_class => "nameInput"  %> years old, <%  end %>
       <%  if @user.citybirth != "" %> <%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %>,
-          <%  end %><%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %></p>
+          <%  end %><%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %>
+    </p>
   </div><!--user-->
-  <div class="connections" style="padding-top: 20px;">
-    <!-- <%=	 image_tag 'verified.png' %> -->
-    <% if signed_in? && @user.id == current_user.id  %>
-          <%= link_to('#', :class => "pull-right link-on", :style => "list-style: none;", :id => "edit-profile-link") do %>
-              <i class='icon-pencil icon-2x'></i>
-          <% end %>
-    <% end %>
-
+  <div class="connections action-buttons span3">
+    
     <%=	 render 'follow_form' if signed_in? %>
-
+    
   </div>
 </div><!-- /profileInfo -->
 
@@ -211,12 +212,6 @@
         $('#edit-profile-link').click(function(){
             $('#edit-profile').toggle("normal");
         });
-        $('#link-unfollow').live("mouseover", function(){
-            document.getElementById("link-unfollow-text").innerHTML = "unfollow";
-        });
-        $('#link-unfollow').live("mouseleave", function(){
-            document.getElementById("link-unfollow-text").innerHTML = "following";
-        });
     });</script>
 <div id="edit-profile" class="hiddenDiv">
   </br>
@@ -272,7 +267,7 @@
             <div class="accordion-group events-filter">
               <div class="accordion-heading">
                 <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion3" href="#collapseAdd">
-                  <span>+</span>Add new
+                  <span>+</span>Add Sport Experience
                 </a>
               </div>
               <div id="collapseAdd" class="accordion-body collapse" style="height: 0px;">
@@ -319,7 +314,7 @@
             <div class="accordion-group events-filter">
               <div class="accordion-heading">
                 <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion4" href="#collapseAdd2">
-                  <span>+</span>Add new
+                  <span>+</span>Add Working Experience
                 </a>
               </div>
               <div id="collapseAdd2" class="accordion-body collapse" style="height: 0px;">
@@ -374,7 +369,7 @@
             <div class="accordion-group events-filter">
               <div class="accordion-heading">
                 <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion5" href="#collapseAdd3">
-                  <span>+</span>Add new
+                  <span>+</span>Add Education
                 </a>
               </div>
               <div id="collapseAdd3" class="accordion-body collapse" style="height: 0px;">

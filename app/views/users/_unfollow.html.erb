@@ -1,1 +1,8 @@
-<%=  link_to(raw("<div class='jock-on' href='#'></div><i class='icon-eye-open icon-2x'></i><p id='link-unfollow-text'>following</p> "), unfollow_path, :remote => true, :class => 'btn-jock', :id => "link-unfollow") %>
+<div class="dropdown">
+  <a class="dropdown-toggle btn btn-large following" data-toggle="dropdown" href="#"><i class="icon-ok"></i> Following</a>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    <li><a href="#Modal" role="button" data-toggle="modal"><i class="icon-envelope-alt"></i> Send a message</a></li>
+    <li class="divider"></li>
+    <li><%= link_to(raw('<i class="icon-eye-close"></i> Unfollow</a>'), unfollow_path, :remote => true, :id => "link-unfollow") %></li>
+  </ul>
+</div>	
