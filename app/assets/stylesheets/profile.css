@@ -9,7 +9,6 @@
 img.user-profile{
     width:100%;
     height:auto;
-    border-bottom:3px solid #333;
 }
 
 .user-pictures a img{
@@ -37,6 +36,8 @@ img.user-profile{
 .box-media .btn, .box-media p{
     margin-right:10px;
 }
+
+.box-media .modal-footer .btn{margin:0;}
 
 /*<ul class="profileIcons">*/
 ul.profileIcons{
@@ -132,6 +133,11 @@ ul.profileIcons, .profileInfo{
     padding: 10px 0;
     margin-bottom:10px;
     border-bottom:1px solid #EEE;/*added*/
+    position:relative;
+}
+.resume:last-child{
+    border-bottom:none;
+    padding-bottom:0;
 }
 
 .box-info h4{
@@ -203,8 +209,10 @@ ul.aside li:after{
     height: 0;
 }
 
-ul.aside p{font-size:12px; margin:0; line-height:120%;}
+ul.aside p{font-size:12px; margin:0; line-height:120%; display:inline-block;}
 ul.aside a{font-weight:bold;}
+
+ul.aside .metadata button{display:block; margin-top:0.8em;}
 
 .img-container{width:45%; height:70px; overflow:hidden; float:left; margin-right:10px;}/*height before was auto*/
 .img-container img{width:100%; height:auto;}
@@ -220,8 +228,9 @@ ul.connect-people li{/*border:1px solid #4B4B4B; padding-bottom:0; */position:re
 /*ul.connect-people li:last-child{border-bottom:1px solid #4B4B4B;}*/
 ul.connect-people .img-container{width:70px; height:70px;}
 
-a.follow{position:absolute; background:white; padding:0.2em 0.4em; bottom:10px; color:#2B2B2B; font-size:12px;}
-a.follow:hover{background:#CCC; text-decoration:none;}
+a.follow{/*position:absolute; background:white; padding:0.2em 0.4em; bottom:10px; color:#2B2B2B;*/ font-size:12px;}
+a.follow:hover{color:#0079FC;}
+a.follow:hover i{text-decoration:none;}
 
 .box-content{
     padding:0 10px;
@@ -253,7 +262,7 @@ a.follow:hover{background:#CCC; text-decoration:none;}
     margin:10px -30px 10px;
     padding:20px 30px;
     background-color:#F6F6F6;
-    border: none;
+    border:none;
     border-radius:4px;
     font-size: 13px;
 }
@@ -299,7 +308,7 @@ legend{
     -webkit-border-radius:3px;
     font-weight:bold;
 }
-.header-buttons a button:hover, .header-buttons a button:active{
+.header-buttons  a button:hover, .header-buttons a button:active{
     background-color:#51A351 !important;
     background-image:none;
     box-shadow:inset  0px 1px 2px rgba(0,0,0,0.30);
@@ -328,3 +337,93 @@ input.last-input, .input-append input:last-child, .input-prepend input:last-chil
 
 /*Preview*/
 .preview{}
+
+/*Boton para cambiar foto*/
+
+.box .img-polaroid{
+    position:relative;
+}
+
+.box .img-polaroid .dropdown{
+    display:none;
+    position:absolute;
+    bottom:0;
+    right:0;
+    margin:4px;
+    border-radius:4px 4px 0 4px;
+    -moz-border-radius:4px 4px 0 4px;
+    -webkit-border-radius:4px 4px 0 4px;
+    border:1px solid #EFEFEF;
+}
+
+.box .img-polaroid:hover .dropdown{
+    display: block;
+    cursor: pointer;
+}
+
+.box .img-polaroid .dropdown a.btn{
+    margin:0;
+    color:black;
+}
+
+.box .img-polaroid .dropdown a:focus.btn, .box .img-polaroid .dropdown a:active.btn  {
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #5bb75b;
+    *background-color: #51a351;
+    background-image: -moz-linear-gradient(top, #62c462, #51a351);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#62c462), to(#51a351));
+    background-image: -webkit-linear-gradient(top, #62c462, #51a351);
+    background-image: -o-linear-gradient(top, #62c462, #51a351);
+    background-image: linear-gradient(to bottom, #62c462, #51a351);
+    background-repeat: repeat-x;
+    border-color: #51a351 #51a351 #387038;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff51a351', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.box .img-polaroid .dropdown-menu > li > a:hover, .box .img-polaroid .dropdown-menu > li > a:focus, .box .img-polaroid .dropdown-submenu:hover > a, .box .img-polaroid .dropdown-submenu:focus > a{
+    background-color:#51A351;
+    color:white;
+}
+
+/*Edit Profile*/
+
+form.edit-profile{
+    margin-top:-10px !important;
+}
+
+.resume.edit{
+    margin-bottom:0;
+    padding-bottom:0;
+    border-bottom:none;
+}
+
+
+.box-info .resume .edit-profile fieldset{
+    border-bottom:none !important;
+    margin-bottom:0;
+    padding-bottom:0;
+}
+
+input.error-field, textarea.error-field{
+    color:#C6091C;
+    border: 1px solid #C6091C !important;
+    box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(255, 0, 0, 0.6);/*solo color de prueba¨*/
+}
+
+input.error-field:hover, textarea.error-field:hover{
+    box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+/*Modal Eventos*/
+
+#myEvents .modal-body {text-align:left;}
+
+#myEvents table tr td:first-child{
+    width:50% !important;
+}
+#myEvents table tr td:last-child{
+    width:64px !important;
+}

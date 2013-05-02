@@ -11,7 +11,15 @@
   <div class="img-polaroid">
     <%= link_to image_tag(@user.profilephotourl, :class => "user-profile"), '#' %>
        <% if signed_in? &&  @user.id == current_user.id %>
-    <a href="#profilePictureModal" data-toggle="modal" role="button"><h5><i class="icon-picture"></i> Change profile picture</h5></a>
+        <div class="dropdown">
+          <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-pencil"></i> Change Photo</a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <li><a href="#profilePictureModal" data-toggle="modal"><i class="icon-picture"></i> Choose from photos</a></li>
+            <li><a href="#photoModal" data-toggle="modal"><i class="icon-arrow-up"></i> Upload a photo</a></li>
+            <!-- <li><a><i class="icon-pencil"></i> Edit thumbnail</a></li> -->
+            <li><a><i class="icon-remove"></i> Remove</a></li>
+          </ul>
+        </div>
        <% end %>
   </div>
   <!-- begin Pictures -->
@@ -52,21 +60,22 @@
 </ul><!-- /profileIcons -->
 <div class="profileInfo relative span9">
   <div class="user">
+    <% if signed_in? && @user.id == current_user.id  %>
+      <%= link_to('#', :class => "pull-right link-on", :style => "list-style: none; padding-top: 20px;", :id => "edit-profile-link") do %>
+        <i class='icon-pencil icon-2x'></i>
+      <% end %>
+    <% end %>
+    
     <h2><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :name, :type => :input, :inner_class => "nameInput" %> <%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :lastname, :type => :input, :inner_class => "nameInput"  %></h2>
     <p><b><%= @user.sport_show %> </b><%  if @user.birth && @user.birth != "" %><%= @user.age  %>, <%else%> Age not verified, <%  end %>
       <%  if @user.citybirth != "" %> <%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %>,
-          <%  end %><%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %></p>
+          <%  end %><%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %>
+    </p>
   </div><!--user-->
-  <div class="connections" style="padding-top: 20px;">
-    <!-- <%=	 image_tag 'verified.png' %> -->
-    <% if signed_in? && @user.id == current_user.id  %>
-          <%= link_to('#', :class => "pull-right link-on", :style => "list-style: none;", :id => "edit-profile-link") do %>
-              <i class='icon-pencil icon-2x'></i>
-          <% end %>
-    <% end %>
-
+  <div class="connections action-buttons span3">
+    
     <%=	 render 'follow_form' if signed_in? %>
-
+    
   </div>
 </div><!-- /profileInfo -->
 
@@ -115,16 +124,21 @@
         jQuery(function($) {
             $('.dropdown-toggle').dropdown();
         });
-
-        $("#upload-input").hide();
-        $("#photo-link-input").hide();
-
-        $('#btn-photo-1').click(function(){
-            $("#photo-link-input").toggle("normal");
-        });
-        $('#photo-submit').click(function(){
-            $("#new_photo").submit();
-        });
+        
+        function ValidUrl(str) {
+            var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+                    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+                    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+                    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+            if(!pattern.test(str)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        
         $('#video-submit').click(function(){
             $("#new_video").submit();
         });
@@ -155,6 +169,9 @@
         $('#work-result').click(function(){
             $('#divResult-working').toggle("normal");
         });
+        $('#work-sport').click(function(){
+            $('#divSport-working').toggle("normal");
+        });
         $('#education-school').click(function(){
             $('#divSchool-educational').toggle("normal");
             if($('#divHighSchool-educational').is(":visible"))
@@ -173,13 +190,7 @@
         $('#edit-profile-link').click(function(){
             $('#edit-profile').toggle("normal");
         });
-        $('#link-unfollow').live("mouseover", function(){
-            document.getElementById("link-unfollow-text").innerHTML = "unfollow";
-        });
-        $('#link-unfollow').live("mouseleave", function(){
-            document.getElementById("link-unfollow-text").innerHTML = "following";
-        });
-
+        
         $('#select-sport').change(function(){
             var selValue = (this).options[(this).selectedIndex].value
             if(selValue == 1)
@@ -577,7 +588,7 @@
         <div id="divDate" class="input-prepend">
           <div class="input-prepend date" id="dp3" data-date="1995-01-01" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
             <span class="add-on"><i class="icon-calendar"></i></span>
-            <%= text_field_tag :birth, current_user.birth, :class => "span2"%>
+            <%= text_field_tag :birth, current_user.birth, :class => "span2", :placeholder => "Date bitrh" %>
           </div>
         </div>
         <!--Description-->
@@ -602,7 +613,7 @@
             <div class="accordion-group events-filter">
               <div class="accordion-heading">
                 <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion3" href="#collapseAdd">
-                  <span>+</span>Add new
+                  <span>+</span>Add Sport Experience
                 </a>
               </div>
               <div id="collapseAdd" class="accordion-body collapse" style="height: 0px;">
@@ -649,32 +660,40 @@
             <div class="accordion-group events-filter">
               <div class="accordion-heading">
                 <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion4" href="#collapseAdd2">
-                  <span>+</span>Add new
+                  <span>+</span>Add Working Experience
                 </a>
               </div>
               <div id="collapseAdd2" class="accordion-body collapse" style="height: 0px;">
                 <div class="accordion-inner">
                   <%	 if signed_in? %>
-                      <legend>What do you want to add?</legend>
+
+                      <%= render 'working_profile_form'  %>
+
+                      <legend>What else do you want to add?</legend>
                       <div class="header-buttons">
-                        <a><button id="work-train" class="btn-success hito-click">
-                          <i class="icon-user icon-2x"></i>
-                          Training
-                        </button></a>
-                        <a><button id="work-team" class="btn-success hito-click">
+                        <!-- <a><button id="work-train" class="btn-success hito-click">
+                         <i class="icon-user icon-2x"></i>
+                         Training
+                       </button></a> -->
+                        <a><button id="work-team" class="btn-success hito-click" style="height: 35px;">
                           <i class="icon-group icon-2x"></i>
                           Team
                         </button></a>
-                        <a><button id="work-award" class="btn-success hito-click">
+                        <a><button id="work-award" class="btn-success hito-click" style="height: 35px;">
                           <i class="icon-trophy icon-2x"></i>
                           Award
                         </button></a>
-                        <a><button id="work-result" class="btn-success hito-click">
+                        <a><button id="work-result" class="btn-success hito-click" style="height: 35px;">
                           <i class="icon-star icon-2x"></i>
                           Result
                         </button></a>
+                        <a><button id="work-sport" class="btn-success hito-click" style="height: 35px;">
+                          <i class="icon-circle icon-2x"></i>
+                          Sport
+                        </button></a>
+
                       </div>
-                      <%= render 'working_profile_form'  %>
+
 
                   <%	 else %>
                       <p>You must be logged in to complete your profile!</p>
@@ -696,7 +715,7 @@
             <div class="accordion-group events-filter">
               <div class="accordion-heading">
                 <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion5" href="#collapseAdd3">
-                  <span>+</span>Add new
+                  <span>+</span>Add Education
                 </a>
               </div>
               <div id="collapseAdd3" class="accordion-body collapse" style="height: 0px;">

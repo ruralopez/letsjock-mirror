@@ -1,7 +1,7 @@
 <footer>
   <div>
     <p class="pull-right"><a href="#">Back to top <i class="icon-arrow-up"></i></a></p>
-    <p>© Let's Jock · <a href="#">About</a> · <a href="#">Contact Us</a> · <a href="#">Privacy Policy</a> · <a href="#">Terms & Conditions</a></p>
+    <p>© Let's Jock · <a href="/about">About</a> · <a href="/about#contact-us">Contact Us</a> · <a href="/about#privacy-policy">Privacy Policy</a> · <a href="/about#terms-conditions">Terms & Conditions</a></p>
   </div>
 
   <script>
@@ -11,6 +11,7 @@
       });
       jQuery(function($) {
           $('[data-toggle=dropdown]').dropdown();
+          $('[data-toggle=button]').button();
           $('[data-toggle=collapse]').collapse();
           $('[rel=popover]').popover();
           $('#notifications-button').click(function(){

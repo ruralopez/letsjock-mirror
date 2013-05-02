@@ -1,40 +1,47 @@
+<%= javascript_include_tag "photos" %>
+
 <div id="photoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Photos</h3>
+    <h3 id="myModalLabel"><i class="icon-camera"></i> Upload Photos</h3>
   </div>
   <div class="modal-body">
     <% if signed_in? %>
-        <% unless @photo.blank? %>
-            <%= form_for @photo do |f| %>
-                <fieldset>
-                  <%= f.text_field :title, :placeholder => "Title" %>
-                  <!--
-                  <div class="fileupload fileupload-new" data-provides="fileupload">
-                      <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
-                  -->
-                  <div style="list-style: none;">
-                    <li>
-                      <a role="button" id="btn-photo-1" href="#" class="btn btn-large btn-photo-link"><i class="icon-globe"></i> Link</a>
-                      <!--<a role="button" id="btn-photo-2" href="#" class="btn btn-large btn-file fileupload-new btn-photo-down"><i class="icon-download-alt"></i> Computer<input type="file" /></a> -->
-                    </li>
-                    <li>
-                      <%= f.text_area :comment, :placeholder => "Comment", :id => "photo-comment-input", :rows => "10" %>
-                    </li>
-                  </div>
 
-                  <%= f.text_field :url, :placeholder => "Place your picture link here!", :id => "photo-link-input", :class => "span4" %>
-                  <!--
-                    <div>
-                    <a href="#" class="btn fileupload-exists btn-large" data-dismiss="fileupload"><i class="icon-remove"></i> Remove</a>
-                    </div>
-                </div>  -->
+        <div class="fileupload fileupload-new" data-provides="fileupload">
+            <% unless @photo.blank? %>
+                <%= form_for @photo, :html => {:multipart => true, :accept => "image/gif,image/png,image/jpg"} do |f| %>
+                    <fieldset>
+                      
+                      <div class="btn-group">
+                        <span id="btn-upload" class="btn btn-file">
+                          <span class="fileupload-new">Browse</span>
+                          <span class="fileupload-exists">Change</span>
+                          <input type="file" name="photo[file]" id="photo_file" accept="image/*"/>
+                        </span>
+                        <a class="btn" id="btn-photo-1" data-toggle="button"><i class="icon-link"></i> URL</a>
+                      </div>
+                      
+                      <div class="alert alert-error hide">
+                        ...
+                      </div>
+                      
+                      <%= f.text_field :url, :placeholder => "http://", :id => "photo-link-input", :class => "span3" %>
+                      <%= f.hidden_field :comment, :value => "Comment" %>
+                      <%= f.hidden_field :title, :value => "Title" %>
+                      <%= f.hidden_field :user_id, :value => current_user.id %>
+                      <%= f.hidden_field :sport_id, :value => 1 %>
+                    </fieldset>
+                <%  end %>
+            <% end%>
+  
+          <div style="height: 240px">
+            <div class="event-pictures fileupload-preview fileupload-exists thumbnail" style="height: 230px; width: 350px; margin: 0 auto;"></div>
+            <div class="event-pictures fileupload-new thumbnail" style="width: 350px; height: 230px; margin: 0 auto;"><img id="image-upload-input" src="" /></div>
+            <a class="close fileupload-exists" data-dismiss="fileupload" aria-hidden="true">×</a>
+          </div>
+        </div>
 
-                  <%=	   f.hidden_field :user_id, :value => current_user.id %>
-                  <%=    f.hidden_field :sport_id, :value => 1 %>
-                </fieldset>
-            <%  end %>
-        <% end%>
     <% else %>
         <p>You must be logged in to upload photos!</p>
     <% end %>
@@ -45,4 +52,40 @@
     <button id="photo-submit" class="btn btn-primary">Upload</button>
 
   </div>
+  
+  <script>
+    $(function(){
+      $("#upload-input").hide();
+      $("#photo-link-input").hide();
+      
+      $("#btn-upload").click(function(){
+        $("#photo-link-input").val("").hide('fast');
+        $(".alert").text("...").hide('fast');
+      });
+      
+      $('#btn-photo-1').click(function(){
+        $("#photo-link-input").show('fast');
+        $(".alert").text("...").hide('fast');
+        $("#new_photo input[name='photo[file]']").val("").change();
+      });
+      
+      $('#photo-submit').click(function(){
+        if( $("#new_photo input[name='photo[file]']").val() == "" && $("#photo-link-input").val() == "" ) {
+          $(".alert").text("You must select a valid image file!").show("fast");
+          return false;
+        }
+        else if( $("#new_photo input[name='photo[file]']").val() != "" && validImageExt( $("#new_photo input[name='photo[file]']").val() ) == false ) {
+          $(".alert").text("You must select a valid image file!").show("fast");
+          return false;
+        }
+        else if(  $("#photo-link-input").val() != "" && validUrl( $("#photo-link-input").val() ) == false ){
+          $(".alert").text("You must enter a valid URL!").show("fast");
+          return false;
+        }
+        
+        $("#new_photo").submit();
+      });
+    });
+  </script>
+  
 </div>
