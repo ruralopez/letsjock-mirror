@@ -19,6 +19,8 @@ Letsjock::Application.routes.draw do
 
   root :to => 'home#index'
 
+  match '/about' => 'about#index', :as => :about
+  match '/about/contact' => 'about#contact', :as => :contact_us
   match '/news' => 'feed#index', :as => :news
   match '/welcome' => 'welcome#index', :as => :welcome
   match '/signup' => 'users#new', :as => :signup

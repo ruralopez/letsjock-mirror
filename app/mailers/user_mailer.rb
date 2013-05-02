@@ -3,4 +3,9 @@ class UserMailer < ActionMailer::Base
     @user = user
     mail(:to => user.email, :subject => "Registered", :from => "letsjock@gmail.com")
   end
+  
+  def contact_us(data)
+    @data = data
+    mail(:to => "info@letsjock.com", :subject => "Contact form", :from => "letsjock@gmail.com")
+  end
 end
