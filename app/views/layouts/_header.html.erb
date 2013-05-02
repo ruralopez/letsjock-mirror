@@ -47,23 +47,26 @@
               <%= image_tag current_user.profilepic %>
               <%= current_user.full_name %>
             </a>
-
-            <%	else  %>
-                <a class="btn" href="#">
-                  <%= image_tag 'jock-navbar.png', :class => "img-polaroid" %>
-                  User Name
-                </a>
-
-            <%	end  %>
-
+            
             <a class="btn" data-toggle="dropdown" href="#">
               <i class="icon-chevron-down"></i>
             </a>
             <ul class="dropdown-menu">
               <li><a href="#">Account: basic</a></li>
+              <% if current_user.isAdmin? %>
+              <li><%= link_to 'Create institution', new_sponsor_path %></li>
+              <% end %>
               <li><a href="#">Settings</a></li>
               <li><%= link_to 'Log Out', signout_path %></li>
             </ul>
+            
+            <%	else  %>
+                <a class="btn" href="#">
+                  <%= image_tag 'jock-navbar.png', :class => "img-polaroid" %>
+                  User Name
+                </a>
+            <%	end  %>
+            
           </div>
         </div><!--pull-right-->
       </div><!--/.nav-collapse -->

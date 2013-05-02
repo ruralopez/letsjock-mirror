@@ -35,14 +35,16 @@ class User < ActiveRecord::Base
 
   has_many :messages
 
-  attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country, :phone, :resume, :height, :weight, :profilephotourl, :authentic_email, :isSponsor
+  attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country, :phone, :resume, :height, :weight, :profilephotourl, :authentic_email, :isSponsor, :preferences
 
   before_save :profilepic
   before_save { |user| user.email = email.downcase}
+  before_save :set_preferences
   before_create :create_remember_token
   before_create :create_email_token
 
   has_secure_password
+  serialize :preferences, Hash
 
   validates :name, presence: true
   validates :lastname, presence: true
@@ -51,6 +53,9 @@ class User < ActiveRecord::Base
   validates :password, :presence =>true, :confirmation => true, :length => { :minimum => 6 }, :on => :create
   validates :password, :confirmation => true, :length => { :minimum => 6 }, :on => :update, :unless => lambda{ |user| user.password.blank? }
 
+  def after_initialize
+    self.preferences ||= {} 
+  end
 
   def full_name
     name + " " + lastname
@@ -75,6 +80,12 @@ class User < ActiveRecord::Base
 
   def profilepic
     self.profilephotourl ||= "default-profile.png"
+  end
+  
+  def set_preferences
+    if self.preferences[:industries].is_a? String
+      self.preferences[:industries] = self.preferences[:industries].split(", ")
+    end
   end
 
   def last_message_with(user)
@@ -105,6 +116,10 @@ class User < ActiveRecord::Base
       end
     end
     @new
+  end
+  
+  def isAdmin? #Obviamente hay que crear el atributo, pero por mientras
+    self.id == 1 # Si es el usuario LetsJock
   end
 
   private
