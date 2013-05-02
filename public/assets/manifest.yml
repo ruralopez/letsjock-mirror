@@ -166,6 +166,8 @@ application/index.js: application-0403017450e8db75ba11b080bbf3c198.js
 events.js: events-21826116d943631aa57a9c1c629bb1ab.js
 events/index.js: events-21826116d943631aa57a9c1c629bb1ab.js
 index.js: index-34c85a43fb2cd89434186728ea8c9ca1.js
+users_validations.js: users_validations-edd4eba822a5f463c8146e9760e97066.js
+users_validations/index.js: users_validations-edd4eba822a5f463c8146e9760e97066.js
 validations.js: validations-dbeeee6663e77ac85171447dda8ee485.js
 validations/index.js: validations-dbeeee6663e77ac85171447dda8ee485.js
 add-style.css.bak: add-style.css-9fea73951eb49752c55a94aeb5dc1a7e.bak
