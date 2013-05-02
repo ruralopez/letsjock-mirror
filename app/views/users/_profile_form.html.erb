@@ -1,11 +1,10 @@
 <%= form_tag({:controller => 'users', :action => 'add_new'}, :id => 'new-profile-entry') do  %>
-
     <fieldset>
 
       <p>
       <div id="divSport" class="input-prepend">
         <span class="add-on"><i class="icon-circle-blank"></i></span>
-        <%= select_tag :sport_id, options_for_select([['Athletics',1]])  %>
+        <%= select_tag :sport_id, options_for_select(@sports.map{ |s| [s.name, s.id] }), :prompt => 'Select a sport', :id => "select-sport" %>
         <%= hidden_field_tag :user_id, current_user.id %>
       </div>
       </p>

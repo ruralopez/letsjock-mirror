@@ -97,6 +97,7 @@ class UsersController < ApplicationController
   end
 
   def profile
+    @usersport = UserSport.all
     @user = User.find(params[:id])
     
     if @user.isSponsor?
@@ -140,7 +141,7 @@ class UsersController < ApplicationController
     @photo = @user.photos.build if signed_in?
     @video = @user.videos.build if signed_in?
     #Sacando todos los sports para los botones de agregar entrada
-    @sports = Sport.all
+    @sports = Sport.where("parent_id IS NULL").sort_by(&:name)
     #Creando array de Countries para auto-complete
     @countries = Country.select('name').all.map(&:name)
     
@@ -238,6 +239,7 @@ class UsersController < ApplicationController
   def add_new
     if signed_in? && current_user.id == params[:user_id].to_i
       if params[:sport_id] != "" && params[:init] != "" && params[:end] != ""
+        UserSport.new(:user_id => current_user.id, :sport_id => params[:sport_id]).save unless UserSport.exists?(:user_id => current_user.id, :sport_id => params[:sport_id])
         if params[:team_name] != "" && params[:team_category] != ""
           @team = Team.new(:name => params[:team_name], :category => params[:team_category], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :as_athlete => true)
           @team.save
@@ -290,6 +292,7 @@ class UsersController < ApplicationController
   def add_new_working
     if signed_in? && current_user.id == params[:user_id].to_i
       if params[:sport_id] != "" && params[:init] != "" && params[:end] != "" && params[:company] != "" && params[:role] != ""
+        UserSport.new(:user_id => current_user.id, :sport_id => params[:sport_id]).save unless UserSport.exists?(:user_id => current_user.id, :sport_id => params[:sport_id])
         @work = Work.new(:company => params[:company], :role => params[:role], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :country_id => 1, :location => params[:city])
         @work.save
         if params[:team_name] != "" && params[:team_category] != ""

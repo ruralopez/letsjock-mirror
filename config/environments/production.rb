@@ -46,7 +46,7 @@ Letsjock::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += ['index.js', 'validations.js', 'home.css', 'profile.css', 'sessions.css', 'users.css', 'indexcss.css']
+  config.assets.precompile += ['index.js', 'events.js', 'users-validations.js', 'validations.js', 'home.css', 'profile.css', 'sessions.css', 'users.css', 'indexcss.css']
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false

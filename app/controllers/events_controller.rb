@@ -4,12 +4,14 @@ class EventsController < ApplicationController
   def index
     @date = Time.new
     if params[:page]
-      params[:page].to_i.times do |i|
-        @date = @date.next_week
-        if i == params[:page].to_i - 1
-          @date = @date.tomorrow
-        end
+      if params[:page].to_i > 0
+        @date += params[:page].to_i.weeks
+      else
+        @date -= params[:page].to_i.abs.weeks
       end
+
+    else
+      params[:page] = 0
     end
     @events = Event.all.sort_by(&:date).reverse
     @nextevents = Event.all(:conditions => ["date >= ?", Time.new])
@@ -130,8 +132,8 @@ class EventsController < ApplicationController
     if userevent.save && subscription.save
       Activity.new(:publisher_id => Publisher.find_by_user_id(current_user.id).id, :event_id => params[:id], :act_type => "030").save
       respond_to do |format|
-        format.html { redirect_to root_url + 'events/' + params[:id].to_s }
-        format.js { render :nothing => true }
+        format.html { redirect_to Event.find(params[:id]) }
+        format.js
       end
     end
   end
@@ -143,8 +145,8 @@ class EventsController < ApplicationController
       subscription = Subscription.first(:conditions => ["user_id = ? AND publisher_id = ?", current_user.id, Publisher.find_by_event_id(params[:id]).id])
       subscription.destroy
         respond_to do |format|
-          format.html { redirect_to root_url + 'events/' + params[:id].to_s }
-          format.js { render :nothing => true }
+          format.html { redirect_to Event.find(params[:id]) }
+          format.js
         end
     end
   end

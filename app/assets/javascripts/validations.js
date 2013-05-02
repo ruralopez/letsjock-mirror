@@ -27,6 +27,15 @@
                 },
                 msg : "Your password must contain at least 6 characters."
             },
+            lengthMax255 : {
+                check: function(value) {
+                    if(value.length < 255)
+                        return true;
+                    else
+                        return false;
+                },
+                msg : "This text cant contain more than 255 characters."
+            },
             passMatch : {
                 check: function(value) {
                     if(value == $('#user_password').val())

@@ -1,0 +1,2 @@
+module SignedUrlsHelper
+end
