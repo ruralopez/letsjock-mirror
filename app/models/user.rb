@@ -58,7 +58,11 @@ class User < ActiveRecord::Base
   end
 
   def full_name
-    name + " " + lastname
+    if self.isSponsor
+      name
+    else
+      name + " " + lastname  
+    end
   end
 
   def age
