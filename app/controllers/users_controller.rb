@@ -381,11 +381,19 @@ class UsersController < ApplicationController
     puts YAML::dump(params)
     @user = User.create(params[:user])
     @user.save
-    redirect_to '/profile/' + @user.id.to_s
-    #@user.preferences[:industries] = [ "sports", "educational" ]
-    #@user.preferences[:size] = "501-1000"
-    #@user.preferences[:url] = "http://www.melapuedo.cl/milo/"
-    #@user.save
+    
+    respond_to do |format|
+      if @user.save
+        publisher = Publisher.new(:user_id => @user.id, :pub_type => "U")
+        if publisher.save
+          format.html { redirect_to '/profile/' + @user.id.to_s, notice: 'Sponsor was successfully created.' }
+          format.json { render json: @user, status: :created, location: @user }
+        end
+      else
+        format.html { render action: "sponsor_new" }
+        format.json { render json: @user, status: :unprocessable_entity }
+      end
+    end
   end
 
   def read_notification

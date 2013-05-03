@@ -1,5 +1,6 @@
 <%= stylesheet_link_tag    "profile" %>
 <%= javascript_include_tag "application" %>
+<%= javascript_include_tag "users_validations" %>
 
 <style>
   #user_preferences_industries {
@@ -86,7 +87,7 @@
     
     <div class="box box-info span6 company">
       <div class="resume">
-        <%= form_for @user, :url => { :action => "sponsor_create" }, :html => {:class => "edit-profile edit-company"} do |f| %>
+        <%= form_for @user, :url => { :action => "sponsor_create" }, :html => {:class => "edit-profile edit-company edit_user"} do |f| %>
           <fieldset>
             <%= f.hidden_field :email, :value => rand(36**10).to_s(36) + "@letsjock.com" %>
             <%= f.hidden_field :password, :value => rand(36**10).to_s(36) %>
@@ -137,7 +138,7 @@
             <!--Description-->
             <div class="input-prepend">
               <span class="add-on"><i class="icon-pencil"></i></span>
-              <textarea class="span5" rows="4" placeholder="About"></textarea>
+              <%= f.text_area :resume, :class => "span5", :placeholder => "About", :rows => 4, :validation => 'lengthMax255' %>
             </div>
           </fieldset>
           <div class="pull-right">
