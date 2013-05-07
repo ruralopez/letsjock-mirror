@@ -545,6 +545,11 @@
             }
         });
 
+        $('#currently-working').click(function(){
+            $('#end-date-working').val('');
+            $('#dp6').toggle("normal");
+        });
+
     });</script>
 <div id="edit-profile" class="hiddenDiv">
   </br>
@@ -584,7 +589,7 @@
         <div class="input-prepend">
           <span class="add-on"><i class="icon-pencil"></i></span>
           <!--debe haber una manera de guardar las descripciones previas-->
-          <%= f.text_area :resume, :class => "span5", :value => current_user.resume, :placeholder => "Resume", :rows => 4, :validation => 'lengthMax255' %>
+          <%= f.text_area :resume, :class => "span5", :value => current_user.resume, :placeholder => "Describe your skills & attributes", :rows => 4, :validation => 'lengthMax255' %>
         </div>
 
       </div>

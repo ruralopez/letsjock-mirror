@@ -69,8 +69,9 @@
         </div>
         <div class="input-prepend date" id="dp6" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
           <span class="add-on"><i class="icon-calendar"></i></span>
-          <%= text_field_tag :end, "12-02-2012", :class => "span2" %>
+          <%= text_field_tag :end, "12-02-2012", :class => "span2", :id => "end-date-working" %>
         </div>
+        <p>Currently working here <%= check_box_tag :'currently-working' %></p>
       </div>
       </p>
 

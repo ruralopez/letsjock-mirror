@@ -225,7 +225,7 @@ class UsersController < ApplicationController
 
   def add_new
     if signed_in? && current_user.id == params[:user_id].to_i
-      if params[:sport_id] != "" && params[:init] != "" && params[:end] != ""
+      if params[:sport_id] != "" && params[:init] != ""
         UserSport.new(:user_id => current_user.id, :sport_id => params[:sport_id]).save unless UserSport.exists?(:user_id => current_user.id, :sport_id => params[:sport_id])
         if params[:team_name] != "" && params[:team_category] != ""
           @team = Team.new(:name => params[:team_name], :category => params[:team_category], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :as_athlete => true)
@@ -278,7 +278,7 @@ class UsersController < ApplicationController
 
   def add_new_working
     if signed_in? && current_user.id == params[:user_id].to_i
-      if params[:sport_id] != "" && params[:init] != "" && params[:end] != "" && params[:company] != "" && params[:role] != ""
+      if params[:sport_id] != "" && params[:init] != "" && params[:company] != "" && params[:role] != ""
         UserSport.new(:user_id => current_user.id, :sport_id => params[:sport_id]).save unless UserSport.exists?(:user_id => current_user.id, :sport_id => params[:sport_id])
         @work = Work.new(:company => params[:company], :role => params[:role], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :country_id => 1, :location => params[:city])
         @work.save
