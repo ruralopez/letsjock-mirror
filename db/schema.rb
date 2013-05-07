@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130306185215) do
+ActiveRecord::Schema.define(:version => 20130430013632) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -287,6 +287,7 @@ ActiveRecord::Schema.define(:version => 20130306185215) do
     t.string   "email_token"
     t.boolean  "authentic_email"
     t.boolean  "isSponsor"
+    t.text     "preferences"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end

@@ -39,9 +39,10 @@
         <div class="input-append input-prepend">
           <%= text_field_tag :competition_name, nil, :placeholder => "Competition Name" %>
           <%= text_field_tag :result_position, nil, :placeholder => "Position", :class=> "span1" %>
+          <%= text_field_tag :result_value, nil, :placeholder => "Mark and unit", :style => "width: 100px;" %>
         </div>
-        <%= text_field_tag :result_value, nil, :placeholder => "Mark", :style => "width: 50px;" %>
-        <%= select_tag :result_var, options_for_select([['Seconds',"s"], ['Kilograms', "kg"], ['Meters', "m"]]) %>
+        <%= hidden_field_tag :result_var, 's'  %>
+
       </div>
 
       <p>

@@ -1,11 +1,11 @@
 class HomeController < ApplicationController
 
   def index
-    unless signed_in?
+    if signed_in?
+      redirect_to news_path
+    else
       @user = User.new
       @home = true
-    else
-      redirect_to news_path
     end
   end
 

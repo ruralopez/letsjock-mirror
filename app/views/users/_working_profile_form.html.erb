@@ -6,14 +6,14 @@
       <div id="divCompany-working" class="input-prepend">
         <span class="add-on"><i class="icon-briefcase"></i></span>
         <div class="input-append input-prepend">
-          <%= text_field_tag :company, nil, :placeholder => "Company" %>
+          <%= text_field_tag :company, nil, :placeholder => "Company Name" %>
         </div>
-        <%= text_field_tag :role, nil, :placeholder => "Role" %>
+        <%= text_field_tag :role, nil, :placeholder => "Title" %>
       </div>
 
-      <div id="divSport-working" class="input-prepend">
-        <span class="add-on"><i class="icon-circle-blank"></i></span>
-        <%= select_tag :sport_id, options_for_select([['Athletics',1]])  %>
+      <div id="divSport-working" class="hiddenDiv input-prepend">
+        <span class="add-on"><i class="icon-circle"></i></span>
+        <%= select_tag :sport_id, options_for_select([['Athletics', 1], ['Soccer', 47], ['Volleyball', 139]]) %>
         <%= hidden_field_tag :user_id, current_user.id %>
       </div>
       </p>
@@ -67,6 +67,7 @@
           <span class="add-on"><i class="icon-calendar"></i></span>
           <%= text_field_tag :init, "12-02-2012", :class => "span2"%>
         </div>
+
         <div class="input-prepend date" id="dp6" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
           <span class="add-on"><i class="icon-calendar"></i></span>
           <%= text_field_tag :end, "12-02-2012", :class => "span2", :id => "end-date-working" %>
@@ -90,6 +91,8 @@
           }(window.jQuery)
       </script>
     </fieldset>
+
     <button type="submit" class="pull-right btn btn-success"><b>Add</b></button>
     <div class="clearfix"></div>
+
 <%  end %>

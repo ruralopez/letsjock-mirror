@@ -18,6 +18,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :email_token
       t.boolean :authentic_email
       t.boolean :isSponsor
+      t.text :preferences
 
       t.timestamps
     end

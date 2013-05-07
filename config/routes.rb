@@ -19,7 +19,10 @@ Letsjock::Application.routes.draw do
 
   root :to => 'home#index'
 
+  match '/about' => 'about#index', :as => :about
+  match '/about/contact' => 'about#contact', :as => :contact_us
   match '/news' => 'feed#index', :as => :news
+  match '/welcome' => 'welcome#index', :as => :welcome
   match '/signup' => 'users#new', :as => :signup
   match '/signin' => 'sessions#new', :as => :signin
   match '/signout' => 'sessions#destroy', :as => :signout
@@ -40,6 +43,9 @@ Letsjock::Application.routes.draw do
   match '/profile/:id/unfollow' => 'relationships#destroy', :as => :unfollow
   match '/profile/:id/change_profile_pic' => 'users#change_profile_pic', :as => :change_profile_pic
   match '/profile/:id/email_authentication/:token' => 'users#auth_email', :as => :auth_email
+  match '/newprofile' => 'users#profile_new', :as => :newprofile
+  match '/newsponsor' => 'users#sponsor_new', :as => :new_sponsor
+  match '/createsponsor' => 'users#sponsor_create', :as => :create_sponsor
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
