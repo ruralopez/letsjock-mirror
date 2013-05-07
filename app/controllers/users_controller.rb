@@ -168,8 +168,10 @@ class UsersController < ApplicationController
   end
 
   def social
-
     if signed_in?
+      if params[:following]
+        @tab2 = true
+      end
       @user = User.find(params[:id])
       @followers = @user.followers
       @followed = @user.followed_users

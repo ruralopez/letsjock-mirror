@@ -53,7 +53,7 @@
   </div>
 </div><!--box-media-->
 <ul class="profileIcons span9">
-  <li><i class="icon-eye-open icon-white"></i><%= link_to @user.followers.count.to_s + " followers", social_path(@user) %><%= link_to @user.followed_users.count.to_s + " following", social_path(@user) %></li>
+  <li><i class="icon-eye-open icon-white"></i><%= link_to @user.followers.count.to_s + " followers", social_path(@user) %><%= link_to  "following " + @user.followed_users.count.to_s, social_path(@user, :following => true) %></li>
   <li><i class="icon-camera icon-white"></i><%= link_to @photos.count.to_s + ' pictures' , pictures_path(@user) %></li>
   <li><i class="icon-facetime-video icon-white"></i><%= link_to @videos.count.to_s + ' videos' , pictures_path(@user) %></li>
   <li><i class="icon-calendar icon-white"></i><%= link_to @events.count.to_s + ' events' , '#eventModal', :data => {:toggle => "modal"}, :role => "button" %></li>
