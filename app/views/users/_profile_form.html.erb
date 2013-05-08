@@ -1,88 +1,110 @@
+<div class="header-buttons">
+    <a><button id="hito4" class="btn-success hito-click">
+        <i class="icon-user icon-2x"></i>
+        Training
+    </button></a>
+    <a><button id="hito3" class="btn-success hito-click">
+        <i class="icon-group icon-2x"></i>
+        Team
+    </button></a>
+    <a><button id="hito1" class="btn-success hito-click">
+        <i class="icon-trophy icon-2x"></i>
+        Award
+    </button></a>
+    <a><button id="hito2" class="btn-success hito-click">
+        <i class="icon-star icon-2x"></i>
+        Result
+    </button></a>
+</div>
+
 <%= form_tag({:controller => 'users', :action => 'add_new'}, :id => 'new-profile-entry') do  %>
-    <fieldset>
+<fieldset>
+<%= hidden_field_tag :user_id, current_user.id %>
 
-      <p>
-      <div id="divSport" class="input-prepend">
+    <div id="divSport" class="input-prepend">
         <span class="add-on"><i class="icon-circle-blank"></i></span>
+    <% if @sport_id %>
+        <%= hidden_field_tag :edit_profile, true %>
+        <%= hidden_field_tag :sport_id, @sport_id %>
+        <%= text_field_tag :sport_name, Sport.find(@sport_id).name, :readonly => true %>
+    <% else %>
         <%= select_tag :sport_id, options_for_select(@sports.map{ |s| [s.name, s.id] }), :prompt => 'Select a sport', :id => "select-sport" %>
-        <%= hidden_field_tag :user_id, current_user.id %>
-      </div>
-      </p>
+    <% end %>
+    </div>
 
-      <div id="divTrain" class="hiddenDiv input-prepend">
+    <div id="divTrain" class="<% unless @train.id? %>hiddenDiv<% end %> input-prepend">
         <span class="add-on"><i class="icon-user"></i></span>
         <select>
           <option>Trained by</option>
         </select>
-        <%= text_field_tag :train_name, nil, :placeholder => "Trainer Name" %>
-      </div>
-
-
-      <div id="divTeam" class="hiddenDiv input-prepend">
+        <%= hidden_field_tag :train_id, @train.id if @train.id? %>
+        <%= text_field_tag :train_name, @train.name, :placeholder => "Trainer Name" %>
+    </div>
+    
+    <div id="divTeam" class="<% unless @team.id? %>hiddenDiv<% end %> input-prepend input-append">
         <span class="add-on"><i class="icon-group"></i></span>
-        <div class="input-append input-prepend">
-          <%= text_field_tag :team_name, nil, :placeholder => "Team Name" %>
-        </div>
-        <%= text_field_tag :team_category, nil, :placeholder => "Category" %>
-      </div>
-
-      <div id="divAward" class="hiddenDiv input-prepend">
+        <%= hidden_field_tag :team_id, @team.id if @team.id? %>
+        <%= text_field_tag :team_name, @team.name, :placeholder => "Team Name" %>
+        <%= text_field_tag :team_category, @team.category, :placeholder => "Category" %>
+    </div>
+    
+    <div id="divAward" class="<% unless @recognition.id? %>hiddenDiv<% end %> input-prepend input-append">
         <span class="add-on"><i class="icon-trophy"></i></span>
-        <div class="input-append input-prepend">
-          <%= text_field_tag :award_title, nil, :placeholder => "Award Title" %>
-        </div>
-        <%= text_field_tag :award_by, nil, :placeholder => "Awarded By" %>
-      </div>
-
-      <div id="divResult" class="hiddenDiv input-prepend">
+        <%= hidden_field_tag :recognition_id, @recognition.id if @recognition.id? %>
+        <%= text_field_tag :recognition_title, @recognition.description, :placeholder => "Award Title" %>
+        <%= text_field_tag :recognition_by, @recognition.awarded_by, :placeholder => "Awarded By" %>
+    </div>
+    
+    <div id="divResult" class="<% unless @competition.id? %>hiddenDiv<% end %> input-prepend">
         <span class="add-on"><i class="icon-star"></i></span>
         <div class="input-append input-prepend">
-          <%= text_field_tag :competition_name, nil, :placeholder => "Competition Name" %>
-          <%= text_field_tag :result_position, nil, :placeholder => "Position", :class=> "span1" %>
-          <%= text_field_tag :result_value, nil, :placeholder => "Mark and unit", :style => "width: 100px;" %>
+            <%= hidden_field_tag :competition_id, @competition.id if @competition.id? %>
+            <%= text_field_tag :competition_name, @competition.name, :placeholder => "Competition Name" %>
+            
+            <%= hidden_field_tag :result_id, @result.id if @result.id? %>
+            <%= text_field_tag :result_position, @result.position, :placeholder => "Position", :class=> "span1" %>
+            <%= text_field_tag :result_value, @result.value, :placeholder => "Mark and unit", :style => "width: 100px;" %>
         </div>
         <%= hidden_field_tag :result_var, 's'  %>
+    </div>
 
-      </div>
-
-      <p>
-      <div id="divLocation" class="input-prepend">
-        <span class="add-on"><i class="icon-map-marker"></i></span>
-        <div class="input-append input-prepend">
-          <%= text_field_tag :country, nil, :placeholder => "Country" %>
-        </div>
-        <%= text_field_tag :city, nil, :placeholder => "City" %>
-      </div>
-
-      <div id="divDate" class="input-prepend">
+    <div id="divDate" class="input-prepend">
         <div class="input-prepend date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
-          <span class="add-on"><i class="icon-calendar"></i></span>
-          <%= text_field_tag :init, "12-02-2012", :class => "span2"%>
+            <span class="add-on"><i class="icon-calendar"></i></span>
+            <%= text_field_tag :init, @init, :placeholder => "Date from", :class => "span2"%>
         </div>
         <div class="input-prepend date" id="dp4" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
-          <span class="add-on"><i class="icon-calendar"></i></span>
-          <%= text_field_tag :end, "12-02-2012", :class => "span2" %>
+            <span class="add-on"><i class="icon-calendar"></i></span>
+            <%= text_field_tag :end, @end, :placeholder => "Date to", :class => "span2" %>
         </div>
-      </div>
-      </p>
+    </div>
 
-      <div id="divDes" class="hiddenDiv input-prepend">
-        <span class="add-on"><i class="icon-pencil"></i></span>
-        <textarea rows="3"></textarea>
-      </div>
+    <script>
+        !function ($) {
+            $(function(){
+                $('#dp3').datepicker();
+                $('#dp4').datepicker();
+                
+                $(".hiddenDiv").hide();
+                
+                $('.btn-cancel').click(function(e){
+                    e.preventDefault();
+                    
+                    if($(this).parents(".accordion-body").length)
+                        $("a[href=#" + $(this).parents(".accordion-body").attr("id") + "]").click();
+                    else{
+                        $(".resume:hidden ul.experience").parent().toggle("normal");
+                        $(this).parents(".async-form").toggle("fast").empty();
+                    }
+                });
+            });
+        }(window.jQuery)
+    </script>
+</fieldset>
 
-
-      <script>
-          !function ($) {
-              $(function(){
-                  $('#dp3').datepicker()
-                  $('#dp4').datepicker()
-              })
-          }(window.jQuery)
-      </script>
-    </fieldset>
-
-      <button type="submit" class="pull-right btn btn-success"><b>Add</b></button>
-      <div class="clearfix"></div>
+<button class="btn pull-right btn-cancel">Cancel</button>
+<button type="submit" class="btn btn-success pull-right"><b>Save</b></button>
+    
+<div class="clearfix"></div>
 
 <%  end %>

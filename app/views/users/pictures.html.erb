@@ -27,7 +27,7 @@
               <%= image_tag(photo.url) %>
             </a>  
             <% if signed_in? && @user.id == current_user.id %>
-              <div class="dropdown">
+              <div class="dropdown pull-right">
                 <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-cog"></i></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                   <li><%= link_to raw('<i class="icon-remove"></i> Delete'), photo, :method => :delete, :confirm => "Are you sure you want to delete the selected photo?" %></li>

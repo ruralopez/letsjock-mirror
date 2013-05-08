@@ -3,7 +3,7 @@
 <%= javascript_include_tag "application" %>
 <%= javascript_include_tag "users_validations" %>
 
-<%	 provide(:title, @user.full_name) %>
+<% provide(:title, @user.full_name) %>
 
 <div class="container">
 <div class="row">
@@ -122,7 +122,10 @@
          });   */
 
         jQuery(function($) {
-            $('.dropdown-toggle').dropdown();
+          // EDIT EXPERIENCE ... Solo para el ul.experience padre
+          $('ul.experience').not("ul.experience ul.experience").append($('.edit-experience'));
+          
+          $('.dropdown-toggle').dropdown();
         });
         
         function ValidUrl(str) {
@@ -144,6 +147,9 @@
         });
         $('#add-submit').click(function(){
             $("#new-profile-entry").submit();
+        });
+        $(".hito-click").click(function(){
+          $(this).toggleClass("active");
         });
         $('#hito1').click(function(){
             $('#divAward').toggle("normal");
@@ -186,9 +192,33 @@
                 $('#divSchool-educational').toggle("normal");
             }
         });
-        $(".hiddenDiv").hide();
+        
+        // EDIT PROFILE
         $('#edit-profile-link').click(function(){
-            $('#edit-profile').toggle("normal");
+          $('#edit-profile').toggle("normal").toggleClass("hidden");
+        });
+        $('#edit_user_cancel').click(function(e){
+          e.preventDefault();
+          $('#edit-profile-link').click();
+        });
+        
+        // SHOW LOADING WHILE AJAX CALLING
+        $(document).ajaxStart(function(){
+          $(".box-info .async-form").append("<div id=loading></div>");
+        });
+        $(document).ajaxStop(function(){
+          $("#loading").remove();
+        });
+        
+        // EDIT EXPERIENCE
+        $('.edit-experience-button').click(function(e){
+          e.preventDefault();
+          var data = {};
+          data["object_id"] = $(this).parents("ul.experience").attr("data-id");
+          data["object_type"] = $(this).parents("ul.experience").attr("data-type");
+          
+          $(this).parents(".resume").toggle("normal").after($(".async-form")); // Lo contrario sería $(".resume:hidden ul.experience").parent().toggle("normal")
+          $(".box-info .async-form").show().load("/profile/<%= @current_user.id %>/edit_profile", data);
         });
         
         $('#select-sport').change(function(){
@@ -557,9 +587,9 @@
         });
 
     });</script>
-<div id="edit-profile" class="hiddenDiv">
-  </br>
+  <div id="edit-profile" class="hidden resume">
   <%= form_for current_user, :class => "edit_user" do |f| %>
+      <legend>Edit Profile</legend>
       <div class="main-fields">
         <!--First Name-->
         <div class="input-prepend">
@@ -578,6 +608,23 @@
             <option>Athletics</option>
           </select>
         </div>
+        <!--Gender-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-file"></i></span>
+          <%= f.select(:gender, [['Select a gender', nil], ['Male', 'M'], ['Female', 'F']], {:class => 'span3'}) %>
+        </div>
+        <!--Height-->
+        <div class="input-prepend input-append">
+          <span class="add-on"><i class="icon-file"></i></span>
+          <%= f.text_field :height, :value => current_user.height, :placeholder => "Heigth" %>
+          <span class="add-on">inches</span>
+        </div>
+        <!--Weight-->
+        <div class="input-prepend input-append">
+          <span class="add-on"><i class="icon-file"></i></span>
+          <%= f.text_field :weight, :value => current_user.weight, :placeholder => "Weigth" %>
+          <span class="add-on">pounds</span>
+        </div>
         <!--Location-->
         <div class="input-prepend">
           <span class="add-on"><i class="icon-map-marker"></i></span>
@@ -594,14 +641,14 @@
         <!--Description-->
         <div class="input-prepend">
           <span class="add-on"><i class="icon-pencil"></i></span>
-          <!--debe haber una manera de guardar las descripciones previas-->
           <%= f.text_area :resume, :class => "span5", :value => current_user.resume, :placeholder => "Resume", :rows => 4, :validation => 'lengthMax255' %>
         </div>
-
       </div>
-      <%= f.submit "Save", :class => "btn" %>
+      
+      <button id="edit_user_cancel" class="btn pull-right">Cancel</button> <button type="submit" name="commit" class="btn btn-success pull-right"><b>Save</b></button>
+      <div class="clearfix"></div>
   <% end %>
-</div>
+  </div>
 <% if signed_in? && (@user.following?(current_user) || current_user.id == @user.id) %>
     <div class="resume">
       <%= @user.resume %>
@@ -620,26 +667,7 @@
                 <div class="accordion-inner">
                   <%	 if signed_in? %>
                       <legend>What do you want to add?</legend>
-                      <div class="header-buttons">
-                        <a><button id="hito4" class="btn-success hito-click">
-                          <i class="icon-user icon-2x"></i>
-                          Training
-                        </button></a>
-                        <a><button id="hito3" class="btn-success hito-click">
-                          <i class="icon-group icon-2x"></i>
-                          Team
-                        </button></a>
-                        <a><button id="hito1" class="btn-success hito-click">
-                          <i class="icon-trophy icon-2x"></i>
-                          Award
-                        </button></a>
-                        <a><button id="hito2" class="btn-success hito-click">
-                          <i class="icon-star icon-2x"></i>
-                          Result
-                        </button></a>
-                      </div>
                       <%= render 'profile_form'  %>
-
                   <%	 else %>
                       <p>You must be logged in to complete your profile!</p>
                   <%	 end %>
@@ -665,39 +693,34 @@
               </div>
               <div id="collapseAdd2" class="accordion-body collapse" style="height: 0px;">
                 <div class="accordion-inner">
-                  <%	 if signed_in? %>
-
-                      <%= render 'working_profile_form'  %>
-
+                  <% if signed_in? %>
+                    <%= render 'working_profile_form'  %>
                       <legend>What else do you want to add?</legend>
                       <div class="header-buttons">
                         <!-- <a><button id="work-train" class="btn-success hito-click">
                          <i class="icon-user icon-2x"></i>
                          Training
                        </button></a> -->
-                        <a><button id="work-team" class="btn-success hito-click" style="height: 35px;">
-                          <i class="icon-group icon-2x"></i>
-                          Team
-                        </button></a>
-                        <a><button id="work-award" class="btn-success hito-click" style="height: 35px;">
-                          <i class="icon-trophy icon-2x"></i>
-                          Award
-                        </button></a>
-                        <a><button id="work-result" class="btn-success hito-click" style="height: 35px;">
-                          <i class="icon-star icon-2x"></i>
-                          Result
-                        </button></a>
-                        <a><button id="work-sport" class="btn-success hito-click" style="height: 35px;">
+                        <a><button id="work-sport" class="btn-success hito-click">
                           <i class="icon-circle icon-2x"></i>
                           Sport
                         </button></a>
-
+                        <a><button id="work-team" class="btn-success hito-click">
+                          <i class="icon-group icon-2x"></i>
+                          Team
+                        </button></a>
+                        <a><button id="work-award" class="btn-success hito-click">
+                          <i class="icon-trophy icon-2x"></i>
+                          Award
+                        </button></a>
+                        <a><button id="work-result" class="btn-success hito-click">
+                          <i class="icon-star icon-2x"></i>
+                          Result
+                        </button></a>
                       </div>
-
-
-                  <%	 else %>
+                  <% else %>
                       <p>You must be logged in to complete your profile!</p>
-                  <%	 end %>
+                  <% end %>
                 </div>
               </div>
             </div>
@@ -826,6 +849,20 @@
 </div><!--box-connect-->
 </div>
 </div><!-- /.container -->
+
+<div class="edit-experience pull-right">
+<% if signed_in? && @user.id == current_user.id %>
+  <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-cog"></i></a>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    <li><a href="#" class="edit-experience-button"><i class="icon-pencil"></i> Edit</a></li>
+    <li><a href="#" class="delete-experience-button"><i class="icon-remove"></i> Delete</a></li>
+  </ul>
+<% end %>
+</div>
+
+<div class="resume async-form">
+  
+</div>
 
 <%=  render 'photos/photo_modal' %>
 <%=  render 'videos/video_modal' %>
