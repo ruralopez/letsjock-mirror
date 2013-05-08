@@ -81,52 +81,11 @@
 
 <div class="box box-info span6">
 <script>
-    $(document).ready(function(){
-        /*$(".hito-click").hide();
-
-         $(".hito-click").click(function(){
-         $idx = $(this).attr('id');
-         $(".hito-click").each(function () {
-         if ( $(this).attr('id') != $idx  ) {
-         $(this).toggle("fast");}
-         });
-         $("#div-render").toggle("normal");
-         if($("#div-render").is(':hidden')){$('.disappear1').html(' ');}
-         });
-
-         $("#dropdown-sports-btn1").click(function(){
-         $ddm = document.getElementById('dropdown-sports-btn1');
-         if(($ddm.textContent)!="Sport"){
-         $(".hito-click").show("normal");
-         $("#div-render").hide("normal");
-         $('#div-render').empty();}
-         });
-
-         $('#hito1').click(function(){
-         $('#div-render').empty();
-         });
-
-         $("#btn-add3").click(function(){
-         if($("#edu1").is(':hidden') || $("#edu2").is(':hidden') || $("#edu3").is(':hidden')){
-         $(".btn-edu").show("fast");
-         }
-         else {$(".btn-edu").toggle("fast");
-         }
-         });
-
-         $("#dropdown-menu-sports1 a").click(function(){
-         $ddm = document.getElementById('dropdown-sports-btn1');
-         $ddm.textContent = $(this).attr('name_s');
-         gon.sport_id = $(this).attr('id_s');
-         $(".hito-click").show("normal");
-         });   */
-
-        jQuery(function($) {
-          // EDIT EXPERIENCE ... Solo para el ul.experience padre
-          $('ul.experience').not("ul.experience ul.experience").append($('.edit-experience'));
-          
-          $('.dropdown-toggle').dropdown();
-        });
+$(document).ready(function(){
+  // EDIT EXPERIENCE ... Solo para el ul.experience padre
+  $('ul.experience').not("ul.experience ul.experience").append($('.edit-experience'));
+  
+  $('.dropdown-toggle').dropdown();
         
         function ValidUrl(str) {
             var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -145,24 +104,7 @@
         $('#video-submit').click(function(){
             $("#new_video").submit();
         });
-        $('#add-submit').click(function(){
-            $("#new-profile-entry").submit();
-        });
-        $(".hito-click").click(function(){
-          $(this).toggleClass("active");
-        });
-        $('#hito1').click(function(){
-            $('#divAward').toggle("normal");
-        });
-        $('#hito2').click(function(){
-            $('#divResult').toggle("normal");
-        });
-        $('#hito3').click(function(){
-            $('#divTeam').toggle("normal");
-        });
-        $('#hito4').click(function(){
-            $('#divTrain').toggle("normal");
-        });
+        
         $('#work-train').click(function(){
             $('#divTrain-working').toggle("normal");
         });
@@ -585,8 +527,8 @@
                 $('#select-sport').append('<option value="153">Mountaineering</option>');
             }
         });
-
-    });</script>
+});
+</script>
   <div id="edit-profile" class="hidden resume">
   <%= form_for current_user, :class => "edit_user" do |f| %>
       <legend>Edit Profile</legend>

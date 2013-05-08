@@ -393,6 +393,7 @@ class UsersController < ApplicationController
   def edit_profile
     if signed_in?
       @recognition = @competition = @result = @team = @train = NullObject.new # La clase NullObject está definida al final
+      @edit_profile = true
       
       case params[:object_type]
         when 'recognition'
@@ -433,9 +434,8 @@ class UsersController < ApplicationController
       @sports = Sport.where("parent_id IS NULL").sort_by(&:name)
       
       respond_to do |format|
-        format.js
+        format.js { render 'users/_profile_form' }
       end
-      
     else
       redirect_to root_path
     end

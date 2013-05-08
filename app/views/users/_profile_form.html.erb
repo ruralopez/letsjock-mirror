@@ -1,29 +1,29 @@
 <div class="header-buttons">
-    <a><button id="hito4" class="btn-success hito-click">
+    <a><button class="btn-success hito-click" data-block="train">
         <i class="icon-user icon-2x"></i>
         Training
     </button></a>
-    <a><button id="hito3" class="btn-success hito-click">
+    <a><button class="btn-success hito-click" data-block="team">
         <i class="icon-group icon-2x"></i>
         Team
     </button></a>
-    <a><button id="hito1" class="btn-success hito-click">
+    <a><button class="btn-success hito-click" data-block="recognition">
         <i class="icon-trophy icon-2x"></i>
         Award
     </button></a>
-    <a><button id="hito2" class="btn-success hito-click">
+    <a><button class="btn-success hito-click" data-block="result">
         <i class="icon-star icon-2x"></i>
         Result
     </button></a>
 </div>
 
-<%= form_tag({:controller => 'users', :action => 'add_new'}, :id => 'new-profile-entry') do  %>
+<%= form_tag({:controller => 'users', :action => 'add_new'}, :id => @edit_profile ? 'edit-profile-entry' : 'new-profile-entry') do  %>
 <fieldset>
 <%= hidden_field_tag :user_id, current_user.id %>
 
-    <div id="divSport" class="input-prepend">
+    <div class="input-prepend _js-sport">
         <span class="add-on"><i class="icon-circle-blank"></i></span>
-    <% if @sport_id %>
+    <% if @edit_profile %>
         <%= hidden_field_tag :edit_profile, true %>
         <%= hidden_field_tag :sport_id, @sport_id %>
         <%= text_field_tag :sport_name, Sport.find(@sport_id).name, :readonly => true %>
@@ -32,7 +32,7 @@
     <% end %>
     </div>
 
-    <div id="divTrain" class="<% unless @train.id? %>hiddenDiv<% end %> input-prepend">
+    <div class="<% unless @train.id? %>hiddenDiv<% end %> input-prepend _js-train">
         <span class="add-on"><i class="icon-user"></i></span>
         <select>
           <option>Trained by</option>
@@ -41,21 +41,21 @@
         <%= text_field_tag :train_name, @train.name, :placeholder => "Trainer Name" %>
     </div>
     
-    <div id="divTeam" class="<% unless @team.id? %>hiddenDiv<% end %> input-prepend input-append">
+    <div class="<% unless @team.id? %>hiddenDiv<% end %> input-prepend input-append _js-team">
         <span class="add-on"><i class="icon-group"></i></span>
         <%= hidden_field_tag :team_id, @team.id if @team.id? %>
         <%= text_field_tag :team_name, @team.name, :placeholder => "Team Name" %>
         <%= text_field_tag :team_category, @team.category, :placeholder => "Category" %>
     </div>
     
-    <div id="divAward" class="<% unless @recognition.id? %>hiddenDiv<% end %> input-prepend input-append">
+    <div class="<% unless @recognition.id? %>hiddenDiv<% end %> input-prepend input-append _js-recognition">
         <span class="add-on"><i class="icon-trophy"></i></span>
         <%= hidden_field_tag :recognition_id, @recognition.id if @recognition.id? %>
         <%= text_field_tag :recognition_title, @recognition.description, :placeholder => "Award Title" %>
         <%= text_field_tag :recognition_by, @recognition.awarded_by, :placeholder => "Awarded By" %>
     </div>
     
-    <div id="divResult" class="<% unless @competition.id? %>hiddenDiv<% end %> input-prepend">
+    <div class="<% unless @competition.id? %>hiddenDiv<% end %> input-prepend _js-result">
         <span class="add-on"><i class="icon-star"></i></span>
         <div class="input-append input-prepend">
             <%= hidden_field_tag :competition_id, @competition.id if @competition.id? %>
@@ -86,6 +86,11 @@
                 $('#dp4').datepicker();
                 
                 $(".hiddenDiv").hide();
+                
+                $(".hito-click").click(function(){
+                    $(this).toggleClass("active");
+                    $('._js-' + $(this).attr("data-block")).toggle("normal");
+                });
                 
                 $('.btn-cancel').click(function(e){
                     e.preventDefault();
