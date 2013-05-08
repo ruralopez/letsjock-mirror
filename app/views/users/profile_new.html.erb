@@ -6,36 +6,13 @@
     <div class="box box-media span3 event-single">
       <div class="img-polaroid">
         <i class="default-icon icon-user icon-4x">
-          <a href="#imageModal" role="button" data-toggle="modal" class="btn btn-success btn-small">
+          <a href="#photoModal" role="button" data-toggle="modal" class="btn btn-success btn-small">
             <i class="icon-arrow-up"></i> Upload a photo
           </a>
         </i>
       </div>
 
-      <!-- Modal -->
-      <div id="imageModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3 id="myModalLabel"><i class="icon-camera"></i> Upload Photos</h3>
-        </div>
-        <div class="modal-body">
-
-          <div class="btn-group">
-            <button class="btn btn-success">Browse</button>
-            <button class="btn"><i class="icon-link"></i> URL</button>
-          </div>
-          <input class="span3" type="text" placeholder="http://">
-          <img class="preview" src="img/company-1.gif">
-        </div>
-        <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-          <button class="btn btn-primary btn-success"><i class="icon-arrow-up"></i> Upload</button>
-        </div>
-      </div>
-
-
       <div class="event-info">
-
 
       </div><!--event info-->
 
@@ -52,14 +29,26 @@
     <div class="box box-info span6 company">
       <div class="resume">
         <!--begin form-->
-        <form class="edit-profile edit-company">
-          <fieldset>
+
+        <%= form_for(@user) do |f| %>
+            <% if @user.errors.any? %>
+                <div id="error_explanation">
+                  <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+                  <ul>
+                    <% @user.errors.full_messages.each do |msg| %>
+                        <li><%= msg %></li>
+                    <% end %>
+                  </ul>
+                </div>
+            <% end %>
+
             <h4>General Information</h4>
             <!-- Name-->
             <div class="input-prepend">
               <span class="add-on"><i class="icon-user"></i></span>
-              <input type="text" placeholder="First Name">
-              <input type="text" placeholder="Last Name">
+              <%= f.text_field :name, :placeholder => "First Name"%>
+              <%= f.text_field :lastname, :placeholder => "Last Name" %>
             </div>
             <!--Sport-->
             <div class="input-prepend">
@@ -77,6 +66,7 @@
             <h4 class="inline">Personal Information</h4><p>Location, Birthday and Description</p>
             <!--Location-->
             <div class="input-prepend">
+              <!-- Aquí hay que agregar la lógica de los países (Select o Typeahead?) -->
               <span class="add-on"><i class="icon-map-marker"></i></span>
               <select>
                 <option>Country 1</option>
@@ -85,34 +75,26 @@
                 <option>Country 4</option>
                 <option>Country 5</option>
               </select>
-              <input type="text" placeholder="location">
+              <%= f.text_field :citybirth, :placeholder => "Citybirth" %>
             </div>
+            </br>
             <!--Date-->
-            <div class="input-prepend">
+            <div class="input-prepend date" id="dp6" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
               <span class="add-on"><i class="icon-calendar"></i></span>
-              <select>
-                <option>January</option>
-                <option>February</option>
-                <option>March</option>
-                <option>April</option>
-                <option>May</option>
-                <option>June</option>
-              </select>
-              <input type="text" placeholder="year">
+              <%= text_field :age, "12-02-2012", :class => "span2"%>
             </div>
+
             <!--Description-->
             <div class="input-prepend">
               <span class="add-on"><i class="icon-pencil"></i></span>
-              <!--debe haber una manera de guardar las descripciones previas-->
-              <textarea class="span5" rows="4" placeholder="description"></textarea>
+              <%= f.text_area :resume, :class => "span5", :rows => 4, :placeholder => "Description" %>
+              <%= f.hidden_field :country, :value => 'Chile' %>
             </div>
+            <div class="actions">
+              <%= f.submit :class => "btn btn-success"%>
+            </div>
+        <% end %>
 
-          </fieldset>
-          <div class="pull-right">
-            <button type="submit" class="btn btn-success">Save</button>
-          </div>
-          <div class="clearfix"></div>
-        </form>
         <!--end form-->
       </div><!--resume-->
     </div><!--span6 company-->
@@ -136,3 +118,47 @@
   </div>
 
 </div>
+
+<div id="photoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel"><i class="icon-camera"></i> Upload First Photo</h3>
+  </div>
+  <div class="modal-body">
+    <% if signed_in? %>
+
+        <div class="fileupload fileupload-new" data-provides="fileupload">
+          <div class="btn-group">
+            <button class="btn btn-success btn-file fileupload-new btn-photo-down">Browse<input type="file" /></button>
+            <button class="btn btn-success btn-file fileupload-exists">Change<input type="file" /></button>
+            <button class="btn" id="btn-photo-1" data-toggle="button"><i class="icon-link"></i> URL</button>
+          </div>
+
+          <input class="span3" type="text" placeholder="http://">
+
+          <div style="height: 240px">
+            <div class="event-pictures fileupload-preview fileupload-exists thumbnail" style="height: 230px; width: 350px; margin: 0 auto;"></div>
+            <div class="event-pictures fileupload-new thumbnail" style="width: 350px; height: 230px; margin: 0 auto;"><img id="image-upload-input" src="" /></div>
+            <a class="close fileupload-exists" data-dismiss="fileupload" aria-hidden="true">×</a>
+          </div>
+        </div>
+
+    <% else %>
+        <p>You must be logged in to upload photos!</p>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button id="photo-submit" class="btn btn-primary">Upload</button>
+
+  </div>
+</div>
+
+<script>
+    !function ($) {
+        $(function(){
+            $('#dp6').datepicker()
+        })
+    }(window.jQuery)
+</script>

@@ -6,36 +6,21 @@
   <div class="container">
 
     <div class="presentation">
-      <div class="header-logo">
-        <div id="myCarousel" class="carousel slide" style="background-color:none;">
-          <div class="carousel-inner">
-            <div class="item">
-              <%= (image_tag 'jock1.png') %>
-            </div>
-            <div class="item">
-              <%= (image_tag 'jock2.png') %>
-            </div>
-            <div class="item">
-              <%= (image_tag 'jock3.png') %>
-            </div>
-            <div class="item">
-              <%= (image_tag 'jock4.png') %>
-            </div>
-            <div class="item active">
-              <%= (image_tag 'jock5.png') %>
-            </div>
-          </div><!--carousel-inner-->
-        </div><!-- /.carousel -->
-      </div>
       <div class="notify-me welcome">
-        <hgroup>
-          <h3>¡Bienvenido a la versión privada de Let's Jock!</h3>
-          <h4>El LinkedIn del deporte.</h4>
-        </hgroup>
+        <h3>¡Bienvenido a la versión privada de Let's Jock!</h3>
         <ul>
-          <li style="list-style: none;">Crea tu perfil deportivo.</li>
-          <li style="list-style: none;">Busca y Sigue a otros usuarios e instituciones.</li>
-          <li style="list-style: none;">Inscríbete en eventos deportivos</li>
+          <li>
+            <%= image_tag 'welcome_1.png' %>
+            Crea tu perfil deportivo.
+          </li>
+          <li>
+            <%= image_tag 'welcome_2.png' %>
+            Busca y Sigue a otros usuarios e instituciones.
+          </li>
+          <li>
+            <%= image_tag 'welcome_3.png' %>
+            Inscríbete en eventos deportivos.
+          </li>
         </ul>
         <a href="/newprofile"><button class="btn btn-success btn-large">Continuar</button></a>
 
@@ -44,10 +29,7 @@
           <a href="https://www.facebook.com/LetsJock"><i class="icon-facebook-sign icon-2x"></i></a>
           <a href="https://twitter.com/letsjock"><i class="icon-twitter-sign icon-2x"></i></a>
         </div>
-      </div><!--notify-me-->
-
-
-
+      </div>
     </div>
   </div><!--container-->
 </div>

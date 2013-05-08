@@ -1,8 +1,11 @@
 /*CSS for index*/
 body{
-    background:url("imgHome.jpg") black no-repeat top center;
+    background: url("imgHome.jpg") no-repeat top center fixed;
     background-color:black;
-    background-position: top center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 .main-content{
@@ -183,6 +186,25 @@ footer .container{padding-bottom:0;}
     border-radius:0 0 4px 4px;
     padding:16px 0 44px;
 }
+
+.welcome ul{
+    width:100%;
+    list-style:none outside none;
+    margin:0 0 20px;
+
+    -moz-column-count: 3;
+    -moz-column-gap: 8px;
+    -webkit-column-count: 3;
+    -webkit-column-gap: 8px;
+    column-count: 3;
+    column-gap: 8px;
+}
+
+.welcome ul li{
+    display: inline-block; /* Display inline-block, and absolutely NO FLOATS! */
+    width: 100%;
+}
+
 .bottom{
     position:absolute;
     background:white;
@@ -208,3 +230,49 @@ footer .container{padding-bottom:0;}
 .bottom a:last-child{
     margin-right:.5em;
 }
+
+/*LOGIN*/
+
+.container.front{
+    margin-top:100px;
+}
+
+/*Left*/
+.main{
+    color:white;
+}
+
+img.welcome-logo{
+    width:50%;
+    display:block;
+}
+
+.container.front .sponsors{}
+.container.front .sponsors a{
+    width: 32px;
+    height: auto;
+    display:inline-block;
+    padding:1px;
+    border:1px solid white;
+}
+
+.container.front .sponsors a.img-polaroid img{
+    width:100%;
+}
+/*Login*/
+.form-login{
+    padding:1em;
+    background-color:#222222;
+    color:white;
+    border-radius:4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+}
+
+.form-login label.checkbox{
+    font-size:0.75em;
+}
+
+a.forgot{color:white; display:inline;}
+
+.container.front button{font-weight:bold;}
