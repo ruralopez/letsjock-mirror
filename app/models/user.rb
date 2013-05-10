@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
   validates :name, :presence => true
   validates :lastname, :presence => true
   VALID_EMAIL = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :email, :presence => true, :format => { with: VALID_EMAIL}, :uniqueness => { :case_sensitive => false}
+  validates :email, :presence => true, :format => { :with => VALID_EMAIL}, :uniqueness => { :case_sensitive => false}
   validates :password, :presence => true, :confirmation => true, :length => { :minimum => 6 }, :on => :create
   validates :password, :confirmation => true, :length => { :minimum => 6 }, :on => :update, :unless => lambda{ |user| user.password.blank? }
 
