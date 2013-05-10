@@ -1,0 +1,138 @@
+<%= javascript_include_tag "application" %>
+<%= javascript_include_tag "index" %>
+<div id="fb-root"></div>
+<script>
+    // Additional JS functions here
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '242096812583854', // App ID
+            channelUrl : '//www.letsjock.com/channel.html', // Channel File
+            status     : true, // check login status
+            cookie     : true, // enable cookies to allow the server to access the session
+            xfbml      : true  // parse XFBML
+        });
+
+        FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                // connected
+                //window.location="http://www.letsjock.com/perfil.html";
+            } else if (response.status === 'not_authorized') {
+                // not_authorizedlogin();
+                //login();
+                //window.location="http://www.letsjock.com/perfil.html";
+            } else {
+                // not_logged_inlogin();
+                //login();
+                //window.location="http://www.letsjock.com/perfil.html";
+            }
+        });
+    };
+    function login() {
+        FB.login(function(response) {
+            if (response.authResponse) {
+                FB.api('/me', function(response) {
+                    var _id = 'https://graph.facebook.com/' + response.id + '/picture&' + response.name;
+                    window.location= 'http://www.letsjock.com/profile.html?' + _id;
+                    //window.location= _id;
+                    testAPI();
+                });
+            } else {
+                // cancelled
+                //window.location="http://www.letsjock.com/perfil.html";
+            }
+        }, {scope: 'email,user_hometown,user_location,user_photos'});
+    }function testAPI() {
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('/me', function(response) {
+            console.log('Good to see you, ' + response.name + ', ' + response.email + ', ' + response.location.name + ', ' + response.id + ', ' + response.username + '.');
+        });
+    }  // Load the SDK Asynchronously
+    (function(d){
+        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement('script'); js.id = id; js.async = true;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        ref.parentNode.insertBefore(js, ref);
+    }(document));
+</script>
+<script type="text/javascript">
+    var uvOptions = {};
+    (function() {
+        var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+        uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/1CNQtCaApN2p1sMQMpsbcQ.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+    })();
+</script>
+
+<div class="lineTop">
+</div><!-- /lineTop -->
+<header class="homepage">
+  <div class="wrapper relative">
+    <ul class="navRight">
+      <li class="relative">
+        <input type="text" placeholder="Busca deportistas, entrenadores, eventos..." />
+        <button type="submit"></button>
+      </li>
+    </ul><!-- /navRight -->
+  </div><!-- /wrapper -->
+</header>
+<span class="lineBr"></span>
+
+<div class="imgHome">
+  <span class="puntos"></span>
+</div><!-- /imgHome -->
+<div class="registerCont wrapper">
+  <% if flash[:error] %>
+    <div class="alert alert-error index-flash">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <h4>Login error!</h4> <%=  flash[:error] %>
+    </div>
+  <% end %>
+  <% if flash[:success] %>
+      <div class="alert alert-success index-flash">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <%=  flash[:success] %>
+      </div>
+  <% end %>
+  <div class="logoHome">
+  </div><!-- /logoHome -->
+
+  <div class="register">
+    <%= form_for(:session, :url => sessions_path, :html => { :class => "loginForm"}) do |f| %>
+        <%= f.text_field :email, :name => "email", :placeholder => "Email", :validation => 'email required notBlank' %>
+        <div class="passLogin">
+            <%= f.password_field :password, :class => "passLogin", :name => "password", :placeholder => "Password", :validation => 'required lengthMin6 notBlank' %>
+            <%= content_tag :button, :type => :submit do %>
+              Login!
+            <% end %>
+        </div><!-- /passLogin -->
+        <a href="#" class="facebook" onClick="login()"></a>
+        <a href="twitter_log.php" class="twitter"></a>
+        <br class="clear" />
+    <% end %>
+
+    <span class="lineBr"></span>
+    <%=	form_for @user, :url => { :controller => :users, :action => :create }, :html => { :class => "registerForm"} do |f|   %>
+        <span class="txtRegister"><b>Registrate</b> y conecta con
+miles de oportunidades deportivas</span>
+        <%= f.text_field :name, :class => "nameForm", :name => "name", :placeholder => "Name", :validation => 'required notBlank' %>
+        <%= f.text_field :lastname, :class => "lastnameForm", :name => "lastname", :placeholder => "Last Name", :validation => 'required notBlank' %>
+        <%= f.text_field :email, :name => "email", :placeholder => "Email", :validation => 'email required notBlank' %>
+        <%= f.password_field :password, :name => "password", :placeholder => "Password", :validation => 'required lengthMin6 notBlank' %>
+        <div class="superButton">
+          <%= content_tag :button, :type => :submit, :class => "singUp" do %>
+              Sign Up!
+          <% end %>
+          <div class="buttonShadow"></div>
+        </div><!-- /superButton -->
+    <%	end %>
+  </div><!-- /register -->
+</div><!-- /wrapper -->
+
+
+<div class="container wrapper">
+
+</div><!-- /container -->
+
+<footer >
+</footer>

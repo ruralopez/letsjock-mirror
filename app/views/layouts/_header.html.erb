@@ -8,32 +8,29 @@
         <span class="icon-bar"></span>
       </a>
 
-        <%= link_to (image_tag 'logo_header.png'), news_path, :class => "logo" %>
+      <%= link_to (image_tag 'logo_header.png'), signed_in? ? news_path : root_path, :class => "logo" %>
 
       <div class="nav-collapse collapse">
+        <% if signed_in?  %>
+          
         <ul class="nav">
-          <% if signed_in?  %>
-             <li class=<%= current_page?(:controller => 'users', :action => 'profile', :id => current_user.id) ? "active" : "" %>><%= link_to 'Profile', profile_path(current_user) %></li>
-             <li class=<%= current_page?(:controller => 'users', :action => 'social', :id => current_user.id) ? "active" : "" %>><%= link_to 'Contacts', social_path(current_user) %></li>
-          <% end  %>
-          <li class=<%= current_page?(:controller => 'events', :action => 'index') ? "active" : "" %>><%= link_to 'Events', '/events' %></li>
-          <li class=<%= current_page?(:controller => 'feed', :action => 'index') ? "active" : "" %>><%= link_to 'News', news_path %></li>
-
-          <% if signed_in? %>
-
-              <a href="/inbox" rel="tooltip" title="<%= current_user.unread_messages.count %> new messages" class="notifications" style="color: #666666; text-decoration: none;"
+            <li class=<%= current_page?(:controller => 'users', :action => 'profile', :id => current_user.id) ? "active" : "" %>><%= link_to 'Profile', profile_path(current_user) %></li>
+            <li class=<%= current_page?(:controller => 'users', :action => 'social', :id => current_user.id) ? "active" : "" %>><%= link_to 'Contacts', social_path(current_user) %></li>
+            <li class=<%= current_page?(:controller => 'events', :action => 'index') ? "active" : "" %>><%= link_to 'Events', '/events' %></li>
+            <li class=<%= current_page?(:controller => 'feed', :action => 'index') ? "active" : "" %>><%= link_to 'News', news_path %></li>
+            
+            <a href="/inbox" rel="tooltip" title="<%= current_user.unread_messages.count %> new messages" class="notifications" style="color: #666666; text-decoration: none;"
                 <%= current_page?(:controller => 'messages', :action => 'inbox') ? "active" : "" %>>
               <i class="icon-envelope icon-white"></i><% if current_user.unread_messages.count > 0 %><span style="color: red;"> (<%= current_user.unread_messages.count %>)</span><% end %>
-              </a>
-
-
-              <a href="#" id="notifications-button" class="notifications" style="color: #666666; text-decoration: none;">
-                <i class="icon-globe icon-white"></i><% if  current_user.new_notifications.count > 0 %> <span style="color: red;"> (<%= current_user.new_notifications.count %>)</span><% end %>
-              </a>
-              <div class="popover fade bottom in" id="notifications-pop" style="display: none; top: 40px; left: 261px;">
-                <%=	 render 'layouts/notifications' %>
-              </div>
-          <% end %>
+            </a>
+            
+            <a href="#" id="notifications-button" class="notifications" style="color: #666666; text-decoration: none;">
+              <i class="icon-globe icon-white"></i><% if  current_user.new_notifications.count > 0 %> <span style="color: red;"> (<%= current_user.new_notifications.count %>)</span><% end %>
+            </a>
+            
+            <div class="popover fade bottom in" id="notifications-pop" style="display: none; top: 40px; left: 261px;">
+              <%=	 render 'layouts/notifications' %>
+            </div>
         </ul>
 
         <div class="pull-right">
@@ -69,6 +66,9 @@
             
           </div>
         </div><!--pull-right-->
+        
+        <% end %>
+        
       </div><!--/.nav-collapse -->
     </div><!-- container -->
   </div><!-- navbar-inner -->

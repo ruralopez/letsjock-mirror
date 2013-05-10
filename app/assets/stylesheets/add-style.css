@@ -1114,6 +1114,10 @@ img.preview{
     width:50%;
 }
 
+.company-header:hover{
+	opacity:1;
+}
+
 .sponsor-pictures.employees{
     margin-top:-10px;
     -moz-column-count: 4;
@@ -1442,3 +1446,61 @@ ul.settings.privacy-settings li .form-horizontal .control-label{
 
 ul.settings.privacy-settings li p.pull-right i{display:none;}
 ul.settings.privacy-settings li p i, ul.settings.privacy-settings li:hover p.pull-right i{display:inline-block;}
+
+/*About us*/
+.tab-pane ul li span, span.contact{
+	font-size:85%;
+	display:block;
+	width:60%;
+	line-height:140%;
+	margin-bottom:1em;
+	color:#51A351;
+	background-color:#F6F6F6;
+	padding:10px 20px;
+	font-weight:bold;
+}
+.tab-pane h4{
+	margin-top:20px;	
+}
+span.contact ul{
+	list-style:none outside none;
+	margin:0;
+}
+.ilustraciones{
+	text-align:center;
+}
+
+.ilustraciones ul{
+	width:100%;
+	list-style:none outside none;
+	margin:0 0 20px;
+		
+	-moz-column-count: 3;
+	-moz-column-gap: 10px;
+	-webkit-column-count: 3;
+	-webkit-column-gap: 10px;
+	column-count: 3;
+	column-gap: 10px;
+}
+	
+	.ilustraciones ul li, .patrocinadores img{
+		display: inline-block; /* Display inline-block, and absolutely NO FLOATS! */
+		width: 100%;
+		font-size:85%;
+	}
+	
+	.ilustraciones ul li strong{
+		color:#C6091C;	
+	}
+	.ilustraciones a{text-decoration:none;}
+	
+.patrocinadores{
+	width:70%;
+	margin:0 auto 10px;
+	-moz-column-count: 2;
+	-moz-column-gap: 10px;
+	-webkit-column-count: 2;
+	-webkit-column-gap: 10px;
+	column-count: 2;
+	column-gap: 10px;
+}
