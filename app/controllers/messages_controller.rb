@@ -7,7 +7,7 @@ class MessagesController < ApplicationController
       @users_contacted = User.all(:conditions => ["id IN (?) AND id != ?", ids, current_user.id]).sort{|a,b| a.last_message_with(current_user).created_at <=> b.last_message_with(current_user).created_at}.reverse
       @conversations = Hash.new
       @users_contacted.each do |user|
-        @conversations[user.id] = current_user.messages_with(user).sort_by(&:created_at)
+        @conversations[user.id] = current_user.messages_with(user).sort_by(&:created_at).reverse
       end
       current_user.unread_messages.each do |um|
         um.update_attributes(:read => true)
