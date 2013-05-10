@@ -123,7 +123,7 @@ class UsersController < ApplicationController
       @educations = Education.all(:conditions => ['user_id = ?', @user.id])
       
       #Crear variable para poder crear competition, team, train, result o recognition.
-      @recognition = @competition = @result = @team = @train = @work = @education = NullObject.new # La clase NullObject está definida al final
+      @recognition = @competition = @result = @team = @train = @trainee = @work = @education = NullObject.new # La clase NullObject está definida al final
       
       # Eventos en los que ha participado
       @events = UserEvent.all(:conditions => ['user_id = ?', @user.id])
