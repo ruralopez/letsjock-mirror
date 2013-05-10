@@ -1,10 +1,10 @@
-<ul class="experience">
-  <li><h5><i class="icon-trophy icon-large"></i><%= recognition.description %><span> awarded by <%= recognition.awarded_by %></span></h5></li>
+<ul class="experience" data-id="<%= recognition.id %>" data-type="recognition">
+  <li><h5><i class="icon-trophy icon-large"></i><%= recognition.description %><span> awarded by <a><%= recognition.awarded_by %></a></span></h5></li>
   <% if recognition.competition_id%>
       <li><h5><i class="icon-trophy icon-circle-blank"></i><%= Competition.find(recognition.competition_id).name %> <span><%= Sport.find(recognition.sport_id).full_name %></span></h5></li>
   <% end %>
   <% if recognition.team_id %>
-      <li><h5><i class="icon-user"></i><%= Team.find(recognition.team_id).name_category %> <span><% if Train.exists?(:team_id => recognition.team_id) %>Trained by <%= Train.find_by_team_id(recognition.team_id).name %><% end %></span></h5></li>
+      <li><h5><i class="icon-group"></i><%= Team.find(recognition.team_id).name_category %> <span><% if Train.exists?(:team_id => recognition.team_id) %>Trained by <a><%= Train.find_by_team_id(recognition.team_id).name %></a><% end %></span></h5></li>
   <% end %>
   <% if Result.exists?(:competition_id => recognition.competition_id) %>
       <li><h5><i class="icon-star"></i>Position: <%= Result.find_by_competition_id(recognition.competition_id).position %> <span>Mark: <%= Result.find_by_competition_id(recognition.competition_id).full_mark %></span></h5></li>

@@ -3,11 +3,11 @@ class Team < ActiveRecord::Base
   belongs_to :sport
   belongs_to :work
 
-  has_many :trainees
-  has_many :trains
-  has_many :results
-  has_many :recognitions
-  has_many :competitions
+  has_many :trainees, :dependent => :nullify 
+  has_many :trains, :dependent => :nullify
+  has_many :results, :dependent => :nullify
+  has_many :recognitions, :dependent => :nullify
+  has_many :competitions, :dependent => :nullify
 
   has_many :photos
   has_many :videos
