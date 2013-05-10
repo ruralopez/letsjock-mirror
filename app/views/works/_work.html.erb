@@ -4,7 +4,14 @@
       <li><h5><i class="icon-pencil"></i><%= work.role %></h5></li>
   <% end %>
   <li><i class="icon-map-marker"></i><%= work.location %>, <%= Country.find(work.country_id).name %></li>
-  <li class="calendar"><i class="icon-calendar"></i><%= work.init.strftime("%B %Y") %> to <%= work.end.strftime("%B %Y") %></li>
+
+  <li class="calendar">
+    <% if work.end %>
+        <i class="icon-calendar"></i><%= work.init.strftime("%B %Y") %> to <%= work.end.strftime("%B %Y") %>
+    <% else %>
+        <i class="icon-calendar"></i>Currently here since <%= work.init.strftime("%B %Y") %>
+    <% end %>
+  </li>
   <%	if @workExperiences.any? %>
       <%	@workExperiences.each do |working| %>
         <%	if working.work_id == work.id %>

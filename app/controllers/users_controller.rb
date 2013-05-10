@@ -163,8 +163,10 @@ class UsersController < ApplicationController
   end
 
   def social
-
     if signed_in?
+      if params[:following]
+        @tab2 = true
+      end
       @user = User.find(params[:id])
       @followers = @user.followers
       @followed = @user.followed_users
@@ -232,7 +234,7 @@ class UsersController < ApplicationController
 
   def add_new
     if signed_in? && current_user.id == params[:user_id].to_i
-      if params[:sport_id] != "" # && params[:init] != "" && params[:end] != ""
+      if params[:sport_id] != "" && params[:init] != ""
         
         # Si está editando trae params[:edit_profile] => true
         edit_profile = true if params[:edit_profile]
@@ -312,7 +314,7 @@ class UsersController < ApplicationController
 
   def add_new_working
     if signed_in? && current_user.id == params[:user_id].to_i
-      if params[:sport_id] != "" && params[:init] != "" && params[:end] != "" && params[:company] != "" && params[:role] != ""
+      if params[:sport_id] != "" && params[:init] != "" && params[:company] != "" && params[:role] != ""
         UserSport.new(:user_id => current_user.id, :sport_id => params[:sport_id]).save unless UserSport.exists?(:user_id => current_user.id, :sport_id => params[:sport_id])
         @work = Work.new(:company => params[:company], :role => params[:role], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :country_id => 1, :location => params[:city])
         @work.save

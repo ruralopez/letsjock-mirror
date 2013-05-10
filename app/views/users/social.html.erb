@@ -17,8 +17,8 @@
 
     <div class="span9">
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-      <li class="active"><a href="#followers" data-toggle="tab"><%= @followers.count.to_s%> followers</a></li>
-      <li><a href="#following" data-toggle="tab"><%= @followed.count.to_s%> following</a></li>
+      <li <% unless @tab2 %> class="active" <% end %> ><a href="#followers" data-toggle="tab"><%= @followers.count.to_s%> followers</a></li>
+      <li <% if @tab2 %> class="active" <% end %> ><a href="#following" data-toggle="tab"><%= @followed.count.to_s%> following</a></li>
 
       <div class="input-append pull-right search-friend">
         <input class="span2" id="appendedInput" type="text" placeholder="Find your friends!" data-provide="typeahead" data-source= '<%= @friends_list %>' data-items="6">
@@ -34,7 +34,7 @@
 <div class="row relative">
 <div class="span9 contacts">
 <div id="my-tab-content" class="tab-content">
-<div class="tab-pane active" id="followers">
+<div class="tab-pane <% unless @tab2 %>active<% end %>" id="followers">
 
   <% unless @followers.blank? %>
       <%	 @followers.each do |follower| %>
@@ -57,7 +57,7 @@
 
 </div><!-- #followers -->
 
-<div class="tab-pane" id="following">
+<div class="tab-pane <% if @tab2 %>active<% end %>" id="following">
 
   <% unless @followed.blank? %>
       <%	 @followed.each do |followed| %>
