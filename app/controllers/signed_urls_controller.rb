@@ -1,11 +1,11 @@
 class SignedUrlsController < ApplicationController
 
   def index
-    render json: {
-        policy: s3_upload_policy_document,
-        signature: s3_upload_signature,
-        key: "uploads/#{SecureRandom.uuid}/#{params[:doc][:title]}",
-        success_action_redirect: "/"
+    render :json => {
+        :policy => s3_upload_policy_document,
+        :signature => s3_upload_signature,
+        :key => "uploads/#{SecureRandom.uuid}/#{params[:doc][:title]}",
+        :success_action_redirect => "/"
     }
   end
 
@@ -15,12 +15,12 @@ class SignedUrlsController < ApplicationController
   def s3_upload_policy_document
     Base64.encode64(
         {
-            expiration: 30.minutes.from_now.utc.strftime('%Y-%m-%dT%H:%M:%S.000Z'),
-            conditions: [
-                { bucket: ENV['S3_BUCKET'] },
-                { acl: 'public-read' },
+            :expiration => 30.minutes.from_now.utc.strftime('%Y-%m-%dT%H:%M:%S.000Z'),
+            :conditions => [
+                { :bucket => ENV['S3_BUCKET'] },
+                { :acl => 'public-read' },
                 ["starts-with", "$key", "uploads/"],
-                { success_action_status: '201' }
+                { :success_action_status => '201' }
             ]
         }.to_json
     ).gsub(/\n|\r/, '')

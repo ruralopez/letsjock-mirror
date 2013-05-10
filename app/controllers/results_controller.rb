@@ -19,11 +19,11 @@ class ResultsController < ApplicationController
     if signed_in? && current_user.id == @result.user_id
       respond_to do |format|
         if @result.update_attributes(params[:result])
-          format.html { redirect_to '/profile/' + @result.user_id.to_s, notice: 'Result was successfully updated.' }
+          format.html { redirect_to '/profile/' + @result.user_id.to_s, :notice => 'Result was successfully updated.' }
           format.json { head :no_content }
         else
-          format.html { render action: "edit" }
-          format.json { render json: @result.errors, status: :unprocessable_entity }
+          format.html { render :action => "edit" }
+          format.json { render :json => @result.errors, :status => :unprocessable_entity }
         end
       end
     else

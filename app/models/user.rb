@@ -11,10 +11,10 @@ class User < ActiveRecord::Base
   has_many :outcomes
   has_many :exams, :through => :outcomes
 
-  has_many :relationships, foreign_key: "follower_id", :dependent => :destroy
-  has_many :followed_users, through: :relationships, source: :followed
-  has_many :reverse_relationships, foreign_key: "followed_id", class_name:  "Relationship", :dependent => :destroy
-  has_many :followers, through: :reverse_relationships, source: :follower
+  has_many :relationships, :foreign_key => "follower_id", :dependent => :destroy
+  has_many :followed_users, :through => :relationships, :source => :followed
+  has_many :reverse_relationships, :foreign_key => "followed_id", :class_name => "Relationship", :dependent => :destroy
+  has_many :followers, :through => :reverse_relationships, :source => :follower
 
   has_many :competitions, :dependent => :destroy
   has_many :recognitions, :dependent => :destroy
@@ -46,11 +46,11 @@ class User < ActiveRecord::Base
   has_secure_password
   serialize :preferences, Hash
 
-  validates :name, presence: true
-  validates :lastname, presence: true
+  validates :name, :presence => true
+  validates :lastname, :presence => true
   VALID_EMAIL = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :email, presence: true, format: { with: VALID_EMAIL}, uniqueness: { case_sensitive: false}
-  validates :password, :presence =>true, :confirmation => true, :length => { :minimum => 6 }, :on => :create
+  validates :email, :presence => true, :format => { with: VALID_EMAIL}, :uniqueness => { :case_sensitive => false}
+  validates :password, :presence => true, :confirmation => true, :length => { :minimum => 6 }, :on => :create
   validates :password, :confirmation => true, :length => { :minimum => 6 }, :on => :update, :unless => lambda{ |user| user.password.blank? }
 
   def after_initialize
@@ -83,7 +83,7 @@ class User < ActiveRecord::Base
   end
 
   def follow!(other_user)
-    self.relationships.create!(followed_id: other_user.id)
+    self.relationships.create!(:followed_id => other_user.id)
     Subscription.new(:user_id => self.id, :publisher_id => Publisher.find_by_user_id(other_user.id).id).save
     Activity.new(:publisher_id => Publisher.find_by_user_id(self.id).id, :user_id => other_user.id, :act_type => "010").save
     Activity.new(:publisher_id => Publisher.find_by_user_id(other_user.id).id, :act_type => "011").save
@@ -141,11 +141,13 @@ class User < ActiveRecord::Base
 
   private
   def create_remember_token
-    self.remember_token = SecureRandom.urlsafe_base64
+    #self.remember_token = SecureRandom.urlsafe_base64
+    self.remember_token = SecureRandom.base64.tr("+/", "-_")
   end
 
   def create_email_token
-    self.email_token = SecureRandom.urlsafe_base64
+    #self.email_token = SecureRandom.urlsafe_base64
+    self.email_token = SecureRandom.base64.tr("+/", "-_")
   end
 
 end

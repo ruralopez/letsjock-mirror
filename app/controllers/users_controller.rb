@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @users }
+      format.json { render :json => @users }
     end
   end
 
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @user }
+      format.json { render :json => @user }
     end
   end
 
@@ -44,12 +44,12 @@ class UsersController < ApplicationController
         if publisher.save
           sign_in @user
           UserMailer.registration_confirmation(@user).deliver
-          format.html { redirect_to '/profile/' + @user.id.to_s, notice: 'User was successfully created.' }
-          format.json { render json: @user, status: :created, location: @user }
+          format.html { redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully created.' }
+          format.json { render :json => @user, :status => :created, :location => @user }
         end
       else
-        format.html { render action: "new" }
-        format.json { render json: @user, status: :unprocessable_entity }
+        format.html { render :action => "new" }
+        format.json { render :json => @user, :status => :unprocessable_entity }
       end
     end
   end
@@ -64,11 +64,11 @@ class UsersController < ApplicationController
 
           Activity.new(:publisher_id => Publisher.find_by_user_id(@user.id).id, :act_type => "000").save
 
-          format.html { redirect_to @user, notice: 'User was successfully updated.' }
+          format.html { redirect_to @user, :notice => 'User was successfully updated.' }
           format.json { head :no_content }
         else
-          format.html { render action: "edit" }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
+          format.html { render :action => "edit" }
+          format.json { render :json => @user.errors, :status => :unprocessable_entity }
         end
       end
     else
@@ -142,7 +142,7 @@ class UsersController < ApplicationController
     
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @user }
+      format.json { render :json => @user }
     end
   end
 
@@ -460,12 +460,12 @@ class UsersController < ApplicationController
       if @user.save
         publisher = Publisher.new(:user_id => @user.id, :pub_type => "U")
         if publisher.save
-          format.html { redirect_to '/profile/' + @user.id.to_s, notice: 'Sponsor was successfully created.' }
-          format.json { render json: @user, status: :created, location: @user }
+          format.html { redirect_to '/profile/' + @user.id.to_s, :notice => 'Sponsor was successfully created.' }
+          format.json { render :json => @user, :status => :created, :location => @user }
         end
       else
-        format.html { render action: "sponsor_new" }
-        format.json { render json: @user, status: :unprocessable_entity }
+        format.html { render :action => "sponsor_new" }
+        format.json { render :json => @user, :status => :unprocessable_entity }
       end
     end
   end

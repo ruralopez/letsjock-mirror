@@ -19,11 +19,11 @@ class WorksController < ApplicationController
     if signed_in? && current_user.id == @work.user_id
       respond_to do |format|
         if @work.update_attributes(params[:work])
-          format.html { redirect_to '/profile/' + @work.user_id.to_s, notice: 'Work was successfully updated.' }
+          format.html { redirect_to '/profile/' + @work.user_id.to_s, :notice => 'Work was successfully updated.' }
           format.json { head :no_content }
         else
-          format.html { render action: "edit" }
-          format.json { render json: @work.errors, status: :unprocessable_entity }
+          format.html { render :action => "edit" }
+          format.json { render :json => @work.errors, :status => :unprocessable_entity }
         end
       end
     else

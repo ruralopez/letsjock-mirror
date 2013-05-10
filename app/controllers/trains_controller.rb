@@ -19,11 +19,11 @@ class TrainsController < ApplicationController
     if signed_in? && current_user.id == @train.user_id
       respond_to do |format|
         if @train.update_attributes(params[:train])
-          format.html { redirect_to '/profile/' + @train.user_id.to_s, notice: 'Train was successfully updated.' }
+          format.html { redirect_to '/profile/' + @train.user_id.to_s, :notice => 'Train was successfully updated.' }
           format.json { head :no_content }
         else
-          format.html { render action: "edit" }
-          format.json { render json: @train.errors, status: :unprocessable_entity }
+          format.html { render :action => "edit" }
+          format.json { render :json => @train.errors, :status => :unprocessable_entity }
         end
       end
     else
