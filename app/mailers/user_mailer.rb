@@ -8,4 +8,10 @@ class UserMailer < ActionMailer::Base
     @data = data
     mail(:to => "info@letsjock.com", :subject => "Contact form", :from => "letsjock@gmail.com")
   end
+
+  def new_password(user)
+    @user = user
+    mail(:to => user.email, :subject => "New password request", :from => "letsjock@gmail.com")
+  end
+
 end
