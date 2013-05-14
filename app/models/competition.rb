@@ -4,8 +4,8 @@ class Competition < ActiveRecord::Base
   belongs_to :team
   belongs_to :work
 
-  has_many :results
-  has_many :recognitions
+  has_many :results, :dependent => :destroy
+  has_many :recognitions, :dependent => :nullify
 
   has_many :photos
   has_many :videos

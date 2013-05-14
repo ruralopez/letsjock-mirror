@@ -20,11 +20,11 @@ class EducationsController < ApplicationController
     if signed_in? && current_user.id == @education.user_id
       respond_to do |format|
         if @education.update_attributes(params[:education])
-          format.html { redirect_to '/profile/' + @education.user_id.to_s, notice: 'Education was successfully updated.' }
+          format.html { redirect_to '/profile/' + @education.user_id.to_s, :notice => 'Education was successfully updated.' }
           format.json { head :no_content }
         else
-          format.html { render action: "edit" }
-          format.json { render json: @education.errors, status: :unprocessable_entity }
+          format.html { render :action => "edit" }
+          format.json { render :json => @education.errors, :status => :unprocessable_entity }
         end
       end
     else

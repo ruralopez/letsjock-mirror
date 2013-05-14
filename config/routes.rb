@@ -19,6 +19,7 @@ Letsjock::Application.routes.draw do
 
   root :to => 'home#index'
 
+  match '/beta' => 'home#beta', :as => :beta
   match '/about' => 'about#index', :as => :about
   match '/about/contact' => 'about#contact', :as => :contact_us
   match '/news' => 'feed#index', :as => :news
@@ -32,6 +33,8 @@ Letsjock::Application.routes.draw do
   match '/profile/:id/add_new' => 'users#add_new', :as => :add_new
   match 'profile/:id/add_new_working' => 'users#add_new_working', :as => :add_new_working
   match 'profile/:id/add_new_educational' => 'users#add_new_educational', :as => :add_new_educational
+  match '/profile/:id/edit_profile' => 'users#edit_profile', :as => :edit_profile
+  
   match '/notification/:id' => 'users#read_notification', :as => :follow_notification
   match '/search' => 'users#search', :as => :search
   match '/events/:id/join' => 'events#join', :as => :join

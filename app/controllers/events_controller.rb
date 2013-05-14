@@ -20,7 +20,7 @@ class EventsController < ApplicationController
     @filters = Event.new
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @events }
+      format.json { render :json => @events }
     end
   end
 
@@ -34,7 +34,7 @@ class EventsController < ApplicationController
     @posts = Post.all(:conditions => ["event_id = ?", @event.id])
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @event }
+      format.json { render :json => @event }
     end
   end
 
@@ -45,7 +45,7 @@ class EventsController < ApplicationController
     @prueba = Event.first
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @event }
+      format.json { render :json => @event }
     end
   end
 
@@ -67,12 +67,12 @@ class EventsController < ApplicationController
           if eventadmin.save && publisher.save && eventuser.save
             Subscription.new(:user_id => current_user.id, :publisher_id => publisher.id).save
             Activity.new(:publisher_id => Publisher.find_by_user_id(current_user.id).id, :event_id => @event.id, :act_type => "031").save
-            format.html { redirect_to @event, notice: 'Event was successfully created.' }
-            format.json { render json: @event, status: :created, location: @event }
+            format.html { redirect_to @event, :notice => 'Event was successfully created.' }
+            format.json { render :json => @event, :status => :created, :location => @event }
           end
         else
-          format.html { render action: "new" }
-          format.json { render json: @event.errors, status: :unprocessable_entity }
+          format.html { render :action => "new" }
+          format.json { render :json => @event.errors, :status => :unprocessable_entity }
         end
       end
     else
@@ -94,11 +94,11 @@ class EventsController < ApplicationController
           userevents.each do |userevent|
           Notification.new(:user_id => userevent.user_id, :event_id => @event.id, :read => false, :not_type => "104").save
           end
-          format.html { redirect_to @event, notice: 'Event was successfully updated.' }
+          format.html { redirect_to @event, :notice => 'Event was successfully updated.' }
           format.json { head :no_content }
         else
-          format.html { render action: "edit" }
-          format.json { render json: @event.errors, status: :unprocessable_entity }
+          format.html { render :action => "edit" }
+          format.json { render :json => @event.errors, :status => :unprocessable_entity }
         end
       end
     else

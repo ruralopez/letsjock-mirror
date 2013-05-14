@@ -34,6 +34,7 @@ GEM
       builder
       mime-types
       xml-simple
+    bcrypt-ruby (3.0.1)
     bcrypt-ruby (3.0.1-x86-mingw32)
     best_in_place (2.0.3)
       jquery-rails
@@ -73,9 +74,9 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.19)
     multi_json (1.5.0)
+    mysql2 (0.3.11)
     mysql2 (0.3.11-x86-mingw32)
     netrc (0.7.7)
-    pg (0.14.1-x86-mingw32)
     polyglot (0.3.3)
     rack (1.4.4)
     rack-cache (1.2)
@@ -127,6 +128,7 @@ GEM
     xml-simple (1.1.2)
 
 PLATFORMS
+  ruby
   x86-mingw32
 
 DEPENDENCIES
@@ -137,7 +139,6 @@ DEPENDENCIES
   heroku
   jquery-rails
   mysql2
-  pg
   rails (= 3.2.9)
   sass-rails (~> 3.2.3)
   uglifier (>= 1.0.3)

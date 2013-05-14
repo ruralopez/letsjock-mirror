@@ -6,7 +6,7 @@ class Post < ActiveRecord::Base
 
   attr_accessible :content, :event_id, :title, :user_id
 
-  validates :event_id, presence: true
-  validates :user_id, presence: true
-  validates :content, presence: true
+  validates :event_id, :presence => true
+  validates :user_id, :presence => true
+  validates :content, :presence => true
 end

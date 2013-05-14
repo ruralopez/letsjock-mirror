@@ -5,7 +5,7 @@ class SportsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @sports }
+      format.json { render :json => @sports }
     end
   end
 
@@ -14,7 +14,7 @@ class SportsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @sport }
+      format.json { render :json => @sport }
     end
   end
 
