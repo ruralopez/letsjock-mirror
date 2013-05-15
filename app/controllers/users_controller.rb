@@ -139,7 +139,7 @@ class UsersController < ApplicationController
     @photo = @user.photos.build if signed_in?
     @video = @user.videos.build if signed_in?
     #Sacando todos los sports
-    @sports = Sport.where("parent_id IS NULL").sort_by(&:name)
+    @sports = Sport.order("parent_id ASC, name ASC").to_json(:only => [ :id, :name, :parent_id ])
     #Creando array de Countries para auto-complete
     @countries = Country.select('name').all.map(&:name)
     
@@ -230,7 +230,7 @@ class UsersController < ApplicationController
 
   def profile_new
     @user = current_user
-    @sports = Sport.where("parent_id IS NULL").sort_by(&:name)
+    @sports = Sport.order("parent_id ASC, name ASC").to_json(:only => [ :id, :name, :parent_id ])
   end
 
   def add_new
@@ -434,7 +434,7 @@ class UsersController < ApplicationController
       end
       
       #Sacando todos los sports para los botones de agregar entrada
-      @sports = Sport.where("parent_id IS NULL").sort_by(&:name)
+      @sports = Sport.order("parent_id ASC, name ASC").to_json(:only => [ :id, :name, :parent_id ])
       
       respond_to do |format|
         format.js { render 'users/_profile_form' }

@@ -31,12 +31,14 @@ a, a:visited{color:#C6091C;}
 a:hover, a:active, a:focus{color:#8C0D1A;}
 .green, a.green {color:#51A351 !important;}
 
-/*hovers*/.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-submenu:hover > a, .dropdown-submenu:focus > a{
-              background-color:#7F0000; background-image:none;
-          }
-          
+/*hovers*/
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-submenu:hover > a, .dropdown-submenu:focus > a{
+    background-color:#7F0000; background-image:none;
+}
+
 input.typeahead {
     margin-top: 0px;
+    z-index: 2;
 }
 
 /*Title in Pages*/
