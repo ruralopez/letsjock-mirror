@@ -20,9 +20,17 @@ class Sport < ActiveRecord::Base
 
   def full_name
     if self.parent_id
-      self.name + "-" + Sport.find(self.parent_id).full_name
+      self.name + " - " + Sport.find(self.parent_id).full_name
     else
       self.name
+    end
+  end
+  
+  def hasChilds?
+    if Sport.find(:all, :conditions => ['parent_id = ?', self.id]).count > 0
+      true
+    else
+      false
     end
   end
 

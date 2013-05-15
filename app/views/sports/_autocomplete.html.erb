@@ -1,0 +1,72 @@
+<% if sport_id %>
+    <% sport = Sport.find(sport_id) %>
+<% else %>
+    <% sport = Sport.new %>
+<% end %>
+
+<script>
+    $(document).ready(function(){
+        var sports = {};
+        
+        <% @sports.map do |s| %>
+            sports["<%= s.name %>"] = { id: <%= s.id %>, name: "<%= s.name %>", childs: <%= s.hasChilds?.to_s %> };
+            <% if s.hasChilds? %>
+                
+            <%= "var sports_#{s.id} = {};" %>
+                <% Sport.find(:all, :conditions => ['parent_id = ?', s.id]).each do |s1| %>
+            <%= raw "sports_#{s.id}[\"#{s1.name}\"] = { id: #{s1.id}, name: \"#{s1.name}\", childs: #{s1.hasChilds?.to_s} };" %>
+                    <% if s1.hasChilds? %>
+                        
+            <%= "var sports_#{s1.id} = {};" %>
+                        <% Sport.find(:all, :conditions => ['parent_id = ?', s1.id]).each do |s2| %>
+            <%= raw "sports_#{s1.id}[\"#{s2.name}\"] = { id: #{s2.id}, name: \"#{s2.name}\", childs: #{s2.hasChilds?.to_s} };" %>
+                        <% end %>
+                    <% end %>
+                <% end %>
+            <% end %>
+        <% end %>
+        
+        $('.typeahead.sports').typeahead({source: handlerSource, updater: handlerUpdater});
+        <% if sport.parent_id %>
+        $('.typeahead.sports_<%= sport.parent_id %>').typeahead({source: handlerSource, updater: handlerUpdater});
+            <% if Sport.find(sport.parent_id).parent_id %>
+        $('.typeahead.sports_<%= sport.id %>').typeahead({source: handlerSource, updater: handlerUpdater});
+            <% end %>
+        <% end %>
+        
+        function handlerSource (query, process){
+            arr = [];
+            $.each(eval(this.$element.attr("data-origin")), function (i, sport) {
+                arr.push(sport.name);
+            });
+            process(arr);
+        }
+        function handlerUpdater (item) {
+            sport = eval(this.$element.attr("data-origin"))[item];
+            this.$element.parent().find("#sport_id").val(sport.id);
+            
+            this.$element.next(".typeahead").next(".typeahead").remove();
+            this.$element.next(".typeahead").remove();
+            
+            if(sport.childs){
+                this.$element.after("<input class='typeahead sports_" + sport.id + " span2' placeholder='Type position or category' data-provide='typeahead' type='text' data-origin='sports_" + sport.id + "'>");
+                $( '.typeahead.sports_' + sport.id ).typeahead({source: handlerSource, updater: handlerUpdater}).focus();
+            }
+            return item;
+        }
+    });
+</script>
+
+<%= hidden_field_tag :sport_id, sport_id %>
+
+<% if sport.parent_id %>
+    <% if Sport.find(sport.parent_id).parent_id %>
+<input class="typeahead sports span2" placeholder="Type your sport" data-provide="typeahead" type="text" data-origin="sports" value="<%= Sport.find(Sport.find(sport.parent_id).parent_id).name %>">
+<input class="typeahead sports_<%= Sport.find(sport.parent_id).parent_id %> span2" placeholder="Type your sport" data-provide="typeahead" type="text" data-origin="sports" value="<%= Sport.find(sport.parent_id).name %>">
+    <% else %>
+<input class="typeahead sports span2" placeholder="Type your sport" data-provide="typeahead" type="text" data-origin="sports" value="<%= Sport.find(sport.parent_id).name %>">
+    <% end %>
+<input class="typeahead sports_<%= sport.parent_id %> span2" placeholder="Type your sport" data-provide="typeahead" type="text" data-origin="sports_<%= sport.parent_id %>" value="<%= sport.name %>">
+<% else %>
+<input class="typeahead sports span2" placeholder="Type your sport" data-provide="typeahead" type="text" data-origin="sports" value="<%= sport.name %>">
+<% end %>

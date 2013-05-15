@@ -34,6 +34,10 @@ a:hover, a:active, a:focus{color:#8C0D1A;}
 /*hovers*/.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-submenu:hover > a, .dropdown-submenu:focus > a{
               background-color:#7F0000; background-image:none;
           }
+          
+input.typeahead {
+    margin-top: 0px;
+}
 
 /*Title in Pages*/
 

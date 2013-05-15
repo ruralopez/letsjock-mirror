@@ -11,13 +11,11 @@
           </a>
         </i>
       </div>
-
+      
       <div class="event-info">
-
       </div><!--event info-->
-
     </div><!--box-media-->
-
+    
     <div class="profileInfo relative span9">
       <div class="user">
         <br>
@@ -25,80 +23,70 @@
         <p>This will help you to connect with other Users and Recruiters</p>
       </div><!--user-->
     </div><!-- /profileInfo -->
-
+    
     <div class="box box-info span6 company">
       <div class="resume">
         <!--begin form-->
-
-        <%= form_for(@user) do |f| %>
-            <% if @user.errors.any? %>
-                <div id="error_explanation">
-                  <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-                  <ul>
-                    <% @user.errors.full_messages.each do |msg| %>
-                        <li><%= msg %></li>
-                    <% end %>
-                  </ul>
-                </div>
-            <% end %>
-
-            <h4>General Information</h4>
-            <!-- Name-->
-            <div class="input-prepend">
-              <span class="add-on"><i class="icon-user"></i></span>
-              <%= f.text_field :name, :placeholder => "First Name"%>
-              <%= f.text_field :lastname, :placeholder => "Last Name" %>
-            </div>
-            <!--Sport-->
-            <div class="input-prepend">
-              <span class="add-on"><i class="icon-circle"></i></span>
-              <select>
-                <option>Sport 1</option>
-                <option>Sport 2</option>
-                <option>Sport 3</option>
-                <option>Sport 4</option>
-                <option>Sport 5</option>
-              </select>
-              <input type="text" placeholder="position">
-            </div>
-            <br>
-            <h4 class="inline">Personal Information</h4><p>Location, Birthday and Description</p>
-            <!--Location-->
-            <div class="input-prepend">
-              <!-- Aquí hay que agregar la lógica de los países (Select o Typeahead?) -->
-              <span class="add-on"><i class="icon-map-marker"></i></span>
-              <select>
-                <option>Country 1</option>
-                <option>Country 2</option>
-                <option>Country 3</option>
-                <option>Country 4</option>
-                <option>Country 5</option>
-              </select>
-              <%= f.text_field :citybirth, :placeholder => "Citybirth" %>
-            </div>
-            </br>
-            <!--Date-->
-            <div class="input-prepend date" id="dp6" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
-              <span class="add-on"><i class="icon-calendar"></i></span>
-              <%= text_field :age, "12-02-2012", :class => "span2"%>
-            </div>
-
-            <!--Description-->
-            <div class="input-prepend">
-              <span class="add-on"><i class="icon-pencil"></i></span>
-              <%= f.text_area :resume, :class => "span5", :rows => 4, :placeholder => "Description" %>
-              <%= f.hidden_field :country, :value => 'Chile' %>
-            </div>
-            <div class="actions">
-              <%= f.submit :class => "btn btn-success"%>
-            </div>
-        <% end %>
-
+    <%= form_for(@user) do |f| %>
+      <% if @user.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+          <ul>
+          <% @user.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+          
+        <h4>General Information</h4>
+        <!-- Name-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-user"></i></span>
+          <%= f.text_field :name, :placeholder => "First Name"%>
+          <%= f.text_field :lastname, :placeholder => "Last Name" %>
+        </div>
+        <!--Sport-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-circle"></i></span>
+          <%= render :partial => 'sports/autocomplete', :locals => { :sport_id => current_user.get_sport_id_main } %>
+        </div>
+        <br>
+        <h4 class="inline">Personal Information</h4><p>Location, Birthday and Description</p>
+        <!--Location-->
+        <div class="input-prepend">
+          <!-- Aquí hay que agregar la lógica de los países (Select o Typeahead?) -->
+          <span class="add-on"><i class="icon-map-marker"></i></span>
+          <%= f.text_field :country, :placeholder => "Country" %>
+          <%= f.text_field :citybirth, :placeholder => "City" %>
+        </div>
+        <br />
+        <!--Gender-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-file"></i></span>
+          <%= f.select(:gender, [['Select a gender', nil], ['Male', 'M'], ['Female', 'F']], {:class => 'span3'}) %>
+        </div>
+        </br>
+        <!--Date-->
+        <div class="input-prepend date" id="dp6" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+          <span class="add-on"><i class="icon-calendar"></i></span>
+          <%= f.text_field :birth, :value => current_user.birth.strftime("%d-%m-%Y"), :class => "span2", :placeholder => "Date birth" %>
+        </div>
+        
+        <!--Description-->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-pencil"></i></span>
+          <%= f.text_area :resume, :class => "span5", :rows => 4, :placeholder => "Describe your skills and attributes" %>
+          <%= f.hidden_field :country, :value => 'Chile' %>
+        </div>
+        <div class="actions">
+          <%= f.submit :class => "btn btn-success"%>
+        </div>
+    <% end %>
         <!--end form-->
       </div><!--resume-->
     </div><!--span6 company-->
-
+    
     <div class="box box-connect span3">
       <div class="box-content">
         <h4>Tips</h4>
@@ -109,14 +97,11 @@
           <li><i class="icon-picture"></i> Upload your public profile picture</li>
           <li><i class="icon-edit"></i> A description is always better! Talk about yourself, and <span>share your skills and aspirations</span></li>
           <li class="divider"></li>
-          <li><i class="icon-question-sign"></i> Need some help? Check out our <a href="about.html">FAQ</a> or <a href="#">Contact Us</a></li>
+          <li><i class="icon-question-sign"></i> Need some help? Check out our <a href="/about#privacy-policy">Privacy Policy</a> or <a href="/about#contact-us">Contact Us</a></li>
         </ul>
       </div>
     </div><!--box-connect-->
-
-
   </div>
-
 </div>
 
 <div id="photoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -142,16 +127,13 @@
             <a class="close fileupload-exists" data-dismiss="fileupload" aria-hidden="true">×</a>
           </div>
         </div>
-
     <% else %>
         <p>You must be logged in to upload photos!</p>
     <% end %>
   </div>
   <div class="modal-footer">
-
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
     <button id="photo-submit" class="btn btn-primary">Upload</button>
-
   </div>
 </div>
 

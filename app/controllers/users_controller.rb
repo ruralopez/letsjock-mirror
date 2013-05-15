@@ -61,9 +61,12 @@ class UsersController < ApplicationController
     if signed_in? && current_user.id == @user.id
       respond_to do |format|
         if @user.update_attributes(params[:user])
-
+          
+          #Guarda el deporte principal del usuario
+          @user.set_sport_main(params[:sport_id])
+          
           Activity.new(:publisher_id => Publisher.find_by_user_id(@user.id).id, :act_type => "000").save
-
+          
           format.html { redirect_to @user, :notice => 'User was successfully updated.' }
           format.json { head :no_content }
         else
@@ -97,7 +100,7 @@ class UsersController < ApplicationController
   end
 
   def profile
-    @usersport = UserSport.all
+    #@usersport = UserSport.all
     @user = User.find(params[:id])
     
     if @user.isSponsor?
@@ -135,7 +138,7 @@ class UsersController < ApplicationController
     #Crear variables photo y video para poder subir
     @photo = @user.photos.build if signed_in?
     @video = @user.videos.build if signed_in?
-    #Sacando todos los sports para los botones de agregar entrada
+    #Sacando todos los sports
     @sports = Sport.where("parent_id IS NULL").sort_by(&:name)
     #Creando array de Countries para auto-complete
     @countries = Country.select('name').all.map(&:name)
@@ -147,19 +150,16 @@ class UsersController < ApplicationController
   end
 
   def change_profile_pic
-
     @user = User.find(params[:id])
-
+    
     if @user.profilephotourl != "default-profile.png"
       if  !(Photo.exists?(:url => @user.profilephotourl, :user_id => params[:id]))
         Photo.create({:title => "Test", :url => @user.profilephotourl, :user_id => params[:id]})
       end
     end
-
+    
     @user.update_attribute(:profilephotourl, params[:url])
-
     redirect_to current_user
-
   end
 
   def social
@@ -230,6 +230,7 @@ class UsersController < ApplicationController
 
   def profile_new
     @user = current_user
+    @sports = Sport.where("parent_id IS NULL").sort_by(&:name)
   end
 
   def add_new
