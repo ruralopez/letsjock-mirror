@@ -94,7 +94,9 @@ class User < ActiveRecord::Base
   end
 
   def sport_show
-    if UserSport.exists?(:user_id => self.id, :position => "main")
+    if self.isSponsor
+      "Sponsor"
+    elsif UserSport.exists?(:user_id => self.id, :position => "main")
       Sport.find(UserSport.all(:conditions => ["user_id = ? AND position = 'main'", self.id]).first.sport_id).full_name
     else
       "No sport yet!"
