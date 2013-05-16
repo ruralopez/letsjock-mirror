@@ -36,7 +36,9 @@
     <h5 class="white">
       <%= @photos.count %> pictures
       <%= link_to 'see more' , pictures_path(@user) %>
+      <% if signed_in? && @user.id == current_user.id %>
       <a href="#photoModal" data-toggle="modal" role="button" id="btn-photo" class="btn btn-mini btn-success pull-right">Upload <i class="icon-white icon-circle-arrow-up"></i></a>
+      <% end %>
     </h5>
     <h5><i class="icon-facetime-video"></i><a href="#">Videos</a></h5>
     <div class="user-video">
@@ -48,7 +50,9 @@
     <h5 class="white">
       <%= @videos.count %> videos
       <%= link_to 'see more' , pictures_path(@user) %>
+      <% if signed_in? && @user.id == current_user.id %>
       <a href="#videoModal" data-toggle="modal" role="button" id="btn-video" class="btn btn-mini btn-success pull-right">Upload <i class="icon-white icon-circle-arrow-up"></i></a>
+      <% end %>
     </h5>
   </div>
 </div><!--box-media-->
