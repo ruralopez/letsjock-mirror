@@ -39,7 +39,7 @@
 </div>
  -->
 <%	 if @result %>
-      <h3>Results <small>Búsqueda: <%= @query %></small></h3>
+      <h3>Results for:<small> <%= @query %></small></h3>
       <% if @result == -1 %>
         <p>No matches found.</p>
       <% else %>
@@ -51,7 +51,7 @@
               </div>
               <div class="item-info">
                 <h4><%=	 link_to user.full_name, user %></h4>
-                <p><b>Athletics</b> / 200m</p>
+                <p><%= user.sport_show%></p>
                 <p class="special"><%= user.citybirth %>, <%= user.country %></p>
               </div>
               <div class="item-info secondary-info">
