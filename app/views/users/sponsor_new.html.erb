@@ -80,7 +80,7 @@
     
     <div class="profileInfo relative span9">
       <div class="user">
-        <h2>New Company</h2>
+        <h2><%= @user.name ? @user.name : "New Company" %></h2>
         <p></p>
       </div><!--user-->
     </div><!-- /profileInfo -->
@@ -89,10 +89,15 @@
       <div class="resume">
         <%= form_for @user, :url => { :action => "sponsor_create" }, :html => {:class => "edit-profile edit-company edit_user"} do |f| %>
           <fieldset>
-            <%= f.hidden_field :email, :value => rand(36**10).to_s(36) + "@letsjock.com" %>
-            <%= f.hidden_field :password, :value => rand(36**10).to_s(36) %>
-            <%= f.hidden_field :isSponsor, :value => true %>
-            <%= f.hidden_field :lastname, :value => "Company" %>
+            <% if @user.id %>
+              <%= f.hidden_field :id %>
+              <input id="user_preferences_bgpicture" name="user[preferences][bgpicture]" value="<%= @user.preferences[:bgpicture] %>" type="hidden">
+            <% else %>
+              <%= f.hidden_field :email, :value => rand(36**10).to_s(36) + "@letsjock.com" %>
+              <%= f.hidden_field :password, :value => rand(36**10).to_s(36) %>
+              <%= f.hidden_field :isSponsor, :value => true %>
+              <%= f.hidden_field :lastname, :value => "Company" %>
+            <% end %>
             <h4>General Information</h4>
             <!--Company Name -->
             <div class="input-prepend">
@@ -102,19 +107,19 @@
             <!--Website -->
             <div class="input-prepend">
               <span class="add-on"><i class="icon-globe"></i></span>
-              <input id="user_preferences_url" name="user[preferences][url]" placeholder="http://" size="60" type="text" value="">
+              <input id="user_preferences_url" name="user[preferences][url]" value="<%= @user.preferences[:url] %>" placeholder="http://" type="text">
             </div>
             
             <h4>Details</h4>
             <!--Industry-->
             <div class="input-prepend">
               <span class="add-on"><i class="icon-building"></i></span>
-              <input id="user_preferences_industries" name="user[preferences][industries]" placeholder="Industries" size="60" type="text" value="">
+              <input id="user_preferences_industries" name="user[preferences][industries]" value="<%= @user.preferences[:industries] ? @user.preferences[:industries].join(", ") : nil %>" placeholder="Industries" type="text">
             </div>
             <!--Founded-->
             <div class="input-prepend date" id="dp1" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
               <span class="add-on"><i class="icon-calendar"></i></span>
-              <%= f.text_field :birth, :placeholder => "Founded on year", :class => "span2" %>
+              <%= f.text_field :birth, :value => @user.birth ? @user.birth.strftime("%d-%m-%Y") : nil, :placeholder => "Founded on year", :class => "span2" %>
             </div>		
             <!--Headquarters-->	
             <div class="input append input-prepend">

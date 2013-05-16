@@ -50,6 +50,7 @@ Letsjock::Application.routes.draw do
   match '/newprofile' => 'users#profile_new', :as => :newprofile
   match '/newsponsor' => 'users#sponsor_new', :as => :new_sponsor
   match '/createsponsor' => 'users#sponsor_create', :as => :create_sponsor
+  match '/profile/:id/edit_sponsor' => 'users#sponsor_edit', :as => :edit_sponsor
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

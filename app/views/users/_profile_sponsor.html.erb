@@ -33,12 +33,18 @@
 
 </div><!--box-media-->
 
-<div class="span9 company-header" <% if @user.preferences[:bgpicture] %>style="background-image: url('<%= @user.preferences[:bgpicture] %>')"<% end %>>
+<div class="span9 company-header" <% if @user.preferences[:bgpicture] != "" %>style="background-image: url('<%= @user.preferences[:bgpicture] %>')"<% end %>>
 
 </div><!-- /profileIcons -->
 
 <div class="profileInfo relative span9">
   <div class="user">
+    <% if signed_in? && current_user.isAdmin?  %>
+      <%= link_to(edit_sponsor_path(@user), :class => "pull-right link-on", :style => "list-style: none; padding-top: 20px;") do %>
+        <i class='icon-pencil icon-2x'></i>
+      <% end %>
+    <% end %>
+    
     <h2><%= @user.name %></h2>
     <p>
       <i class="icon-globe icon-large"></i>
