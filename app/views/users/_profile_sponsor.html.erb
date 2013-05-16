@@ -11,9 +11,10 @@
     <%=	link_to image_tag(@user.profilepic, :class => 'user-profile'), '#' %>
     <% if signed_in? && current_user.isAdmin? %>
     <div class="dropdown">
-      <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-pencil"></i> Change Photo</a>
+      <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-pencil"></i> Change Photos</a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-        <li><a href="#profilePictureModal" data-toggle="modal"><i class="icon-picture"></i> Choose from photos</a></li>
+        <li><a href="#profilePictureModal" data-toggle="modal"><i class="icon-picture"></i> Choose profile pic</a></li>
+        <li><a href="#bgPictureModal" data-toggle="modal"><i class="icon-picture"></i> Choose background pic</a></li>
         <li><a href="#photoModal" data-toggle="modal"><i class="icon-arrow-up"></i> Upload a photo</a></li>
       </ul>
      </div>
@@ -32,7 +33,7 @@
 
 </div><!--box-media-->
 
-<div class="span9 company-header">
+<div class="span9 company-header" <% if @user.preferences[:bgpicture] %>style="background-image: url('<%= @user.preferences[:bgpicture] %>')"<% end %>>
 
 </div><!-- /profileIcons -->
 
@@ -194,3 +195,4 @@
 
 <%=  render 'photos/photo_modal' %>
 <%=  render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
+<%=  render :partial => 'photos/bg_picture', :locals => {:photos => @photos} %>

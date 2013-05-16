@@ -45,6 +45,7 @@ Letsjock::Application.routes.draw do
   match '/profile/:id/follow' => 'relationships#create', :as => :follow
   match '/profile/:id/unfollow' => 'relationships#destroy', :as => :unfollow
   match '/profile/:id/change_profile_pic' => 'users#change_profile_pic', :as => :change_profile_pic
+  match '/profile/:id/change_bg_pic' => 'users#change_bg_pic', :as => :change_bg_pic
   match '/profile/:id/email_authentication/:token' => 'users#auth_email', :as => :auth_email
   match '/newprofile' => 'users#profile_new', :as => :newprofile
   match '/newsponsor' => 'users#sponsor_new', :as => :new_sponsor

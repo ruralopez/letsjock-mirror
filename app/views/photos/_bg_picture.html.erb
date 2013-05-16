@@ -1,0 +1,22 @@
+<div id="bgPictureModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h5 id="myModalLabel"><i class="icon-black icon-picture icon-2x"></i> Background Picture</h5>
+  </div>
+  <div class="modal-body">
+    <div class="event-pictures" style="-webkit-column-count: 4;">
+      <div class="image-gallery">
+        <%  photos.each do |photo| %>
+            <%	if  photo.url != @user.profilephotourl && photo.url != @user.preferences[:bgpicture] %>
+                <%= link_to image_tag(photo.url) , :controller => 'users', :action => 'change_bg_pic', :url => photo.url %>
+            <%	end  %>
+        <%  end %>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <p style="float: left;">Click on the photo to place it as your background picture!</p>
+    <p style="float: left;"><small>Recommended image size: 900px x 190px</small></p>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>

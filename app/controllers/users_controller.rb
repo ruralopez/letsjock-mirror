@@ -159,7 +159,19 @@ class UsersController < ApplicationController
     end
     
     @user.update_attribute(:profilephotourl, params[:url])
-    redirect_to current_user
+    redirect_to @user
+  end
+
+  def change_bg_pic
+    @user = User.find(params[:id])
+
+    if !(Photo.exists?(:url => @user.preferences[:bgpicture], :user_id => params[:id]))
+      Photo.create({:title => "Test", :url => @user.preferences[:bgpicture], :user_id => params[:id]})
+    end
+
+    @user.preferences[:bgpicture] = params[:url]
+    @user.update_attribute(:preferences, @user.preferences)
+    redirect_to @user
   end
 
   def social
