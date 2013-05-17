@@ -165,7 +165,7 @@ class UsersController < ApplicationController
   def change_bg_pic
     @user = User.find(params[:id])
     
-    if !(Photo.exists?(:url => @user.preferences[:bgpicture], :user_id => params[:id]))
+    if @user.preferences[:bgpicture] && !(Photo.exists?(:url => @user.preferences[:bgpicture], :user_id => params[:id]))
       Photo.create({:title => "Test", :url => @user.preferences[:bgpicture], :user_id => params[:id]})
     end
     
