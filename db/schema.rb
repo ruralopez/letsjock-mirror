@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130306185215) do
+ActiveRecord::Schema.define(:version => 20130516233020) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -280,7 +280,7 @@ ActiveRecord::Schema.define(:version => 20130306185215) do
     t.string   "citybirth"
     t.string   "country"
     t.integer  "phone"
-    t.string   "resume"
+    t.text     "resume"
     t.integer  "height"
     t.integer  "weight"
     t.string   "remember_token"

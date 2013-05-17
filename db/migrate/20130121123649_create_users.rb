@@ -11,7 +11,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :citybirth
       t.string :country
       t.integer :phone
-      t.string :resume
+      t.text :resume
       t.integer :height
       t.integer :weight
       t.string :remember_token
