@@ -473,7 +473,7 @@ class UsersController < ApplicationController
         @user = User.create(params[:user])
         
         if @user.save
-          publisher = Publisher.new(:user_id => @user.id, :pub_type => "U")
+          publisher = Publisher.create(:user_id => @user.id, :pub_type => "U")
         end
       end
       
