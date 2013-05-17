@@ -34,7 +34,6 @@ Letsjock::Application.routes.draw do
   match 'profile/:id/add_new_working' => 'users#add_new_working', :as => :add_new_working
   match 'profile/:id/add_new_educational' => 'users#add_new_educational', :as => :add_new_educational
   match '/profile/:id/edit_profile' => 'users#edit_profile', :as => :edit_profile
-  
   match '/notification/:id' => 'users#read_notification', :as => :follow_notification
   match '/search' => 'users#search', :as => :search
   match '/events/:id/join' => 'events#join', :as => :join
@@ -45,6 +44,7 @@ Letsjock::Application.routes.draw do
   match '/profile/:id/follow' => 'relationships#create', :as => :follow
   match '/profile/:id/unfollow' => 'relationships#destroy', :as => :unfollow
   match '/profile/:id/change_profile_pic' => 'users#change_profile_pic', :as => :change_profile_pic
+  match '/profile/:id/change_bg_pic' => 'users#change_bg_pic', :as => :change_bg_pic
   match '/profile/:id/email_authentication/:token' => 'users#auth_email', :as => :auth_email
   match '/newprofile' => 'users#profile_new', :as => :newprofile
   match '/newsponsor' => 'users#sponsor_new', :as => :new_sponsor
@@ -53,6 +53,7 @@ Letsjock::Application.routes.draw do
   match '/new_password_request' => 'users#new_password_request', :as => :new_password_request
   match '/confirmed_new_password/:token' => 'users#confirmed_new_password', :as => :confirmed_new_password
   match '/change_password' => 'users#change_password', :as => :change_password
+  match '/profile/:id/edit_sponsor' => 'users#sponsor_edit', :as => :edit_sponsor
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

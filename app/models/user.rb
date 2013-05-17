@@ -69,10 +69,35 @@ class User < ActiveRecord::Base
     now = Time.now.utc.to_date
     now.year - self.birth.year - (self.birth.to_date.change(:year => now.year) > now ? 1 : 0)
   end
+  
+  def set_sport_main(sport_id)
+    current_main = self.get_sport_id_main
+    
+    if current_main && current_main != sport_id
+      UserSport.delete_all( :user_id => self.id, :position => "main" )
+      UserSport.create(:user_id => self.id, :sport_id => current_main)
+    end
+    
+    if UserSport.exists?(:user_id => self.id, :sport_id => sport_id)
+      UserSport.delete_all( :user_id => self.id, :sport_id => sport_id)
+    end
+    
+    UserSport.create(:user_id => self.id, :sport_id => sport_id, :position => "main")
+  end
+  
+  def get_sport_id_main
+    if UserSport.exists?(:user_id => self.id, :position => "main")
+      UserSport.all(:conditions => ["user_id = ? AND position = 'main'", self.id]).first.sport_id
+    else
+      nil
+    end
+  end
 
   def sport_show
-    if UserSport.exists?(:user_id => self.id)
-      Sport.find(UserSport.all(:conditions => ["user_id = ?", self.id]).last.sport_id).full_name
+    if self.isSponsor
+      "Institution"
+    elsif UserSport.exists?(:user_id => self.id, :position => "main")
+      Sport.find(UserSport.all(:conditions => ["user_id = ? AND position = 'main'", self.id]).first.sport_id).full_name
     else
       "No sport yet!"
     end

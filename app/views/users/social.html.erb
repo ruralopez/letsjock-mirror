@@ -44,7 +44,7 @@
             </div>
             <div class="item-info">
               <h4><%=	 link_to follower.full_name, follower %></h4>
-              <p><b>Sport</b> and position</p>
+              <p><%= follower.sport_show %></p>
               <p class="special"><%= follower.citybirth %>, <%= follower.country %></p>
             </div>
             <div class="item-info secondary-info">
@@ -67,7 +67,7 @@
             </div>
             <div class="item-info">
               <h4><%=	 link_to followed.full_name, followed %></h4>
-              <p><b>Sport</b> and position</p>
+              <p><%= followed.sport_show %></p>
               <p class="special"><%= followed.citybirth %>, <%= followed.country %></p>
             </div>
             <div class="item-info secondary-info">
