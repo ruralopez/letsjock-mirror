@@ -43,7 +43,6 @@ class UsersController < ApplicationController
         publisher = Publisher.new(:user_id => @user.id, :pub_type => "U")
         if publisher.save
           sign_in @user
-          UserMailer.registration_confirmation(@user).deliver
           format.html { redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully created.' }
           format.json { render :json => @user, :status => :created, :location => @user }
         end

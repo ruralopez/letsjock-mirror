@@ -9,8 +9,8 @@
         <h3 class="inline"><a href="#"><%= link_to @user.full_name, @user %> </a><span><i class="icon-camera icon-white"></i>
           <%=  @photos.count %> pictures   </span><span><i class="icon-facetime-video icon-white"></i> <%=  @videos.count %> videos</span>
           <% if signed_in? && @user.id == current_user.id  %>
-            <span><a href="#videoModal" data-toggle="modal" role="button" id="btn-video" class="pull-right"><i class="icon-play icon-white"></i> New video</a></span>
-            <span><a href="#photoModal" data-toggle="modal" role="button" id="btn-photo" class="pull-right" style="padding-right: 10px;"><i class="icon-picture icon-white"></i> New picture  </a></span>
+              <span><a href="#videoModal" data-toggle="modal" role="button" id="btn-video" class="pull-right"><i class="icon-play icon-white"></i> New video</a></span>
+              <span><a href="#photoModal" data-toggle="modal" role="button" id="btn-photo" class="pull-right" style="padding-right: 10px;"><i class="icon-picture icon-white"></i> New picture  </a></span>
           <% end  %>
         </h3>
       </div>
@@ -22,19 +22,19 @@
     <div class="images span12">
       <div class="image-gallery">
         <%  @photos.each do |photo| %>
-          <div class="image-editable">
-            <a href="#">
-              <%= image_tag(photo.url) %>
-            </a>  
-            <% if signed_in? && @user.id == current_user.id %>
-              <div class="dropdown pull-right">
-                <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-cog"></i></a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                  <li><%= link_to raw('<i class="icon-remove"></i> Delete'), photo, :method => :delete, :confirm => "Are you sure you want to delete the selected photo?" %></li>
-                </ul>
-              </div>
-            <% end %>
-          </div>
+            <div class="image-editable">
+              <a href="#">
+                <%= image_tag(photo.url) %>
+              </a>
+              <% if signed_in? && @user.id == current_user.id %>
+                  <div class="dropdown pull-right">
+                    <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-cog"></i></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                      <li><%= link_to raw('<i class="icon-remove"></i> Delete'), photo, :method => :delete, :confirm => "Are you sure you want to delete the selected photo?" %></li>
+                    </ul>
+                  </div>
+              <% end %>
+            </div>
         <%  end %>
         <%  @videos.each do |video| %>
             <%= raw(youtube_embed(video.url,240,200,true)) %>
@@ -50,11 +50,11 @@
 
 
 <script>
-  $(document).ready(function(){
-    $('.dropdown-toggle').dropdown();
-    
-    $('#video-submit').click(function(){
-      $("#new_video").submit();
+    $(document).ready(function(){
+        $('.dropdown-toggle').dropdown();
+
+        $('#video-submit').click(function(){
+            $("#new_video").submit();
+        });
     });
-  });
 </script>
