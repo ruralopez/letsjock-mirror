@@ -383,10 +383,10 @@ class UsersController < ApplicationController
     if signed_in? && current_user.id == params[:user_id].to_i
       if params[:init] != "" && params[:end] != ""
         if params[:highschool_name] != ""
-          @education = Education.new(:name => params[:highschool_name], :rank => params[:rank], :gda => params[:gda], :ncaa => params[:ncaa], :country_id => 1, :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
+          @education = Education.new(:name => params[:highschool_name], :career => params[:country], :rank => params[:rank], :gda => params[:gda], :ncaa => params[:ncaa], :country_id => 1, :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
           @education.save
         elsif params[:school_name] != ""
-          @education = Education.new(:name => params[:school_name], :career => params[:career], :degree => params[:degree], :country_id => 1, :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
+          @education = Education.new(:name => params[:school_name], :career => params[:country], :degree => params[:degree], :country_id => 1, :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
           @education.save
         else
           flash[:error] = "You must complete all the required params."
