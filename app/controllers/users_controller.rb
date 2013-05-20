@@ -43,6 +43,7 @@ class UsersController < ApplicationController
         publisher = Publisher.new(:user_id => @user.id, :pub_type => "U")
         if publisher.save
           sign_in @user
+          UserMailer.registration_confirmation(@user).deliver
           format.html { redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully created.' }
           format.json { render :json => @user, :status => :created, :location => @user }
         end
@@ -515,6 +516,47 @@ class UsersController < ApplicationController
     end
     @filters = User.new
     @sports_list = Sport.select('name').all.map(&:name)
+  end
+
+  def forgotten_password
+
+  end
+
+  def new_password_request
+    if User.exists?(:email => params[:email])
+      @user = User.find_by_email(params[:email])
+      UserMailer.new_password(@user).deliver
+    end
+    flash[:success] = "An email with further instructions has been sent to " + params[:email]
+    redirect_to root_url
+  end
+
+  def confirmed_new_password
+    if User.exists?(:email_token => params[:token])
+      @user = User.find_by_email_token(params[:token])
+      @token = params[:token]
+      respond_to do |format|
+      format.html
+      format.json
+      end
+    else
+      redirect_to root_url
+    end
+  end
+
+  def change_password
+    if User.exists?(:email_token => params[:token])
+        if params[:password] == params[:password_confirmation]
+          @user = User.find_by_email_token( params[:token])
+          if @user.update_attributes(:password => params[:password], :password_confirmation => params[:password_confirmation])
+            flash[:success] = "Your password has been changed."
+            redirect_to root_url
+          end
+        else
+          flash[:error] = "Passwords did not match."
+        end
+    else
+    end
   end
 
 end
