@@ -100,6 +100,7 @@
     <% else %>
         <h3>No upcoming events</h3>
     <% end %>
+        <%= link_to "Create event", new_event_path(@user), :class => "btn " if current_user.isAdmin? %>
       </div><!-- #next-events -->
       
       <div class="tab-pane" id="pre-events">
