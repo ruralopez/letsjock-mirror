@@ -52,6 +52,10 @@ Letsjock::Application.routes.draw do
   match '/createsponsor' => 'users#sponsor_create', :as => :create_sponsor
   match '/profile/:id/edit_sponsor' => 'users#sponsor_edit', :as => :edit_sponsor
   match '/settings' => 'settings#index', :as => :settings
+  match '/forgotten_password' => 'users#forgotten_password', :as => :forgotten_password
+  match '/new_password_request' => 'users#new_password_request', :as => :new_password_request
+  match '/confirmed_new_password/:token' => 'users#confirmed_new_password', :as => :confirmed_new_password
+  match '/change_password' => 'users#change_password', :as => :change_password
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

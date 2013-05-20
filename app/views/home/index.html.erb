@@ -32,7 +32,7 @@
             <label class="checkbox">
               <input type="checkbox"> Recordar mis datos
               <span class="separator">·</span>
-              <a class="forgot" href="#">¿Olvidaste tu contraseña?</a>
+              <%= link_to '¿Olvidaste tu contraseña?', forgotten_password_path, :class => "forgot" %>
             </label>
         <% end %>
 
