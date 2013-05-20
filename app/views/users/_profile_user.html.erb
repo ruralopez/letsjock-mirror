@@ -360,13 +360,45 @@ $(document).ready(function(){
     </div><!--resume-->
 <% end %>
 </div>
-<div class="box box-connect span3">
+
+<div class="box-index box-connect box-contact span3" style="padding-top: 190px;">
+  <div class="box-content">
+    <h5>Spread the word and help us to change the sports world!</h5>
+    <a href="#inviteFriends" class="btn btn-success input-block-level" role="button" data-toggle="modal">
+      <strong>Invite your friends</strong>
+    </a>
+    <br>
+  </div>
+  <div class="box-content">
+    <h4>People you may know</h4>
+    <ul class="aside connect-people">
+      <%  User.all.take(3).each do |user| %>
+          <li>
+            <div class="img-container">
+              <%= image_tag user.profilepic %>
+            </div>
+            <div class="metadata">
+              <%= link_to user.full_name, user %>
+              <p class="block"><%= user.followers.count.to_s %> followers</p>
+              <button class="btn btn-success btn-small btn-mini">
+                <i class="icon-eye-open"></i>
+                follow
+              </button>
+            </div>
+          </li>
+      <%  end %>
+    </ul>
+  </div>
+</div><!--box-connect-->
+
+<!-- <div class="box box-connect span3">
   <div class="box-content">
     <h4>Events Related</h4>
     <ul class="aside connect-events">
       <li>
         <div class="img-container">
-          <%= image_tag 'slide-01.jpg' %>
+        <img src="assets/images/slide-01.jpg"></img>
+
         </div>
         <div class="metadata">
           <a href="#">FIVB Final</a>
@@ -376,7 +408,8 @@ $(document).ready(function(){
       </li>
       <li>
         <div class="img-container">
-          <%= image_tag 'slide-02.jpg' %>
+        <img src="assets/images/slide-02.jpg"></img>
+
         </div>
         <div class="metadata">
           <a href="#">Texas Tech vs West Virginia</a>
@@ -386,7 +419,8 @@ $(document).ready(function(){
       </li>
       <li>
         <div class="img-container">
-          <%= image_tag 'slide-03.jpg' %>
+        <img src="assets/images/slide-03.jpg"></img>
+
         </div>
         <div class="metadata">
           <a href="#">NCAA Swimming Semi-Final</a>
@@ -396,13 +430,14 @@ $(document).ready(function(){
       </li>
     </ul>
     <a href="#" class="align-right">See more</a>
-  </div><!--box-content-->
+  </div>
   <div class="box-content">
     <h4>People you may know</h4>
     <ul class="aside connect-people">
       <li>
         <div class="img-container">
-          <%= image_tag 'user-1.jpg' %>
+        <img src="assets/images/user-1.jpg"></img>
+
         </div>
         <div class="metadata">
           <a href="#">Richard Stinson</a>
@@ -412,7 +447,8 @@ $(document).ready(function(){
       </li>
       <li>
         <div class="img-container">
-          <%= image_tag 'user-2.jpg' %>
+        <img src="assets/images/user-2.jpg"></img>
+
         </div>
         <div class="metadata">
           <a href="#">John Richards</a>
@@ -422,7 +458,8 @@ $(document).ready(function(){
       </li>
       <li>
         <div class="img-container">
-          <%= image_tag 'user-3.jpg' %>
+        <img src="assets/images/user-3.jpg"></img>
+
         </div>
         <div class="metadata">
           <a href="#">Nicolas Massu</a>
@@ -434,6 +471,8 @@ $(document).ready(function(){
     <a href="#" class="align-right">See more</a>
   </div>
 </div><!--box-connect-->
+
+
 </div>
 </div><!-- /.container -->
 
@@ -455,6 +494,7 @@ $(document).ready(function(){
 <%=  render 'videos/video_modal' %>
 <%=  render 'events/event_modal' %>
 <%=  render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
+<%=  render 'layouts/invite' %>
 
 
 <!-- Le javascript

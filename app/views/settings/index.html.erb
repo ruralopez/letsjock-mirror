@@ -1,0 +1,482 @@
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41027613-1']);
+    _gaq.push(['_setDomainName', 'letsjock.com']);
+    _gaq.push(['_setAllowLinker', true]);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+
+<%= stylesheet_link_tag    "profile" %>
+<%= javascript_include_tag "application" %>
+
+<div class="container">
+
+<div class="row">
+  <div class="span12">
+    <div class="page-title">
+    </div>
+  </div>
+</div>
+<div class="row">
+<div class="">
+<ul class="nav nav-tabs span3" id="myTab">
+  <li class="active"><a href="#account" data-toggle="tab"><i class="icon-cogs icon-large"></i> Account Settings</a></li>
+  <li class=""><a href="#privacy" data-toggle="tab"><i class="icon-lock icon-large"></i> Privacy Settings</a></li>
+</ul><!--#myTab-->
+
+<div id="my-tab-content" class="tab-content span9">
+<div class="tab-pane active" id="account">
+<h3><i class="icon-cogs"></i> Account Settings</h3>
+
+<ul class="settings">
+<li><!--Name-->
+  <div class="accordion" id="accordion1"> <!--filtro-->
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion1" href="#name">
+          <p>Name</p>
+          <p><%= @user.full_name %></p>
+          <p class="pull-right"><i class="icon-pencil"></i>Edit</p>
+        </a>
+      </div>
+      <div id="name" class="accordion-body collapse" style="height: 0px;">
+        <div class="accordion-inner">
+
+          <%= form_for(@user, :html => {:class => "form-horizontal"}) do |f|%>
+              <% if @user.errors.any? %>
+                  <div id="error_explanation">
+                    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+                    <ul>
+                      <% @user.errors.full_messages.each do |msg| %>
+                          <li><%= msg %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+              <% end %>
+            <div class="control-group">
+              <label class="control-label">First Name</label>
+              <div class="controls">
+                <%= f.text_field :name, :id => "inputName", :placeholder => "#{@user.name}" %>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Last Name</label>
+              <div class="controls">
+                <%= f.text_field :lastname, :id => "inputLastname", :placeholder => "#{@user.lastname}" %>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="form-actions">
+                <button type="submit" class="btn btn-success">Save</button>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div><!--termina filtro accordion-->
+</li>
+
+<!--
+<li>
+  <div class="accordion" id="accordion2">
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#username">
+          <p>Username</p>
+          <p>http://www.letsjock.com/username</p>
+          <p class="pull-right"><i class="icon-pencil"></i>Edit</p>
+        </a>
+      </div>
+      <div id="username" class="accordion-body collapse" style="height: 0px;">
+        <div class="accordion-inner">
+          <form class="form-horizontal">
+            <div class="control-group">
+              <label class="control-label">Username</label>
+              <div class="controls">
+                <input type="text" id="inputEmail" placeholder="Cristhian">
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="form-actions">
+                <button type="submit" class="btn btn-success">Save changes</button>
+                <button type="button" class="btn">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>
+-->
+
+<li><!--Email-->
+  <div class="accordion" id="accordion3"> <!--filtro-->
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion3" href="#email">
+          <p>Email</p>
+          <p><%= @user.email %></p>
+          <p class="pull-right"><i class="icon-pencil"></i>Edit</p>
+        </a>
+      </div>
+      <div id="email" class="accordion-body collapse" style="height: 0px;">
+        <div class="accordion-inner">
+          <%= form_for(@user, :html => {:class => "form-horizontal"}) do |f|%>
+              <% if @user.errors.any? %>
+                  <div id="error_explanation">
+                    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+                    <ul>
+                      <% @user.errors.full_messages.each do |msg| %>
+                          <li><%= msg %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+              <% end %>
+              <div class="control-group">
+                <label class="control-label">Email</label>
+                <div class="controls">
+                  <%= f.email_field :email, :id => "inputEmail", :placeholder => "#{@user.email}" %>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-success">Save</button>
+                </div>
+              </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div><!--termina filtro accordion-->
+</li>
+<li><!--Password-->
+  <div class="accordion" id="accordion4"> <!--filtro-->
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion4" href="#password">
+          <p>Password</p>
+          <p>Change your password</p>
+          <p class="pull-right"><i class="icon-pencil"></i>Edit</p>
+        </a>
+      </div>
+      <div id="password" class="accordion-body collapse" style="height: 0px;">
+        <div class="accordion-inner">
+          <form class="form-horizontal">
+            <div class="control-group">
+              <label class="control-label">Current Password</label>
+              <div class="controls">
+                <input type="password" id="inputEmail" placeholder="">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">New</label>
+              <div class="controls">
+                <input type="password" id="inputEmail" placeholder="">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Retype new</label>
+              <div class="controls">
+                <input type="password" id="inputEmail" placeholder="">
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="form-actions">
+                <button type="submit" class="btn btn-success">Save changes</button>
+                <button type="button" class="btn">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div><!--termina filtro accordion-->
+</li>
+<li><!--Language-->
+  <div class="accordion" id="accordion5"> <!--filtro-->
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion5" href="#language">
+          <p>Language</p>
+          <p>Primary: English</p>
+          <p class="pull-right"><i class="icon-pencil"></i>Edit</p>
+        </a>
+      </div>
+      <div id="language" class="accordion-body collapse" style="height: 0px;">
+        <div class="accordion-inner">
+          <form class="form-horizontal">
+            <div class="control-group">
+              <label class="control-label">Choose Primary</label>
+              <div class="controls">
+                <select>
+                  <option>English(UK)</option>
+                  <option>English(US)</option>
+                  <option>Español</option>
+                  <option>Español (España)</option>
+                  <option>Italiano</option>
+                </select>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="form-actions">
+                <button type="submit" class="btn btn-success">Save changes</button>
+                <button type="button" class="btn">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div><!--termina filtro accordion-->
+</li>
+<li><!--Account Type-->
+  <div class="accordion" id="accordion6"> <!--filtro-->
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion6" href="#account-type">
+          <p>Account Type</p>
+          <p>Basic</p>
+          <p class="pull-right"><i class="icon-upload-alt"></i>Upgrade</p>
+        </a>
+      </div>
+      <div id="account-type" class="accordion-body collapse" style="height: 0px;">
+        <div class="accordion-inner">
+          <form class="form-horizontal">
+            <div class="control-group">
+              <h5>Upgrade to Premium</h5>
+              <ul>
+                <li><i class="icon-large icon-bar-chart"></i> Tracking results of Athletes</li>
+                <li><i class="icon-large icon-eye-open"></i> See the full list of who's viewed your profile</li>
+                <li><i class="icon-large icon-gift"></i> Premium Features and gifts</li>
+              </ul>
+            </div>
+            <div class="control-group">
+              <div class="form-actions">
+                <button type="submit" class="btn btn-warning">Upgrade</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div><!--termina filtro accordion-->
+</li>
+
+</ul>
+
+</div><!-- #account -->
+
+<div class="tab-pane" id="privacy">
+  <h3><i class="icon-lock"></i> Privacy Settings</h3>
+
+  <ul class="settings privacy-settings">
+    <li><!--Activity Feed-->
+      <div class="accordion" id="accordion7"> <!--filtro-->
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion7" href="#activity-feed">
+              <h5>Who can see your future activity feed?</h5>
+              <p><i class="icon-eye-open"></i> Followers</p>
+              <p class="pull-right"><i class="icon-pencil"></i>Edit</p>
+            </a>
+          </div>
+          <div id="activity-feed" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <form class="form-horizontal">
+                <div class="control-group">
+                  <div class="controls">
+                    <label class="radio">
+                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                      <i class="icon-globe"></i> Public
+                    </label>
+                    <label class="radio">
+                      <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                      <i class="icon-eye-open"></i> Followers
+                    </label>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-success">Save changes</button>
+                    <button type="button" class="btn">Cancel</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div><!--termina filtro accordion-->
+    </li>
+    <li><!--Connections-->
+      <div class="accordion" id="accordion8"> <!--filtro-->
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion8" href="#connections">
+              <h5>Who can see your connections?</h5>
+              <p><i class="icon-eye-open"></i> Followers</p>
+              <p class="pull-right"><i class="icon-pencil"></i>Edit</p>
+            </a>
+          </div>
+          <div id="connections" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <form class="form-horizontal">
+                <div class="control-group">
+                  <div class="controls">
+                    <label class="radio">
+                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                      <i class="icon-globe"></i> Public
+                    </label>
+                    <label class="radio">
+                      <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                      <i class="icon-eye-open"></i> Followers
+                    </label>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-success">Save changes</button>
+                    <button type="button" class="btn">Cancel</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div><!--termina filtro accordion-->
+    </li>
+    <li><!--Profile Content-->
+      <div class="accordion" id="accordion9"> <!--filtro-->
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion9" href="#profile-content">
+              <h5>Profile Content</h5>
+              <p><i class="icon-eye-open"></i> Followers</p>
+              <p class="pull-right"><i class="icon-pencil"></i>Edit</p>
+            </a>
+          </div>
+          <div id="profile-content" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <form class="form-horizontal">
+                <div class="control-group">
+                  <div class="controls">
+                    <label class="radio">
+                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                      <i class="icon-globe"></i> Public
+                    </label>
+                    <label class="radio">
+                      <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                      <i class="icon-eye-open"></i> Followers
+                    </label>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-success">Save changes</button>
+                    <button type="button" class="btn">Cancel</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div><!--termina filtro accordion-->
+    </li>
+    <li><!--Pictures-->
+      <div class="accordion" id="accordion10"> <!--filtro-->
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion10" href="#profile-pictures">
+              <h5>Profile Pictures</h5>
+              <p><i class="icon-globe"></i> Public</p>
+              <p class="pull-right"><i class="icon-pencil"></i>Edit</p>
+            </a>
+          </div>
+          <div id="profile-pictures" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <form class="form-horizontal">
+                <div class="control-group">
+                  <div class="controls">
+                    <label class="radio">
+                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                      <i class="icon-globe"></i> Public
+                    </label>
+                    <label class="radio">
+                      <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                      <i class="icon-eye-open"></i> Followers
+                    </label>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-success">Save changes</button>
+                    <button type="button" class="btn">Cancel</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div><!--termina filtro accordion-->
+    </li>
+    <li><!--Headline-->
+      <div class="accordion" id="accordion11"> <!--filtro-->
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion11" href="#profile-headline">
+              <h5>Headline</h5>
+              <p><i class="icon-globe"></i> Public</p>
+              <p class="pull-right"><i class="icon-pencil"></i>Edit</p>
+            </a>
+          </div>
+          <div id="profile-headline" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <form class="form-horizontal">
+                <div class="control-group">
+                  <div class="controls">
+                    <label class="radio">
+                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                      <i class="icon-globe"></i> Public
+                    </label>
+                    <label class="radio">
+                      <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                      <i class="icon-eye-open"></i> Followers
+                    </label>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-success">Save changes</button>
+                    <button type="button" class="btn">Cancel</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div><!--termina filtro accordion-->
+    </li>
+
+  </ul>
+</div><!-- #privacy-->
+
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $('#tabs').tab();
+    });
+</script>
+
+</div><!--#my-tab-content-->
+</div><!--span12-->
+</div>
+</div>

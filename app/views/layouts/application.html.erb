@@ -3,23 +3,27 @@
 <head>
   <title>Let's Jock - <%= yield(:title) %></title>
   <% if @home %>
-      <%= stylesheet_link_tag    "home" %>
-  <% else %>
-      <%= stylesheet_link_tag    "http://twitter.github.io/bootstrap/assets/css/bootstrap.css" %>
-      <%= stylesheet_link_tag    "http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" %>
-      <%= stylesheet_link_tag    "application"%>
+      <%= stylesheet_link_tag    "sessions" %>
+      <%= stylesheet_link_tag    "profile" %>
   <% end %>
+
+  <%= stylesheet_link_tag    "http://twitter.github.io/bootstrap/assets/css/bootstrap.css" %>
+  <%= stylesheet_link_tag    "http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" %>
+  <%= stylesheet_link_tag    "application"%>
+
   <%= csrf_meta_tags %>
 </head>
-<body>
-<%	 if !@home %>
+
+<% if @home %>
+    <body class="mtop-10">
+<%	 else %>
+    <body>
     <%=	 render 'layouts/header' %>
 <%	 end %>
 
 <%= yield %>
 
-<%	 if !@home %>
-    <%=	 render 'layouts/footer' %>
-<%	 end %>
+<%=	 render 'layouts/footer' %>
+
 </body>
 </html>

@@ -1,67 +1,125 @@
-<%= stylesheet_link_tag    "indexcss" %>
 <%= javascript_include_tag "application" %>
+<%= javascript_include_tag "index" %>
+<%= stylesheet_link_tag    "indexcss" %>
 
-<div class="container">
-    <div class="presentation">
-        <div class="header-logo">
-            <div id="myCarousel" class="carousel slide" style="background-color:none;">
-                <div class="carousel-inner">
-                    <div class="item active">
-                        <img src="/assets/jock1.png" alt="">
-                    </div>
-                    <div class="item">
-                        <img src="/assets/jock2.png" alt="">
-                    </div>
-                    <div class="item">
-                        <img src="/assets/jock3.png" alt="">
-                    </div>
-                    <div class="item">
-                        <img src="/assets/jock4.png" alt="">
-                    </div>
-                    <div class="item">
-                        <img src="/assets/jock5.png" alt="">
-                    </div>
-                </div><!--carousel-inner-->
-            </div><!-- /.carousel -->
-        </div>
-        <div class="notify-me">
-            <p>Want to be notified on private beta? Sign up here and we'll let you know when we launch!</p>
-            <form id="add_email" action="http://www.letsjock.com/process.php" method="post">
-                <fieldset>
-                    <div class="btn-group">
-                        <input id="email" type="text" placeholder="Your e-mail here..." name="email">
-                        <button id="email_button" name="submit" class="btn btn-success">Notify me</button>
-                    </div>
-                </fieldset>
-            </form>
-            <div class="ribbon"><div class="ribbon-stitches-top"></div><strong class="ribbon-content"><h1>Coming Soon</h1></strong><div class="ribbon-stitches-bottom"></div></div>
-        </div><!--notify-me-->
-    </div>
-</div><!-- /.container -->
+<script type="text/javascript">
 
-<script>
-!function ($) {
-    $(function(){
-        // carousel demo
-        $('#myCarousel').carousel();
-        
-	$('#email_button').click(function(e){
-            e.preventDefault();  
-            $form = $(this).closest('form');
-            $.ajax({
-                url: $form.attr('action'),
-                type: $form.attr('method'),
-                dataType: 'json',
-                data: $('#add_email').serialize(),
-                success: function(responseJson) {
-                    $form.after("<div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>&times;</button><h4>Congratulations!</h4>" +responseJson.message+ "</div>");
-                },
-                error: function() {
-                    $form.after("<div class='alert alert-error'><button type='button' class='close' data-dismiss='alert'>&times;</button><h4>You are a Betauser already!</h4>E-mail already submitted</div>");
-                }
-            });
-        });
-    })
-}(window.jQuery)
-    
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41027613-1']);
+    _gaq.push(['_setDomainName', 'letsjock.com']);
+    _gaq.push(['_setAllowLinker', true]);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
 </script>
+
+<div class="main-content">
+  <div class="container front">
+    <div class="row">
+      <div class="span8 main">
+        <%= image_tag 'logo-slogan.png', :class => "main-img" %>
+        <h1>Let's Jock</h1>
+        <h2>¡Bienvenido a la primera red de reclutamiento deportivo online!</h2>
+      </div><!--span8-->
+      <div class="span4">
+
+        <% if flash[:error] %>
+            <div class="alert alert-error index-flash">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <h4>Login error!</h4> <%=  flash[:error] %>
+            </div>
+        <% end %>
+        <% if flash[:success] %>
+            <div class="alert alert-success index-flash">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <%=  flash[:success] %>
+            </div>
+        <% end %>
+
+        <%= form_for(:session, :url => sessions_path, :html => { :class => "form-login"}) do |f| %>
+            <%= f.text_field :email, :name => "email", :placeholder => "Email", :validation => 'email required notBlank', :class => "input-small input-block-level" %>
+            <%= f.password_field :password, :class => "input-small span2", :name => "password", :placeholder => "Contraseña", :validation => 'required lengthMin6 notBlank' %>
+            <%= content_tag :button, :type => :submit, :class => "btn btn-success pull-right clearfix" do %>
+                Iniciar sesión
+            <% end %>
+            <label class="checkbox">
+              <input type="checkbox"> Recordar mis datos
+              <span class="separator">·</span>
+              <a class="forgot" href="#">¿Olvidaste tu contraseña?</a>
+            </label>
+        <% end %>
+
+        <%=	form_for @user, :url => { :controller => :users, :action => :create }, :html => { :class => "form-login"} do |f|   %>
+            <h4>¿Eres Nuevo en Let's Jock?</h4>
+            <h6>¡Regístrate y descubre un nuevo mundo deportivo!</h6>
+            <%= f.text_field :name, :class => "input-small input-block-level", :name => "name", :placeholder => "Nombre", :validation => 'required notBlank' %>
+            <%= f.text_field :lastname, :class => "input-small input-block-level", :name => "lastname", :placeholder => "Apellido", :validation => 'required notBlank' %>
+            <%= f.text_field :email, :class => "input-small input-block-level", :name => "email", :placeholder => "Email", :validation => 'email required notBlank' %>
+            <%= f.password_field :password, :class => "input-small input-block-level", :name => "password", :placeholder => "Contraseña", :validation => 'required lengthMin6 notBlank' %>
+            <%= f.select :gender, [["Hombre", "Male"], ["Mujer", "Female"]], :class => "input-small input-block-level", :name => "gender" %>
+            <p>Al hacer click en Regístrate en Let’s Jock, aceptas nuestros <a class="forgot" href="About.html" target="_blank">"Terms & Conditions"</a> y que has leído nuestra <a class="forgot" href="About.html" target="_blank">"Privacy Policy"</a>.</p>
+            <%= content_tag :button, :type => :submit, :class => "btn btn-success pull-right clearfix" do %>
+                Regístrate en Let's Jock
+            <% end %>
+            <div class="clearfix"></div>
+        <%	end %>
+
+      </div><!--span4-->
+    </div><!--row-->
+  </div><!--container front-->
+</div><!--main content-->
+
+
+<div class="gray-content">
+  <div class="container">
+    <div class="welcome">
+      <h3>¡Descubre Let's Jock! <i class="icon-chevron-down special-title"></i></h3>
+
+      <div class="enunciado">
+        <h4>Lets Jock es la vitrina del deporte. Una herramienta que te permitirá crear tu perfil deportivo gratis, ¡para que reclutadores y auspiciadores de todo el mundo vean tu talento!</h4>
+      </div>
+
+      <ul>
+        <li>
+          <%= image_tag 'welcome_1B.png' %>
+          <h4>Crea tu perfil deportivo</h4>
+        </li>
+        <li>
+          <%= image_tag 'welcome_2B.png' %>
+          <h4>Busca y sigue a otros usuarios e instituciones</h4>
+        </li>
+        <li>
+          <%= image_tag 'welcome_3B.png' %>
+          <h4>Inscríbete en eventos deportivos</h4>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="second-content">
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <h3>Patrocinadores</h3>
+        <div class="patrocinadores p3">
+          <a href="http://www.incubauc.cl/" target="_blank"><%= image_tag 'logo-incubauc.png'  %></a>
+          <a href="http://www.corfo.cl/" target="_blank"><%= image_tag 'logo-corfo.png'  %></a>
+          <a href="http://startupchile.org/" target="_blank"><%= image_tag 'logo-startup.png'  %></a>
+        </div>
+        <ul class="patrocinador">
+          <li><a href="http://www.anfp.cl" target="_blank"><%= image_tag 'logo-anfp.jpg'  %></a></li>
+          <li><a href="http://www.fedachi.cl" target="_blank"><%= image_tag 'logo-fedachi.jpg'  %></a></li>
+          <li><a href="http://www.fevochi.cl" target="_blank"><%= image_tag 'logo-fevochi.png'  %></a></li>
+          <li><a href="http://www.golfjuniors.cl" target="_blank"><%= image_tag 'logo-gold-action.png'  %></a></li>
+          <li><a href="http://www.federaciondetenisdechile.cl" target="_blank"><%= image_tag 'logo-fede.png'  %></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

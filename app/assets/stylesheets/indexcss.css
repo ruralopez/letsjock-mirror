@@ -1,6 +1,6 @@
 /*CSS for index*/
 body{
-    background: url("imgHome.jpg") no-repeat top center fixed;
+    background: url("imgHome5.jpg") no-repeat center fixed;
     background-color:black;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -9,13 +9,8 @@ body{
 }
 
 .main-content{
-    background:url("puntos.gif");
-    position:absolute;
     width:100%;
-    height:100%;
-    left:0;
-    top:0;
-    z-index:-1;
+    height:auto;
 }
 
 footer{
@@ -234,13 +229,18 @@ footer .container{padding-bottom:0;}
 /*LOGIN*/
 
 .container.front{
-    margin-top:100px;
+    margin-top:10px;
+    padding-bottom:0;
 }
 
 /*Left*/
 .main{
     color:white;
 }
+
+.main p{width:80%; font-size:.9em;}
+.main h1{display:none;}
+.main h2{font-size:1.2em;}
 
 img.welcome-logo{
     width:50%;
@@ -276,3 +276,179 @@ img.welcome-logo{
 a.forgot{color:white; display:inline;}
 
 .container.front button{font-weight:bold;}
+
+.special-title{
+    color:#C6091C;
+    margin:0 0 40px;
+    font-style:italic;
+}
+
+/*Gray content*/
+.gray-content{
+    background-color: #F0F0F0;
+    border-bottom: 1px solid #E1E1E1;
+    border-top: 3px solid #EBEBEB;
+    text-align:center;
+}
+
+.gray-content .welcome{
+    width:90%;
+    margin:10px auto 0;
+    padding:0;
+}
+
+.gray-content .welcome h3{
+    padding:0;
+    line-height:100%;
+}
+
+.gray-content .welcome ul{
+    margin:-20px 0 20px;
+}
+
+.gray-content .welcome ul li img{
+    margin-bottom:-18px;
+}
+
+.enunciado{
+    width:90%;
+    color:#999;
+    margin:0 auto 10px;
+    padding: 10px 0 20px;
+    box-shadow:0 4px 5px -5px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow:0 4px 5px -5px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow:0 4px 5px -5px rgba(0, 0, 0, 0.4);
+}
+
+.enunciado h4{
+    line-height:150%;
+    width:90%;
+    margin:0 auto 1em;
+}
+
+/*Segundo contenedor*/
+
+.second-content{
+    width:100%;
+    padding-top:1em;
+    background-color:white;
+    margin-bottom:10px;
+    color:#222222;
+    text-align:center;
+}
+
+.second-content .patrocinadores{
+    margin-top:20px;
+}
+
+.patrocinadores.p3{
+    -moz-column-count: 3;
+    -webkit-column-count: 3;
+    column-count: 3;
+}
+
+ul.patrocinador{
+    list-style:none outside none;
+}
+
+ul.patrocinador li{
+    width:100px;
+    height:auto;
+    display:inline-block;
+    margin:0 3px;
+}
+
+img.main-img{
+    height:180px;
+    margin-bottom:20px;
+    margin-top:10%;
+}
+
+.mtop-10{margin-top:10px !important;}
+
+/*Alerta desde Home antiguo*/
+
+.alert {
+    padding: 8px 35px 8px 14px;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    background-color: #fcf8e3;
+    border: 1px solid #fbeed5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.alert,
+.alert h4 {
+    color: #c09853;
+}
+.alert h4 {
+    margin: 0;
+}
+.alert .close {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    line-height: 20px;
+}
+.alert-success {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #468847;
+}
+.alert-success h4 {
+    color: #468847;
+}
+.alert-danger,
+.alert-error {
+    background-color: #f2dede;
+    border-color: #eed3d7;
+    color: #b94a48;
+}
+.alert-danger h4,
+.alert-error h4 {
+    color: #b94a48;
+}
+.alert-info {
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    color: #3a87ad;
+}
+.alert-info h4 {
+    color: #3a87ad;
+}
+.alert-block {
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+.alert-block > p,
+.alert-block > ul {
+    margin-bottom: 0;
+}
+.alert-block p + p {
+    margin-top: 5px;
+}
+.close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #000000;
+    text-shadow: 0 1px 0 #ffffff;
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+}
+.close:hover {
+    color: #000000;
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+}
+button.close {
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+}
