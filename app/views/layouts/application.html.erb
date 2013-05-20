@@ -2,14 +2,16 @@
 <html>
 <head>
   <title>Let's Jock - <%= yield(:title) %></title>
-  <% if @home %>
-      <%= stylesheet_link_tag    "sessions" %>
-      <%= stylesheet_link_tag    "profile" %>
-  <% end %>
-
+  
   <%= stylesheet_link_tag    "http://twitter.github.io/bootstrap/assets/css/bootstrap.css" %>
   <%= stylesheet_link_tag    "http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" %>
   <%= stylesheet_link_tag    "application"%>
+  
+  <% if @home %>
+    <%= stylesheet_link_tag    "sessions" %>
+    <%= stylesheet_link_tag    "profile" %>
+    <%= stylesheet_link_tag    "indexcss" %>
+  <% end %>
 
   <%= csrf_meta_tags %>
 </head>

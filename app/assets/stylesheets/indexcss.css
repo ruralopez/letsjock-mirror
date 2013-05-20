@@ -1,5 +1,5 @@
 /*CSS for index*/
-body{
+body {
     background: url("imgHome5.jpg") no-repeat center fixed;
     background-color:black;
     -webkit-background-size: cover;
@@ -245,6 +245,7 @@ footer .container{padding-bottom:0;}
 img.welcome-logo{
     width:50%;
     display:block;
+    margin-top:40px;
 }
 
 .container.front .sponsors{}
@@ -267,9 +268,10 @@ img.welcome-logo{
     border-radius:4px;
     -moz-border-radius:4px;
     -webkit-border-radius:4px;
+    margin-bottom:10px;
 }
 
-.form-login label.checkbox{
+.form-login label.checkbox, .form-login p{
     font-size:0.75em;
 }
 
