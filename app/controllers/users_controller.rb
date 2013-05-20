@@ -374,8 +374,7 @@ class UsersController < ApplicationController
       redirect_to current_user
     else
       flash[:error] = "You must be logged in."
-      sign_out
-      redirect_to root_path
+      redirect_to current_user
     end
   end
 
