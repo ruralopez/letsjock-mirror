@@ -491,6 +491,14 @@ class UsersController < ApplicationController
     render "sponsor_new"
   end
 
+  def invite
+    if signed_in?
+      @user = current_user
+      UserMailer.invitation({ :name => @user.full_name, :email => params[:email], :message => params[:message] }).deliver
+      redirect_to request.referer
+    end
+  end
+
   def read_notification
     notification = Notification.find(params[:id])
     notification.update_attributes(:read => true)
