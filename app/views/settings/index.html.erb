@@ -153,35 +153,50 @@
           <p>Change your password</p>
           <p class="pull-right"><i class="icon-pencil"></i>Edit</p>
         </a>
+        <% if flash[:error] %>
+            <div class="alert alert-error index-flash">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <%=  flash[:error] %>
+            </div>
+        <% end %>
+        <% if flash[:success] %>
+            <div class="alert alert-success index-flash">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <%=  flash[:success] %>
+            </div>
+        <% end %>
       </div>
       <div id="password" class="accordion-body collapse" style="height: 0px;">
         <div class="accordion-inner">
-          <form class="form-horizontal">
+
+          <%= form_tag({:controller => "settings", :action => "new_password_form"}, :class => "form-horizontal") do %>
+              <fieldset>
             <div class="control-group">
               <label class="control-label">Current Password</label>
               <div class="controls">
-                <input type="password" id="inputEmail" placeholder="">
+                <%= password_field_tag :current_password %>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">New</label>
               <div class="controls">
-                <input type="password" id="inputEmail" placeholder="">
+                <%= password_field_tag :password %>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">Retype new</label>
               <div class="controls">
-                <input type="password" id="inputEmail" placeholder="">
+                <%= password_field_tag :password_confirmation %>
               </div>
             </div>
             <div class="control-group">
               <div class="form-actions">
-                <button type="submit" class="btn btn-success">Save changes</button>
-                <button type="button" class="btn">Cancel</button>
+                <button type="submit" class="btn btn-success">Change password</button>
               </div>
             </div>
-          </form>
+              </fieldset>
+          <% end %>
+
         </div>
       </div>
     </div>
