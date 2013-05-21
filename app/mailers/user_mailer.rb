@@ -16,6 +16,6 @@ class UserMailer < ActionMailer::Base
 
   def invitation(data)
     @data = data
-    mail(:to => @data[:email], :subject => "Invitation to connect with Let's Jock!", :from => "letsjock@gmail.com")
+    mail(:to => @data[:email], :subject => "Invitation to join Let's Jock!", :from => "letsjock@gmail.com")
   end
 end
