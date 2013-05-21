@@ -4,10 +4,6 @@
   </div>
 
   <script>
-      $('[rel=tooltip]').tooltip({
-          'selector': '',
-          'placement': 'bottom'
-      });
       jQuery(function($) {
           $('[data-toggle=dropdown]').dropdown();
           $('[data-toggle=button]').button();
@@ -33,5 +29,23 @@
       })();
 
   </script>
+
+  <% if @settings %>
+    <script>
+        $('[rel=tooltip]').tooltip({
+            'selector': '',
+            'placement': 'right',
+            'trigger' : 'click'
+        });
+    </script>
+  <% else %>
+    <script>
+        $('[rel=tooltip]').tooltip({
+            'selector': '',
+            'placement': 'bottom'
+        });
+    </script>
+  <% end %>
+
 </footer>
 
