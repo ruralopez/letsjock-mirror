@@ -4,11 +4,14 @@
     <h3 id="myModalLabel"><i class="icon-envelope-alt"></i> Invite your friends</h3>
   </div>
   <div class="modal-body">
-    <input type="text" class="input-small input-block-level" placeholder="Your friend's email!">
-    <textarea rows="3" class="input-small input-block-level" placeholder="Write here!">Join Let's Jock now! The first sportsmen recruiting platform. It's a display case to show your sports talent and contact recruiters and sponsors from all over the world. And It's free!</textarea>
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
-    <a href="#" class="btn btn-success">Send</a>
+    <%= form_tag(:controller => "users", :action => "invite") do %>
+        <fieldset>
+          <%= text_field_tag :email, nil, :class => "input-small input-block-level", :placeholder => "Your friend's email!" %>
+          <%= text_area_tag :message, nil, :rows => "3", :class => "input-small input-block-level", :placeholder => "Write here!" do %>
+              Join Let's Jock now! The first sportsmen recruiting platform. It's a display case to show your sports talent and contact recruiters and sponsors from all over the world. And It's free!
+          <% end %>
+          <%= submit_tag "Send", :class => "btn btn-success btn-large span2" %>
+        </fieldset>
+    <% end %>
   </div>
 </div>

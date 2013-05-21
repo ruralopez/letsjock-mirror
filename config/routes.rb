@@ -59,6 +59,7 @@ Letsjock::Application.routes.draw do
   match '/confirmed_new_password/:token' => 'users#confirmed_new_password', :as => :confirmed_new_password
   match '/change_password' => 'users#change_password', :as => :change_password
   match '/new_password_form' => 'settings#new_password_form', :as => :new_password_form
+  match '/invite' => 'users#invite', :as => :invite
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
