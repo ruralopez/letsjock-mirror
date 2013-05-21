@@ -435,11 +435,11 @@ class UsersController < ApplicationController
         @train = Train.find(:all, :conditions => ['user_id = ? AND sport_id = ?', current_user.id, @sport_id]).first
       end
       
-      if @competition.id
+      if @competition.id?
         @result = Result.find(:all, :conditions => ['user_id = ? AND sport_id = ? AND competition_id = ?', current_user.id, @sport_id, @competition.id]).first
         @init = @competition.init
         @end = @competition.end
-      elsif @team.id
+      elsif @team.id?
         @init = @team.init
         @end = @team.end
       end

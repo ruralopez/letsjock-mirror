@@ -51,6 +51,8 @@ Letsjock::Application.routes.draw do
   match '/newsponsor' => 'users#sponsor_new', :as => :new_sponsor
   match '/createsponsor' => 'users#sponsor_create', :as => :create_sponsor
   match '/profile/:id/edit_sponsor' => 'users#sponsor_edit', :as => :edit_sponsor
+  match '/profile/:id/new_event' => 'events#new', :as => :new_event
+  
   match '/settings' => 'settings#index', :as => :settings
   match '/forgotten_password' => 'users#forgotten_password', :as => :forgotten_password
   match '/new_password_request' => 'users#new_password_request', :as => :new_password_request
