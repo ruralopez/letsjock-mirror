@@ -1511,3 +1511,7 @@ span.contact ul{
 	column-count: 2;
 	column-gap: 10px;
 }
+
+.privacy-fixed{
+    height: auto !important;
+}

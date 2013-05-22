@@ -64,7 +64,7 @@
         <div class="input-prepend">
           <span class="add-on"><i class="icon-circle"></i></span>
           <%= f.text_field :name, :placeholder => "Event Name"%>
-          <%= f.hidden_field :imageurl, @user.profilepic %>
+          <%= f.hidden_field :imageurl, :value => @user.profilepic %>
         </div>
         <div class="input-prepend date" id="dp5" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
           <span class="add-on"><i class="icon-calendar"></i></span>
