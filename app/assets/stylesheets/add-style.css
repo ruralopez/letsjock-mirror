@@ -23,6 +23,7 @@ footer{/*added all footer*/
 
 footer a, footer a:visited{color:white;}
 footer a:hover{color:gray;}
+a.icon{text-decoration:none;}
 
 .container{padding-bottom:20px;}/*added*/
 header .container{padding-bottom:0; min-height:50px;}/*added*/
@@ -1509,4 +1510,8 @@ span.contact ul{
 	-webkit-column-gap: 10px;
 	column-count: 2;
 	column-gap: 10px;
+}
+
+.privacy-fixed{
+    height: auto !important;
 }

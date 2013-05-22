@@ -24,29 +24,29 @@
     <div id="myCarousel" class="carousel slide">
       <div class="carousel-inner">
         <div class="item active">
-          <%= image_tag 'slide-01.jpg'%>
+          <%= image_tag 'news-1.png'%>
           <div class="container">
             <div class="carousel-caption">
-              <h1>Title</h1>
-              <p>description</p>
+              <h1>¡Bienvenido a Let's Jock!</h1>
+              <p>La primera red de reclutamiento deportivo online. Una herramienta que te permitirá publicar toda la información sobre el deporte que practicas.</p>
             </div>
           </div>
         </div>
         <div class="item">
-          <%= image_tag 'slide-02.jpg'%>
+          <%= image_tag 'news-2.png'%>
           <div class="container">
             <div class="carousel-caption">
-              <h1>Title</h1>
-              <p>description</p>
+              <h1>Crea tu perfil deportivo</h1>
+              <p>Te recomendamos crear tu perfil lo más completo posible para aumentar las posibilidades de ser visto por reclutadores y auspiciadores.</p>
             </div>
           </div>
         </div>
         <div class="item">
-          <%= image_tag 'slide-03.jpg'%>
+          <%= image_tag 'news-3.png'%>
           <div class="container">
             <div class="carousel-caption">
-              <h1>Title</h1>
-              <p>description</p>
+              <h1>Versión beta de Let's Jock</h1>
+              <p>La plataforma se encuentra en marcha blanca y por el momento solo en inglés. Próximamente incorporaremos más idiomas y herramientas.</p>
             </div>
           </div>
         </div>
@@ -57,16 +57,16 @@
     <ul>
       <li>
         <div class="single-post">
-          <a href="#">Let's Jock</a>
-          <p>Lanzamiento oficial de Let's Jock! <b>Revisa nuestras noticias periódicamente</b> para saber más sobre las últimas actualizaciones,</p>
-          <p><small>posted on March 27th</small></p>
+          <%= link_to "Let's Jock", User.find(1) %>
+          <p>¡Bienvenido a la versión beta de Let’s Jock! Acá podrás crear tu perfil deportivo, seguir a otros usuarios o instituciones e inscribirte en eventos deportivos.</p>
+          <p><small>posted on May 19th</small></p>
         </div>
       </li>
       <li>
         <div class="single-post">
-          <a href="#">Let's Jock</a>
-          <p>Versión Beta en rodaje. <b>Inscríbete en letsjock.com y podrás ser betauser!</b> No esperes más para ser parte de la plataforma que cambiará el mundo del deporte para siempre.</p>
-          <p><small>posted on March 23rd</small></p>
+          <%= link_to "Let's Jock", User.find(1) %>
+          <p>¡Te invitamos a revisar periódicamente las news! Acá encontrarás las noticias más importantes y las últimas actualizaciones de quienes sigues.</p>
+          <p><small>posted on May 19th</small></p>
         </div>
       </li>
     </ul>
@@ -207,65 +207,13 @@
 
 
 <div class="box-index box-connect box-contact span3">
-  <div class="box-content">
-    <h4>People you may know</h4>
-    <ul class="aside connect-people">
-      <li>
-        <div class="img-container">
-          <%= image_tag 'user-1.jpg'%>
-        </div>
-        <div class="metadata">
-          <a href="#">Username</a>
-          <p>sport</p>
-          <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
-        </div>
-      </li>
-      <li>
-        <div class="img-container">
-          <%= image_tag 'user-2.jpg'%>
-        </div>
-        <div class="metadata">
-          <a href="#">Username</a>
-          <p>sport</p>
-          <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
-        </div>
-      </li>
-      <li>
-        <div class="img-container">
-          <%= image_tag 'user-3.jpg'%>
-        </div>
-        <div class="metadata">
-          <a href="#">Username</a>
-          <p>sport</p>
-          <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
-        </div>
-      </li>
-      <li>
-        <div class="img-container">
-          <%= image_tag 'user-4.jpg'%>
-        </div>
-        <div class="metadata">
-          <a href="#">Username</a>
-          <p>sport</p>
-          <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
-        </div>
-      </li>
-      <li>
-        <div class="img-container">
-          <%= image_tag 'user-5.jpg'%>
-        </div>
-        <div class="metadata">
-          <a href="#">Username</a>
-          <p>sport</p>
-          <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
-        </div>
-      </li>
-    </ul>
-    <a href="#" class="align-right">See more</a>
-  </div>
+  <%= render 'layouts/rightbox' %>
 </div><!--box-connect-->
+
 </div>
 </div><!-- /.container -->
+
+<%= render 'layouts/invite' %>
 
 <script>
     !function ($) {

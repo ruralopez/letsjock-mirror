@@ -41,32 +41,40 @@ class EventsController < ApplicationController
   # GET /events/new
   # GET /events/new.json
   def new
-    @event = Event.new
-    @prueba = Event.first
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render :json => @event }
+    if signed_in? && current_user.isAdmin?
+      @event = Event.new
+      @user = User.find(params[:id])
+      
+      respond_to do |format|
+        format.html # new.html.erb
+        format.json { render :json => @event }
+      end
+    else
+      redirect_to news_path
     end
   end
 
   # GET /events/1/edit
   def edit
     @event = Event.find(params[:id])
+    @user = User.find(@event.user_id)
+    render "new"
   end
 
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(params[:event])
-    if signed_in? && current_user.id == @event.user_id
+    if signed_in? && current_user.isAdmin?
+      @event = Event.new(params[:event])
       respond_to do |format|
         if @event.save
           publisher = Publisher.new(:event_id => @event.id, :pub_type => "E")
-          eventadmin = EventAdmin.new(:user_id => @event.user_id, :event_id => @event.id)
+          eventadmin = EventAdmin.new(:user_id => current_user.id, :event_id => @event.id)
           eventuser = UserEvent.new(:user_id => current_user.id, :event_id => @event.id)
+          
           if eventadmin.save && publisher.save && eventuser.save
             Subscription.new(:user_id => current_user.id, :publisher_id => publisher.id).save
-            Activity.new(:publisher_id => Publisher.find_by_user_id(current_user.id).id, :event_id => @event.id, :act_type => "031").save
+            Activity.new(:publisher_id => Publisher.find_by_user_id(@event.user_id).id, :event_id => @event.id, :act_type => "031").save
             format.html { redirect_to @event, :notice => 'Event was successfully created.' }
             format.json { render :json => @event, :status => :created, :location => @event }
           end
@@ -77,23 +85,25 @@ class EventsController < ApplicationController
       end
     else
       flash[:error] = "You must be logged in."
-      sign_out
-      redirect_to signin_path
+      redirect_to root_path
     end
   end
 
   # PUT /events/1
   # PUT /events/1.json
   def update
-    @event = Event.find(params[:id])
-    if signed_in? && current_user.id == @event.user_id
+    if signed_in? && current_user.isAdmin?
+      @event = Event.find(params[:id])
+      
       respond_to do |format|
         if @event.update_attributes(params[:event])
           Activity.new(:publisher_id => Publisher.find_by_event_id(@event.id).id, :act_type => "100").save
           userevents = UserEvent.all(:conditions => ["event_id = ?", @event.id])
+          
           userevents.each do |userevent|
-          Notification.new(:user_id => userevent.user_id, :event_id => @event.id, :read => false, :not_type => "104").save
+            Notification.new(:user_id => userevent.user_id, :event_id => @event.id, :read => false, :not_type => "104").save
           end
+          
           format.html { redirect_to @event, :notice => 'Event was successfully updated.' }
           format.json { head :no_content }
         else
@@ -103,8 +113,7 @@ class EventsController < ApplicationController
       end
     else
       flash[:error] = "You must be logged in."
-      sign_out
-      redirect_to signin_path
+      redirect_to root_path
     end
   end
 

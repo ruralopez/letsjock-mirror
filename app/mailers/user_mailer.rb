@@ -14,4 +14,8 @@ class UserMailer < ActionMailer::Base
     mail(:to => user.email, :subject => "New password request", :from => "letsjock@gmail.com")
   end
 
+  def invitation(data)
+    @data = data
+    mail(:to => @data[:email], :subject => "Invitation to join Let's Jock!", :from => "letsjock@gmail.com")
+  end
 end

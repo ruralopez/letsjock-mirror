@@ -1,3 +1,4 @@
+<legend>What do you want to add?</legend>
 <div class="header-buttons">
     <a><button class="btn-success hito-click" data-block="train">
         <i class="icon-user icon-2x"></i>
@@ -86,9 +87,9 @@
                 
                 $(".hiddenDiv").hide();
                 
-                $(".hito-click").click(function(){
+                $("#<%= @edit_profile ? "edit" : "new" %>-profile-entry").siblings(".header-buttons").find(".hito-click").click(function(){
                     $(this).toggleClass("active");
-                    $('._js-' + $(this).attr("data-block")).toggle("normal");
+                    $('#<%= @edit_profile ? "edit" : "new" %>-profile-entry ._js-' + $(this).attr("data-block")).toggle("normal");
                 });
                 
                 $('.btn-cancel').click(function(e){

@@ -10,7 +10,7 @@
 <div class="box box-media span3">
   <div class="img-polaroid">
     <%= link_to image_tag(@user.profilephotourl, :class => "user-profile"), '#' %>
-       <% if signed_in? &&  @user.id == current_user.id %>
+       <% if signed_in? && @user.id == current_user.id %>
         <div class="dropdown">
           <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-pencil"></i> Change Photo</a>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -91,87 +91,76 @@ $(document).ready(function(){
   
   $('#dp2').datepicker();
   $('.dropdown-toggle').dropdown();
-        
-        function ValidUrl(str) {
-            var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-                    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-                    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-                    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-                    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-                    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-            if(!pattern.test(str)) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-        
-        $('#video-submit').click(function(){
-            $("#new_video").submit();
-        });
-        
-        $('#work-train').click(function(){
-            $('#divTrain-working').toggle("normal");
-        });
-        $('#work-team').click(function(){
-            $('#divTeam-working').toggle("normal");
-        });
-        $('#work-award').click(function(){
-            $('#divAward-working').toggle("normal");
-        });
-        $('#work-result').click(function(){
-            $('#divResult-working').toggle("normal");
-        });
-        $('#work-sport').click(function(){
-            $('#divSport-working').toggle("normal");
-        });
-        $('#education-school').click(function(){
-            $('#divSchool-educational').toggle("normal");
-            if($('#divHighSchool-educational').is(":visible"))
-            {
-                $('#divHighSchool-educational').toggle("normal");
-            }
-        });
-        $('#education-highschool').click(function(){
-            $('#divHighSchool-educational').toggle("normal");
-            if($('#divSchool-educational').is(":visible"))
-            {
-                $('#divSchool-educational').toggle("normal");
-            }
-        });
-        
-        // EDIT PROFILE
-        $('#edit-profile-link').click(function(){
-          $('#edit-profile').toggle("normal").toggleClass("hidden");
-        });
-        $('#edit_user_cancel').click(function(e){
-          e.preventDefault();
-          $('#edit-profile-link').click();
-        });
-        
-        // SHOW LOADING WHILE AJAX CALLING
-        $(document).ajaxStart(function(){
-          $(".box-info .async-form").append("<div id=loading></div>");
-        });
-        $(document).ajaxStop(function(){
-          $("#loading").remove();
-        });
-        
-        // EDIT EXPERIENCE
-        $('.edit-experience-button').click(function(e){
-          e.preventDefault();
-          var data = {};
-          data["object_id"] = $(this).parents("ul.experience").attr("data-id");
-          data["object_type"] = $(this).parents("ul.experience").attr("data-type");
-          
-          $(this).parents(".resume").toggle("normal").after($(".async-form")); // Lo contrario sería $(".resume:hidden ul.experience").parent().toggle("normal")
-          $(".box-info .async-form").show().load("/profile/<%= @current_user.id %>/edit_profile", data);
-        });
-        
-        $('#currently-working').click(function(){
-            $('#end-date-working').val('');
-            $('#dp6').toggle("normal");
-        });
+  
+  function ValidUrl(str) {
+    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    if(!pattern.test(str)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  
+  $('#video-submit').click(function(){
+    $("#new_video").submit();
+  });
+  $('#education-school').click(function(){
+    $('#divSchool-educational').toggle("normal");
+    if($('#divHighSchool-educational').is(":visible"))
+    {
+      $('#divHighSchool-educational').toggle("normal");
+    }
+  });
+  $('#education-highschool').click(function(){
+    $('#divHighSchool-educational').toggle("normal");
+    if($('#divSchool-educational').is(":visible"))
+    {
+      $('#divSchool-educational').toggle("normal");
+    }
+  });
+  
+  // EDIT PROFILE
+  $('#edit-profile-link').click(function(){
+    $('#edit-profile').toggle("normal").toggleClass("hidden");
+  });
+  $('#edit_user_cancel').click(function(e){
+    e.preventDefault();
+    $('#edit-profile-link').click();
+  });
+  
+  // SHOW LOADING WHILE AJAX CALLING
+  $(document).ajaxStart(function(){
+    $(".box-info .async-form").append("<div id=loading></div>");
+  });
+  $(document).ajaxStop(function(){
+    $("#loading").remove();
+  });
+  
+  // EDIT EXPERIENCE
+  $('.edit-experience-button').click(function(e){
+    e.preventDefault();
+    var data = {};
+    data["object_id"] = $(this).parents("ul.experience").attr("data-id");
+    data["object_type"] = $(this).parents("ul.experience").attr("data-type");
+    
+    // WORKING EXPERIENCE
+    if(data["object_type"] == "work" && $(this).parents("ul.experience").find("ul.experience").length){
+      data["object_id"] = $(this).parents("ul.experience").find("ul.experience").attr("data-id");
+      data["object_type"] = $(this).parents("ul.experience").find("ul.experience").attr("data-type");
+    }
+    
+    $(this).parents(".resume").toggle("normal").after($(".async-form"));
+    $(".box-info .async-form").show().load("/profile/<%= @current_user.id %>/edit_profile", data);
+  });
+  $('#currently-working').click(function(){
+    $('#end-date-working').val('');
+    $('#dp6').toggle("normal");
+  });
 });
 </script>
   <div id="edit-profile" class="hidden resume">
@@ -253,7 +242,6 @@ $(document).ready(function(){
               <div id="collapseAdd" class="accordion-body collapse" style="height: 0px;">
                 <div class="accordion-inner">
                   <%	 if signed_in? %>
-                      <legend>What do you want to add?</legend>
                       <%= render 'profile_form'  %>
                   <%	 else %>
                       <p>You must be logged in to complete your profile!</p>
@@ -282,29 +270,6 @@ $(document).ready(function(){
                 <div class="accordion-inner">
                   <% if signed_in? %>
                     <%= render 'working_profile_form'  %>
-                      <legend>What else do you want to add?</legend>
-                      <div class="header-buttons">
-                        <!-- <a><button id="work-train" class="btn-success hito-click">
-                         <i class="icon-user icon-2x"></i>
-                         Training
-                       </button></a> -->
-                        <a><button id="work-sport" class="btn-success hito-click">
-                          <i class="icon-circle icon-2x"></i>
-                          Sport
-                        </button></a>
-                        <a><button id="work-team" class="btn-success hito-click">
-                          <i class="icon-group icon-2x"></i>
-                          Team
-                        </button></a>
-                        <a><button id="work-award" class="btn-success hito-click">
-                          <i class="icon-trophy icon-2x"></i>
-                          Award
-                        </button></a>
-                        <a><button id="work-result" class="btn-success hito-click">
-                          <i class="icon-star icon-2x"></i>
-                          Result
-                        </button></a>
-                      </div>
                   <% else %>
                       <p>You must be logged in to complete your profile!</p>
                   <% end %>
@@ -360,79 +325,9 @@ $(document).ready(function(){
     </div><!--resume-->
 <% end %>
 </div>
-<div class="box box-connect span3">
-  <div class="box-content">
-    <h4>Events Related</h4>
-    <ul class="aside connect-events">
-      <li>
-        <div class="img-container">
-          <%= image_tag 'slide-01.jpg' %>
-        </div>
-        <div class="metadata">
-          <a href="#">FIVB Final</a>
-          <p>invites <a href="#">Gatorade</a></p>
-          <p>Friday 22, 16:00</p>
-        </div>
-      </li>
-      <li>
-        <div class="img-container">
-          <%= image_tag 'slide-02.jpg' %>
-        </div>
-        <div class="metadata">
-          <a href="#">Texas Tech vs West Virginia</a>
-          <p>invites <a href="#">Doritos</a></p>
-          <p>Saturday 23, 20:30</p>
-        </div>
-      </li>
-      <li>
-        <div class="img-container">
-          <%= image_tag 'slide-03.jpg' %>
-        </div>
-        <div class="metadata">
-          <a href="#">NCAA Swimming Semi-Final</a>
-          <p>invites <a href="#">Speedo</a></p>
-          <p>Saturday 24, 10:00</p>
-        </div>
-      </li>
-    </ul>
-    <a href="#" class="align-right">See more</a>
-  </div><!--box-content-->
-  <div class="box-content">
-    <h4>People you may know</h4>
-    <ul class="aside connect-people">
-      <li>
-        <div class="img-container">
-          <%= image_tag 'user-1.jpg' %>
-        </div>
-        <div class="metadata">
-          <a href="#">Richard Stinson</a>
-          <p>football</p>
-          <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
-        </div>
-      </li>
-      <li>
-        <div class="img-container">
-          <%= image_tag 'user-2.jpg' %>
-        </div>
-        <div class="metadata">
-          <a href="#">John Richards</a>
-          <p>tennis</p>
-          <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
-        </div>
-      </li>
-      <li>
-        <div class="img-container">
-          <%= image_tag 'user-3.jpg' %>
-        </div>
-        <div class="metadata">
-          <a href="#">Nicolas Massu</a>
-          <p>tennis</p>
-          <a href="#" class="follow"><i class="icon-plus"></i>Follow</a>
-        </div>
-      </li>
-    </ul>
-    <a href="#" class="align-right">See more</a>
-  </div>
+
+<div class="box-connect box-contact span3 box">
+  <%= render 'layouts/rightbox' %>
 </div><!--box-connect-->
 </div>
 </div><!-- /.container -->
@@ -455,6 +350,7 @@ $(document).ready(function(){
 <%=  render 'videos/video_modal' %>
 <%=  render 'events/event_modal' %>
 <%=  render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
+<%=  render 'layouts/invite' %>
 
 
 <!-- Le javascript

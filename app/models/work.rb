@@ -4,15 +4,14 @@ class Work < ActiveRecord::Base
 
   belongs_to :country
 
-  has_many :teams
-  has_many :recognitions
-  has_many :results
-  has_many :trainees
-  has_many :competitions
+  has_many :teams, :dependent => :destroy
+  has_many :recognitions, :dependent => :destroy
+  has_many :results, :dependent => :destroy
+  has_many :trainees, :dependent => :destroy
+  has_many :competitions, :dependent => :destroy
 
-
-  has_many :photos
-  has_many :videos
+  has_many :photos, :dependent => :destroy
+  has_many :videos, :dependent => :destroy
 
   attr_accessible :country_id, :end, :init, :company, :user_id, :role, :sport_id, :location
 end

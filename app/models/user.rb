@@ -164,6 +164,10 @@ class User < ActiveRecord::Base
     self.id == 1 # Si es el usuario LetsJock
   end
 
+  def compare_password(pass)
+    self.try(:authenticate, pass)
+  end
+
   private
   def create_remember_token
     #self.remember_token = SecureRandom.urlsafe_base64
