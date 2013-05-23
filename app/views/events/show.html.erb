@@ -121,8 +121,8 @@
         </div>
         <div id="collapseThree" class="accordion-body collapse">
           <div class="accordion-inner">
-            <iframe width="100%" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=es&amp;geocode=&amp;q=Providencia+299,+Santiago,+Chile&amp;aq=0&amp;oq=Providencia+ncia+299&amp;sll=37.0625,-95.677068&amp;sspn=37.735377,86.572266&amp;t=m&amp;ie=UTF8&amp;hq=&amp;hnear=Providencia+299,+Providencia,+Santiago,+Regi%C3%B3n+Metropolitana,+Chile&amp;view=map&amp;ll=-33.435826,-70.630066&amp;spn=0.010064,0.021136&amp;z=14&amp;iwloc=A&amp;output=embed"></iframe>
-          </div>
+            <div id="map" style="width: 100%; height: 200px"></div>
+            </div>
         </div>
       </div>
     </div><!--termina filtro accordion-->
@@ -203,3 +203,17 @@
 </div><!--box-connect-->
 </div>
 </div><!-- /.container -->
+
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+    var myOptions = {
+        <% if @event.lat && @event.lon %>
+        <%= "zoom:15, center: new google.maps.LatLng(#{@event.lat},#{@event.lon})," %>
+        <% else %>
+        <%= "zoom:2, center: new google.maps.LatLng(-33.468699,-70.641921)," %>
+        <% end %>
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    var map = new google.maps.Map(document.getElementById("map"), myOptions);
+</script>

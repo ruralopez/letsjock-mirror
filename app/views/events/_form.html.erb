@@ -98,7 +98,11 @@
                 </div>
                 <div class="input-prepend">
                   <span class="add-on"><i class="icon-map-marker"></i></span>
-                  <%= f.text_field :place, :placeholder => "Location"%>
+                  <%= f.text_field :place, :placeholder => "Location", :id => "addresspicker_map"%>
+                </div>
+                <div style="width:500px;height:300px;margin-top:20px">
+                  <div id="map_canvas" style="width: 100%; height: 100%; position: relative; background-color: rgb(229, 227, 223); overflow: hidden; -webkit-transform: translateZ(0);"></div>
+                  <div id="location" class=""></div>
                 </div>
                 <h4>Description</h4>
                 <!--Description-->
@@ -108,6 +112,8 @@
                 </div>
                 <div style="display: none;">
                   <%= f.text_field :date, :id => "dateTimeInput" %>
+                  <%= f.text_field :lat, :id => "latInput" %>
+                  <%= f.text_field :lon, :id => "lonInput" %>
                 </div>
                 <%= f.hidden_field :imageurl, :value => @user.profilepic %>
                 <%= f.hidden_field :user_id, :value => @user.id %>
@@ -138,6 +144,9 @@
 
 </div><!-- /.container -->
 
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+<script src="http://mngscl-10.s3-website-us-east-1.amazonaws.com/jquery-addresspicker-bootstrap/lib/bootstrap-typeahead.min.js"></script>
+<script src="http://mngscl-10.s3-website-us-east-1.amazonaws.com/jquery-addresspicker-bootstrap/src/jquery.addresspicker.min.js"></script>
 <script>
     !function ($) {
         $(function(){
@@ -146,5 +155,35 @@
                 $("#dateTimeInput").attr('value',$('#dateInput').val() + " " + $('#hourInput').val() + ":" +  $('#minuteInput').val() + ":00");
             });
         })
-    }(window.jQuery)
+    }(window.jQuery);
+</script>
+<script>
+    $(function() {
+        var addresspickerMap = $( "#addresspicker_map" ).addresspicker(
+                {
+                    regionBias: "de",
+                    map:      "#map_canvas",
+                    typeaheaddelay: 1000,
+                    mapOptions: {
+                        <% if @event.lat && @event.lon %>
+                        <%= "zoom:15, center: new google.maps.LatLng(#{@event.lat},#{@event.lon})" %>
+                        <% else %>
+                        <%= "zoom:10, center: new google.maps.LatLng(-33.468699,-70.641921)" %>
+                        <% end %>
+                    }
+                });
+
+        addresspickerMap.on("addressChanged", function(evt, address) {
+            $("#latInput").attr('value', address.geometry.location.lat());
+            $("#lonInput").attr('value', address.geometry.location.lng());
+            console.dir(address);
+        });
+        addresspickerMap.on("positionChanged", function(evt, markerPosition) {
+            markerPosition.getAddress( function(address) {
+                if (address) {
+                    $( "#addresspicker_map").val(address.formatted_address);
+                }
+            })
+        });
+    });
 </script>
