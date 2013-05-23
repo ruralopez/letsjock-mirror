@@ -1,5 +1,5 @@
 <td><%= image_tag User.find(event.user_id).profilephotourl, :class => "img-rounded" %></td>
-<td>By <b><%= User.find(event.user_id).name %> <%= User.find(event.user_id).lastname %></b>
+<td>By <b><%= link_to User.find(event.user_id).full_name, User.find(event.user_id) %></b>
   <%=	 link_to event do %>
     <h4><%=	 event.name %></h4>
   <%  end %>
