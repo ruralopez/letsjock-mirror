@@ -41,6 +41,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         publisher = Publisher.new(:user_id => @user.id, :pub_type => "U")
+        UserMailer.registration_confirmation(@user).deliver
         if publisher.save
           sign_in @user
           format.html { redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully created.' }
@@ -62,8 +63,10 @@ class UsersController < ApplicationController
         if @user.update_attributes(params[:user])
           
           #Guarda el deporte principal del usuario
-          @user.set_sport_main(params[:sport_id])
-          
+          if params[:sport_id]
+            @user.set_sport_main(params[:sport_id])
+          end
+
           Activity.new(:publisher_id => Publisher.find_by_user_id(@user.id).id, :act_type => "000").save
           
           format.html { redirect_to @user, :notice => 'User was successfully updated.' }
