@@ -540,6 +540,8 @@ class UsersController < ApplicationController
       redirect_to User.find(notification.user2_id)
     elsif notification.not_type == "104"
       redirect_to Event.find(notification.event_id)
+    elsif notification.not_type == "999"
+      redirect_to User.find(notification.user_id)
     end
   end
 
