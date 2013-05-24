@@ -13,7 +13,7 @@
         <% if flash[:error] %>
             <div class="alert alert-error index-flash">
               <button type="button" class="close" data-dismiss="alert">&times;</button>
-              <h4>Login error!</h4> <%=  flash[:error] %>
+              <%=  flash[:error] %><h4><%= link_to 'forgot your password?', forgotten_password_path , :style => "font-size: 10px" %></h4>
             </div>
         <% end %>
         <% if flash[:success] %>

@@ -45,6 +45,7 @@ class UsersController < ApplicationController
           sign_in @user
           UserMailer.registration_confirmation(@user).deliver
           Notification.new(:user_id => @user.id, :read => false, :not_type => "999").save
+          flash[:success] = "Welcome #{@user.full_name}! We sent you a confirmation e-mail to #{@user.email}. Now you can complete your profile!"
           format.html { redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully created.' }
           format.json { render :json => @user, :status => :created, :location => @user }
         end
