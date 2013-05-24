@@ -607,4 +607,8 @@ class NullObject
   def method_missing(*args, &block)
     nil
   end
+  
+  def id
+    nil
+  end
 end
