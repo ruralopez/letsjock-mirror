@@ -1,11 +1,11 @@
-<ul class="experience">
-
+<ul class="experience" data-id="<%= education.id %>" data-type="education">
   <li><h5><i class="icon-bookmark icon-large"></i><%= education.name %></h5></li>
   <% if education.degree %>
       <li><h5><i class="icon-book icon-large"></i><%= education.degree %></h5></li>
   <% end %>
   <% if education.rank %>
-      <li><h5><i class="icon-star"></i><span>Rank:</span> <%= education.rank %></h5></li>
+    <% ranks = [nil, "Top 1%", "Top 5%", "Top 10%", "Top 15%", "Other"] %>
+      <li><h5><i class="icon-star"></i><span>Rank:</span> <%= ranks[education.rank] %></h5></li>
   <% end %>
   <% if education.gda %>
       <li><h5><i class="icon-ok"></i><span>GPA:</span> <%= education.gda %></h5></li>

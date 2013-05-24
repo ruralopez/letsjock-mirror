@@ -11,7 +11,7 @@
           </a>
         </i>
       </div>
-      
+
       <!-- Modal -->
       <div id="imageModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-header">
@@ -31,61 +31,91 @@
           <button class="btn btn-primary btn-success"><i class="icon-arrow-up"></i> Upload</button>
         </div>
       </div>
-      
+
       <div class="event-info">
-        
+
       </div><!--event info-->
     </div><!--box-media-->
-    
+
     <div class="profileInfo relative span9">
       <div class="user">
         <h2>New Event</h2>
         <p>Created by <%= link_to @user.name, profile_path(@user) %></p>
       </div><!--user-->
     </div><!-- /profileInfo -->
-    
+
     <div class="box box-info span6 company">
       <div class="resume">
         <!--begin form-->
-    <%= form_for(@event) do |f| %>
-      <% if @event.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
-          <ul>
-            <% @event.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
+        <%= form_for(@event) do |f| %>
+            <% if @event.errors.any? %>
+                <div id="error_explanation">
+                  <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
+                  <ul>
+                    <% @event.errors.full_messages.each do |msg| %>
+                        <li><%= msg %></li>
+                    <% end %>
+                  </ul>
+                </div>
             <% end %>
-          </ul>
-        </div>
-      <% end %>
-      <% if signed_in? %>
-        <h4>General Information</h4>
-        <!-- Event Name -->
-        <div class="input-prepend">
-          <span class="add-on"><i class="icon-circle"></i></span>
-          <%= f.text_field :name, :placeholder => "Event Name"%>
-          <%= f.hidden_field :imageurl, :value => @user.profilepic %>
-        </div>
-        <div class="input-prepend date" id="dp5" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
-          <span class="add-on"><i class="icon-calendar"></i></span>
-          <%= f.text_field :date, :placeholder => "Event Date", :class => "span2"%>
-        </div>
-        <div class="input-prepend">
-          <span class="add-on"><i class="icon-map-marker"></i></span>
-          <%= f.text_field :place, :placeholder => "Location"%>
-        </div>
-        <h4>Description</h4>
-        <!--Description-->
-        <div class="input-prepend">
-          <span class="add-on"><i class="icon-pencil"></i></span>
-          <%= f.text_area :description, :class => "span5", :rows => "4", :placeholder => "Description" %>
-        </div>
-        <%= f.hidden_field :user_id, :value => @user.id %>
-        <div class="actions">
-          <%= f.submit :class => "btn btn-success"%>
-        </div>
-    <%	 end %>
-  <% end %>
+            <% if signed_in? %>
+                <h4>General Information</h4>
+                <!-- Event Name -->
+                <div class="input-prepend">
+                  <span class="add-on"><i class="icon-circle"></i></span>
+                  <%= f.text_field :name, :placeholder => "Event Name"%>
+                </div>
+
+                <div class="bfh-timepicker" data-time="<% if @event.date %><%= @event.date.strftime("%H:%M") %><% end%>">
+                  <div class="input-prepend bfh-timepicker-toggle" data-toggle="bfh-timepicker">
+                    <span class="add-on"><i class="icon-time"></i></span>
+                    <input type="text" class="input-medium" readonly>
+                  </div>
+                  <div class="bfh-timepicker-popover">
+                    <table class="table">
+                      <tbody>
+                      <tr>
+                        <td class="hour">
+                          <a class="next" href="#"><i class="icon-chevron-up deco-none"></i></a><br>
+                          <input type="text" id="hourInput" class="input-mini mixedInput" readonly><br>
+                          <a class="previous" href="#"><i class="icon-chevron-down deco-none"></i></a>
+                        </td>
+                        <td class="separator">:</td>
+                        <td class="minute">
+                          <a class="next" href="#"><i class="icon-chevron-up deco-none"></i></a><br>
+                          <input type="text" id="minuteInput" class="input-mini mixedInput" readonly><br>
+                          <a class="previous" href="#"><i class="icon-chevron-down deco-none"></i></a>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="input-prepend date" id="dp5" data-date="01-01-2013" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+                  <span class="add-on"><i class="icon-calendar"></i></span>
+                  <input type="text" id="dateInput" class="span2 mixedInput" value="<% if @event.date %><%= @event.date.strftime("%d-%m-%Y") %><% end%>">
+                </div>
+                <div class="input-prepend">
+                  <span class="add-on"><i class="icon-map-marker"></i></span>
+                  <%= f.text_field :place, :placeholder => "Location"%>
+                </div>
+                <h4>Description</h4>
+                <!--Description-->
+                <div class="input-prepend">
+                  <span class="add-on"><i class="icon-pencil"></i></span>
+                  <%= f.text_area :description, :class => "span5", :rows => "4", :placeholder => "Description" %>
+                </div>
+                <div style="display: none;">
+                  <%= f.text_field :date, :id => "dateTimeInput" %>
+                </div>
+                <%= f.hidden_field :imageurl, :value => @user.profilepic %>
+                <%= f.hidden_field :user_id, :value => @user.id %>
+                <div class="actions">
+                  <%= f.submit :class => "btn btn-success"%>
+                </div>
+            <%	 end %>
+        <% end %>
         <!--end form-->
       </div><!--resume-->
     </div><!--span6 company-->
@@ -111,7 +141,10 @@
 <script>
     !function ($) {
         $(function(){
-            $('#dp5').datepicker()
+            $('#dp5').datepicker();
+            $('.container').mousedown(function(){
+                $("#dateTimeInput").attr('value',$('#dateInput').val() + " " + $('#hourInput').val() + ":" +  $('#minuteInput').val() + ":00");
+            });
         })
     }(window.jQuery)
 </script>

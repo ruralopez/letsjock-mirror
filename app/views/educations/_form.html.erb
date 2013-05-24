@@ -1,64 +1,117 @@
-<%= form_tag({:controller => 'users', :action => 'add_new_educational'}, :id => 'new-educational-profile-entry') do  %>
+<% if @edit_profile %>
+    <% form_id = "edit-educational-entry" %>
+<% else %>
+    <% form_id = "new-educational-entry" %>
 
-    <fieldset>
-      <%= hidden_field_tag :user_id, current_user.id %>
-      <div id="divHighSchool-educational" class="hiddenDiv input-prepend">
-        <p>
-          <span class="add-on"><i class="icon-book"></i></span>
-          <%= text_field_tag :highschool_name, nil, :placeholder => "High School Name" %>
-          <%= select_tag :rank, options_for_select([["Top 1%", 1], ["Top 5%", 2], ["Top 10%", 3], ["Top 15%", 4], ["Other", 5]]) %>
-        </p>
-        <span class="add-on"><i class="icon-book"></i></span>
-        <%=	text_field_tag :gda, nil, :placeholder => "GPA" %>
-        <%=	hidden_field_tag :ncaa, 'YES' %>
-      </div>
+<legend>What do you want to add?</legend>
+<div class="header-buttons">
+    <a><button id="education-highschool" class="btn-success hito-click">
+        <i class="icon-book icon-2x"></i>
+        High School
+    </button></a>
+    <a><button id="education-school" class="btn-success hito-click">
+        <i class="icon-briefcase icon-2x"></i>
+        School
+    </button></a>
+</div>
 
-      <div id="divSchool-educational" class="hiddenDiv input-prepend">
+<% end %>
 
-          <span class="add-on"><i class="icon-briefcase"></i></span>
-          <%= text_field_tag :school_name, nil, :placeholder => "School Name" %>
-          <%=	hidden_field_tag :career, 'Default' %>
+<%= form_tag({:controller => 'users', :action => 'add_new_educational'}, :id => form_id) do  %>
+<fieldset>
+<%= hidden_field_tag :user_id, current_user.id %>
+<%= hidden_field_tag :education_id, @education.id if @education.id? %>
 
-        <span class="add-on"><i class="icon-briefcase"></i></span>
-        <%=	text_field_tag :degree, nil, :placeholder => "Degree" %>
-      </div>
-
-      <p>
-      <div id="divLocation-educational" class="input-prepend">
-        <span class="add-on"><i class="icon-map-marker"></i></span>
-        <div class="input-append input-prepend">
-          <%= text_field_tag :country, nil, :placeholder => "Country" %>
+    <div id="divHighSchool-educational" class="<% unless @education.rank? %>hiddenDiv<% end %>" data-validate='["highschool_name"]'>
+        <div class="input-prepend input-append">
+            <span class="add-on"><i class="icon-book"></i></span>
+            <%= text_field_tag :highschool_name, @education.rank? ? @education.name : nil, :placeholder => "High School Name" %>
+            <%= select_tag :rank, options_for_select([["Top 1%", 1], ["Top 5%", 2], ["Top 10%", 3], ["Top 15%", 4], ["Other", 5]], @education.rank) %>
         </div>
-        <%= text_field_tag :city, nil, :placeholder => "City" %>
-      </div>
-
-      <div id="divDate-educational" class="input-prepend">
+        <div class="input-prepend">
+            <span class="add-on"><i class="icon-book"></i></span>
+            <%=	hidden_field_tag :ncaa, 'YES' %>
+            <%=	text_field_tag :gda, @education.gda, :placeholder => "GPA" %>
+        </div>
+    </div>
+    
+    <div id="divSchool-educational" class="<% unless @education.degree? %>hiddenDiv<% end %> input-prepend input-append" data-validate='["school_name", "degree"]'>
+        <span class="add-on"><i class="icon-briefcase"></i></span>
+        <%= text_field_tag :school_name, @education.degree? ? @education.name: nil, :placeholder => "School Name" %>
+        <span class="add-on"><i class="icon-briefcase"></i></span>
+        <%= text_field_tag :degree, @education.degree, :placeholder => "Degree" %>
+    </div>
+    
+    <div id="divLocation-educational" class="input-prepend input-append" data-validate='["country", "city"]'>
+        <span class="add-on"><i class="icon-map-marker"></i></span>
+        <%= text_field_tag :country, @education.career, :placeholder => "Country" %>
+        <%= text_field_tag :city, @education.location, :placeholder => "City" %>
+    </div>
+    
+    <div id="divDate-educational" class="input-prepend" data-validate='["init", "end"]'>
         <div class="input-prepend date" id="dp7" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
           <span class="add-on"><i class="icon-calendar"></i></span>
-          <%= text_field_tag :init, "12-02-2012", :class => "span2"%>
+          <%= text_field_tag :init, @education.init, :placeholder => "Date from", :class => "span2"%>
         </div>
+        
         <div class="input-prepend date" id="dp8" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
           <span class="add-on"><i class="icon-calendar"></i></span>
-          <%= text_field_tag :end, "12-02-2012", :class => "span2" %>
+          <%= text_field_tag :end, @education.end, :placeholder => "Date to", :class => "span2" %>
         </div>
-      </div>
-      </p>
+    </div>
+    
+    <div class="alert alert-error hide">
+        ...
+    </div>
+    
+    <script>
+        !function ($) {
+            $(function(){
+                $('.date').datepicker();
+                $(".hiddenDiv").hide();
+                
+                $("#<%= form_id %>").siblings(".header-buttons").find('#education-school').click(function(){
+                    $('#<%= form_id %> #divSchool-educational').toggle("normal");
+                    
+                    if($('#<%= form_id %> #divHighSchool-educational').is(":visible")){
+                        $('#<%= form_id %> #divHighSchool-educational').toggle("normal");
+                        $('#<%= form_id %> #highschool_name').val("");
+                        $('#<%= form_id %> #rank').val("");
+                        $('#<%= form_id %> #gda').val("");
+                    }
+                });
+                $("#<%= form_id %>").siblings(".header-buttons").find('#education-highschool').click(function(){
+                    $('#<%= form_id %> #divHighSchool-educational').toggle("normal");
+                    
+                    if($('#<%= form_id %> #divSchool-educational').is(":visible")){
+                        $('#<%= form_id %> #divSchool-educational').toggle("normal");
+                        $('#<%= form_id %> #school_name').val("");
+                        $('#<%= form_id %> #degree').val("");
+                    }
+                });
+                
+                $('#<%= form_id %> .btn-success').click(function(e){
+                    e.preventDefault();
+                    var current_form = $('#<%= form_id %>');
+                    var errors = {};
+                    
+                    if( current_form.find("#highschool_name").val() == "" && current_form.find("#school_name").val() == "" )
+                        errors[current_form.attr("id")] = "You must select at least one education category."
+                    
+                    form_profile_validate(current_form, errors);
+                });
+                
+                $('#<%= form_id %> .btn-cancel').click(function(e){
+                    e.preventDefault();
+                    form_profile_cancel($(this));
+                });
+            })
+        }(window.jQuery)
+    </script>
+</fieldset>
 
-      <div id="divDes-working" class="hiddenDiv input-prepend">
-        <span class="add-on"><i class="icon-pencil"></i></span>
-        <textarea rows="3"></textarea>
-      </div>
+<button class="btn pull-right btn-cancel">Cancel</button>
+<button type="submit" class="btn btn-success pull-right"><b>Save</b></button>
 
-
-      <script>
-          !function ($) {
-              $(function(){
-                  $('#dp7').datepicker()
-                  $('#dp8').datepicker()
-              })
-          }(window.jQuery)
-      </script>
-    </fieldset>
-    <button type="submit" class="pull-right btn btn-success"><b>Add</b></button>
-    <div class="clearfix"></div>
+<div class="clearfix"></div>
 <%  end %>
