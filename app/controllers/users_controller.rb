@@ -44,6 +44,7 @@ class UsersController < ApplicationController
         if publisher.save
           sign_in @user
           UserMailer.registration_confirmation(@user).deliver
+          Notification.new(:user_id => @user.id, :read => false, :not_type => "999").save
           format.html { redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully created.' }
           format.json { render :json => @user, :status => :created, :location => @user }
         end
@@ -347,21 +348,23 @@ class UsersController < ApplicationController
 
   def add_new_educational
     if signed_in? && current_user.id == params[:user_id].to_i
-      if params[:init] != "" && params[:end] != ""
-        if params[:highschool_name] != ""
-          @education = Education.new(:name => params[:highschool_name], :career => params[:country], :rank => params[:rank], :gda => params[:gda], :ncaa => params[:ncaa], :country_id => 1, :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
-          @education.save
-        elsif params[:school_name] != ""
-          @education = Education.new(:name => params[:school_name], :career => params[:country], :degree => params[:degree], :country_id => 1, :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
-          @education.save
+      if params[:init] != "" && params[:end] != "" && ( params[:highschool_name] != "" || params[:school_name] != "")
+        
+        if params[:education_id]
+          education = Education.find(params[:education_id])
         else
-          flash[:error] = "You must complete all the required params."
-          redirect_to current_user
+          education = Education.new
+        end
+        
+        if params[:highschool_name] != ""
+          education.update_attributes(:name => params[:highschool_name], :career => params[:country], :rank => params[:rank], :gda => params[:gda], :ncaa => params[:ncaa], :country_id => 46, :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
+        elsif params[:school_name] != ""
+          education.update_attributes(:name => params[:school_name], :career => params[:country], :degree => params[:degree], :country_id => 46, :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
         end
       else
         flash[:error] = "You must complete all the required params."
-        redirect_to current_user
       end
+      
       redirect_to current_user
     else
       flash[:error] = "You must be logged in."
@@ -372,7 +375,7 @@ class UsersController < ApplicationController
   
   def edit_profile
     if signed_in?
-      @recognition = @competition = @result = @team = @train = @trainee = @work = NullObject.new # La clase NullObject está definida al final
+      @recognition = @competition = @result = @team = @train = @trainee = @work = @education = NullObject.new # La clase NullObject está definida al final
       @edit_profile = true
       
       case params[:object_type]
@@ -399,6 +402,8 @@ class UsersController < ApplicationController
         when 'train'
           @train = Train.find(params[:object_id])
           @sport_id = @train.sport_id
+        when 'education'
+          @education = Education.find(params[:object_id])
       end
       
       if @train.id == nil && Train.find(:all, :conditions => ['user_id = ? AND sport_id = ? AND team_id = ?', current_user.id, @sport_id, @team.id]).count > 0
@@ -425,10 +430,60 @@ class UsersController < ApplicationController
       respond_to do |format|
         if @work.id?
           format.js { render 'users/_working_profile_form' }
+        elsif @education.id?
+          format.js { render 'educations/_form' }
         else
           format.js { render 'users/_profile_form' }
         end
       end
+    else
+      redirect_to root_path
+    end
+  end
+  
+  def remove_profile
+    if signed_in?
+      case params[:object_type]
+        when 'work' #Si viene solo work
+          Work.find(params[:object_id]).destroy
+        when 'education'
+          Education.find(params[:object_id]).destroy
+        when 'recognition'
+          recognition = Recognition.find(params[:object_id])
+          
+          recognition.competition.destroy if recognition.competition_id
+          
+          if recognition.team_id
+            team = recognition.team
+          end
+          
+          recognition.destroy
+        when 'competition'
+          competition = Competition.find(params[:object_id])
+          
+          if competition.team_id
+            team = competition.team
+          end
+          
+          competition.destroy
+        when 'team'
+          team = Team.find(params[:object_id])
+        when 'train'
+          Train.find(params[:object_id]).destroy
+      end
+      
+      # Saqué la logica del team porque se repetía bastante en el case
+      if team
+        if team.trains
+          team.trains.each do |t|
+            t.destroy
+          end
+        end
+        
+        team.destroy
+      end
+      
+      redirect_to current_user
     else
       redirect_to root_path
     end

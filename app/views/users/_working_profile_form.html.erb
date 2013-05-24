@@ -2,14 +2,14 @@
 <fieldset>
 <%= hidden_field_tag :user_id, current_user.id %>
 
-    <div id="divCompany-working" class="input-prepend input-append ">
+    <div id="divCompany-working" class="input-prepend input-append" data-validate='["company", "role"]'>
         <span class="add-on"><i class="icon-briefcase"></i></span>
         <%= hidden_field_tag :work_id, @work.id if @work.id? %>
         <%= text_field_tag :company, @work.company, :placeholder => "Company Name" %>
         <%= text_field_tag :role, @work.role, :placeholder => "Title" %>
     </div>
     
-    <div id="divLocation-working" class="input-prepend input-append">
+    <div id="divLocation-working" class="input-prepend input-append" data-validate='["country", "city"]'>
         <span class="add-on"><i class="icon-map-marker"></i></span>
     <% if @edit_profile %>
         <%= text_field_tag :country, Country.find(@work.country_id).name, :readonly => true %>
@@ -19,7 +19,7 @@
         <%= text_field_tag :city, @work.location, :placeholder => "City" %>
     </div>
 
-    <div class="<% unless @sport_id %>hiddenDiv<% end %> input-prepend _js-sport">
+    <div class="<% unless @sport_id %>hiddenDiv<% end %> input-prepend _js-sport" data-validate='["sport_id"]'>
         <span class="add-on"><i class="icon-circle"></i></span>
     <% if @edit_profile %>
         <%= render :partial => 'sports/autocomplete', :locals => { :sport_id => @sport_id } %>
@@ -37,21 +37,21 @@
         <%= text_field_tag :trainee_name, @trainee.name, :placeholder => "Trainee Name" %>
     </div>
     
-    <div class="<% unless @team.id? %>hiddenDiv<% end %> input-prepend input-append _js-team">
+    <div class="<% unless @team.id? %>hiddenDiv<% end %> input-prepend input-append _js-team" data-validate='["team_name", "team_category"]'>
         <span class="add-on"><i class="icon-group"></i></span>
         <%= hidden_field_tag :team_id, @team.id if @team.id? %>
         <%= text_field_tag :team_name, @team.name, :placeholder => "Team Name" %>
         <%= text_field_tag :team_category, @team.category, :placeholder => "Category" %>
     </div>
     
-    <div class="<% unless @recognition.id? %>hiddenDiv<% end %> input-prepend input-append _js-recognition">
+    <div class="<% unless @recognition.id? %>hiddenDiv<% end %> input-prepend input-append _js-recognition" data-validate='["recognition_title", "recognition_by"]'>
         <span class="add-on"><i class="icon-trophy"></i></span>
         <%= hidden_field_tag :recognition_id, @recognition.id if @recognition.id? %>
         <%= text_field_tag :recognition_title, @recognition.description, :placeholder => "Award Title" %>
         <%= text_field_tag :recognition_by, @recognition.awarded_by, :placeholder => "Awarded By" %>
     </div>
     
-    <div class="<% unless @competition.id? %>hiddenDiv<% end %> input-prepend _js-result">
+    <div class="<% unless @competition.id? %>hiddenDiv<% end %> input-prepend _js-result" data-validate='["competition_name", "result_position"]'>
         <span class="add-on"><i class="icon-star"></i></span>
         <div class="input-append input-prepend">
             <%= hidden_field_tag :competition_id, @competition.id if @competition.id? %>
@@ -64,24 +64,26 @@
         <%= hidden_field_tag :result_var, 's'  %>
     </div>
     
-    <div id="divDate-working" class="input-prepend">
+    <div id="divDate-working" class="input-prepend" data-validate='["init"]'>
         <div class="input-prepend date" id="dp5" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
             <span class="add-on"><i class="icon-calendar"></i></span>
             <%= text_field_tag :init, @init, :placeholder => "Date from", :class => "span2"%>
         </div>
-        <div class="input-prepend date" id="dp6" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+        <div class="<% if @edit_profile && !@end %>hiddenDiv<% end %> input-prepend date" id="dp6" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
             <span class="add-on"><i class="icon-calendar"></i></span>
           <%= text_field_tag :end, @end, :placeholder => "Date to", :class => "span2", :id => "end-date-working" %>
         </div>
-        <p>Currently working here <%= check_box_tag :'currently-working' %></p>
+        <p>Currently working here <%= check_box_tag :'currently-working', 1, ( @edit_profile && !@end ) ? true : false %></p>
+    </div>
+    
+    <div class="alert alert-error hide">
+        ...
     </div>
     
     <script>
         !function ($) {
             $(function(){
-                $('#dp5').datepicker();
-                $('#dp6').datepicker();
-                
+                $('.date').datepicker();
                 $(".hiddenDiv").hide();
               
                 $("#<%= @edit_profile ? "edit" : "new" %>-working-entry").siblings(".header-buttons").find(".hito-click").click(function(){
@@ -89,15 +91,22 @@
                     $('#<%= @edit_profile ? "edit" : "new" %>-working-entry ._js-' + $(this).attr("data-block")).toggle("normal");
                 });
                 
-                $('.btn-cancel').click(function(e){
+                 $('#<%= @edit_profile ? "edit" : "new" %>-working-entry .btn-success').click(function(e){
                     e.preventDefault();
+                    var current_form = $('#<%= @edit_profile ? "edit" : "new" %>-working-entry');
+                    var errors = {};
                     
-                    if($(this).parents(".accordion-body").length)
-                        $("a[href=#" + $(this).parents(".accordion-body").attr("id") + "]").click();
-                    else{
-                        $(".resume:hidden ul.experience").not("ul.experience ul.experience").parent().toggle("normal");
-                        $(this).parents(".async-form").toggle("fast").empty();
-                    }
+                    form_profile_validate(current_form, errors);
+                });
+                
+                $('#<%= @edit_profile ? "edit" : "new" %>-working-entry .btn-cancel').click(function(e){
+                    e.preventDefault();
+                    form_profile_cancel($(this));
+                });
+                
+                $('#<%= @edit_profile ? "edit" : "new" %>-working-entry #currently-working').click(function(){
+                    $('#end-date-working').val('');
+                    $('#<%= @edit_profile ? "edit" : "new" %>-working-entry #dp6').toggle("normal");
                 });
             })
         }(window.jQuery)
