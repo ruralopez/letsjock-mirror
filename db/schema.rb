@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130306185215) do
+ActiveRecord::Schema.define(:version => 20130523053849) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -80,6 +80,8 @@ ActiveRecord::Schema.define(:version => 20130306185215) do
     t.string   "imageurl"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "lat"
+    t.string   "lon"
   end
 
   create_table "exams", :force => true do |t|
@@ -280,7 +282,7 @@ ActiveRecord::Schema.define(:version => 20130306185215) do
     t.string   "citybirth"
     t.string   "country"
     t.integer  "phone"
-    t.text     "resume"
+    t.string   "resume"
     t.integer  "height"
     t.integer  "weight"
     t.string   "remember_token"

@@ -24,7 +24,7 @@
               <i class="icon-envelope icon-white"></i><% if current_user.unread_messages.count > 0 %><span style="color: red;"> (<%= current_user.unread_messages.count %>)</span><% end %>
             </a>
             
-            <a href="#" id="notifications-button" class="notifications" style="color: #666666; text-decoration: none;">
+            <a id="notifications-button" class="notifications" style="color: #666666; text-decoration: none; cursor: pointer;">
               <i class="icon-globe icon-white"></i><% if  current_user.new_notifications.count > 0 %> <span style="color: red;"> (<%= current_user.new_notifications.count %>)</span><% end %>
             </a>
             

@@ -86,80 +86,8 @@
 <div class="box box-info span6">
 <script>
 $(document).ready(function(){
-  // EDIT EXPERIENCE ... Solo para el ul.experience padre
-  $('ul.experience').not("ul.experience ul.experience").append($('.edit-experience'));
-  
-  $('#dp2').datepicker();
-  $('.dropdown-toggle').dropdown();
-  
-  function ValidUrl(str) {
-    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-    if(!pattern.test(str)) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-  
   $('#video-submit').click(function(){
     $("#new_video").submit();
-  });
-  $('#education-school').click(function(){
-    $('#divSchool-educational').toggle("normal");
-    if($('#divHighSchool-educational').is(":visible"))
-    {
-      $('#divHighSchool-educational').toggle("normal");
-    }
-  });
-  $('#education-highschool').click(function(){
-    $('#divHighSchool-educational').toggle("normal");
-    if($('#divSchool-educational').is(":visible"))
-    {
-      $('#divSchool-educational').toggle("normal");
-    }
-  });
-  
-  // EDIT PROFILE
-  $('#edit-profile-link').click(function(){
-    $('#edit-profile').toggle("normal").toggleClass("hidden");
-  });
-  $('#edit_user_cancel').click(function(e){
-    e.preventDefault();
-    $('#edit-profile-link').click();
-  });
-  
-  // SHOW LOADING WHILE AJAX CALLING
-  $(document).ajaxStart(function(){
-    $(".box-info .async-form").append("<div id=loading></div>");
-  });
-  $(document).ajaxStop(function(){
-    $("#loading").remove();
-  });
-  
-  // EDIT EXPERIENCE
-  $('.edit-experience-button').click(function(e){
-    e.preventDefault();
-    var data = {};
-    data["object_id"] = $(this).parents("ul.experience").attr("data-id");
-    data["object_type"] = $(this).parents("ul.experience").attr("data-type");
-    
-    // WORKING EXPERIENCE
-    if(data["object_type"] == "work" && $(this).parents("ul.experience").find("ul.experience").length){
-      data["object_id"] = $(this).parents("ul.experience").find("ul.experience").attr("data-id");
-      data["object_type"] = $(this).parents("ul.experience").find("ul.experience").attr("data-type");
-    }
-    
-    $(this).parents(".resume").toggle("normal").after($(".async-form"));
-    $(".box-info .async-form").show().load("/profile/<%= @current_user.id %>/edit_profile", data);
-  });
-  $('#currently-working').click(function(){
-    $('#end-date-working').val('');
-    $('#dp6').toggle("normal");
   });
 });
 </script>
@@ -175,7 +103,7 @@ $(document).ready(function(){
         <!--Last Name-->
         <div class="input-prepend">
           <span class="add-on"><i class="icon-user"></i></span>
-          <%= f.text_field :lastname, :value => current_user.lastname, :placeholder => "Last Name" %>
+          <%= f.text_field :lastname, :value => current_user.lastname, :placeholder => "Last Name", :validation => 'required notBlank' %>
         </div>
         <!--Sport-->
         <div class="input-prepend">
@@ -209,7 +137,7 @@ $(document).ready(function(){
         </div>
         <!--Date-->
         <div id="divDate" class="input-prepend">
-          <div class="input-prepend date" id="dp2" data-date="1995-01-01" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+          <div class="input-prepend date" id="dp2" data-date="<%= current_user.birth ? current_user.birth.strftime("%d-%m-%Y") : '01-01-1990' %>" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
             <span class="add-on"><i class="icon-calendar"></i></span>
             <%= f.text_field :birth, :value => current_user.birth ? current_user.birth.strftime("%d-%m-%Y") : nil, :class => "span2", :placeholder => "Date birth" %>
           </div>
@@ -227,6 +155,12 @@ $(document).ready(function(){
   </div>
 <% if signed_in? && (@user.following?(current_user) || current_user.id == @user.id) %>
     <div class="resume">
+      <% if flash[:success] %>
+          <div class="alert alert-success index-flash">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <%=  flash[:success] %>
+          </div>
+      <% end %>
       <%= @user.resume %>
     </div><!--resume-->
     <div class="resume">
@@ -251,7 +185,7 @@ $(document).ready(function(){
             </div>
           </div>
       <% end %>
-
+      
       <%	if @athleteExperiences.any?  %>
           <%=	 render @athleteExperiences %>
       <%	end %>
@@ -271,14 +205,14 @@ $(document).ready(function(){
                   <% if signed_in? %>
                     <%= render 'working_profile_form'  %>
                   <% else %>
-                      <p>You must be logged in to complete your profile!</p>
+                    <p>You must be logged in to complete your profile!</p>
                   <% end %>
                 </div>
               </div>
             </div>
           </div>
       <% end %>
-
+      
       <%	if @works.any?  %>
           <%=	 render @works %>
       <%	end %>
@@ -295,30 +229,17 @@ $(document).ready(function(){
               </div>
               <div id="collapseAdd3" class="accordion-body collapse" style="height: 0px;">
                 <div class="accordion-inner">
-                  <%	 if signed_in? %>
-                      <legend>What do you want to add?</legend>
-                      <div class="header-buttons">
-                        <a><button id="education-highschool" class="btn-success hito-click">
-                          <i class="icon-book icon-2x"></i>
-                          High School
-                        </button></a>
-                        <a><button id="education-school" class="btn-success hito-click">
-                          <i class="icon-briefcase icon-2x"></i>
-                          School
-                        </button></a>
-                      </div>
-
-                      <%= render 'educations/form'  %>
-
-                  <%	 else %>
-                      <p>You must be logged in to complete your profile!</p>
-                  <%	 end %>
+                  <% if signed_in? %>
+                    <%= render 'educations/form' %>
+                  <% else %>
+                    <p>You must be logged in to complete your profile!</p>
+                  <% end %>
                 </div>
               </div>
             </div>
           </div>
       <% end %>
-
+      
       <%	if @educations.any?  %>
           <%=	 render @educations %>
       <%	end %>
@@ -344,6 +265,16 @@ $(document).ready(function(){
 
 <div class="resume async-form">
   
+</div>
+
+<div class="alert alert-block alert-delete hide">
+  <h4><i class="icon-warning-sign"></i>Warning!</h4>
+  This action will remove permanently this sport information. Are you sure to continue?
+  
+  <button class="btn btn-cancel pull-right">Cancel</button>
+  <button class="btn btn-confirm pull-right"><i class="icon-remove-sign"></i> Delete</button>
+  
+  <div class="clearfix"></div>
 </div>
 
 <%=  render 'photos/photo_modal' %>

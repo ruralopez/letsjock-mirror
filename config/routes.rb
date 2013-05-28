@@ -34,6 +34,7 @@ Letsjock::Application.routes.draw do
   match 'profile/:id/add_new_working' => 'users#add_new_working', :as => :add_new_working
   match 'profile/:id/add_new_educational' => 'users#add_new_educational', :as => :add_new_educational
   match '/profile/:id/edit_profile' => 'users#edit_profile', :as => :edit_profile
+  match '/profile/:id/remove_profile' => 'users#remove_profile', :as => :remove_profile
   match '/notification/:id' => 'users#read_notification', :as => :follow_notification
   match '/search' => 'users#search', :as => :search
   match '/events/:id/join' => 'events#join', :as => :join

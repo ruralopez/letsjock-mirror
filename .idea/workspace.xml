@@ -22,7 +22,7 @@
       <file leaf-file-name="pictures.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/users/pictures.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="39" selection-start="83" selection-end="83" vertical-scroll-proportion="0.0">
+            <state line="1" column="39" selection-start="83" selection-end="83" vertical-scroll-proportion="-0.65384614">
               <folding />
             </state>
           </provider>
@@ -31,7 +31,16 @@
       <file leaf-file-name="_profile_user.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/users/_profile_user.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="227" column="54" selection-start="10529" selection-end="10529" vertical-scroll-proportion="0.0">
+            <state line="153" column="51" selection-start="8068" selection-end="8068" vertical-scroll-proportion="-3.9230769">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="routes.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/routes.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="37" column="51" selection-start="1967" selection-end="1967" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -40,7 +49,7 @@
       <file leaf-file-name="users_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/users_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="542" column="66" selection-start="20507" selection-end="20507" vertical-scroll-proportion="0.35789475">
+            <state line="33" column="63" selection-start="641" selection-end="641" vertical-scroll-proportion="0.38181818">
               <folding />
             </state>
           </provider>
@@ -61,7 +70,7 @@
       <file leaf-file-name="_profile_form.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/users/_profile_form.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="27" selection-start="1291" selection-end="1291" vertical-scroll-proportion="0.0">
+            <state line="34" column="27" selection-start="1320" selection-end="1320" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -77,7 +86,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/users/confirmed_new_password.html.erb" />
         <option value="$PROJECT_DIR$/app/views/user_mailer/new_password.html.erb" />
         <option value="$PROJECT_DIR$/app/views/home/index.html.erb" />
         <option value="$PROJECT_DIR$/app/mailers/user_mailer.rb" />
@@ -91,8 +99,9 @@
         <option value="$PROJECT_DIR$/app/views/users/pictures.html.erb" />
         <option value="$PROJECT_DIR$/Gemfile" />
         <option value="$PROJECT_DIR$/app/views/users/_profile_user.html.erb" />
-        <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/user_mailer/registration_confirmation.html.erb" />
+        <option value="$PROJECT_DIR$/config/routes.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
       </list>
     </option>
   </component>
@@ -158,7 +167,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="db" />
+              <option name="myItemId" value="config" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -172,11 +181,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="db" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="migrate" />
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -194,7 +199,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
+              <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -209,6 +214,14 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javascripts" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -387,16 +400,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/assets/images/connect.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/profile.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-14.9561405" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/bootstrap-image-gallery.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
@@ -434,7 +437,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/users/_profile_form.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="27" selection-start="1291" selection-end="1291" vertical-scroll-proportion="0.0">
+        <state line="34" column="27" selection-start="1320" selection-end="1320" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -454,16 +457,9 @@
         <state line="6" column="46" selection-start="384" selection-end="384" vertical-scroll-proportion="-0.17761989" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/users/_profile_user.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="227" column="54" selection-start="10529" selection-end="10529" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/users/pictures.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="39" selection-start="83" selection-end="83" vertical-scroll-proportion="0.0">
+        <state line="1" column="39" selection-start="83" selection-end="83" vertical-scroll-proportion="-0.65384614">
           <folding />
         </state>
       </provider>
@@ -473,9 +469,23 @@
         <state line="10" column="0" selection-start="235" selection-end="235" vertical-scroll-proportion="0.30195382" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/users/_profile_user.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="153" column="51" selection-start="8068" selection-end="8068" vertical-scroll-proportion="-3.9230769">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/routes.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="51" selection-start="1967" selection-end="1967" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/users_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="542" column="66" selection-start="20507" selection-end="20507" vertical-scroll-proportion="0.35789475">
+        <state line="33" column="63" selection-start="641" selection-end="641" vertical-scroll-proportion="0.38181818">
           <folding />
         </state>
       </provider>

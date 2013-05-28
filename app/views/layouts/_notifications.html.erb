@@ -131,6 +131,19 @@
               </li>
               <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
 
+            <% elsif notification.not_type == "999" %>
+                <li>
+                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                      <div class="popover-left">
+                        <%= image_tag 'default-profile.png'%>
+                      </div><!--popover-left-->
+                      <div class="popover-right">
+                        <span>Welcome <%= User.find(notification.user_id).full_name %>!</span> Here you can check your last notifications
+                        <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                      </div>
+                  <% end %>
+                </li>
+
             <% end %>
          <% end %>
       <% end %>

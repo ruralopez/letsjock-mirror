@@ -109,11 +109,11 @@
         <div class="item-block">
           <a href="<%= event_path(event) %>">
             <div class="item-img">
-              <%= image_tag 'company-1.gif' %>
+              <%= image_tag event.imageurl %>
             </div>
             <div class="item-info">
               <h4><%= event.name %></h4>
-              <p><b>21 assistants</b> <%= event.date.strftime("on %B #{event.date.day.ordinalize}") %></p>
+              <p><b><%= event.assistants.count %> assistants</b> <%= event.date.strftime("on %B #{event.date.day.ordinalize}") %></p>
             </div>
           </a>
         </div><!--item-block-->
