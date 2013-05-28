@@ -36,22 +36,19 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(:phone => 18, :citybirth => "City", :country => "Country", :resume => "", :email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname], :isSponsor => false)
+    @user = User.new(:phone => 18, :citybirth => "City", :country => "Country", :resume => "", :email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname], :isSponsor => false, :authentic_email => false)
 
     respond_to do |format|
       if @user.save
         publisher = Publisher.new(:user_id => @user.id, :pub_type => "U")
         if publisher.save
-          sign_in @user
           UserMailer.registration_confirmation(@user).deliver
           Notification.new(:user_id => @user.id, :read => false, :not_type => "999").save
           flash[:success] = "Welcome #{@user.full_name}! We sent you a confirmation e-mail to #{@user.email}. Now you can complete your profile!"
-          format.html { redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully created.' }
-          format.json { render :json => @user, :status => :created, :location => @user }
+          format.html { redirect_to root_url }
         end
       else
         format.html { render :action => "new" }
-        format.json { render :json => @user, :status => :unprocessable_entity }
       end
     end
   end
@@ -230,20 +227,25 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if @user.authentic_email
       flash[:error] = "Your email has already been validated."
-      redirect_to profile_path(current_user)
+      sign_in(@user)
+      redirect_to profile_path(@user)
     else
       if params[:token] && params[:token] == @user.email_token
         @user.update_attributes(:authentic_email => true)
         flash[:success] = "Your email is now validated."
-        redirect_to welcome_path
+        redirect_to welcome_path(:token => @user.email_token)
       else
-        flash[:error] = "Wrong token."
+        redirect_to root_url
       end
     end
   end
 
   def profile_new
-    @user = current_user
+    if params[:token] && User.exists?(:email_token => params[:token])
+      @user = User.find_by_email_token(params[:token])
+    else
+      redirect_to root_url
+    end
     @sports = Sport.order("parent_id ASC, name ASC").to_json(:only => [ :id, :name, :parent_id ])
   end
 
@@ -602,6 +604,17 @@ class UsersController < ApplicationController
         end
     else
     end
+  end
+
+  def send_mail_auth
+    if params[:email] && User.exists?(:email => params[:email].downcase)
+      user = User.find_by_email(params[:email].downcase)
+      unless user.authentic_email
+        UserMailer.registration_confirmation(user).deliver
+      end
+    end
+    flash[:success] = "The registration email has been sent again."
+    redirect_to root_url
   end
 
 end

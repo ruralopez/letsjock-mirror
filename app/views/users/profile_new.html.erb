@@ -49,7 +49,7 @@
         <!--Sport-->
         <div class="input-prepend">
           <span class="add-on"><i class="icon-circle"></i></span>
-          <%= render :partial => 'sports/autocomplete', :locals => { :sport_id => current_user.get_sport_id_main } %>
+          <%= render :partial => 'sports/autocomplete', :locals => { :sport_id => @user.get_sport_id_main } %>
         </div>
         <br>
         <h4 class="inline">Personal Information</h4><p>Location, Birthday and Description</p>
@@ -70,7 +70,7 @@
         <!--Date-->
         <div class="input-prepend date" id="dp6" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
           <span class="add-on"><i class="icon-calendar"></i></span>
-          <%= f.text_field :birth, :value => current_user.birth ? current_user.birth.strftime("%d-%m-%Y") : nil, :class => "span2", :placeholder => "Date birth" %>
+          <%= f.text_field :birth, :value => @user.birth ? @user.birth.strftime("%d-%m-%Y") : nil, :class => "span2", :placeholder => "Date birth" %>
         </div>
         
         <!--Description-->

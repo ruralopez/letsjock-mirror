@@ -61,6 +61,7 @@ Letsjock::Application.routes.draw do
   match '/change_password' => 'users#change_password', :as => :change_password
   match '/new_password_form' => 'settings#new_password_form', :as => :new_password_form
   match '/invite' => 'users#invite', :as => :invite
+  match '/send_mail_auth' => 'users#send_mail_auth', :as => :send_mail_auth
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

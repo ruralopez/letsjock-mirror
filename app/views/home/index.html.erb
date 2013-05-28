@@ -16,6 +16,12 @@
               <%=  flash[:error] %><h4><%= link_to 'forgot your password?', forgotten_password_path , :style => "font-size: 10px" %></h4>
             </div>
         <% end %>
+        <% if flash[:notice] %>
+            <div class="alert alert-notice index-flash">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <%=  flash[:notice] %> Click <%= link_to "here", send_mail_auth_path(:email => params[:email_attempt]) %> to recieve verification instructions.
+            </div>
+        <% end %>
         <% if flash[:success] %>
             <div class="alert alert-success index-flash">
               <button type="button" class="close" data-dismiss="alert">&times;</button>

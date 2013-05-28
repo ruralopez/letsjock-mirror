@@ -12,8 +12,13 @@ class SessionsController < ApplicationController
       @pass = params[:password]
     end
     if user && user.authenticate(@pass)
-      sign_in user
-      redirect_to news_path
+      if user.authentic_email
+        sign_in user
+        redirect_to news_path
+      else
+        flash[:notice] = "You have not verified your email adress.\n "
+        redirect_to root_url(:email_attempt => user.email)
+      end
     else
       flash[:error] = 'The email or password you entered is incorrect.'
       redirect_to root_url
