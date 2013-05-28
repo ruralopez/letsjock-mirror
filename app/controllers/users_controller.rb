@@ -144,7 +144,9 @@ class UsersController < ApplicationController
     @sports = Sport.order("parent_id ASC, name ASC").to_json(:only => [ :id, :name, :parent_id ])
     #Creando array de Countries para auto-complete
     @countries = Country.select('name').all.map(&:name)
-    
+
+    @asd = NullObject.new
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @user }

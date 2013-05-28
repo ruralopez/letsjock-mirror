@@ -21,24 +21,16 @@
 
     <div class="images span12">
       <div class="image-gallery">
-        <%  @photos.each do |photo| %>
-            <div class="image-editable">
-              <a href="#">
-                <%= image_tag(photo.url) %>
-              </a>
-              <% if signed_in? && @user.id == current_user.id %>
-                  <div class="dropdown pull-right">
-                    <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-cog"></i></a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                      <li><%= link_to raw('<i class="icon-remove"></i> Delete'), photo, :method => :delete, :confirm => "Are you sure you want to delete the selected photo?" %></li>
-                    </ul>
-                  </div>
-              <% end %>
-            </div>
-        <%  end %>
-        <%  @videos.each do |video| %>
-            <%= raw(youtube_embed(video.url,240,200,true)) %>
-        <%  end %>
+        <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+          <a href="http://s3.amazonaws.com/letsjock-photos/brozbzff684k8q30slgfij3e072n6vjh.png" data-gallery="gallery">
+            <img src="http://s3.amazonaws.com/letsjock-photos/brozbzff684k8q30slgfij3e072n6vjh.png"/>
+          </a>
+
+        </div>
+        <div id="modal-gallery" class="modal modal-gallery hide fade" tabindex="-1">
+          <div class="modal-body"><div class="modal-image"></div></div>
+
+        </div>
       </div>
     </div>
 
