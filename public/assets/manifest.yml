@@ -218,6 +218,8 @@ application/index.js: application-016b66476aec29b2fdea150c0e9838c4.js
 events.js: events-21826116d943631aa57a9c1c629bb1ab.js
 events/index.js: events-21826116d943631aa57a9c1c629bb1ab.js
 index.js: index-34c85a43fb2cd89434186728ea8c9ca1.js
+messages.js: messages-e17d6f663dafeaa77658b7e9f751daab.js
+messages/index.js: messages-e17d6f663dafeaa77658b7e9f751daab.js
 photos.js: photos-1e67a1d002f2435edf83c094cb0eb9c3.js
 photos/index.js: photos-1e67a1d002f2435edf83c094cb0eb9c3.js
 users_validations.js: users_validations-edd4eba822a5f463c8146e9760e97066.js
