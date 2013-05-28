@@ -41,7 +41,7 @@
         <%= text_field_tag :train_name, @train.name, :placeholder => "Trainer Name" %>
     </div>
     
-    <div class="<% unless @team.id? %>hiddenDiv<% end %> input-prepend input-append _js-team" data-validate='["team_name", "team_category"]'>
+    <div class="<% unless @team.id? %>hiddenDiv<% end %> input-prepend input-append _js-team" data-validate='["team_name"]'>
         <span class="add-on"><i class="icon-group"></i></span>
         <%= hidden_field_tag :team_id, @team.id if @team.id? %>
         <%= text_field_tag :team_name, @team.name, :placeholder => "Team Name" %>
@@ -71,11 +71,11 @@
     <div id="divDate" class="input-prepend" data-validate='["init", "end"]'>
         <div class="input-prepend date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
             <span class="add-on"><i class="icon-calendar"></i></span>
-            <%= text_field_tag :init, @init, :placeholder => "Date from", :class => "span2"%>
+            <%= text_field_tag :init, @init ? @init.strftime("%d-%m-%Y") : nil, :placeholder => "Date from", :class => "span2"%>
         </div>
         <div class="input-prepend date" id="dp4" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
             <span class="add-on"><i class="icon-calendar"></i></span>
-            <%= text_field_tag :end, @end, :placeholder => "Date to", :class => "span2" %>
+            <%= text_field_tag :end, @end ? @end.strftime("%d-%m-%Y") : nil, :placeholder => "Date to", :class => "span2" %>
         </div>
     </div>
     
@@ -98,10 +98,6 @@
                     e.preventDefault();
                     var current_form = $('#<%= @edit_profile ? "edit" : "new" %>-profile-entry');
                     var errors = {};
-                    
-                    if(   current_form.find("#train_name").val() == "" && current_form.find("#team_name").val() == ""
-                       && current_form.find("#recognition_title").val() == "" && current_form.find("#competition_name").val() == "" )
-                        errors[current_form.attr("id")] = "You must select at least one additional sport information."
                     
                     form_profile_validate(current_form, errors);
                 });
