@@ -37,7 +37,7 @@
         <%= text_field_tag :trainee_name, @trainee.name, :placeholder => "Trainee Name" %>
     </div>
     
-    <div class="<% unless @team.id? %>hiddenDiv<% end %> input-prepend input-append _js-team" data-validate='["team_name", "team_category"]'>
+    <div class="<% unless @team.id? %>hiddenDiv<% end %> input-prepend input-append _js-team" data-validate='["team_name"]'>
         <span class="add-on"><i class="icon-group"></i></span>
         <%= hidden_field_tag :team_id, @team.id if @team.id? %>
         <%= text_field_tag :team_name, @team.name, :placeholder => "Team Name" %>
@@ -67,11 +67,11 @@
     <div id="divDate-working" class="input-prepend" data-validate='["init"]'>
         <div class="input-prepend date" id="dp5" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
             <span class="add-on"><i class="icon-calendar"></i></span>
-            <%= text_field_tag :init, @init, :placeholder => "Date from", :class => "span2"%>
+            <%= text_field_tag :init, @init ? @init.strftime("%d-%m-%Y") : nil, :placeholder => "Date from", :class => "span2"%>
         </div>
         <div class="<% if @edit_profile && !@end %>hiddenDiv<% end %> input-prepend date" id="dp6" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
             <span class="add-on"><i class="icon-calendar"></i></span>
-          <%= text_field_tag :end, @end, :placeholder => "Date to", :class => "span2", :id => "end-date-working" %>
+          <%= text_field_tag :end, @end ? @end.strftime("%d-%m-%Y") : nil, :placeholder => "Date to", :class => "span2", :id => "end-date-working" %>
         </div>
         <p>Currently working here <%= check_box_tag :'currently-working', 1, ( @edit_profile && !@end ) ? true : false %></p>
     </div>

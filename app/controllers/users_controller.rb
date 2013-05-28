@@ -62,8 +62,10 @@ class UsersController < ApplicationController
         if @user.update_attributes(params[:user])
           
           #Guarda el deporte principal del usuario
-          @user.set_sport_main(params[:sport_id])
-          
+          if params[:sport_id]
+            @user.set_sport_main(params[:sport_id])
+          end
+
           Activity.new(:publisher_id => Publisher.find_by_user_id(@user.id).id, :act_type => "000").save
           
           format.html { redirect_to @user, :notice => 'User was successfully updated.' }
@@ -113,7 +115,17 @@ class UsersController < ApplicationController
       @trains = Train.all(:conditions => ['user_id = ?', @user.id], :order => "init DESC, end DESC")
       @results = Result.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date DESC")
       @recognitions = Recognition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date DESC")
-      @athleteExperiences = (@competitions + @teams + @trains + @results + @recognitions)
+      
+      # Solo deportes que no tengan hitos
+      sports_exclude = []
+      (@competitions + @teams + @trains + @results + @recognitions).each do |milestone|
+        sports_exclude.push(milestone.sport_id)
+      end
+      
+      @user_sports = UserSport.all(:conditions => ['user_id = ? AND sport_id NOT IN (?) AND position IS NULL AND init IS NOT NULL AND end IS NOT NULL', @user.id, sports_exclude], :order => "init DESC, end DESC")
+      
+      @athleteExperiences = (@competitions + @teams + @trains + @results + @recognitions + @user_sports)
+      
       #Juntar Works
       @teams_work = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, false], :order => "init DESC")
       @trains_work = Trainee.all(:conditions => ['user_id = ?', @user.id], :order => "init DESC")
@@ -141,7 +153,9 @@ class UsersController < ApplicationController
     @sports = Sport.order("parent_id ASC, name ASC").to_json(:only => [ :id, :name, :parent_id ])
     #Creando array de Countries para auto-complete
     @countries = Country.select('name').all.map(&:name)
-    
+
+    @asd = NullObject.new
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @user }
@@ -276,7 +290,7 @@ class UsersController < ApplicationController
         end
         
         if params[:sport_id] != ""
-          UserSport.new(:user_id => current_user.id, :sport_id => params[:sport_id]).save unless UserSport.exists?(:user_id => current_user.id, :sport_id => params[:sport_id])
+          UserSport.new(:user_id => current_user.id, :sport_id => params[:sport_id], :init => params[:init], :end => params[:end]).save unless UserSport.exists?(:user_id => current_user.id, :sport_id => params[:sport_id])
         end
         
         # TEAM
@@ -405,6 +419,8 @@ class UsersController < ApplicationController
         when 'train'
           @train = Train.find(params[:object_id])
           @sport_id = @train.sport_id
+        when 'user_sport'
+          @sport_id = params[:object_id]
         when 'education'
           @education = Education.find(params[:object_id])
       end
@@ -425,6 +441,10 @@ class UsersController < ApplicationController
       elsif @team.id?
         @init = @team.init
         @end = @team.end
+      else
+        user_sport = UserSport.find(:all, :conditions => ['user_id = ? AND sport_id = ?', current_user.id, @sport_id]).first
+        @init = user_sport.init
+        @end = user_sport.end
       end
       
       #Sacando todos los sports para los botones de agregar entrada
@@ -583,8 +603,8 @@ class UsersController < ApplicationController
       @user = User.find_by_email_token(params[:token])
       @token = params[:token]
       respond_to do |format|
-      format.html
-      format.json
+        format.html
+        format.json
       end
     else
       redirect_to root_url

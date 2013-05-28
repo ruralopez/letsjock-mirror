@@ -35,7 +35,7 @@
       <file leaf-file-name="routes.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/routes.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="17" selection-start="1090" selection-end="1097" vertical-scroll-proportion="-7.16">
+            <state line="27" column="17" selection-start="1090" selection-end="1097" vertical-scroll-proportion="-7.16">
               <folding />
             </state>
           </provider>
@@ -55,7 +55,7 @@
       <file leaf-file-name="users_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/users_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="244" column="28" selection-start="8574" selection-end="8574" vertical-scroll-proportion="-8.36">
+            <state line="93" column="22" selection-start="2707" selection-end="2707" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -64,7 +64,7 @@
       <file leaf-file-name="profile_new.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/users/profile_new.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="76" column="42" selection-start="3089" selection-end="3089" vertical-scroll-proportion="0.4942748">
+            <state line="71" column="46" selection-start="2831" selection-end="2831" vertical-scroll-proportion="0.33206108">
               <folding />
             </state>
           </provider>
@@ -82,8 +82,13 @@
       <file leaf-file-name="index.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/home/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="87" selection-start="909" selection-end="909" vertical-scroll-proportion="-13.076923">
-              <folding />
+            <state line="18" column="87" selection-start="864" selection-end="864" vertical-scroll-proportion="-11.769231">
+              <folding>
+                <marker date="1369782421369" expanded="true" signature="1071:1310" placeholder="if ... end" />
+                <marker date="1369782421369" expanded="true" signature="1860:1915" placeholder="do ... end" />
+                <marker date="1369782421369" expanded="true" signature="2320:3749" placeholder="do ... end" />
+                <marker date="1369782421369" expanded="true" signature="3625:3690" placeholder="do ... end" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -98,7 +103,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/events/show.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/events_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/events/_event.html.erb" />
         <option value="$PROJECT_DIR$/app/views/layouts/_notifications.html.erb" />
@@ -106,14 +110,15 @@
         <option value="$PROJECT_DIR$/app/views/feed/index.html.erb" />
         <option value="$PROJECT_DIR$/app/views/users/_profile_user.html.erb" />
         <option value="$PROJECT_DIR$/app/views/users/social.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/messages/inbox.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/messages.js" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/app/controllers/sessions_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/home/index.html.erb" />
         <option value="$PROJECT_DIR$/app/views/welcome/index.html.erb" />
-        <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/users/profile_new.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/messages/inbox.html.erb" />
+        <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -177,38 +182,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="db" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="letsjock" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="letsjock" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="db" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="migrate" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="letsjock" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="letsjock" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -235,7 +208,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="welcome" />
+              <option name="myItemId" value="messages" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -250,24 +223,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="letsjock" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="letsjock" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mailers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -602,13 +557,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/controllers/relationships_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="47" selection-start="354" selection-end="354" vertical-scroll-proportion="0.39605734">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/application.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -635,13 +583,6 @@
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/users.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="24" column="51" selection-start="923" selection-end="923" vertical-scroll-proportion="0.5368421">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/messages/inbox.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="45" selection-start="2672" selection-end="2672" vertical-scroll-proportion="0.375">
           <folding />
         </state>
       </provider>
@@ -676,14 +617,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/home/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="87" selection-start="909" selection-end="909" vertical-scroll-proportion="-13.076923">
-          <folding />
+        <state line="18" column="87" selection-start="864" selection-end="864" vertical-scroll-proportion="-11.769231">
+          <folding>
+            <marker date="1369782421369" expanded="true" signature="1071:1310" placeholder="if ... end" />
+            <marker date="1369782421369" expanded="true" signature="1860:1915" placeholder="do ... end" />
+            <marker date="1369782421369" expanded="true" signature="2320:3749" placeholder="do ... end" />
+            <marker date="1369782421369" expanded="true" signature="3625:3690" placeholder="do ... end" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/routes.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="17" selection-start="1090" selection-end="1097" vertical-scroll-proportion="-7.16">
+        <state line="27" column="17" selection-start="1090" selection-end="1097" vertical-scroll-proportion="-7.16">
           <folding />
         </state>
       </provider>
@@ -691,13 +637,6 @@
     <entry file="file://$PROJECT_DIR$/db/migrate/20130121123649_create_users.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="32" selection-start="481" selection-end="496" vertical-scroll-proportion="0.5435169">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/users_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="244" column="28" selection-start="8574" selection-end="8574" vertical-scroll-proportion="-8.36">
           <folding />
         </state>
       </provider>
@@ -711,9 +650,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="94" selection-start="73" selection-end="73" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/users_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="93" column="22" selection-start="2707" selection-end="2707" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/messages/inbox.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="47" selection-start="273" selection-end="273" vertical-scroll-proportion="0.259542">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/users/profile_new.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="42" selection-start="3089" selection-end="3089" vertical-scroll-proportion="0.4942748">
+        <state line="71" column="46" selection-start="2831" selection-end="2831" vertical-scroll-proportion="0.33206108">
           <folding />
         </state>
       </provider>
