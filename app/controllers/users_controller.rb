@@ -41,9 +41,10 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         publisher = Publisher.new(:user_id => @user.id, :pub_type => "U")
+        UserMailer.registration_confirmation(@user).deliver
+        
         if publisher.save
           sign_in @user
-          UserMailer.registration_confirmation(@user).deliver
           Notification.new(:user_id => @user.id, :read => false, :not_type => "999").save
           flash[:success] = "Welcome #{@user.full_name}! We sent you a confirmation e-mail to #{@user.email}. Now you can complete your profile!"
           format.html { redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully created.' }
@@ -65,8 +66,10 @@ class UsersController < ApplicationController
         if @user.update_attributes(params[:user])
           
           #Guarda el deporte principal del usuario
-          @user.set_sport_main(params[:sport_id])
-          
+          if params[:sport_id]
+            @user.set_sport_main(params[:sport_id])
+          end
+
           Activity.new(:publisher_id => Publisher.find_by_user_id(@user.id).id, :act_type => "000").save
           
           format.html { redirect_to @user, :notice => 'User was successfully updated.' }
@@ -154,7 +157,9 @@ class UsersController < ApplicationController
     @sports = Sport.order("parent_id ASC, name ASC").to_json(:only => [ :id, :name, :parent_id ])
     #Creando array de Countries para auto-complete
     @countries = Country.select('name').all.map(&:name)
-    
+
+    @asd = NullObject.new
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @user }
@@ -597,8 +602,8 @@ class UsersController < ApplicationController
       @user = User.find_by_email_token(params[:token])
       @token = params[:token]
       respond_to do |format|
-      format.html
-      format.json
+        format.html
+        format.json
       end
     else
       redirect_to root_url

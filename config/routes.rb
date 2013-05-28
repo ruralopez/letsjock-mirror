@@ -35,7 +35,6 @@ Letsjock::Application.routes.draw do
   match 'profile/:id/add_new_educational' => 'users#add_new_educational', :as => :add_new_educational
   match '/profile/:id/edit_profile' => 'users#edit_profile', :as => :edit_profile
   match '/profile/:id/remove_profile' => 'users#remove_profile', :as => :remove_profile
-  
   match '/notification/:id' => 'users#read_notification', :as => :follow_notification
   match '/search' => 'users#search', :as => :search
   match '/events/:id/join' => 'events#join', :as => :join
@@ -51,9 +50,12 @@ Letsjock::Application.routes.draw do
   match '/newprofile' => 'users#profile_new', :as => :newprofile
   match '/newsponsor' => 'users#sponsor_new', :as => :new_sponsor
   match '/createsponsor' => 'users#sponsor_create', :as => :create_sponsor
+  match '/forgotten_password' => 'users#forgotten_password', :as => :forgotten_password
+  match '/new_password_request' => 'users#new_password_request', :as => :new_password_request
+  match '/confirmed_new_password/:token' => 'users#confirmed_new_password', :as => :confirmed_new_password
+  match '/change_password' => 'users#change_password', :as => :change_password
   match '/profile/:id/edit_sponsor' => 'users#sponsor_edit', :as => :edit_sponsor
   match '/profile/:id/new_event' => 'events#new', :as => :new_event
-  
   match '/settings' => 'settings#index', :as => :settings
   match '/forgotten_password' => 'users#forgotten_password', :as => :forgotten_password
   match '/new_password_request' => 'users#new_password_request', :as => :new_password_request

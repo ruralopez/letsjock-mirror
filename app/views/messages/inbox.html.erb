@@ -33,12 +33,14 @@
     <div class="scrolleable">
       <ul class="nav nav-tabs" id="myTab">
         <li>
+          <!--
           <div class="filter">
             <div class="input-append">
               <input id="messageSearch" type="text" placeholder="Find in selected conversation">
               <span class="add-on"><i class="icon-search"></i></span>
             </div>
           </div>
+          -->
         </li>
         <% @users_contacted.each_with_index do |user, index| %>
             <li <% if index == 0 %> class="active" <% end %>>
