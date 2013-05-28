@@ -257,6 +257,7 @@ class UsersController < ApplicationController
   def profile_new
     if params[:token] && User.exists?(:email_token => params[:token])
       @user = User.find_by_email_token(params[:token])
+      sign_in(@user)
     else
       redirect_to root_url
     end
