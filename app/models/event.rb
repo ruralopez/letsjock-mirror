@@ -9,7 +9,7 @@ class Event < ActiveRecord::Base
   has_many :activities
   has_many :notifications
 
-  attr_accessible :date, :description, :name, :imageurl, :user_id, :place
+  attr_accessible :date, :description, :name, :imageurl, :user_id, :place, :lat, :lon
 
   validates :name, :presence => true
   validates :user_id, :presence => true

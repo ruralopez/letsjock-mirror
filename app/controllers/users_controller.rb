@@ -44,6 +44,9 @@ class UsersController < ApplicationController
         UserMailer.registration_confirmation(@user).deliver
         if publisher.save
           sign_in @user
+          UserMailer.registration_confirmation(@user).deliver
+          Notification.new(:user_id => @user.id, :read => false, :not_type => "999").save
+          flash[:success] = "Welcome #{@user.full_name}! We sent you a confirmation e-mail to #{@user.email}. Now you can complete your profile!"
           format.html { redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully created.' }
           format.json { render :json => @user, :status => :created, :location => @user }
         end
@@ -144,7 +147,9 @@ class UsersController < ApplicationController
     @sports = Sport.order("parent_id ASC, name ASC").to_json(:only => [ :id, :name, :parent_id ])
     #Creando array de Countries para auto-complete
     @countries = Country.select('name').all.map(&:name)
-    
+
+    @asd = NullObject.new
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @user }
@@ -541,6 +546,8 @@ class UsersController < ApplicationController
       redirect_to User.find(notification.user2_id)
     elsif notification.not_type == "104"
       redirect_to Event.find(notification.event_id)
+    elsif notification.not_type == "999"
+      redirect_to User.find(notification.user_id)
     end
   end
 
@@ -606,6 +613,10 @@ end
 
 class NullObject
   def method_missing(*args, &block)
+    nil
+  end
+  
+  def id
     nil
   end
 end

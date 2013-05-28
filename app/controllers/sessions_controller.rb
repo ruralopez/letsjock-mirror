@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
       sign_in user
       redirect_to news_path
     else
-      flash[:error] = 'Invalid email/password combination'
+      flash[:error] = 'The email or password you entered is incorrect.'
       redirect_to root_url
     end
   end

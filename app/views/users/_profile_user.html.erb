@@ -155,6 +155,12 @@ $(document).ready(function(){
   </div>
 <% if signed_in? && (@user.following?(current_user) || current_user.id == @user.id) %>
     <div class="resume">
+      <% if flash[:success] %>
+          <div class="alert alert-success index-flash">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <%=  flash[:success] %>
+          </div>
+      <% end %>
       <%= @user.resume %>
     </div><!--resume-->
     <div class="resume">
