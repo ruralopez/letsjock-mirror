@@ -122,7 +122,7 @@ class UsersController < ApplicationController
         sports_exclude.push(milestone.sport_id)
       end
       
-      @user_sports = UserSport.all(:conditions => ['user_id = ? AND sport_id NOT IN (?) AND position IS NULL AND init IS NOT NULL AND end IS NOT NULL', @user.id, sports_exclude], :order => "init DESC, end DESC")
+      @user_sports = UserSport.all(:conditions => ['user_id = ? AND sport_id NOT IN ( ? ) AND position IS NULL AND init IS NOT NULL AND end IS NOT NULL', @user.id, sports_exclude.length > 0 ? sports_exclude : 0 ], :order => "init DESC, end DESC")
       
       @athleteExperiences = (@competitions + @teams + @trains + @results + @recognitions + @user_sports)
       
