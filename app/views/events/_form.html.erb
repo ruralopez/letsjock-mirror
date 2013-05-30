@@ -1,53 +1,44 @@
 <%= stylesheet_link_tag    "profile" %>
 <%= javascript_include_tag "application" %>
+<%= javascript_include_tag "validations" %>
 
 <div class="container">
   <div class="row">
+  <!--begin form-->
+  <%= form_for @event, :html => {:multipart => true, :accept => "image/gif,image/png,image/jpg"} do |f| %>
     <div class="box box-media span3 event-single">
-      <div class="img-polaroid">
-        <i class="default-icon icon-picture icon-4x">
-          <a href="#imageModal" role="button" data-toggle="modal" class="btn btn-success btn-small">
-            <i class="icon-arrow-up"></i> Upload a photo
-          </a>
-        </i>
-      </div>
-
-      <!-- Modal -->
-      <div id="imageModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3 id="myModalLabel"><i class="icon-camera"></i> Upload Photos</h3>
-        </div>
-        <div class="modal-body">
-          <div class="btn-group">
-            <button class="btn btn-success">Browse</button>
-            <button class="btn"><i class="icon-link"></i> URL</button>
+      <div class="img-polaroid fileupload" data-provides="fileupload">
+        <div class="thumbnail">
+          <div class="fileupload-new">
+            <i class="default-icon icon-user icon-4x">
+              <a class="btn btn-file btn-success">Upload a photo<input type="file" name="profile_picture" id="profile_picture" accept="image/*" /></a>
+            </i>
           </div>
-          <input class="span3" type="text" placeholder="http://">
-          <img class="preview" src="img/company-1.gif" />
-        </div>
-        <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-          <button class="btn btn-primary btn-success"><i class="icon-arrow-up"></i> Upload</button>
+          <div class="fileupload-exists">
+            <i class="default-icon">
+              <div class="fileupload-preview">
+                
+              </div>
+              <a class="btn" data-dismiss="fileupload">Remove</a>
+            </i>
+          </div>
         </div>
       </div>
-
+      
       <div class="event-info">
-
+        
       </div><!--event info-->
     </div><!--box-media-->
-
+    
     <div class="profileInfo relative span9">
       <div class="user">
-        <h2>New Event</h2>
+        <h2><%= @event.name ? @event.name : "New Event" %></h2>
         <p>Created by <%= link_to @user.name, profile_path(@user) %></p>
       </div><!--user-->
     </div><!-- /profileInfo -->
-
+    
     <div class="box box-info span6 company">
       <div class="resume">
-        <!--begin form-->
-        <%= form_for(@event) do |f| %>
             <% if @event.errors.any? %>
                 <div id="error_explanation">
                   <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
@@ -63,9 +54,9 @@
                 <!-- Event Name -->
                 <div class="input-prepend">
                   <span class="add-on"><i class="icon-circle"></i></span>
-                  <%= f.text_field :name, :placeholder => "Event Name"%>
+                  <%= f.text_field :name, :placeholder => "Event Name", :validation => 'required notBlank'%>
                 </div>
-
+                
                 <div class="bfh-timepicker" data-time="<% if @event.date %><%= @event.date.strftime("%H:%M") %><% end%>">
                   <div class="input-prepend bfh-timepicker-toggle" data-toggle="bfh-timepicker">
                     <span class="add-on"><i class="icon-time"></i></span>
@@ -91,10 +82,10 @@
                     </table>
                   </div>
                 </div>
-
+      
                 <div class="input-prepend date" id="dp5" data-date="01-01-2013" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
                   <span class="add-on"><i class="icon-calendar"></i></span>
-                  <input type="text" id="dateInput" class="span2 mixedInput" value="<% if @event.date %><%= @event.date.strftime("%d-%m-%Y") %><% end%>">
+                  <input type="text" id="dateInput" class="span2 mixedInput" value="<% if @event.date %><%= @event.date.strftime("%d-%m-%Y") %><% end%>" validation="required notBlank">
                 </div>
                 <div class="input-prepend">
                   <span class="add-on"><i class="icon-map-marker"></i></span>
@@ -115,17 +106,17 @@
                   <%= f.text_field :lat, :id => "latInput" %>
                   <%= f.text_field :lon, :id => "lonInput" %>
                 </div>
-                <%= f.hidden_field :imageurl, :value => @user.profilepic %>
+                <%= f.hidden_field :imageurl, :value => @event.imageurl ? @event.imageurl : @user.profilepic %>
                 <%= f.hidden_field :user_id, :value => @user.id %>
                 <div class="actions">
                   <%= f.submit :class => "btn btn-success"%>
                 </div>
             <%	 end %>
-        <% end %>
-        <!--end form-->
       </div><!--resume-->
     </div><!--span6 company-->
-
+  <% end %>
+  <!--end form-->
+    
     <div class="box box-connect span3">
       <div class="box-content">
         <h4>Need Some Help?</h4>
@@ -139,9 +130,7 @@
         </ul>
       </div>
     </div><!--box-connect-->
-
   </div>
-
 </div><!-- /.container -->
 
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
@@ -149,12 +138,16 @@
 <script src="http://mngscl-10.s3-website-us-east-1.amazonaws.com/jquery-addresspicker-bootstrap/src/jquery.addresspicker.min.js"></script>
 <script>
     !function ($) {
-        $(function(){
-            $('#dp5').datepicker();
-            $('.container').mousedown(function(){
-                $("#dateTimeInput").attr('value',$('#dateInput').val() + " " + $('#hourInput').val() + ":" +  $('#minuteInput').val() + ":00");
-            });
-        })
+      $(function(){
+        $('#dp5').datepicker();
+        $('.container').mousedown(function(){
+          $("#dateTimeInput").attr('value',$('#dateInput').val() + " " + $('#hourInput').val() + ":" +  $('#minuteInput').val() + ":00");
+        });
+        
+        var form;
+        form = $(".new_event");
+        form.validation();
+      })
     }(window.jQuery);
 </script>
 <script>

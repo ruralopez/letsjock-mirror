@@ -854,6 +854,15 @@ ul.sponsor-third li:first-child:before, ul.sponsor-third li:after{
 .image-feature{}
 
 .image-feature .img-polaroid{width:90%; padding:5%;}
+.img-polaroid.fileupload .thumbnail {
+    display: block;
+    margin-bottom: 0px;
+    padding: 0px;
+}
+.img-polaroid.fileupload .thumbnail .fileupload-exists i.default-icon {
+    padding: 0px; 
+    background-color: #FFF;
+}
 
 
 /* To include the dropdown with options */

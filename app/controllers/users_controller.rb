@@ -68,7 +68,18 @@ class UsersController < ApplicationController
 
           Activity.new(:publisher_id => Publisher.find_by_user_id(@user.id).id, :act_type => "000").save
           
-          format.html { redirect_to @user, :notice => 'User was successfully updated.' }
+          format.html {
+            if params[:profile_picture] != "" #Sube la foto de perfil si viene de la vista profile_new
+              url = Photo.upload_file(params[:profile_picture])
+              
+              if url != ""
+                Photo.create(:user_id => @user.id, :url => url)
+                @user.update_attribute(:profilephotourl, url)
+              end
+            end
+            
+            redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully updated.'
+          }
           format.json { head :no_content }
         else
           format.html { render :action => "edit" }

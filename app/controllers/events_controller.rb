@@ -75,6 +75,12 @@ class EventsController < ApplicationController
           if eventadmin.save && publisher.save && eventuser.save
             Subscription.new(:user_id => current_user.id, :publisher_id => publisher.id).save
             Activity.new(:publisher_id => Publisher.find_by_user_id(@event.user_id).id, :event_id => @event.id, :act_type => "031").save
+            
+            if params[:profile_picture] != ""
+              url = Photo.upload_file(params[:profile_picture])
+              @event.update_attribute(:imageurl, url) if url != ""
+            end
+            
             format.html { redirect_to @event, :notice => 'Event was successfully created.' }
             format.json { render :json => @event, :status => :created, :location => @event }
           end

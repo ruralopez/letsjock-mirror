@@ -3,13 +3,25 @@
 
 <div class="container">
   <div class="row">
+    <!--begin form-->
+    <%= form_for @user, :html => {:multipart => true, :accept => "image/gif,image/png,image/jpg"} do |f| %>
     <div class="box box-media span3 event-single">
-      <div class="img-polaroid">
-        <i class="default-icon icon-user icon-4x">
-          <a href="#photoModal" role="button" data-toggle="modal" class="btn btn-success btn-small">
-            <i class="icon-arrow-up"></i> Upload a photo
-          </a>
-        </i>
+      <div class="img-polaroid fileupload" data-provides="fileupload">
+        <div class="thumbnail">
+          <div class="fileupload-new">
+            <i class="default-icon icon-user icon-4x">
+              <a class="btn btn-file btn-success">Upload a photo<input type="file" name="profile_picture" id="profile_picture" accept="image/*" /></a>
+            </i>
+          </div>
+          <div class="fileupload-exists">
+            <i class="default-icon">
+              <div class="fileupload-preview">
+                
+              </div>
+              <a class="btn" data-dismiss="fileupload">Remove</a>
+            </i>
+          </div>
+        </div>
       </div>
       
       <div class="event-info">
@@ -26,8 +38,6 @@
     
     <div class="box box-info span6 company">
       <div class="resume">
-        <!--begin form-->
-    <%= form_for(@user) do |f| %>
       <% if @user.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -82,10 +92,11 @@
         <div class="actions">
           <%= f.submit :class => "btn btn-success"%>
         </div>
-    <% end %>
-        <!--end form-->
       </div><!--resume-->
     </div><!--span6 company-->
+    
+    <% end %>
+    <!--end form-->
     
     <div class="box box-connect span3">
       <div class="box-content">
@@ -104,43 +115,10 @@
   </div>
 </div>
 
-<div id="photoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel"><i class="icon-camera"></i> Upload First Photo</h3>
-  </div>
-  <div class="modal-body">
-    <% if signed_in? %>
-
-        <div class="fileupload fileupload-new" data-provides="fileupload">
-          <div class="btn-group">
-            <button class="btn btn-success btn-file fileupload-new btn-photo-down">Browse<input type="file" /></button>
-            <button class="btn btn-success btn-file fileupload-exists">Change<input type="file" /></button>
-            <button class="btn" id="btn-photo-1" data-toggle="button"><i class="icon-link"></i> URL</button>
-          </div>
-
-          <input class="span3" type="text" placeholder="http://">
-
-          <div style="height: 240px">
-            <div class="event-pictures fileupload-preview fileupload-exists thumbnail" style="height: 230px; width: 350px; margin: 0 auto;"></div>
-            <div class="event-pictures fileupload-new thumbnail" style="width: 350px; height: 230px; margin: 0 auto;"><img id="image-upload-input" src="" /></div>
-            <a class="close fileupload-exists" data-dismiss="fileupload" aria-hidden="true">×</a>
-          </div>
-        </div>
-    <% else %>
-        <p>You must be logged in to upload photos!</p>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button id="photo-submit" class="btn btn-primary">Upload</button>
-  </div>
-</div>
-
 <script>
-    !function ($) {
-        $(function(){
-            $('#dp6').datepicker()
-        })
-    }(window.jQuery)
+  !function ($) {
+    $(function(){
+      $('#dp6').datepicker();
+    })
+  }(window.jQuery)
 </script>
