@@ -69,10 +69,10 @@ class UsersController < ApplicationController
           Activity.new(:publisher_id => Publisher.find_by_user_id(@user.id).id, :act_type => "000").save
           
           format.html {
-            if params[:profile_picture] != "" #Sube la foto de perfil si viene de la vista profile_new
+            if params[:profile_picture] && params[:profile_picture] != "" #Sube la foto de perfil si viene de la vista profile_new
               url = Photo.upload_file(params[:profile_picture])
               
-              if url != ""
+              if url && url != ""
                 Photo.create(:user_id => @user.id, :url => url)
                 @user.update_attribute(:profilephotourl, url)
               end
@@ -446,6 +446,8 @@ class UsersController < ApplicationController
       if @work.id?
         @init = @work.init
         @end = @work.end
+      elsif @education.id?
+        # Ya lleva la fecha
       elsif @competition.id?
         @result = Result.find(:all, :conditions => ['user_id = ? AND sport_id = ? AND competition_id = ?', current_user.id, @sport_id, @competition.id]).first
         @init = @competition.init
