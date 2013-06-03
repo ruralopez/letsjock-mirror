@@ -2,6 +2,9 @@
 <%= stylesheet_link_tag    "profile" %>
 <%= javascript_include_tag "application" %>
 <%= javascript_include_tag "users_validations" %>
+<%= javascript_include_tag "load-image" %>
+<%= javascript_include_tag "bootstrap-image-gallery" %>
+<%= stylesheet_link_tag    "bootstrap-image-gallery" %>
 
 <% provide(:title, @user.full_name) %>
 
@@ -27,12 +30,15 @@
     <!-- <h5><i class="icon-star"></i>Featured info</h5> -->
     <h5><i class="icon-camera"></i><%= link_to 'Pictures' , pictures_path(@user) %></h5>
     <div class="event-pictures">
+      <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
       <%  @photos.take(6).each do |photo| %>
           <%	 if photo.url != @user.profilephotourl %>
-                  <%= link_to image_tag(photo.url) , '#' %>
+                  <%= link_to image_tag(photo.url) , photo.url, "data-gallery" => "gallery" %>
           <% end %>
       <%  end %>
+      </div>
     </div><!--user-pictures-->
+    
     <h5 class="white">
       <%= @photos.count %> pictures
       <%= link_to 'see more' , pictures_path(@user) %>
@@ -275,6 +281,11 @@ $(document).ready(function(){
   <button class="btn btn-confirm pull-right"><i class="icon-remove-sign"></i> Delete</button>
   
   <div class="clearfix"></div>
+</div>
+
+<!-- modal-gallery is the modal dialog used for the image gallery -->
+<div id="modal-gallery" class="modal modal-gallery hide fade" tabindex="-1">
+  <div class="modal-body"><div class="modal-image"></div></div>
 </div>
 
 <%=  render 'photos/photo_modal' %>
