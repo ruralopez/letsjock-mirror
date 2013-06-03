@@ -7,6 +7,9 @@ gem 'rails', '3.2.9'
 
 gem 'heroku'
 gem 'aws-s3', '0.6.3', :require => 'aws/s3'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 
 group :development, :test do
   gem 'mysql2'

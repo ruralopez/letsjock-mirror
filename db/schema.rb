@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130523053849) do
+ActiveRecord::Schema.define(:version => 20130528140142) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -185,7 +185,7 @@ ActiveRecord::Schema.define(:version => 20130523053849) do
     t.integer  "team_id"
     t.integer  "work_id"
     t.string   "position"
-    t.integer  "value"
+    t.string   "value"
     t.string   "var"
     t.date     "date"
     t.boolean  "as_athlete"
@@ -265,6 +265,8 @@ ActiveRecord::Schema.define(:version => 20130523053849) do
     t.integer  "user_id",    :null => false
     t.integer  "sport_id",   :null => false
     t.string   "position"
+    t.date     "init"
+    t.date     "end"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -282,7 +284,7 @@ ActiveRecord::Schema.define(:version => 20130523053849) do
     t.string   "citybirth"
     t.string   "country"
     t.integer  "phone"
-    t.string   "resume"
+    t.text     "resume"
     t.integer  "height"
     t.integer  "weight"
     t.string   "remember_token"

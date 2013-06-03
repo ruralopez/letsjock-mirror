@@ -64,6 +64,8 @@ Letsjock::Application.routes.draw do
   match '/new_password_form' => 'settings#new_password_form', :as => :new_password_form
   match '/invite' => 'users#invite', :as => :invite
   match '/send_mail_auth' => 'users#send_mail_auth', :as => :send_mail_auth
+  match 'auth/:provider/callback', to: 'sessions#create'
+  match 'auth/failure', to: redirect('/')
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
