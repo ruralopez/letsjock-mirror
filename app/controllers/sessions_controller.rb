@@ -5,17 +5,26 @@ class SessionsController < ApplicationController
 
   def create
     if params[:provider] == "facebook"
-      omniauth = request.env['omniauth.auth']
+      omniauth = request.env["omniauth.auth"]
       if omniauth
         if User.exists?(:email => omniauth['extra']['raw_info']['email'])
           userFB = User.find_by_email(omniauth['extra']['raw_info']['email'])
           sign_in userFB
           redirect_to news_path
         else
-
+          @newUser = User.new(:password => "jhdgksduhfk", :email => omniauth['extra']['raw_info']['email'], :name => omniauth['extra']['raw_info']['first_name'], :lastname => omniauth['extra']['raw_info']['last_name'], :profilephotourl => omniauth.info.image, :resume => "", :authentic_email => true, :isSponsor => false, :birth => omniauth.extra.raw_info.birthday)
+          if @newUser.save
+            Publisher.new(:user_id => @newUser.id, :pub_type => "U").save
+            Notification.new(:user_id => @newUser.id, :read => false, :not_type => "999").save
+            sign_in @newUser
+            redirect_to newprofile_path
+          else
+            flash[:notice] = "Something went wrong."
+            redirect_to root_url
+          end
         end
       else
-        flash[:error] = "Something went wrong."
+        flash[:notice] = "Something went wrong."
         redirect_to root_url
       end
     elsif params[:provider] == "twitter"

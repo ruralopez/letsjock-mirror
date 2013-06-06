@@ -62,7 +62,7 @@ class UsersController < ApplicationController
         if @user.update_attributes(params[:user])
           
           #Guarda el deporte principal del usuario
-          if params[:sport_id]
+          if params[:sport_id] != ""
             @user.set_sport_main(params[:sport_id])
           end
 
@@ -269,6 +269,8 @@ class UsersController < ApplicationController
     if params[:token] && User.exists?(:email_token => params[:token])
       @user = User.find_by_email_token(params[:token])
       sign_in(@user)
+    elsif signed_in?
+      @user = current_user
     else
       redirect_to root_url
     end
