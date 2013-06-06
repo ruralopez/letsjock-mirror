@@ -7,27 +7,29 @@
          <% @global_notifications.each do |notification| %>
 
             <% if notification.not_type == "003" && User.exists?(notification.user2_id) %>
+                <% user = User.find(notification.user2_id) %>
                 <li>
                   <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
                       <div class="popover-left">
-                        <%= image_tag (User.find(notification.user2_id).profilepic)%>
+                        <%= image_tag (user.profilepic)%>
                       </div><!--popover-left-->
                       <div class="popover-right">
-                        <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
+                        <span><%= user.full_name %></span> is now following you
                         <small><%= time_ago_in_words(notification.created_at) %> ago</small>
                       </div>
                   <% end %>
                 </li>
 
             <% elsif notification.not_type == "104" %>
+                <% event = Event.find(notification.event_id) %>
                 <li>
                   <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
                       <div class="popover-left">
-                        <%= image_tag (Event.find(notification.event_id).imageurl)%>
+                        <%= image_tag (event.imageurl)%>
                         <i class="icon-calendar"></i>
                       </div><!--popover-left-->
                       <div class="popover-right">
-                        <span><%=	Event.find(notification.event_id).name %></span> has new information
+                        <span><%= event.name %></span> has new information
                         <small><%= time_ago_in_words(notification.created_at) %> ago</small>
                       </div>
                   <% end %>

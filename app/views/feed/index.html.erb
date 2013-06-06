@@ -80,94 +80,104 @@
 <% @news.each do |n| %>
 
     <% if n.act_type == "000"%>
+      <% user = n.publisher.user %>
         <li><!--NOMBRE_APELLIDO has updated his/her profile-->
           <a class="img-rounded">
-            <%= image_tag User.find(Publisher.find(n.publisher_id).user_id).profilephotourl%>
+            <%= image_tag user.profilephotourl%>
           </a>
           <div class="single-post">
-            <%= link_to User.find(Publisher.find(n.publisher_id).user_id).full_name, User.find(Publisher.find(n.publisher_id).user_id)%>
+            <%= link_to user.full_name, profile_path(user) %>
             <p><b>Has updated</b> his/her profile</p>
             <p><small>on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
         </li>
     <% elsif n.act_type == "010" && n.user %>
+      <% publisher_user = n.publisher.user %>
+      <% followed_user = n.user %>
         <li><!-- NOMBRE_APELLIDO is following NOMBRE_APELLIDO-->
           <a class="img-rounded" href="#">
-            <%= image_tag User.find(Publisher.find(n.publisher_id).user_id).profilephotourl%>
+            <%= image_tag publisher_user.profilephotourl%>
           </a>
           <div class="single-post">
-            <%= link_to User.find(Publisher.find(n.publisher_id).user_id).full_name, User.find(Publisher.find(n.publisher_id).user_id)%>
-            <p>is following <%= link_to User.find(n.user_id).full_name, User.find(n.user_id)%></p>
+            <%= link_to publisher_user.full_name, profile_path(publisher_user) %>
+            <p>is following <%= link_to followed_user.full_name, profile_path(followed_user) %></p>
             <div class="user-avatar">
-              <%= link_to image_tag(User.find(n.user_id).profilephotourl, :class => "img-rounded"), User.find(n.user_id) %>
+              <%= link_to image_tag(followed_user.profilephotourl, :class => "img-rounded"), profile_path(followed_user) %>
             </div>
             <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
         </li>
     <% elsif n.act_type == "011"%>
+      <% user = n.publisher.user %>
         <li><!--NOMBRE_APELLIDO has a new follower-->
           <a class="img-rounded" href="#">
-            <%= image_tag User.find(Publisher.find(n.publisher_id).user_id).profilephotourl%>
+            <%= image_tag user.profilephotourl%>
           </a>
           <div class="single-post">
-            <%= link_to User.find(Publisher.find(n.publisher_id).user_id).full_name, User.find(Publisher.find(n.publisher_id).user_id)%>
+            <%= link_to user.full_name, profile_path(user) %>
             <p>has a new follower</p>
             <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
         </li>
     <% elsif n.act_type == "020"%>
-        <%	if Photo.find(n.photo_id)  %>
+      <% if Photo.find(n.photo_id) %>
+        <% user = n.publisher.user %>
         <li><!--NOMBRE_APELLIDO added a new photo-->
           <a class="img-rounded">
-            <%= image_tag User.find(Publisher.find(n.publisher_id).user_id).profilephotourl%>
+            <%= image_tag user.profilephotourl%>
           </a>
           <div class="single-post">
-            <%= link_to User.find(Publisher.find(n.publisher_id).user_id).full_name, User.find(Publisher.find(n.publisher_id).user_id)%>
+            <%= link_to user.full_name, profile_path(user) %>
             <p>added a new photo</p>
             <%= image_tag Photo.find(n.photo_id).url, :class => "img-polaroid"%>
             <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
         </li>
-        <%	end  %>
+      <% end %>
     <% elsif n.act_type == "021"%>
-        <%	if Video.find(n.video_id)  %>
-            <li><!--NOMBRE_APELLIDO added a new video-->
-              <a class="img-rounded">
-                <%= image_tag User.find(Publisher.find(n.publisher_id).user_id).profilephotourl%>
-              </a>
-              <div class="single-post">
-                <%= link_to User.find(Publisher.find(n.publisher_id).user_id).full_name, User.find(Publisher.find(n.publisher_id).user_id)%>
-                <p>added a new video</p>
-                <%= raw(youtube_embed(Video.find(n.video_id).url,305,230,true)) %>
-                <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
-              </div>
-            </li>
-        <%	end  %>
-    <% elsif n.act_type == "030"%>
-        <li><!--NOMBRE_APELLIDO joined NOMBRE_EVENTO on FECHA-->
-          <a class="img-rounded" href="#">
-            <%= image_tag User.find(Publisher.find(n.publisher_id).user_id).profilephotourl%>
+      <% if Video.find(n.video_id) %>
+        <% user = n.publisher.user %>
+        <li><!--NOMBRE_APELLIDO added a new video-->
+          <a class="img-rounded">
+            <%= image_tag user.profilephotourl%>
           </a>
           <div class="single-post">
-            <%= link_to User.find(Publisher.find(n.publisher_id).user_id).full_name, User.find(Publisher.find(n.publisher_id).user_id)%>
-            <p>joined <%= link_to Event.find(n.event_id).name, Event.find(n.event_id)%> on <b><%= Event.find(n.event_id).date.strftime("%B %d") %></b></p>
+            <%= link_to user.full_name, profile_path(user) %>
+            <p>added a new video</p>
+            <%= raw(youtube_embed(Video.find(n.video_id).url,305,230,true)) %>
+            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+          </div>
+        </li>
+      <% end %>
+    <% elsif n.act_type == "030"%>
+      <% user = n.publisher.user %>
+      <% event = n.event %>
+        <li><!--NOMBRE_APELLIDO joined NOMBRE_EVENTO on FECHA-->
+          <a class="img-rounded" href="#">
+            <%= image_tag user.profilephotourl%>
+          </a>
+          <div class="single-post">
+            <%= link_to user.full_name, profile_path(user) %>
+            <p>joined <%= link_to event.name, event %> on <b><%= event.date.strftime("%B %d") %></b></p>
             <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
         </li>
     <% elsif n.act_type == "031"%>
+      <% user = n.publisher.user %>
+      <% event = n.event %>
         <li><!--NOMBRE_INSTITUCIÓN posted a new event NOMBRE_EVENTO on FECHA-->
           <a class="img-rounded" href="#">
-            <%= image_tag User.find(Publisher.find(n.publisher_id).user_id).profilephotourl%>
+            <%= image_tag user.profilephotourl%>
           </a>
           <div class="single-post">
-            <%= link_to User.find(Publisher.find(n.publisher_id).user_id).full_name, User.find(Publisher.find(n.publisher_id).user_id)%>
-            <p>Posted a new event <%= link_to Event.find(n.event_id).name, Event.find(n.event_id)%> on <b><%= Event.find(n.event_id).date.strftime("%B %d") %></b></p>
+            <%= link_to user.full_name, profile_path(user) %>
+            <p>Posted a new event <%= link_to event.name, event %> on <b><%= event.date.strftime("%B %d") %></b></p>
             <div class="img-polaroid company-resume">
-              <%= image_tag Event.find(n.event_id).imageurl %>
-              <h4><%= link_to Event.find(n.event_id).name, Event.find(n.event_id)%></h4>
-              <i class="icon-calendar"></i><p><%= Event.find(n.event_id).date.strftime("%B %d") %></p>
-              <i class="icon-time"></i><p><%= Event.find(n.event_id).date.strftime("%R") %></p>
-              <i class="icon-map-marker"></i><p><%= Event.find(n.event_id).place %></p>
+              <%= image_tag event.imageurl %>
+              <h4><%= link_to event.name, event %></h4>
+              <i class="icon-calendar"></i><p><%= event.date.strftime("%B %d") %></p>
+              <i class="icon-time"></i><p><%= event.date.strftime("%R") %></p>
+              <i class="icon-map-marker"></i><p><%= event.place %></p>
             </div>
             <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
@@ -175,16 +185,17 @@
     <% elsif n.act_type == "100"%>
         <!-- <p>Event Update Info</p> -->
     <% elsif n.act_type == "101"%>
+      <% event = n.publisher.event %>
         <li><!-- NOMBRE_EVENTO has new post -->
           <a class="img-rounded" href="#">
             <i class="icon-calendar icon-2x"></i>
           </a>
           <div class="single-post">
-            <p><%= link_to Event.find(Publisher.find(n.publisher_id).event_id).name, Event.find(Publisher.find(n.publisher_id).event_id)%> has a new post</p>
+            <p>Event <%= link_to event.name, event %> has a new post</p>
             <div class="img-polaroid company-resume">
               <i class="icon-bullhorn"></i><br>
-              <p> <%=  Post.find(n.post_id).content %>
-                <%= link_to 'See more', Event.find(Publisher.find(n.publisher_id).event_id), :class => 'see-more'%>
+              <p> <%= n.post.content %>
+                <%= link_to 'See more', event, :class => 'see-more'%>
               </p>
             </div>
             <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
