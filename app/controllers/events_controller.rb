@@ -9,7 +9,6 @@ class EventsController < ApplicationController
       else
         @date -= params[:page].to_i.abs.weeks
       end
-
     else
       params[:page] = 0
     end
