@@ -90,7 +90,7 @@
             <p><small>on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
         </li>
-    <% elsif n.act_type == "010"%>
+    <% elsif n.act_type == "010" && n.user %>
         <li><!-- NOMBRE_APELLIDO is following NOMBRE_APELLIDO-->
           <a class="img-rounded" href="#">
             <%= image_tag User.find(Publisher.find(n.publisher_id).user_id).profilephotourl%>

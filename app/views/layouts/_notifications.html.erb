@@ -6,7 +6,7 @@
       <%	 if @global_notifications %>
          <% @global_notifications.each do |notification| %>
 
-            <% if notification.not_type == "003" %>
+            <% if notification.not_type == "003" && User.exists?(notification.user2_id) %>
                 <li>
                   <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
                       <div class="popover-left">
