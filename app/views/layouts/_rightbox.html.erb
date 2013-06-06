@@ -8,7 +8,7 @@
 <div class="box-content">
   <h4>People you may know</h4>
   <ul class="aside connect-people">
-    <%  User.find(:all, :conditions => ["id NOT IN (?) AND id != ?", current_user.followed_users, current_user.id] ).sample(4).each do |user| %>
+    <%  User.find(:all, :conditions => ["id NOT IN (?) AND id != ?", current_user.followed_users.count > 0 ? current_user.followed_users : 0 , current_user.id] ).sample(4).each do |user| %>
         <li id="follow-user-mini-<%= user.id %>">
           <div class="img-container">
             <%= image_tag user.profilepic %>

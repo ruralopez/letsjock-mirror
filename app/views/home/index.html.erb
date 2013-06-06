@@ -47,7 +47,7 @@
             <%= f.text_field :lastname, :class => "input-small input-block-level", :name => "lastname", :placeholder => "Apellido", :validation => 'required notBlank' %>
             <%= f.text_field :email, :class => "input-small input-block-level", :name => "email", :placeholder => "Email", :validation => 'email required notBlank' %>
             <%= f.password_field :password, :class => "input-small input-block-level", :name => "password", :placeholder => "Contraseña", :validation => 'required lengthMin6 notBlank' %>
-            <%= f.select :gender, [["Hombre", "Male"], ["Mujer", "Female"]], :class => "input-small input-block-level", :name => "gender" %>
+            <%= f.select :gender, [['Selecciona tu género', nil], ['Hombre', 'M'], ['Mujer', 'F']], :class => "input-small input-block-level", :name => "gender" %>
             <p>Al hacer click en Regístrate en Let’s Jock, aceptas nuestros <a class="forgot" href="/about#terms-conditions">"Terms & Conditions"</a> y que has leído nuestra <a class="forgot" href="/about#privacy-policy">"Privacy Policy"</a>.</p>
             <%= content_tag :button, :type => :submit, :class => "btn btn-success pull-right clearfix" do %>
                 Regístrate en Let's Jock
