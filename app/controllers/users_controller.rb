@@ -1,4 +1,13 @@
 class UsersController < ApplicationController
+  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile]
+  
+  def verify_login
+    unless signed_in?
+      flash[:error] = "You must be logged in."
+      redirect_to root_path and return
+    end
+  end
+  
   # GET /users
   # GET /users.json
   def index
