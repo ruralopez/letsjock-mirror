@@ -114,8 +114,14 @@ class UsersController < ApplicationController
   def profile
     #@usersport = UserSport.all
     @user = User.find(params[:id])
-    if signed_in? && current_user.id == 1
-      Stat.new(:user_id => current_user.id, :type => "User", :info => {:target_id => @user.id}).save
+
+    if signed_in?
+      userstats = Stat.all(:conditions => ["user_id = ? AND type = ? AND created_at between ? AND ?", current_user.id, "User", Time.zone.now.beginning_of_day, Time.zone.now.end_of_day])
+      userstats.each do |st|
+        if  YAML.load(st.info[:target_id]) != @user.id
+          Stat.new(:user_id => current_user.id, :type => "User", :info => {:target_id => @user.id}).save
+        end
+      end
     end
 
     if @user.isSponsor?
