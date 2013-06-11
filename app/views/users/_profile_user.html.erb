@@ -169,86 +169,50 @@ $(document).ready(function(){
       <% end %>
       <%= @user.resume %>
     </div><!--resume-->
+    
     <div class="resume">
-      <h4>Jock Information</h4>
+      <h4 class="inline">Jock Information</h4>
+      <a href="#" class="add-new pull-right"><span>+</span>Add Sport Experience</a>
+      
       <% if signed_in? && current_user.id == @user.id %>
-          <div class="accordion" id="accordion3"> <!--mapa-->
-            <div class="accordion-group events-filter">
-              <div class="accordion-heading">
-                <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion3" href="#collapseAdd">
-                  <span>+</span>Add Sport Experience
-                </a>
-              </div>
-              <div id="collapseAdd" class="accordion-body collapse" style="height: 0px;">
-                <div class="accordion-inner">
-                  <%	 if signed_in? %>
-                      <%= render 'profile_form'  %>
-                  <%	 else %>
-                      <p>You must be logged in to complete your profile!</p>
-                  <%	 end %>
-                </div>
-              </div>
-            </div>
-          </div>
+        <%= render 'profile_form'  %>
+      <% else %>
+        <p>You must be logged in to complete your profile!</p>
       <% end %>
       
-      <%	if @athleteExperiences.any?  %>
-          <%=	 render @athleteExperiences %>
-      <%	end %>
+      <% if @athleteExperiences.any?  %>
+          <%= render @athleteExperiences %>
+      <% end %>
     </div><!--resume-->
+    
     <div class="resume">
-      <h4>Working Experience</h4>
+      <h4 class="inline">Working Experience</h4>
+      <a href="#" class="add-new pull-right"><span>+</span>Add Working Experience</a>
+      
       <% if signed_in? && current_user.id == @user.id %>
-          <div class="accordion" id="accordion4"> <!--mapa-->
-            <div class="accordion-group events-filter">
-              <div class="accordion-heading">
-                <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion4" href="#collapseAdd2">
-                  <span>+</span>Add Working Experience
-                </a>
-              </div>
-              <div id="collapseAdd2" class="accordion-body collapse" style="height: 0px;">
-                <div class="accordion-inner">
-                  <% if signed_in? %>
-                    <%= render 'working_profile_form'  %>
-                  <% else %>
-                    <p>You must be logged in to complete your profile!</p>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
+        <%= render 'working_profile_form'  %>
+      <% else %>
+        <p>You must be logged in to complete your profile!</p>
       <% end %>
       
-      <%	if @works.any?  %>
-          <%=	 render @works %>
-      <%	end %>
+      <% if @works.any?  %>
+          <%= render @works %>
+      <% end %>
     </div><!--resume-->
+    
     <div class="resume">
-      <h4>Education</h4>
+      <h4 class="inline">Education</h4>
+      <a href="#" class="add-new pull-right"><span>+</span>Add Education</a>
+      
       <% if signed_in? && current_user.id == @user.id %>
-          <div class="accordion" id="accordion5"> <!--mapa-->
-            <div class="accordion-group events-filter">
-              <div class="accordion-heading">
-                <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion5" href="#collapseAdd3">
-                  <span>+</span>Add Education
-                </a>
-              </div>
-              <div id="collapseAdd3" class="accordion-body collapse" style="height: 0px;">
-                <div class="accordion-inner">
-                  <% if signed_in? %>
-                    <%= render 'educations/form' %>
-                  <% else %>
-                    <p>You must be logged in to complete your profile!</p>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
+        <%= render 'educations/form' %>
+      <% else %>
+        <p>You must be logged in to complete your profile!</p>
       <% end %>
       
-      <%	if @educations.any?  %>
-          <%=	 render @educations %>
-      <%	end %>
+      <% if @educations.any?  %>
+        <%= render @educations %>
+      <% end %>
     </div><!--resume-->
 <% end %>
 </div>
@@ -259,7 +223,7 @@ $(document).ready(function(){
 </div>
 </div><!-- /.container -->
 
-<div class="edit-experience pull-right">
+<div class="edit-experience pull-right hide">
 <% if signed_in? && @user.id == current_user.id %>
   <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-cog"></i></a>
   <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -269,7 +233,7 @@ $(document).ready(function(){
 <% end %>
 </div>
 
-<div class="resume async-form">
+<div class="resume async-form hide">
   
 </div>
 

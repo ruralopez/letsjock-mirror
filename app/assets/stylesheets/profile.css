@@ -200,6 +200,7 @@ li.trained{
     background: #2B2B2B;
     color:#CCC;
     margin-left:0;/*added*/
+	margin-bottom:1em; /*added*/
 }
 
 a.align-right{text-align:right; display:block; margin-bottom:20px;}
@@ -219,6 +220,7 @@ ul.aside li:after{
 }
 
 ul.aside p{font-size:12px; margin:0; line-height:120%; display:inline-block;}
+p.block{display:block !important;}
 ul.aside a{font-weight:bold;}
 
 ul.aside .metadata button{display:block; margin-top:0.8em;}

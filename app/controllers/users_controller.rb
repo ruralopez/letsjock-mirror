@@ -160,7 +160,7 @@ class UsersController < ApplicationController
       @workExperiences = (@teams_work + @trains_work + @results_work + @recognitions_work)
       @works = Work.all(:conditions => ['user_id = ?', @user.id], :order => "init DESC, end DESC")
       #Juntar Educational
-      @educations = Education.all(:conditions => ['user_id = ?', @user.id])
+      @educations = Education.all(:conditions => ['user_id = ?', @user.id], :order => "init DESC, end DESC")
       
       #Crear variable para poder crear competition, team, train, result o recognition.
       @recognition = @competition = @result = @team = @train = @trainee = @work = @education = NullObject.new # La clase NullObject está definida al final

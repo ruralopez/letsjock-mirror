@@ -52,6 +52,12 @@ $(function(){
     $('#edit-profile-link').click();
   });
   
+  // ADD EXPERIENCE
+  $(".resume .add-new").click(function(e){
+    e.preventDefault();
+    $(this).next("form").toggle("normal").toggleClass("hidden");
+  });
+  
   // EDIT EXPERIENCE
   // Solo para el ul.experience padre
   $('ul.experience').not("ul.experience ul.experience").append($('.edit-experience'));
@@ -109,12 +115,11 @@ $(function(){
 function form_profile_cancel(btn){
   $(".alert-error").text("...").hide('fast');
   
-  if(btn.parents(".accordion-body").length)
-    $("a[href=#" + btn.parents(".accordion-body").attr("id") + "]").click();
-  else{
+  if(btn.parents(".async-form").length){
     $(".resume:hidden ul.experience").parent().toggle("normal");
     btn.parents(".async-form").toggle("fast").empty();
-  }
+  }else
+    btn.parents("form").toggle("normal").toggleClass("hidden");
 }
 
 function form_profile_validate(form, errors){
