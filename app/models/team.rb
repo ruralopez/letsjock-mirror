@@ -9,7 +9,6 @@ class Team < ActiveRecord::Base
   has_many :recognitions, :dependent => :nullify
   has_many :competitions, :dependent => :nullify
 
-  has_many :photos
   has_many :videos
 
   attr_accessible :end, :sport_id, :user_id, :init, :name, :category, :as_athlete, :work_id

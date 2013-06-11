@@ -6,7 +6,6 @@ class Result < ActiveRecord::Base
   belongs_to :team
   belongs_to :work
 
-  has_many :photos
   has_many :videos
 
   attr_accessible :date, :position, :work_id, :competition_id, :sport_id, :team_id, :user_id, :value, :var, :as_athlete

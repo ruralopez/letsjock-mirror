@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130611053459) do
+ActiveRecord::Schema.define(:version => 20130611083152) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -121,19 +121,13 @@ ActiveRecord::Schema.define(:version => 20130611053459) do
 
   create_table "photos", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "competition_id"
-    t.integer  "recognition_id"
-    t.integer  "result_id"
-    t.integer  "team_id"
-    t.integer  "train_id"
     t.integer  "sport_id"
-    t.integer  "trainee_id"
-    t.integer  "work_id"
     t.text     "url"
     t.string   "title"
     t.text     "comment"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.text     "tags"
   end
 
   create_table "posts", :force => true do |t|
