@@ -30,7 +30,7 @@
                       <%= f.hidden_field :title, :value => "Title" %>
                       <%= f.hidden_field :user_id, :value => @user.isSponsor && current_user.isAdmin? ? @user.id : current_user.id %>
                       <%= f.hidden_field :sport_id, :value => 1 %>
-
+                      <%= f.hidden_field :click_source, :value => "false" %>
 
                       <div style="height: 240px">
                         <div class="event-pictures fileupload-preview fileupload-exists thumbnail" style="height: 230px; width: 350px; margin: 0 auto;"></div>
@@ -59,12 +59,19 @@
     $(function(){
       $("#upload-input").hide();
       $("#photo-link-input").hide();
-      
+
       $("#btn-upload").click(function(){
         $("#photo-link-input").val("").hide('fast');
         $(".alert").text("...").hide('fast');
       });
-      
+
+        $('#changePicBtn').click(function(){
+            $('#photo_click_source').attr('value', "true");
+        });
+        $('#btn-photo').click(function(){
+            $('#photo_click_source').attr('value', "false");
+        });
+
       $('#btn-photo-1').click(function(){
         $("#photo-link-input").show('fast');
         $(".alert").text("...").hide('fast');
