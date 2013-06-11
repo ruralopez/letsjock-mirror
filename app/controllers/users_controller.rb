@@ -347,7 +347,7 @@ class UsersController < ApplicationController
         end
         
         if competition
-          competition.update_attributes( :name => params[:competition_name], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => team.id, :as_athlete => as_athlete, :work_id => work.id )
+          competition.update_attributes( :name => params[:competition_name], :organizer => params[:competition_organizer], :place => params[:competition_place], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => team.id, :as_athlete => as_athlete, :work_id => work.id )
           result.update_attributes( :position => params[:result_position], :value => params[:result_value], :var => params[:result_var], :sport_id => params[:sport_id], :user_id => params[:user_id], :competition_id => competition.id, :date => params[:init], :team_id => team.id, :as_athlete => as_athlete, :work_id => work.id )
         else
           competition = NullObject.new

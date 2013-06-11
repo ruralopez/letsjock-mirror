@@ -59,8 +59,11 @@
         <span class="add-on"><i class="icon-star"></i></span>
         <div class="input-append input-prepend">
             <%= hidden_field_tag :competition_id, @competition.id if @competition.id? %>
-            <%= text_field_tag :competition_name, @competition.name, :placeholder => "Competition Name" %>
-            
+          <div id="competition-div">
+            <%= text_field_tag :competition_name, @competition.name, :placeholder => "Competition Name", :style => "width:160px" %>
+            <%= text_field_tag :competition_organizer, @competition.organizer, :placeholder => "Competition Organizer", :style => "width:160px" %>
+            <%= text_field_tag :competition_place, @competition.place, :placeholder => "Competition Place", :style => "width:160px" %>
+          </div>
             <%= hidden_field_tag :result_id, @result.id if @result.id? %>
             <%= text_field_tag :result_position, @result.position, :placeholder => "Position", :class=> "span1" %>
             <%= text_field_tag :result_value, @result.value, :placeholder => "Mark", :style => "width: 50px;" %>

@@ -10,5 +10,5 @@ class Competition < ActiveRecord::Base
   has_many :photos
   has_many :videos
 
-  attr_accessible :end, :event_id, :sport_id, :user_id, :init, :name, :team_id, :team_name, :as_athlete, :work_id
+  attr_accessible :end, :event_id, :sport_id, :user_id, :init, :name, :team_id, :team_name, :as_athlete, :work_id, :organizer, :place
 end
