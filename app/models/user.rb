@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many :subscriptions
   has_many :activities
   has_many :notifications
+  has_many :stats
 
   has_many :educations, :dependent => :destroy
   has_many :outcomes
@@ -35,7 +36,7 @@ class User < ActiveRecord::Base
 
   has_many :messages
 
-  attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country, :phone, :resume, :height, :weight, :profilephotourl, :authentic_email, :isSponsor, :preferences
+  attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country, :address, :phone, :resume, :height, :weight, :profilephotourl, :authentic_email, :isSponsor, :preferences
 
   before_save :profilepic
   before_save { |user| user.email = email.downcase}
