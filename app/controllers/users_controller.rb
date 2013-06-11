@@ -69,7 +69,7 @@ class UsersController < ApplicationController
           Activity.new(:publisher_id => Publisher.find_by_user_id(@user.id).id, :act_type => "000").save
           
           format.html {
-            if params[:profile_picture] != "" #Sube la foto de perfil si viene de la vista profile_new
+            if params[:profile_picture] && params[:profile_picture] != "" #Sube la foto de perfil si viene de la vista profile_new
               url = Photo.upload_file(params[:profile_picture])
               
               if url != ""
