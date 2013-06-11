@@ -1,0 +1,1 @@
+GLOBAL_UNITS_RESULT = ["seconds", "minutes", "hours", "meters", "goals", "points"]

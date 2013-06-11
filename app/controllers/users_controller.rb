@@ -637,7 +637,7 @@ class UsersController < ApplicationController
           end
         else
           flash[:error] = "Passwords did not match."
-          redirect_to confirmed_new_password(params[:token])
+          redirect_to confirmed_new_password_path(params[:token])
         end
     else
     end
