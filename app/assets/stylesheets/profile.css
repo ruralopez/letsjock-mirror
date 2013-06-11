@@ -528,3 +528,26 @@ input.error-field:hover, textarea.error-field:hover{
 .all-followers .sponsor-follower p{
     font-size:12px;
 }
+
+/*Form Password*/
+
+.row.white{
+    min-height:500px;
+}
+.form-center{
+    float:none;
+    margin:30px auto 30px;
+    padding:0 1em;
+}
+
+.form-center h3{
+    line-height:120%;
+    margin-bottom:1.2em;
+}
+
+.help{
+    background-color:#F2F2F2;
+    font-size:0.9em;
+    margin:2em 0;
+    padding: 1em 1em 0.5em;
+}
