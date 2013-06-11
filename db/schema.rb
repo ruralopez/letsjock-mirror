@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130611041403) do
+ActiveRecord::Schema.define(:version => 20130611053459) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(:version => 20130611041403) do
     t.integer  "work_id"
     t.text     "url"
     t.string   "title"
-    t.string   "comment"
+    t.text     "comment"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
