@@ -4,9 +4,10 @@ class Photo < ActiveRecord::Base
 
   has_many :activities
 
-  attr_accessible :comment, :title, :url, :user_id, :sport_id, :tags
+  attr_accessible :comment, :title, :url, :user_id, :sport_id#,:tags
 
-  serialize :tags, Array
+  #serialize :tags, Array
+  #before_save :set_tags
   # Necesitamos un Array[Hash] para almacenar los tags
   # a = Array.new(2,Hash.new)
   # a[0]['cat'] = 'feline'
@@ -18,9 +19,15 @@ class Photo < ActiveRecord::Base
   # a[0]['cat'] = 'feline'
   # a # =>[{"cat"=>"feline"},{}]
 
-  def after_initialize
-    self.tags ||= Array.new
-  end
+  #def after_initialize
+  #  self.tags ||= Array.new
+  #end
+
+  #def set_tags
+  #  if self.tags.is_a? String
+  #    self.tags = self.tags.split(", ")
+  #  end
+  #end
 
   def self.upload_file(fileUp)
     AWS::S3::Base.establish_connection!(

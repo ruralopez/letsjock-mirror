@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id1: 1
+  id2: 1
+  type1: MyString
+  type2: MyString
+
+two:
+  id1: 1
+  id2: 1
+  type1: MyString
+  type2: MyString
