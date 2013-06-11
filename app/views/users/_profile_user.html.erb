@@ -172,47 +172,47 @@ $(document).ready(function(){
     
     <div class="resume">
       <h4 class="inline">Jock Information</h4>
+      
+    <% if signed_in? && current_user.id == @user.id %>
       <a href="#" class="add-new pull-right"><span>+</span>Add Sport Experience</a>
+      <%= render 'profile_form'  %>
+    <% elsif current_user.id == @user.id %>
+      <p>You must be logged in to complete your profile!</p>
+    <% end %>
       
-      <% if signed_in? && current_user.id == @user.id %>
-        <%= render 'profile_form'  %>
-      <% else %>
-        <p>You must be logged in to complete your profile!</p>
-      <% end %>
-      
-      <% if @athleteExperiences.any?  %>
-          <%= render @athleteExperiences %>
-      <% end %>
+    <% if @athleteExperiences.any?  %>
+      <%= render @athleteExperiences %>
+    <% end %>
     </div><!--resume-->
     
     <div class="resume">
       <h4 class="inline">Working Experience</h4>
+      
+    <% if signed_in? && current_user.id == @user.id %>
       <a href="#" class="add-new pull-right"><span>+</span>Add Working Experience</a>
+      <%= render 'working_profile_form'  %>
+    <% elsif current_user.id == @user.id %>
+      <p>You must be logged in to complete your profile!</p>
+    <% end %>
       
-      <% if signed_in? && current_user.id == @user.id %>
-        <%= render 'working_profile_form'  %>
-      <% else %>
-        <p>You must be logged in to complete your profile!</p>
-      <% end %>
-      
-      <% if @works.any?  %>
-          <%= render @works %>
-      <% end %>
+    <% if @works.any?  %>
+      <%= render @works %>
+    <% end %>
     </div><!--resume-->
     
     <div class="resume">
       <h4 class="inline">Education</h4>
+      
+    <% if signed_in? && current_user.id == @user.id %>
       <a href="#" class="add-new pull-right"><span>+</span>Add Education</a>
-      
-      <% if signed_in? && current_user.id == @user.id %>
-        <%= render 'educations/form' %>
-      <% else %>
-        <p>You must be logged in to complete your profile!</p>
-      <% end %>
-      
-      <% if @educations.any?  %>
-        <%= render @educations %>
-      <% end %>
+      <%= render 'educations/form' %>
+    <% elsif current_user.id == @user.id %>
+      <p>You must be logged in to complete your profile!</p>
+    <% end %>
+    
+    <% if @educations.any?  %>
+      <%= render @educations %>
+    <% end %>
     </div><!--resume-->
 <% end %>
 </div>
