@@ -151,7 +151,7 @@
     }(window.jQuery);
 </script>
 <script>
-    $(function() {
+    (function($) {
         var addresspickerMap = $( "#addresspicker_map" ).addresspicker(
                 {
                     regionBias: "de",
@@ -178,5 +178,5 @@
                 }
             })
         });
-    });
+    }(jQuery));
 </script>
