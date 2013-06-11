@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130611052615) do
+ActiveRecord::Schema.define(:version => 20130611060550) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -193,6 +193,7 @@ ActiveRecord::Schema.define(:version => 20130611052615) do
     t.boolean  "as_athlete"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.string   "category"
   end
 
   create_table "sports", :force => true do |t|

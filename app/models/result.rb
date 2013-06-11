@@ -9,7 +9,7 @@ class Result < ActiveRecord::Base
   has_many :photos
   has_many :videos
 
-  attr_accessible :date, :position, :work_id, :competition_id, :sport_id, :team_id, :user_id, :value, :var, :as_athlete
+  attr_accessible :date, :position, :work_id, :competition_id, :sport_id, :team_id, :user_id, :value, :var, :as_athlete, :category
 
   def full_mark
     if var != ""

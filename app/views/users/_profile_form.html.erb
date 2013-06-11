@@ -68,6 +68,7 @@
             <%= text_field_tag :result_position, @result.position, :placeholder => "Position", :class=> "span1" %>
             <%= text_field_tag :result_value, @result.value, :placeholder => "Mark", :style => "width: 50px;" %>
             <%= select_tag :result_var, options_for_select(GLOBAL_UNITS_RESULT), :style => "width: 120px;" %>
+            <%= select_tag :result_category, options_for_select(GLOBAL_CATEGORIES_RESULT), :style => "width: 120px;" %>
         </div>
     </div>
 
