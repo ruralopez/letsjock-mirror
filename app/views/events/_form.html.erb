@@ -151,14 +151,14 @@
     }(window.jQuery);
 </script>
 <script>
-    $(function() {
+    (function($) {
         var addresspickerMap = $( "#addresspicker_map" ).addresspicker(
                 {
                     regionBias: "de",
                     map:      "#map_canvas",
                     typeaheaddelay: 1000,
                     mapOptions: {
-                        <% if @event.lat && @event.lon %>
+                        <% if @event.lat && @event.lon && @event.lat != "" && @event.lon != "" %>
                         <%= "zoom:15, center: new google.maps.LatLng(#{@event.lat},#{@event.lon})" %>
                         <% else %>
                         <%= "zoom:10, center: new google.maps.LatLng(-33.468699,-70.641921)" %>
@@ -178,5 +178,5 @@
                 }
             })
         });
-    });
+    }(jQuery));
 </script>

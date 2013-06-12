@@ -39,7 +39,12 @@ class PhotosController < ApplicationController
       
       if @photo.save
         Activity.new(:publisher_id => Publisher.find_by_user_id(@user.id).id, :photo_id => @photo.id, :act_type => "020").save
-        redirect_to request.referer
+
+        if new_photo['click_source'] == "true"
+          redirect_to change_profile_pic_path(:id => @user.id, :url => @photo.url)
+        else
+          redirect_to request.referer
+        end
       end
     else
       flash[:error] = "You must be logged in."

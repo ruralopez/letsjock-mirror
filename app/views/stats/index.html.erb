@@ -1,0 +1,29 @@
+<%= javascript_include_tag "application" %>
+
+<h1>Listing stadistics</h1>
+
+<table>
+  <tr>
+    <th>Stats ID</th>
+    <th>UserID</th>
+    <th>Type</th>
+    <th>Info</th>
+    <th>Test</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% @stats.each do |st| %>
+      <tr>
+        <% if  st.id > 54 %>
+        <td><%= st.id %></td>
+        <td><%= st.user_id %></td>
+        <td><%= st.type %></td>
+        <td><%= YAML.load(st.info) %></td>
+        <% end %>
+      </tr>
+  <% end %>
+</table>
+
+<br />

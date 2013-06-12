@@ -12,7 +12,7 @@ class CreatePhotos < ActiveRecord::Migration
       t.integer :work_id
       t.text :url
       t.string :title
-      t.string :comment
+      t.text :comment
 
       t.timestamps
     end

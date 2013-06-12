@@ -10,7 +10,6 @@ class Work < ActiveRecord::Base
   has_many :trainees, :dependent => :destroy
   has_many :competitions, :dependent => :destroy
 
-  has_many :photos, :dependent => :destroy
   has_many :videos, :dependent => :destroy
 
   attr_accessible :country_id, :end, :init, :company, :user_id, :role, :sport_id, :location

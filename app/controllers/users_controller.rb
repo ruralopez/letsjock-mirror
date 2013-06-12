@@ -133,7 +133,16 @@ class UsersController < ApplicationController
   def profile
     #@usersport = UserSport.all
     @user = User.find(params[:id])
-    
+
+    if signed_in?
+      userstats = Stat.all(:conditions => ["user_id = ? AND type = ? AND created_at between ? AND ?", current_user.id, "User", Time.zone.now.beginning_of_day, Time.zone.now.end_of_day])
+      userstats.each do |st|
+        if  YAML.load(st.info[:target_id]) != @user.id
+          Stat.new(:user_id => current_user.id, :type => "User", :info => {:target_id => @user.id}).save
+        end
+      end
+    end
+
     if @user.isSponsor?
       # Eventos en los que ha participado      
       @next_events = Event.find(:all, :conditions => ['user_id = ? AND date >= ?', @user.id, DateTime.now]).to_set.classify { |event| event.date.month }
