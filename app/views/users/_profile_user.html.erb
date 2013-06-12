@@ -192,26 +192,7 @@ $(document).ready(function(){
     </div><!--resume-->
     <div class="resume">
       <h4 class="inline">Working Experience</h4>
-      <% if signed_in? && current_user.id == @user.id %>
-          <div class="accordion" id="accordion4"> <!--mapa-->
-            <div class="accordion-group events-filter">
-              <div class="accordion-heading">
-                <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion4" href="#collapseAdd2">
-                  <span>+</span>Add Work Experience
-                </a>
-              </div>
-              <div id="collapseAdd2" class="accordion-body collapse" style="height: 0px;">
-                <div class="accordion-inner">
-                  <% if signed_in? %>
-                    <%= render 'working_profile_form'  %>
-                  <% else %>
-                    <p>You must be logged in to complete your profile!</p>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
-      <% end %>
+
       
       <%	if @works.any?  %>
           <%=	 render @works %>
