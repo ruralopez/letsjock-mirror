@@ -1,26 +1,26 @@
-<legend>What do you want to add?</legend>
-<div class="header-buttons">
-    <a><button class="btn-success hito-click" data-block="train">
-        <i class="icon-user icon-2x"></i>
-        Training
-    </button></a>
-    <a><button class="btn-success hito-click" data-block="team">
-        <i class="icon-group icon-2x"></i>
-        Team
-    </button></a>
-    <a><button class="btn-success hito-click" data-block="recognition">
-        <i class="icon-trophy icon-2x"></i>
-        Award
-    </button></a>
-    <a><button class="btn-success hito-click" data-block="result">
-        <i class="icon-star icon-2x"></i>
-        Result
-    </button></a>
-</div>
-
-<%= form_tag({:controller => 'users', :action => 'add_new'}, :id => @edit_profile ? 'edit-profile-entry' : 'new-profile-entry') do  %>
+<%= form_tag({:controller => 'users', :action => 'add_new'}, :id => @edit_profile ? 'edit-profile-entry' : 'new-profile-entry', :class => @edit_profile ? "" : "hidden") do  %>
 <fieldset>
 <%= hidden_field_tag :user_id, current_user.id %>
+
+    <legend>What do you want to add?</legend>
+    <div class="header-buttons">
+        <a><button class="btn-success hito-click" data-block="train">
+            <i class="icon-user icon-2x"></i>
+            Training
+        </button></a>
+        <a><button class="btn-success hito-click" data-block="team">
+            <i class="icon-group icon-2x"></i>
+            Team
+        </button></a>
+        <a><button class="btn-success hito-click" data-block="recognition">
+            <i class="icon-trophy icon-2x"></i>
+            Award
+        </button></a>
+        <a><button class="btn-success hito-click" data-block="result">
+            <i class="icon-star icon-2x"></i>
+            Result
+        </button></a>
+    </div>
 
     <div class="input-prepend _js-sport" data-validate='["sport_id"]'>
         <span class="add-on"><i class="icon-circle-blank"></i></span>
@@ -89,12 +89,13 @@
                 $('.date').datepicker();
                 $(".hiddenDiv").hide();
                 
-                $("#<%= @edit_profile ? "edit" : "new" %>-profile-entry").siblings(".header-buttons").find(".hito-click").click(function(){
+                $("#<%= @edit_profile ? "edit" : "new" %>-profile-entry .header-buttons .hito-click").click(function(e){
+                    e.preventDefault();
                     $(this).toggleClass("active");
                     $('#<%= @edit_profile ? "edit" : "new" %>-profile-entry ._js-' + $(this).attr("data-block")).toggle("normal");
                 });
                 
-                $('#<%= @edit_profile ? "edit" : "new" %>-profile-entry .btn-success').click(function(e){
+                $('#<%= @edit_profile ? "edit" : "new" %>-profile-entry .btn-success[type=submit]').click(function(e){
                     e.preventDefault();
                     var current_form = $('#<%= @edit_profile ? "edit" : "new" %>-profile-entry');
                     var errors = {};

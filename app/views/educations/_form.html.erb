@@ -2,25 +2,26 @@
     <% form_id = "edit-educational-entry" %>
 <% else %>
     <% form_id = "new-educational-entry" %>
-
-<legend>What do you want to add?</legend>
-<div class="header-buttons">
-    <a><button id="education-highschool" class="btn-success hito-click">
-        <i class="icon-book icon-2x"></i>
-        High School
-    </button></a>
-    <a><button id="education-school" class="btn-success hito-click">
-        <i class="icon-briefcase icon-2x"></i>
-        School
-    </button></a>
-</div>
-
 <% end %>
 
-<%= form_tag({:controller => 'users', :action => 'add_new_educational'}, :id => form_id) do  %>
+<%= form_tag({:controller => 'users', :action => 'add_new_educational'}, :id => form_id, :class => @edit_profile ? "" : "hidden") do  %>
 <fieldset>
 <%= hidden_field_tag :user_id, current_user.id %>
 <%= hidden_field_tag :education_id, @education.id if @education.id? %>
+
+<% unless @edit_profile %>
+    <legend>What do you want to add?</legend>
+    <div class="header-buttons">
+        <a><button id="education-highschool" class="btn-success hito-click">
+            <i class="icon-book icon-2x"></i>
+            High School
+        </button></a>
+        <a><button id="education-school" class="btn-success hito-click">
+            <i class="icon-briefcase icon-2x"></i>
+            School
+        </button></a>
+    </div>
+<% end %>
 
     <div id="divHighSchool-educational" class="<% unless @education.rank? %>hiddenDiv<% end %>" data-validate='["highschool_name"]'>
         <div class="input-prepend input-append">
@@ -70,7 +71,8 @@
                 $('.date').datepicker();
                 $(".hiddenDiv").hide();
                 
-                $("#<%= form_id %>").siblings(".header-buttons").find('#education-school').click(function(){
+                $("#<%= form_id %> .header-buttons #education-school").click(function(e){
+                    e.preventDefault();
                     $('#<%= form_id %> #divSchool-educational').toggle("normal");
                     
                     if($('#<%= form_id %> #divHighSchool-educational').is(":visible")){
@@ -80,7 +82,8 @@
                         $('#<%= form_id %> #gda').val("");
                     }
                 });
-                $("#<%= form_id %>").siblings(".header-buttons").find('#education-highschool').click(function(){
+                $("#<%= form_id %> .header-buttons #education-highschool").click(function(e){
+                    e.preventDefault();
                     $('#<%= form_id %> #divHighSchool-educational').toggle("normal");
                     
                     if($('#<%= form_id %> #divSchool-educational').is(":visible")){
@@ -90,7 +93,7 @@
                     }
                 });
                 
-                $('#<%= form_id %> .btn-success').click(function(e){
+                $('#<%= form_id %> .btn-success[type=submit]').click(function(e){
                     e.preventDefault();
                     var current_form = $('#<%= form_id %>');
                     var errors = {};

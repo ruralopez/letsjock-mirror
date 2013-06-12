@@ -66,7 +66,6 @@ Letsjock::Application.routes.draw do
   match '/send_mail_auth' => 'users#send_mail_auth', :as => :send_mail_auth
   match '/follow_letsjock' => 'users#follow_letsjock', :as => :follow_letsjock
 
-
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

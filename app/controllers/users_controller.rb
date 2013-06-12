@@ -1,13 +1,26 @@
 class UsersController < ApplicationController
+  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile]
+  
+  def verify_login
+    unless signed_in?
+      flash[:error] = "You must be logged in."
+      redirect_to root_path and return
+    end
+  end
+  
   # GET /users
   # GET /users.json
   def index
+=begin
     @users = User.all
-
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @users }
     end
+=end
+
+    redirect_to news_path
   end
 
   # GET /users/1
@@ -36,20 +49,26 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(:phone => 18, :citybirth => "City", :country => "Country", :resume => "", :email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname], :isSponsor => false, :authentic_email => false)
+    @user = User.new(:phone => 18, :citybirth => "City", :country => "Country", :resume => "", :email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname], :isSponsor => false, :authentic_email => false, :gender => params[:user][:gender])
 
-    respond_to do |format|
-      if @user.save
+    if @user.save
+      respond_to do |format|
         publisher = Publisher.new(:user_id => @user.id, :pub_type => "U")
+        
         if publisher.save
           UserMailer.registration_confirmation(@user).deliver
           Notification.new(:user_id => @user.id, :read => false, :not_type => "999").save
-          flash[:success] = "Welcome #{@user.full_name}! We sent you a confirmation e-mail to #{@user.email}. Now you can complete your profile!"
+          
+          #Todos siguen a LetsJock por defecto (profile: 1)
+          @user.follow!(User.find(1))
+          
+          flash[:success] = "Welcome #{@user.full_name}! We sent you a confirmation e-mail to #{@user.email} to complete registration process!"
           format.html { redirect_to root_url }
         end
-      else
-        format.html { render :action => "new" }
       end
+    else
+      flash[:error] = "Email is already  registered."
+      redirect_to root_path
     end
   end
 
@@ -72,7 +91,7 @@ class UsersController < ApplicationController
             if params[:profile_picture] && params[:profile_picture] != "" #Sube la foto de perfil si viene de la vista profile_new
               url = Photo.upload_file(params[:profile_picture])
               
-              if url != ""
+              if url && url != ""
                 Photo.create(:user_id => @user.id, :url => url)
                 @user.update_attribute(:profilephotourl, url)
               end
@@ -154,7 +173,7 @@ class UsersController < ApplicationController
       @workExperiences = (@teams_work + @trains_work + @results_work + @recognitions_work)
       @works = Work.all(:conditions => ['user_id = ?', @user.id], :order => "init DESC, end DESC")
       #Juntar Educational
-      @educations = Education.all(:conditions => ['user_id = ?', @user.id])
+      @educations = Education.all(:conditions => ['user_id = ?', @user.id], :order => "init DESC, end DESC")
       
       #Crear variable para poder crear competition, team, train, result o recognition.
       @recognition = @competition = @result = @team = @train = @trainee = @work = @education = NullObject.new # La clase NullObject está definida al final
@@ -258,7 +277,7 @@ class UsersController < ApplicationController
   end
 
   def auth_email
-    @user = User.find(params[:id])
+    @user = User.unscoped.find(params[:id])
     if @user.authentic_email
       flash[:error] = "Your email has already been validated."
       sign_in(@user)
@@ -455,6 +474,8 @@ class UsersController < ApplicationController
       if @work.id?
         @init = @work.init
         @end = @work.end
+      elsif @education.id?
+        # Ya lleva la fecha
       elsif @competition.id?
         @result = Result.find(:all, :conditions => ['user_id = ? AND sport_id = ? AND competition_id = ?', current_user.id, @sport_id, @competition.id]).first
         @init = @competition.init
@@ -548,9 +569,13 @@ class UsersController < ApplicationController
         @user.update_attributes(params[:user])
       else
         @user = User.create(params[:user])
+        @user.update_attribute(:authentic_email, 1)
         
         if @user.save
           publisher = Publisher.create(:user_id => @user.id, :pub_type => "U")
+          
+          #Todos siguen a LetsJock por defecto (profile: 1)
+          @user.follow!(User.find(1))
         end
       end
       
@@ -611,8 +636,8 @@ class UsersController < ApplicationController
   end
 
   def new_password_request
-    if User.exists?(:email => params[:email])
-      @user = User.find_by_email(params[:email])
+    if User.unscoped.exists?(:email => params[:email])
+      @user = User.unscoped.find_by_email(params[:email])
       UserMailer.new_password(@user).deliver
     end
     flash[:success] = "An email with further instructions has been sent to " + params[:email]
@@ -620,8 +645,8 @@ class UsersController < ApplicationController
   end
 
   def confirmed_new_password
-    if User.exists?(:email_token => params[:token])
-      @user = User.find_by_email_token(params[:token])
+    if User.unscoped.exists?(:email_token => params[:token])
+      @user = User.unscoped.find_by_email_token(params[:token])
       @token = params[:token]
       respond_to do |format|
         format.html
@@ -633,9 +658,9 @@ class UsersController < ApplicationController
   end
 
   def change_password
-    if User.exists?(:email_token => params[:token])
+    if User.unscoped.exists?(:email_token => params[:token])
         if params[:password] == params[:password_confirmation]
-          @user = User.find_by_email_token( params[:token])
+          @user = User.unscoped.find_by_email_token( params[:token])
           if @user.update_attributes(:password => params[:password], :password_confirmation => params[:password_confirmation])
             flash[:success] = "Your password has been changed."
             redirect_to root_url
@@ -648,14 +673,24 @@ class UsersController < ApplicationController
   end
 
   def send_mail_auth
-    if params[:email] && User.exists?(:email => params[:email].downcase)
-      user = User.find_by_email(params[:email].downcase)
+    if params[:email] && User.unscoped.exists?(:email => params[:email].downcase)
+      user = User.unscoped.find_by_email(params[:email].downcase)
       unless user.authentic_email
         UserMailer.registration_confirmation(user).deliver
       end
     end
     flash[:success] = "The registration email has been sent again."
     redirect_to root_url
+  end
+  
+  def follow_letsjock
+    if signed_in? && current_user.id == 1
+      User.unscoped.find(:all, :conditions => ["id NOT IN (?) AND id != ?", current_user.followers, current_user.id] ).each do |user|
+        user.follow!(current_user)
+      end
+    end
+    
+    redirect_to news_path
   end
 
 end

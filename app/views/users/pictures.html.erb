@@ -1,5 +1,8 @@
 <%= javascript_include_tag "application" %>
 <%= stylesheet_link_tag    "profile" %>
+<%= javascript_include_tag "load-image" %>
+<%= javascript_include_tag "bootstrap-image-gallery" %>
+<%= stylesheet_link_tag    "bootstrap-image-gallery" %>
 
 <div class="container">
 
@@ -21,9 +24,10 @@
 
     <div class="images span12">
       <div class="image-gallery">
+        <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
         <%  @photos.each do |photo| %>
           <div class="image-editable">
-            <a href="#">
+            <a href="<%= photo.url %>" data-gallery="gallery">
               <%= image_tag(photo.url) %>
             </a>  
             <% if signed_in? && @user.id == current_user.id %>
@@ -36,6 +40,7 @@
             <% end %>
           </div>
         <%  end %>
+        </div>
         <%  @videos.each do |video| %>
             <%= raw(youtube_embed(video.url,240,200,true)) %>
         <%  end %>
@@ -43,6 +48,11 @@
     </div>
 
   </div>
+</div>
+
+<!-- modal-gallery is the modal dialog used for the image gallery -->
+<div id="modal-gallery" class="modal modal-gallery hide fade" tabindex="-1">
+  <div class="modal-body"><div class="modal-image"></div></div>
 </div>
 
 <%=  render 'photos/photo_modal' %>

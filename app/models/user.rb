@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  default_scope where("authentic_email = 1")
+  
   has_many :user_sports, :dependent => :destroy
   has_many :sports, :through => :user_sports
 
@@ -65,7 +67,7 @@ class User < ActiveRecord::Base
       name + " " + lastname  
     end
   end
-
+  
   def age
     now = Time.now.utc.to_date
     now.year - self.birth.year - (self.birth.to_date.change(:year => now.year) > now ? 1 : 0)
