@@ -2,7 +2,9 @@
   <a class="dropdown-toggle btn btn-large following" data-toggle="dropdown" href="#"><i class="icon-ok"></i> Following</a>
   <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
     <li><a href="#Modal" role="button" data-toggle="modal"><i class="icon-envelope-alt"></i> Send a message</a></li>
+  <% if @user.id != 1 %>
     <li class="divider"></li>
     <li><%= link_to(raw('<i class="icon-eye-close"></i> Unfollow</a>'), unfollow_path, :remote => true, :id => "link-unfollow") %></li>
+  <% end %>
   </ul>
 </div>	

@@ -58,6 +58,10 @@ class UsersController < ApplicationController
         if publisher.save
           UserMailer.registration_confirmation(@user).deliver
           Notification.new(:user_id => @user.id, :read => false, :not_type => "999").save
+          
+          #Todos siguen a LetsJock por defecto (profile: 1)
+          @user.follow!(User.find(1))
+          
           flash[:success] = "Welcome #{@user.full_name}! We sent you a confirmation e-mail to #{@user.email} to complete registration process!"
           format.html { redirect_to root_url }
         end
@@ -560,6 +564,9 @@ class UsersController < ApplicationController
         
         if @user.save
           publisher = Publisher.create(:user_id => @user.id, :pub_type => "U")
+          
+          #Todos siguen a LetsJock por defecto (profile: 1)
+          @user.follow!(User.find(1))
         end
       end
       
