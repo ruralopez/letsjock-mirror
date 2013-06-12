@@ -673,6 +673,16 @@ class UsersController < ApplicationController
     flash[:success] = "The registration email has been sent again."
     redirect_to root_url
   end
+  
+  def follow_letsjock
+    if signed_in? && current_user.id == 1
+      User.find(:all, :conditions => ["id NOT IN (?) AND id != ?", current_user.followers, current_user.id] ).each do |user|
+        user.follow!(current_user)
+      end
+    end
+    
+    redirect_to news_path
+  end
 
 end
 
