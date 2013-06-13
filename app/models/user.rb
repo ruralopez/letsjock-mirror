@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
   has_many :followed_users, :through => :relationships, :source => :followed
   has_many :reverse_relationships, :foreign_key => "followed_id", :class_name => "Relationship", :dependent => :destroy
   has_many :followers, :through => :reverse_relationships, :source => :follower
+  
+  has_many :user_admins, :dependent => :destroy
+  has_many :admins, :through => :user_admins, :source => :admin
+  has_many :admin_users, :through => :user_admins, :source => :user
 
   has_many :competitions, :dependent => :destroy
   has_many :recognitions, :dependent => :destroy
@@ -68,6 +72,20 @@ class User < ActiveRecord::Base
     end
   end
   
+  def generate_alias
+    if self.full_name.split(" ").length > 1
+      temp_alias = ""
+      
+      self.full_name.split(" ").each do |w|
+        temp_alias += ActiveSupport::Inflector.transliterate(w.downcase)
+      end
+      
+      return temp_alias
+    else
+      self.full_name
+    end
+  end
+
   def age
     now = Time.now.utc.to_date
     now.year - self.birth.year - (self.birth.to_date.change(:year => now.year) > now ? 1 : 0)
