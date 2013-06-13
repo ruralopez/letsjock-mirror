@@ -10,7 +10,7 @@ class FeedController < ApplicationController
     else
       flash[:error] = "You must be logged in."
       sign_out
-      redirect_to signin_path
+      redirect_to root_url
     end
   end
   
