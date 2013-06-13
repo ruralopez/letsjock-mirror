@@ -213,8 +213,8 @@ welcome_3.png: welcome_3-bd72296762ab314abf69a05aef7cb526.png
 welcome_3/index.png: welcome_3-bd72296762ab314abf69a05aef7cb526.png
 welcome_3B.png: welcome_3B-4410d60895f3004da6519cb55a671a14.png
 welcome_3B/index.png: welcome_3B-4410d60895f3004da6519cb55a671a14.png
-application.js: application-b5072cae817f3dd75af2741c264f6886.js
-application/index.js: application-b5072cae817f3dd75af2741c264f6886.js
+application.js: application-6a8dc86afc751612bf13a3449f4af924.js
+application/index.js: application-6a8dc86afc751612bf13a3449f4af924.js
 bootstrap-image-gallery.js: bootstrap-image-gallery-389a55fe14983b9e5f699bab0278df02.js
 bootstrap-image-gallery/index.js: bootstrap-image-gallery-389a55fe14983b9e5f699bab0278df02.js
 events.js: events-c6efef8c38f093598c2dc381cf0f84a4.js
