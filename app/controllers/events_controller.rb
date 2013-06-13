@@ -31,9 +31,14 @@ class EventsController < ApplicationController
 
     if signed_in?
       userstats = Stat.all(:conditions => ["user_id = ? AND type = ? AND created_at between ? AND ?", current_user.id, "Event", Time.zone.now.beginning_of_day, Time.zone.now.end_of_day])
-      userstats.each do |st|
-        if  YAML.load(st.info[:target_id]) != @event.id
-          Stat.new(:user_id => current_user.id, :type => "Event", :info => {:target_id => @event.id}).save
+      if userstats.empty?
+         Stat.new(:user_id => current_user.id, :type => "Event", :info => {:target_id => @event.id}).save
+      else
+        userstats.each do |st|
+          if  YAML.load(st.info)[:target_id] != @event.id
+            Stat.new(:user_id => current_user.id, :type => "Event", :info => {:target_id => @event.id}).save
+            break
+          end
         end
       end
     end
