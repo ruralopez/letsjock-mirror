@@ -71,11 +71,11 @@
     <div id="divDate" class="input-prepend" data-validate='["init", "end"]'>
         <div class="input-prepend date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
             <span class="add-on"><i class="icon-calendar"></i></span>
-            <%= text_field_tag :init, @init ? @init.strftime("%d-%m-%Y") : nil, :placeholder => "Date from", :class => "span2"%>
+            <%= text_field_tag :init, @init ? @init.strftime("%d-%m-%Y") : nil, :placeholder => "Date from (dd-mm-yyyy)", :class => "span2"%>
         </div>
         <div class="input-prepend date" id="dp4" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
             <span class="add-on"><i class="icon-calendar"></i></span>
-            <%= text_field_tag :end, @end ? @end.strftime("%d-%m-%Y") : nil, :placeholder => "Date to", :class => "span2" %>
+            <%= text_field_tag :end, @end ? @end.strftime("%d-%m-%Y") : nil, :placeholder => "Date to (dd-mm-yyyy)", :class => "span2" %>
         </div>
     </div>
     
@@ -100,6 +100,11 @@
                     var current_form = $('#<%= @edit_profile ? "edit" : "new" %>-profile-entry');
                     var errors = {};
                     
+                    if(!validDate(current_form.find("#init").val()))
+                        errors[current_form.attr("id")] = "<b>Date from</b> must be in <i>dd-mm-yyyy</i> format."
+                    else if(!validDate(current_form.find("#end").val()))
+                        errors[current_form.attr("id")] = "<b>Date to</b> must be in <i>dd-mm-yyyy</i> format."
+                        
                     form_profile_validate(current_form, errors);
                 });
                 
