@@ -100,6 +100,10 @@
                     
                     if( current_form.find("#highschool_name").val() == "" && current_form.find("#school_name").val() == "" )
                         errors[current_form.attr("id")] = "You must select at least one education category."
+                    else if(!validDate(current_form.find("#init").val()))
+                            errors[current_form.attr("id")] = "<b>Date from</b> must be in <i>dd-mm-yyyy</i> format."
+                        else if(!validDate(current_form.find("#end").val()))
+                            errors[current_form.attr("id")] = "<b>Date to</b> must be in <i>dd-mm-yyyy</i> format."
                     
                     form_profile_validate(current_form, errors);
                 });

@@ -39,7 +39,7 @@ production:
   reconnect: false
   database: letsjock_production
   pool: 5
-  username: root
-  password:
+  username: letsjock
+  password: 1Proy2.cl
   host: 127.0.0.1
   port: 3306

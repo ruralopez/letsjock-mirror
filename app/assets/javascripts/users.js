@@ -139,7 +139,7 @@ function form_profile_validate(form, errors){
   var cnt = keyCount(errors);
   
   if(cnt == 1 && errors[form.attr("id")])
-    form.find(".alert").text(errors[form.attr("id")]).show("fast");
+    form.find(".alert").html(errors[form.attr("id")]).show("fast");
   else if(cnt)
     form.find(".alert").html( "<h4>Following fields are required</h4>" + $.map(errors, function(n, i) { return ( lastKey(errors) == i && cnt > 1 ) ? " and " + n : n; }).join(", ") ).show("fast");
   else
@@ -164,7 +164,12 @@ function ValidUrl(str) {
     return true;
   }
 }
-
+function validDate(str){
+  if(!/^(0[1-9]|[12][0-9]|3[01])\-(0[1-9]|1[012])\-(19|20)\d\d$/.test(str))
+    return false
+  else
+    return true;
+}
 function keyCount(obj){
   var count = 0;
   
