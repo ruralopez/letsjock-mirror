@@ -67,6 +67,9 @@ Letsjock::Application.routes.draw do
   match '/send_mail_auth' => 'users#send_mail_auth', :as => :send_mail_auth
   match 'auth/:provider/callback', to: 'sessions#create'
   match 'auth/failure', to: redirect('/')
+  match '/follow_letsjock' => 'users#follow_letsjock', :as => :follow_letsjock
+  match '/stadistics' => 'stats#index', :as => :stats
+  match '/tags' => 'tags#index', :as => :tags
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

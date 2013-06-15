@@ -34,11 +34,8 @@ class SessionsController < ApplicationController
       end
     else
       if params[:session]
-        user = User.find_by_email(params[:session][:email].downcase)
+        user = User.unscoped.find_by_email(params[:session][:email].downcase)
         @pass = params[:session][:password]
-      else
-        user = User.find_by_email(params[:email].downcase)
-        @pass = params[:password]
       end
       if user && user.authenticate(@pass)
         if user.authentic_email
