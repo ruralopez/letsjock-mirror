@@ -2,6 +2,9 @@ class User < ActiveRecord::Base
   has_many :user_sports, :dependent => :destroy
   has_many :sports, :through => :user_sports
 
+  has_many :sponsors_events, :dependent => :destroy
+  has_many :events, :through => :sponsors_events
+
   has_one :publishers
   has_many :subscriptions
   has_many :activities

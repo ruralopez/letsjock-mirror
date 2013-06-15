@@ -317,7 +317,7 @@ class UsersController < ApplicationController
         end
         
         if team
-          team.update_attributes( :name => params[:team_name], :category => params[:team_category], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :as_athlete => as_athlete, :work_id => work.id )
+          team.update_attributes( :name => params[:team_name], :category => params[:team_category], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :as_athlete => as_athlete, :work_id => work.id, :localization => params[:team_localization] )
         else
           team = NullObject.new
         end
@@ -348,7 +348,7 @@ class UsersController < ApplicationController
         
         if competition
           competition.update_attributes( :name => params[:competition_name], :organizer => params[:competition_organizer], :place => params[:competition_place], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :team_id => team.id, :as_athlete => as_athlete, :work_id => work.id )
-          result.update_attributes( :position => params[:result_position], :value => params[:result_value], :var => params[:result_var], :category => params[:result_category], :sport_id => params[:sport_id], :user_id => params[:user_id], :competition_id => competition.id, :date => params[:init], :team_id => team.id, :as_athlete => as_athlete, :work_id => work.id )
+          result.update_attributes( :position => params[:result_position], :value => params[:result_value], :var => params[:result_var], :category => params[:result_category], :sport_id => params[:sport_id], :user_id => params[:user_id], :competition_id => competition.id, :date => params[:init], :team_id => team.id, :as_athlete => as_athlete, :work_id => work.id, :best_mark => params[:result_best_mark] )
         else
           competition = NullObject.new
         end

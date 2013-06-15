@@ -9,7 +9,9 @@ class Result < ActiveRecord::Base
   has_many :photos
   has_many :videos
 
-  attr_accessible :date, :position, :work_id, :competition_id, :sport_id, :team_id, :user_id, :value, :var, :as_athlete, :category
+  attr_accessible :date, :position, :work_id, :competition_id, :sport_id, :team_id, :user_id, :value, :var, :as_athlete, :category, :best_mark
+
+  before_save :check_uniqueness
 
   def full_mark
     if var != ""
@@ -18,4 +20,16 @@ class Result < ActiveRecord::Base
       value.to_s
     end
   end
+
+  def check_uniqueness
+    if self.best_mark
+      results = Result.where(:user_id => self.user_id, :sport_id => self.sport_id)
+      results.each do |result|
+        if result.id != self.id
+          result.update_attributes(:best_mark => false)
+        end
+      end
+    end
+  end
+
 end
