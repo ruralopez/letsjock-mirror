@@ -184,6 +184,10 @@ class User < ActiveRecord::Base
   def isAdmin? #Obviamente hay que crear el atributo, pero por mientras
     self.id == 1 # Si es el usuario LetsJock
   end
+  
+  def inAdmins?(user) # Si un usuario es administrador de otro, para el caso de las instituciones
+    user.isAdmin? || UserAdmin.exists?(:user_id => self.id, :admin_id => user.id)
+  end
 
   def compare_password(pass)
     self.try(:authenticate, pass)

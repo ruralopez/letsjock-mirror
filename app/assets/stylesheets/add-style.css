@@ -511,12 +511,12 @@ ul .metadata p{text-align:left;}
 /*comentarios*/
 .event-post{}
 .post.resume{border-bottom:none;}
-.post h4{text-align:center; margin-bottom:20px; color:#C6091C; padding:.5em;}
+.post h4{text-align:center; margin-bottom:20px; color:#C6091C;}
 .post h4 span {font-size: 40px; font-weight: 100; vertical-align: sub; color:#CCC;}
 .post ul{margin:0;}
-.post ul li{list-style:none outside none; position:relative; min-height: 74px; margin-bottom:16px;}
-.post ul li [class*="img"]{width:64px; position:absolute;}
-.post ul li .single-post {margin-left:88px; border-bottom:1px solid #EEE; padding-bottom:14px;}
+.post ul li{list-style:none outside none; position:relative; margin-bottom:16px;}
+.post ul li [class*="img"]{width:64px; position:absolute; overflow:hidden;}/*added 12-06*/
+.post ul li .single-post {margin-left:80px; border-bottom:1px solid #EEE; padding-bottom:14px;}
 .post ul li p{margin-bottom:0; font-size:13px;}
 .post ul li p small{color:#999;}
 /*INBOX*/
@@ -851,13 +851,13 @@ ul.sponsor-third li:first-child:before, ul.sponsor-third li:after{
     column-gap: 10px;
 }
 
+.image-gallery img, .image-feature img{width:100%; height:auto; margin-bottom:10px;}
+
 .image-gallery > img{opacity:0.7; margin-bottom:10px;}
 .image-gallery > img:hover{opacity:1; cursor:pointer;}
 
 .image-gallery > a img{opacity:0.7; margin-bottom:10px;}
 .image-gallery > a img:hover{opacity:1; cursor:pointer;}
-
-.image-gallery img, .image-feature img{width:100%; height:auto;}
 
 .image-feature{}
 

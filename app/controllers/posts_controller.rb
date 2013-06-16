@@ -81,4 +81,35 @@ class PostsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def add_user_post
+    user = User.find(params[:id])
+    
+    if signed_in? && user.inAdmins?(current_user) && params[:post_content] != ""
+      post = Post.new(:user_id => user.id, :event_id => nil)
+      
+      #Primero pasar URL's a A html tag
+      post.title = user.full_name + " post"
+      post.content = params[:post_content].gsub( %r{http://[^\s<]+} ) do |url|
+        if url[/(?:png|jpe?g|gif|svg)$/]
+          "<img class='img-rounded' src='#{url}' />"
+        else
+          "<a href='#{url}'>#{url}</a>"
+        end
+      end
+      
+      if params[:post_picture] && params[:post_picture] != ""
+        url = Photo.upload_file(params[:post_picture])
+        
+        if url && url != ""
+          Photo.create(:user_id => user.id, :url => url)
+          post.content += "<img class='img-rounded' src='#{url}' />"
+        end
+      end
+      
+      post.save
+    end
+    
+    redirect_to profile_path(user)
+  end
 end

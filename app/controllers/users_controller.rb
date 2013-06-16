@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile]
+  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :typeahead, :add_admin]
   
   def verify_login
     unless signed_in?
@@ -151,7 +151,8 @@ class UsersController < ApplicationController
     if @user.isSponsor?
       # Eventos en los que ha participado      
       @next_events = Event.find(:all, :conditions => ['user_id = ? AND date >= ?', @user.id, DateTime.now]).to_set.classify { |event| event.date.month }
-      @prev_events = Event.find(:all, :conditions => ['user_id = ? AND date < ?', @user.id, DateTime.now])
+      @posts = Post.where(:user_id => @user.id).order("created_at DESC")
+      #@prev_events = Event.find(:all, :conditions => ['user_id = ? AND date < ?', @user.id, DateTime.now])
     else
       #Juntar competitions, teams, trains, results y recognitions como athlete experiences
       @competitions = Competition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "init DESC, end DESC")
@@ -598,6 +599,22 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     render "sponsor_new"
   end
+  
+  def add_admin
+    user = User.find(params[:id])
+    
+    if user.inAdmins?(current_user)
+      if params[:admin_id] && User.exists?(:id => params[:admin_id])
+        admin = User.find(params[:admin_id])
+        
+        unless user.inAdmins?(admin)
+          UserAdmin.create(:user_id => user.id, :admin_id => admin.id)
+        end
+      end
+    end
+    
+    redirect_to profile_path(user)
+  end
 
   def invite
     if signed_in?
@@ -696,6 +713,25 @@ class UsersController < ApplicationController
     end
     
     redirect_to news_path
+  end
+  
+  def typeahead
+    if params[:type] && params[:query] != ""
+      class_name = params[:type]
+      like = []
+      
+      params[:query].split(" ").each do |qy|
+        like.push("lower(name) LIKE '%" + qy.downcase + "%' OR lower(lastname) LIKE '%" + qy.downcase + "%'")
+      end
+      
+      users = class_name.constantize.select("id, name, lastname").where(like.join(" OR ")).uniq.order("name").limit(8)
+      
+      respond_to do |format|
+        format.json { render :json => { :options => users } }
+      end
+    else
+      redirect_to news_path
+    end
   end
 
 end
