@@ -9,7 +9,6 @@ class EventsController < ApplicationController
       else
         @date -= params[:page].to_i.abs.weeks
       end
-
     else
       params[:page] = 0
     end
@@ -59,7 +58,8 @@ class EventsController < ApplicationController
     if signed_in? && current_user.isAdmin?
       @event = Event.new
       @user = User.find(params[:id])
-      
+      #@sponsors = User.where(:isSponsor => true).collect(&:name)
+      @sponsors = User.where(:isSponsor => true).collect { |sponsor| [sponsor.name, sponsor.id] }
       respond_to do |format|
         format.html # new.html.erb
         format.json { render :json => @event }
@@ -79,6 +79,7 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
+    a=7/0
     if signed_in? && current_user.isAdmin?
       @event = Event.new(params[:event])
       respond_to do |format|
@@ -196,6 +197,16 @@ class EventsController < ApplicationController
     else
       flash[:error] = "The specified user does not exist."
       redirect_to event_path(params[:id])
+    end
+  end
+
+  def add_sponsor
+    @index = params[:index]
+    @category = params[:category]
+    #@sponsors = User.where(:isSponsor => true).collect(&:name)
+    @sponsors = User.where(:isSponsor => true).collect { |sponsor| [sponsor.name, sponsor.id] }
+    respond_to do |format|
+      format.js
     end
   end
 

@@ -3,13 +3,17 @@ class Event < ActiveRecord::Base
   has_many :users, :through => :user_events
   has_many :event_admins
   has_many :users, :through => :event_admins
+
+  has_many :sponsors_events
+  has_many :users, :through => :sponsors_events
+
   has_many :posts
 
   has_one :publishers
   has_many :activities
   has_many :notifications
 
-  attr_accessible :date, :description, :name, :imageurl, :user_id, :place, :lat, :lon
+  attr_accessible :date, :description, :name, :imageurl, :user_id, :place, :lat, :lon, :date_end
 
   validates :name, :presence => true
   validates :user_id, :presence => true
@@ -27,6 +31,11 @@ class Event < ActiveRecord::Base
 
   def admin?(user)
     EventAdmin.exists?(:event_id => self.id, :user_id => user.id)
+  end
+
+  def sponsors
+    ids = SponsorsEvent.where(:event_id => self.id).collect(&:user_id)
+    return User.all(:conditions => ["id IN (?)", ids])
   end
 
 end

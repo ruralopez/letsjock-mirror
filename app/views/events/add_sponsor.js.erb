@@ -1,0 +1,2 @@
+$("#<%= @category %>-sponsors").append("<%= escape_javascript(render :partial =>'events/sponsor', :locals => {:index => @index, :sponsors => @sponsors, :category => @category}) %>")
+$("#link-add-sponsor-<%= @index.to_i - 1 %>").remove();

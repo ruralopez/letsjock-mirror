@@ -33,14 +33,20 @@
           <th>bla</th>
       <tr></thead>-->
       <tbody>
-      <%  @eventsToday = @nextevents.detect{|ne| ne.date.to_date == @date.to_date} %>
+      <% if params[:page].to_i >= 0 %>
+        <%  @eventsToday = @nextevents.detect{|ne| ne.date.to_date == @date.to_date} %>
+      <% else %>
+          <%  @eventsToday = @previousevents.detect{|ne| ne.date.to_date == @date.to_date} %>
+      <% end %>
       <%  if @eventsToday %>
         <%  @eventsToday = Array.new.push(@eventsToday) %>
         <%  @eventsToday.each do |nextevent| %>
             <% if @date.to_date == nextevent.date.to_date %>
-                <tr>
-                    <%=	 render nextevent %>
-                </tr>
+                <% if current_user.following?(User.find(nextevent.user_id)) || current_user.id == User.find(nextevent.user_id).id %>
+                      <tr>
+                        <%=	 render nextevent %>
+                      </tr>
+                <% end %>
             <%  end %>
         <%	 end %>
       <% else %>

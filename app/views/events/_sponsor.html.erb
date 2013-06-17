@@ -1,0 +1,16 @@
+<!--
+<input type="text" data-provide="typeahead" date-source="<%= sponsors %>" data-items="5" class="typeahead sponsors" id="sponsors_<%= index %>_name" name="sponsors[<%= index %>][name]"  />
+-->
+<select id="sponsors_<%= index %>_id" name="sponsors[<%= index %>][id]">
+  <option selected="selected" value="">Select a sponsor</option>
+  <% sponsors.each do |sponsor| %>
+    <option value="<%= sponsor[1] %>"><%= sponsor[0] %></option>
+  <% end %>
+</select>
+<input type="hidden" id="sponsors_<%= index %>_category" name="sponsors[<%= index %>][category]" value="<%= category %>"  />
+<%= link_to raw("<i class='icon-plus'></i>"), add_sponsor_path(:index => index.to_i + 1, :category => category), :remote => true, :id => "link-add-sponsor-" + index.to_s %>
+<script>
+    $(document).ready(function(){
+        $('.typeahead.sponsors').typeahead();
+    });
+</script>
