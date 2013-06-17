@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130611162025) do
+ActiveRecord::Schema.define(:version => 20130614210504) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(:version => 20130611162025) do
     t.boolean  "as_athlete"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "organizer"
+    t.string   "place"
   end
 
   create_table "countries", :force => true do |t|
@@ -82,6 +84,7 @@ ActiveRecord::Schema.define(:version => 20130611162025) do
     t.datetime "updated_at",  :null => false
     t.string   "lat"
     t.string   "lon"
+    t.datetime "date_end"
   end
 
   create_table "exams", :force => true do |t|
@@ -127,6 +130,7 @@ ActiveRecord::Schema.define(:version => 20130611162025) do
     t.text     "comment"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.text     "tags"
   end
 
   create_table "posts", :force => true do |t|
@@ -184,6 +188,16 @@ ActiveRecord::Schema.define(:version => 20130611162025) do
     t.boolean  "as_athlete"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.string   "category"
+    t.boolean  "best_mark"
+  end
+
+  create_table "sponsors_events", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "event_id",   :null => false
+    t.integer  "category"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "sports", :force => true do |t|
@@ -233,8 +247,9 @@ ActiveRecord::Schema.define(:version => 20130611162025) do
     t.date     "init"
     t.date     "end"
     t.boolean  "as_athlete"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.string   "localization"
   end
 
   create_table "trainees", :force => true do |t|
@@ -294,7 +309,7 @@ ActiveRecord::Schema.define(:version => 20130611162025) do
     t.string   "citybirth"
     t.string   "country"
     t.integer  "phone"
-    t.string   "resume"
+    t.text     "resume"
     t.integer  "height"
     t.integer  "weight"
     t.string   "remember_token"

@@ -46,6 +46,8 @@ class EventsController < ApplicationController
     @event_admins = EventAdmin.all(:conditions => ["event_id = ?", params[:id]])
     @post = @event.posts.build if signed_in? && @event.admin?(current_user)
     @posts = Post.all(:conditions => ["event_id = ?", @event.id])
+    ids = SponsorsEvent.where(:event_id => @event.id).collect(&:user_id)
+    @sponsors = User.all(:conditions => ["id IN (?)", ids])
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @event }
@@ -79,7 +81,6 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    a=7/0
     if signed_in? && current_user.isAdmin?
       @event = Event.new(params[:event])
       respond_to do |format|
@@ -91,7 +92,13 @@ class EventsController < ApplicationController
           if eventadmin.save && publisher.save && eventuser.save
             Subscription.new(:user_id => current_user.id, :publisher_id => publisher.id).save
             Activity.new(:publisher_id => Publisher.find_by_user_id(@event.user_id).id, :event_id => @event.id, :act_type => "031").save
-            
+
+            params[:sponsors].each_with_index do |sponsor, index|
+              if sponsor[1][:id] != ""
+                SponsorsEvent.new(:user_id => sponsor[1][:id], :event_id => @event.id, :category => sponsor[1][:category]).save
+              end
+            end
+
             if params[:profile_picture] && params[:profile_picture] != ""
               url = Photo.upload_file(params[:profile_picture])
               @event.update_attribute(:imageurl, url) if url != ""

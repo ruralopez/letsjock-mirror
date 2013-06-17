@@ -14,69 +14,36 @@
   </div>
   <h4>Invites <%= link_to @creator.full_name, @creator %></h4>
   <!-- begin Sponsors -->
-  <!--
   <div class="sponsors">
     <ul class="sponsor-main">
       <li>
         <div class="img-container">
-          <%= image_tag 'company-1.gif'%>
+          <%= image_tag @creator.profilephotourl %>
         </div>
         <div class="metadata">
           <a href="#">Milo</a>
-          <p>12112 Followers</p>
-        </div>
-      </li>
-      <li>
-        <div class="img-container">
-          <%= image_tag 'company-2.gif'%>
-        </div>
-        <div class="metadata">
-          <a href="#">Cerelac</a>
-          <p>1322 Followers</p>
+          <p><%= @creator.followers.count %> Followers</p>
         </div>
       </li>
     </ul>
-    <h5>Also invites</h5>
-    <ul class="sponsor-second">
-      <li>
-        <div class="img-container">
-          <%= image_tag 'company-1.gif'%>
-        </div>
-        <div class="metadata">
-          <a href="#">Milo</a>
-          <p>12112 Followers</p>
-        </div>
-      </li>
-      <li>
-        <div class="img-container">
-          <%= image_tag 'company-2.gif'%>
-        </div>
-        <div class="metadata">
-          <a href="#">Cerelac</a>
-          <p>1322 Followers</p>
-        </div>
-      </li>
-      <li>
-        <div class="img-container">
-          <%= image_tag 'company-1.gif'%>
-        </div>
-        <div class="metadata">
-          <a href="#">Milo</a>
-          <p>12112 Followers</p>
-        </div>
-      </li>
-      <li>
-        <div class="img-container">
-          <%= image_tag 'company-2.gif'%>
-        </div>
-        <div class="metadata">
-          <a href="#">Cerelac</a>
-          <p>1322 Followers</p>
-        </div>
-      </li>
-    </ul>
+    <% unless @sponsors.empty? %>
+        <h5>Also invites</h5>
+        <ul class="sponsor-second">
+        <% @sponsors.each do |sponsor| %>
+          <li>
+            <div class="img-container">
+              <%= image_tag sponsor.profilephotourl%>
+            </div>
+            <div class="metadata">
+              <%= link_to sponsor.full_name, sponsor %>
+              <p><%= sponsor.followers.count %> Followers</p>
+            </div>
+          </li>
+        <% end %>
+        </ul>
+    <% end %>
+
   </div>
-  -->
   <!--sponsors-->
   <!--end Sponsors -->
   <br>
