@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  default_scope where("authentic_email = 1")
+  
   has_many :user_sports, :dependent => :destroy
   has_many :sports, :through => :user_sports
 
@@ -9,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :subscriptions
   has_many :activities
   has_many :notifications
+  has_many :stats
 
   has_many :educations, :dependent => :destroy
   has_many :outcomes
@@ -38,7 +41,7 @@ class User < ActiveRecord::Base
 
   has_many :messages
 
-  attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country, :phone, :resume, :height, :weight, :profilephotourl, :authentic_email, :isSponsor, :preferences
+  attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country, :address, :phone, :resume, :height, :weight, :profilephotourl, :authentic_email, :isSponsor, :preferences
 
   before_save :profilepic
   before_save { |user| user.email = email.downcase}
@@ -67,7 +70,7 @@ class User < ActiveRecord::Base
       name + " " + lastname  
     end
   end
-
+  
   def age
     now = Time.now.utc.to_date
     now.year - self.birth.year - (self.birth.to_date.change(:year => now.year) > now ? 1 : 0)

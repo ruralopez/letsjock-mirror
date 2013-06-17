@@ -1,4 +1,4 @@
-<%= form_tag({:controller => 'users', :action => 'add_new'}, :id =>  @edit_profile ? 'edit-working-entry': 'new-working-entry') do  %>
+<%= form_tag({:controller => 'users', :action => 'add_new'}, :id =>  @edit_profile ? 'edit-working-entry': 'new-working-entry', :class => @edit_profile ? "" : "hidden") do  %>
 <fieldset>
 <%= hidden_field_tag :user_id, current_user.id %>
 
@@ -86,15 +86,19 @@
                 $('.date').datepicker();
                 $(".hiddenDiv").hide();
               
-                $("#<%= @edit_profile ? "edit" : "new" %>-working-entry").siblings(".header-buttons").find(".hito-click").click(function(){
+                $("#<%= @edit_profile ? "edit" : "new" %>-working-entry .header-buttons .hito-click").click(function(e){
+                    e.preventDefault();
                     $(this).toggleClass("active");
                     $('#<%= @edit_profile ? "edit" : "new" %>-working-entry ._js-' + $(this).attr("data-block")).toggle("normal");
                 });
                 
-                 $('#<%= @edit_profile ? "edit" : "new" %>-working-entry .btn-success').click(function(e){
+                 $('#<%= @edit_profile ? "edit" : "new" %>-working-entry .btn-success[type=submit]').click(function(e){
                     e.preventDefault();
                     var current_form = $('#<%= @edit_profile ? "edit" : "new" %>-working-entry');
                     var errors = {};
+                    
+                    if(!validDate(current_form.find("#init").val()))
+                        errors[current_form.attr("id")] = "<b>Date from</b> must be in <i>dd-mm-yyyy</i> format."
                     
                     form_profile_validate(current_form, errors);
                 });
@@ -105,7 +109,7 @@
                 });
                 
                 $('#<%= @edit_profile ? "edit" : "new" %>-working-entry #currently-working').click(function(){
-                    $('#end-date-working').val('');
+                    $('#<%= @edit_profile ? "edit" : "new" %>-working-entry #end-date-working').val('');
                     $('#<%= @edit_profile ? "edit" : "new" %>-working-entry #dp6').toggle("normal");
                 });
             })
@@ -117,8 +121,6 @@
 <button type="submit" class="btn btn-success pull-right"><b>Save</b></button>
 
 <div class="clearfix"></div>
-
-<%  end %>
 
 <legend>What else do you want to add?</legend>
 <div class="header-buttons">
@@ -139,3 +141,5 @@
         Result
     </button></a>
 </div>
+
+<%  end %>

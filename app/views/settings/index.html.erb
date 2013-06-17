@@ -202,6 +202,46 @@
     </div>
   </div><!--termina filtro accordion-->
 </li>
+<li><!--Address-->
+  <div class="accordion" id="accordion13"> <!--filtro-->
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion13" href="#address">
+          <p>Address</p>
+          <p><%= @user.address %></p>
+          <p class="pull-right"><i class="icon-pencil"></i>Edit</p>
+        </a>
+      </div>
+      <div id="address" class="accordion-body collapse" style="height: 0px;">
+        <div class="accordion-inner">
+          <%= form_for(@user, :html => {:class => "form-horizontal"}) do |f|%>
+              <% if @user.errors.any? %>
+                  <div id="error_explanation">
+                    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+                    <ul>
+                      <% @user.errors.full_messages.each do |msg| %>
+                          <li><%= msg %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+              <% end %>
+              <div class="control-group">
+                <label class="control-label">Address</label>
+                <div class="controls">
+                  <%= f.text_field :address, :id => "addresspicker_map", :placeholder => "Address" %>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-success">Save</button>
+                </div>
+              </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div><!--termina filtro accordion-->
+</li>
 <li><!--Language-->
   <div class="accordion" id="accordion5"> <!--filtro-->
     <div class="accordion-group">
@@ -468,9 +508,17 @@
   </ul>
 </div><!-- #privacy-->
 
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+<script src="http://mngscl-10.s3-website-us-east-1.amazonaws.com/jquery-addresspicker-bootstrap/lib/bootstrap-typeahead.min.js"></script>
+<script src="http://mngscl-10.s3-website-us-east-1.amazonaws.com/jquery-addresspicker-bootstrap/src/jquery.addresspicker.min.js"></script>
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
         $('#tabs').tab();
+    });
+</script>
+<script>
+    $(function() {
+        var addresspickerMap = $( "#addresspicker_map" ).addresspicker();
     });
 </script>
 

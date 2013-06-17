@@ -2,6 +2,9 @@
 <%= stylesheet_link_tag    "profile" %>
 <%= javascript_include_tag "application" %>
 <%= javascript_include_tag "users_validations" %>
+<%= javascript_include_tag "load-image" %>
+<%= javascript_include_tag "bootstrap-image-gallery" %>
+<%= stylesheet_link_tag    "bootstrap-image-gallery" %>
 
 <% provide(:title, @user.full_name) %>
 
@@ -15,7 +18,7 @@
           <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-pencil"></i> Change Photo</a>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
             <li><a href="#profilePictureModal" data-toggle="modal"><i class="icon-picture"></i> Choose from photos</a></li>
-            <li><a href="#photoModal" data-toggle="modal"><i class="icon-arrow-up"></i> Upload a photo</a></li>
+            <li><a id="changePicBtn" href="#photoModal" data-toggle="modal"><i class="icon-arrow-up"></i> Upload a photo</a></li>
             <!-- <li><a><i class="icon-pencil"></i> Edit thumbnail</a></li> -->
             <!-- <li><a><i class="icon-remove"></i> Remove</a></li> -->
           </ul>
@@ -27,12 +30,15 @@
     <!-- <h5><i class="icon-star"></i>Featured info</h5> -->
     <h5><i class="icon-camera"></i><%= link_to 'Pictures' , pictures_path(@user) %></h5>
     <div class="event-pictures">
+      <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
       <%  @photos.take(6).each do |photo| %>
           <%	 if photo.url != @user.profilephotourl %>
-                  <%= link_to image_tag(photo.url) , '#' %>
+                  <%= link_to image_tag(photo.url) , photo.url, "data-gallery" => "gallery" %>
           <% end %>
       <%  end %>
+      </div>
     </div><!--user-pictures-->
+    
     <h5 class="white">
       <%= @photos.count %> pictures
       <%= link_to 'see more' , pictures_path(@user) %>
@@ -163,86 +169,50 @@ $(document).ready(function(){
       <% end %>
       <%= @user.resume %>
     </div><!--resume-->
+    
     <div class="resume">
-      <h4>Jock Information</h4>
-      <% if signed_in? && current_user.id == @user.id %>
-          <div class="accordion" id="accordion3"> <!--mapa-->
-            <div class="accordion-group events-filter">
-              <div class="accordion-heading">
-                <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion3" href="#collapseAdd">
-                  <span>+</span>Add Sport Experience
-                </a>
-              </div>
-              <div id="collapseAdd" class="accordion-body collapse" style="height: 0px;">
-                <div class="accordion-inner">
-                  <%	 if signed_in? %>
-                      <%= render 'profile_form'  %>
-                  <%	 else %>
-                      <p>You must be logged in to complete your profile!</p>
-                  <%	 end %>
-                </div>
-              </div>
-            </div>
-          </div>
-      <% end %>
+      <h4 class="inline">Jock Information</h4>
       
-      <%	if @athleteExperiences.any?  %>
-          <%=	 render @athleteExperiences %>
-      <%	end %>
+    <% if signed_in? && current_user.id == @user.id %>
+      <a href="#" class="add-new pull-right"><span>+</span>Add Sport Experience</a>
+      <%= render 'profile_form'  %>
+    <% elsif current_user.id == @user.id %>
+      <p>You must be logged in to complete your profile!</p>
+    <% end %>
+      
+    <% if @athleteExperiences.any?  %>
+      <%= render @athleteExperiences %>
+    <% end %>
     </div><!--resume-->
+    
     <div class="resume">
-      <h4>Working Experience</h4>
-      <% if signed_in? && current_user.id == @user.id %>
-          <div class="accordion" id="accordion4"> <!--mapa-->
-            <div class="accordion-group events-filter">
-              <div class="accordion-heading">
-                <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion4" href="#collapseAdd2">
-                  <span>+</span>Add Working Experience
-                </a>
-              </div>
-              <div id="collapseAdd2" class="accordion-body collapse" style="height: 0px;">
-                <div class="accordion-inner">
-                  <% if signed_in? %>
-                    <%= render 'working_profile_form'  %>
-                  <% else %>
-                    <p>You must be logged in to complete your profile!</p>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
-      <% end %>
+      <h4 class="inline">Working Experience</h4>
       
-      <%	if @works.any?  %>
-          <%=	 render @works %>
-      <%	end %>
+    <% if signed_in? && current_user.id == @user.id %>
+      <a href="#" class="add-new pull-right"><span>+</span>Add Working Experience</a>
+      <%= render 'working_profile_form'  %>
+    <% elsif current_user.id == @user.id %>
+      <p>You must be logged in to complete your profile!</p>
+    <% end %>
+      
+    <% if @works.any?  %>
+      <%= render @works %>
+    <% end %>
     </div><!--resume-->
+    
     <div class="resume">
-      <h4>Education</h4>
-      <% if signed_in? && current_user.id == @user.id %>
-          <div class="accordion" id="accordion5"> <!--mapa-->
-            <div class="accordion-group events-filter">
-              <div class="accordion-heading">
-                <a class="accordion-toggle collapsed add-new pull-right" data-toggle="collapse" data-parent="#accordion5" href="#collapseAdd3">
-                  <span>+</span>Add Education
-                </a>
-              </div>
-              <div id="collapseAdd3" class="accordion-body collapse" style="height: 0px;">
-                <div class="accordion-inner">
-                  <% if signed_in? %>
-                    <%= render 'educations/form' %>
-                  <% else %>
-                    <p>You must be logged in to complete your profile!</p>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
-      <% end %>
+      <h4 class="inline">Education</h4>
       
-      <%	if @educations.any?  %>
-          <%=	 render @educations %>
-      <%	end %>
+    <% if signed_in? && current_user.id == @user.id %>
+      <a href="#" class="add-new pull-right"><span>+</span>Add Education</a>
+      <%= render 'educations/form' %>
+    <% elsif current_user.id == @user.id %>
+      <p>You must be logged in to complete your profile!</p>
+    <% end %>
+    
+    <% if @educations.any?  %>
+      <%= render @educations %>
+    <% end %>
     </div><!--resume-->
 <% end %>
 </div>
@@ -253,7 +223,7 @@ $(document).ready(function(){
 </div>
 </div><!-- /.container -->
 
-<div class="edit-experience pull-right">
+<div class="edit-experience pull-right hide">
 <% if signed_in? && @user.id == current_user.id %>
   <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-cog"></i></a>
   <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -263,7 +233,7 @@ $(document).ready(function(){
 <% end %>
 </div>
 
-<div class="resume async-form">
+<div class="resume async-form hide">
   
 </div>
 
@@ -277,6 +247,7 @@ $(document).ready(function(){
   <div class="clearfix"></div>
 </div>
 
+<%=  render 'photos/modal_gallery' %>
 <%=  render 'photos/photo_modal' %>
 <%=  render 'videos/video_modal' %>
 <%=  render 'events/event_modal' %>

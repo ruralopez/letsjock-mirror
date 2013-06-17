@@ -52,6 +52,12 @@ $(function(){
     $('#edit-profile-link').click();
   });
   
+  // ADD EXPERIENCE
+  $(".resume .add-new").click(function(e){
+    e.preventDefault();
+    $(this).next("form").toggle("normal").toggleClass("hidden");
+  });
+  
   // EDIT EXPERIENCE
   // Solo para el ul.experience padre
   $('ul.experience').not("ul.experience ul.experience").append($('.edit-experience'));
@@ -109,12 +115,11 @@ $(function(){
 function form_profile_cancel(btn){
   $(".alert-error").text("...").hide('fast');
   
-  if(btn.parents(".accordion-body").length)
-    $("a[href=#" + btn.parents(".accordion-body").attr("id") + "]").click();
-  else{
+  if(btn.parents(".async-form").length){
     $(".resume:hidden ul.experience").parent().toggle("normal");
     btn.parents(".async-form").toggle("fast").empty();
-  }
+  }else
+    btn.parents("form").toggle("normal").toggleClass("hidden");
 }
 
 function form_profile_validate(form, errors){
@@ -134,7 +139,7 @@ function form_profile_validate(form, errors){
   var cnt = keyCount(errors);
   
   if(cnt == 1 && errors[form.attr("id")])
-    form.find(".alert").text(errors[form.attr("id")]).show("fast");
+    form.find(".alert").html(errors[form.attr("id")]).show("fast");
   else if(cnt)
     form.find(".alert").html( "<h4>Following fields are required</h4>" + $.map(errors, function(n, i) { return ( lastKey(errors) == i && cnt > 1 ) ? " and " + n : n; }).join(", ") ).show("fast");
   else
@@ -159,7 +164,12 @@ function ValidUrl(str) {
     return true;
   }
 }
-
+function validDate(str){
+  if(!/^(0[1-9]|[12][0-9]|3[01])\-(0[1-9]|1[012])\-(19|20)\d\d$/.test(str))
+    return false
+  else
+    return true;
+}
 function keyCount(obj){
   var count = 0;
   

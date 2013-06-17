@@ -16,6 +16,10 @@ class SessionsController < ApplicationController
           if @newUser.save
             Publisher.new(:user_id => @newUser.id, :pub_type => "U").save
             Notification.new(:user_id => @newUser.id, :read => false, :not_type => "999").save
+            
+            #Todos siguen a LetsJock por defecto (profile: 1)
+            @newUser.follow!(User.find(1))
+            
             sign_in @newUser
             redirect_to newprofile_path
           else
@@ -36,6 +40,9 @@ class SessionsController < ApplicationController
       if params[:session]
         user = User.unscoped.find_by_email(params[:session][:email].downcase)
         @pass = params[:session][:password]
+      else
+        user = User.unscoped.find_by_email(params[:email].downcase)
+        @pass = params[:password]
       end
       if user && user.authenticate(@pass)
         if user.authentic_email

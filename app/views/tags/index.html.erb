@@ -1,0 +1,28 @@
+<%= javascript_include_tag "application" %>
+
+<h1>Listing tags</h1>
+
+<table>
+  <tr>
+    <th>Tag ID1</th>
+    <th>Tag ID2</th>
+    <th>Type1</th>
+    <th>Type2</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% @tags.each do |tag| %>
+      <tr>
+          <td><%= tag.id1 %></td>
+          <td><%= tag.id2 %></td>
+          <td><%= tag.type1 %></td>
+          <td><%= tag.type2 %></td>
+          <td></td>
+      </tr>
+  <% end %>
+</table>
+
+<br />

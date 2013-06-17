@@ -27,6 +27,21 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @event = Event.find(params[:id])
+
+    if signed_in?
+      userstats = Stat.all(:conditions => ["user_id = ? AND type = ? AND created_at between ? AND ?", current_user.id, "Event", Time.zone.now.beginning_of_day, Time.zone.now.end_of_day])
+      if userstats.empty?
+         Stat.new(:user_id => current_user.id, :type => "Event", :info => {:target_id => @event.id}).save
+      else
+        userstats.each do |st|
+          if  YAML.load(st.info)[:target_id] != @event.id
+            Stat.new(:user_id => current_user.id, :type => "Event", :info => {:target_id => @event.id}).save
+            break
+          end
+        end
+      end
+    end
+
     @creator = User.find(@event.user_id)
     @event_admins = EventAdmin.all(:conditions => ["event_id = ?", params[:id]])
     @post = @event.posts.build if signed_in? && @event.admin?(current_user)
@@ -77,7 +92,7 @@ class EventsController < ApplicationController
             Subscription.new(:user_id => current_user.id, :publisher_id => publisher.id).save
             Activity.new(:publisher_id => Publisher.find_by_user_id(@event.user_id).id, :event_id => @event.id, :act_type => "031").save
             
-            if params[:profile_picture] != ""
+            if params[:profile_picture] && params[:profile_picture] != ""
               url = Photo.upload_file(params[:profile_picture])
               @event.update_attribute(:imageurl, url) if url != ""
             end
