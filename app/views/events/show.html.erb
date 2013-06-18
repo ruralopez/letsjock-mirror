@@ -1,6 +1,6 @@
 <%= javascript_include_tag "application" %>
 <%= javascript_include_tag "events" %>
-<%=	stylesheet_link_tag "profile" %>
+<%= stylesheet_link_tag "profile" %>
 
 <div class="container">
 <div class="row">
@@ -97,7 +97,7 @@
   </div><!--user-->
   <div class="connections action-buttons span3">
     <p id="join_form">
-        <%= render 'join_form' %>
+      <%= render 'join_form' %>
     </p>
   </div>
 </div><!-- /profileInfo -->
@@ -105,7 +105,7 @@
 <div class="box box-info span6 event-single">
   <div class="resume">
     <h4><i class="icon-calendar"></i><%= @event.date.strftime("%A, %B %d, %Y") %></h4>
-      <% if @event.admin?(current_user) %>
+      <% if @event.admin?(current_user) || @creator.inAdmins?(current_user) %>
           <h4><%= link_to 'Edit Event', edit_event_path(@event), :class => "pull-right" %> </h4>
       <% end %>
       
@@ -133,48 +133,46 @@
   <div class="post resume">
     <h4><span>-</span> Latest Post <span>-</span></h4>
     <ul>
-      <% if @posts.any? %>
-          <% @posts.each do |post| %>
-              <li>
-                  <%= link_to image_tag(User.find(post.user_id).profilepic), User.find(post.user_id), :class => "img-polaroid"%>
-                <div class="single-post">
-                  <%= link_to User.find(post.user_id).full_name, User.find(post.user_id)%>
-                  <p><b><%= post.title %></b></p>
-                  <p><%= post.content %></p>
-                  <p><small>posted on <%= post.created_at.strftime("%B %d")%></small></p>
-                </div>
-              </li>
-          <% end %>
-      <% end %>
+  <% if @posts.any? %>
+    <% @posts.each do |post| %>
+      <li>
+        <%= link_to image_tag(User.find(post.user_id).profilepic), User.find(post.user_id), :class => "img-polaroid"%>
+        <div class="single-post">
+          <%= link_to User.find(post.user_id).full_name, User.find(post.user_id)%>
+          <p><b><%= post.title %></b></p>
+          <p><%= post.content %></p>
+          <p><small>posted on <%= post.created_at.strftime("%B %d")%></small></p>
+        </div>
+      </li>
+    <% end %>
+  <% end %>
     </ul>
   </div>
 
-  <%	 if signed_in? %>
-      <% if @event.admin?(current_user) %>
-          <div class="post resume">
-            <h4><span>-</span> New Post <span>-</span></h4>
-            <ul>
-              <div>
-                <%= form_for @post do |f| %>
-                    <%= f.text_field :title, :placeholder => "Title" %>
-                    <%= f.text_area :content, :placeholder => "Write your post...", :size => "50x2" %>
-                    <%= f.hidden_field :user_id, :value => current_user.id %>
-                    <%= f.hidden_field :event_id, :value => @event.id %>
-                    <%= f.submit "Post", :class => "btn" %>
-                <% end %>
-              </div>
-            </ul>
-          </div>
-      <% end %>
-      
-      <% if @event.admin?(current_user) %>
-          <h4><span>-</span> New Admin <span>-</span></h4>
-          <%=	 form_tag(:controller => "events", :action => "new_admin") do%>
-              <%=	 text_field_tag(:email) %>
-              <%=	 submit_tag "Submit email", :class => "btn btn-small" %>
-          <% end %>
-      <% end %>
+<% if signed_in? %>
+  <% if @event.admin?(current_user) || @creator.inAdmins?(current_user) %>
+  <div class="post resume">
+    <h4><span>-</span> New Post <span>-</span></h4>
+    <ul>
+      <div>
+        <%= form_for @post do |f| %>
+          <%= f.text_field :title, :placeholder => "Title" %>
+          <%= f.text_area :content, :placeholder => "Write your post...", :size => "50x2" %>
+          <%= f.hidden_field :user_id, :value => @creator.id %>
+          <%= f.hidden_field :event_id, :value => @event.id %>
+          <%= f.submit "Post", :class => "btn" %>
+        <% end %>
+      </div>
+    </ul>
+  </div>
+  
+  <h4><span>-</span> New Admin <span>-</span></h4>
+    <%=form_tag(:controller => "events", :action => "new_admin") do%>
+      <%= text_field_tag(:email) %>
+      <%= submit_tag "Submit email", :class => "btn btn-small" %>
+    <% end %>
   <% end %>
+<% end %>
 </div>
 
 <div class="box box-connect span3 event-single">

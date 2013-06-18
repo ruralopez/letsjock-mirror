@@ -1,4 +1,75 @@
-    <div class="tab-pane" id="next-events">
+<%= stylesheet_link_tag    "users" %>
+<%= stylesheet_link_tag    "profile" %>
+<%= javascript_include_tag "application" %>
+<%= javascript_include_tag "load-image" %>
+<%= javascript_include_tag "bootstrap-image-gallery" %>
+<%= stylesheet_link_tag    "bootstrap-image-gallery" %>
+
+<% provide(:title, @user.name) %>
+
+<div class="container">
+<div class="row">
+<div class="box box-media span3 event-single">
+  <div class="img-polaroid">
+    <%=	link_to image_tag(@user.profilepic, :class => 'user-profile'), '#' %>
+    <% if signed_in? && @user.inAdmins?(current_user) %>
+    <div class="dropdown">
+      <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-pencil"></i> Change Photos</a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <li><a href="#profilePictureModal" data-toggle="modal"><i class="icon-picture"></i> Choose profile pic</a></li>
+        <li><a href="#bgPictureModal" data-toggle="modal"><i class="icon-picture"></i> Choose background pic</a></li>
+        <li><a href="#photoModal" data-toggle="modal"><i class="icon-arrow-up"></i> Upload a photo</a></li>
+      </ul>
+     </div>
+    <% end %>
+  </div>
+  <%= render 'layouts/sponsor_leftbox' %>
+</div><!--box-media-->
+
+<div class="span9 company-header" <% if @user.preferences[:bgpicture] && @user.preferences[:bgpicture] != "" %>style="background-image: url('<%= @user.preferences[:bgpicture] %>')"<% end %>>
+
+</div><!-- /profileIcons -->
+
+<div class="profileInfo relative span9">
+  <div class="user">
+    <% if signed_in? && @user.inAdmins?(current_user)  %>
+      <%= link_to(edit_sponsor_path(@user), :class => "pull-right link-on", :style => "list-style: none; padding-top: 20px;") do %>
+        <i class='icon-pencil icon-2x'></i>
+      <% end %>
+    <% end %>
+    
+    <h2><%= @user.name %></h2>
+    <p>
+      <i class="icon-globe icon-large"></i>
+      <%= link_to @user.preferences[:url], @user.preferences[:url] %>
+    </p>
+  </div><!--user-->
+  <div class="connections action-buttons span3">
+    
+    <%=	 render 'follow_form' if signed_in? %>
+    
+  </div>
+</div><!-- /profileInfo -->
+
+<div class="box box-info span6 company">
+  
+  <div class="post resume">
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+      <li class="active">
+        <a href="#next-events" data-toggle="tab">
+          <h4>Next Events</h4>
+        </a>
+      </li>
+      <li>
+        <a href="#pre-events" data-toggle="tab">
+          <h4>Previous Events</h4>
+        </a>
+      </li>
+    </ul>
+    
+    <div id="my-tab-content" class="tab-content">
+      
+      <div class="tab-pane active" id="next-events">
       <% if signed_in? && @user.inAdmins?(current_user)  %>
         <ul class="post-actions">
           <li><a>As administrator you can create new events.</a></li>
@@ -38,3 +109,44 @@
         <h3>No upcoming events</h3>
     <% end %>
       </div><!-- #next-events -->
+      
+      <div class="tab-pane" id="pre-events">
+    <% if @prev_events.count > 0 %>
+      <% @prev_events.each do |event| %>
+        <div class="item-block">
+          <a href="<%= event_path(event) %>">
+            <div class="item-img">
+              <%= image_tag event.imageurl %>
+            </div>
+            <div class="item-info">
+              <h4><%= event.name %></h4>
+              <p><b><%= event.assistants.count %> assistants</b> <%= event.date.strftime("on %B #{event.date.day.ordinalize}") %></p>
+            </div>
+          </a>
+        </div><!--item-block-->
+      <% end %>
+    <% else %>
+        <h3>No previous events</h3>
+    <% end %>
+      </div><!-- #pre-events -->
+      
+    </div><!-- #my-tab-content-->
+    
+    <script type="text/javascript">
+      jQuery(document).ready(function ($) {
+        $('#tabs').tab();
+      });
+    </script>
+    
+  </div><!--post resume-->
+</div><!--span6 company-->
+
+<div class="box box-connect span3">
+  <%= render 'layouts/sponsor_rightbox' %>
+</div><!--box-connect-->
+</div>
+
+</div><!-- /.container -->
+
+<%=  render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
+<%=  render :partial => 'photos/bg_picture', :locals => {:photos => @photos} %>

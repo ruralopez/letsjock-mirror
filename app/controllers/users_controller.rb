@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :typeahead, :add_admin]
+  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events]
   
   def verify_login
     unless signed_in?
@@ -149,10 +149,9 @@ class UsersController < ApplicationController
     end
 
     if @user.isSponsor?
-      # Eventos en los que ha participado      
-      @next_events = Event.find(:all, :conditions => ['user_id = ? AND date >= ?', @user.id, DateTime.now]).to_set.classify { |event| event.date.month }
-      @posts = Post.where(:user_id => @user.id).order("created_at DESC")
-      #@prev_events = Event.find(:all, :conditions => ['user_id = ? AND date < ?', @user.id, DateTime.now])
+      posts = Post.where(:user_id => @user.id).order("created_at ASC")
+      events = Event.where(:user_id => @user.id).order("created_at ASC")
+      @posts_combined = ( posts + events ).sort_by(&:created_at).reverse
     else
       #Juntar competitions, teams, trains, results y recognitions como athlete experiences
       @competitions = Competition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "init DESC, end DESC")
@@ -572,8 +571,13 @@ class UsersController < ApplicationController
     respond_to do |format|
       if User.exists?(params[:user][:id])
         @user = User.find(params[:user][:id])
-        @user.update_attributes(params[:user])
-      else
+        
+        if @user.inAdmins?(current_user)
+          @user.update_attributes(params[:user])
+        else
+          redirect_to profile_path(@user) and return
+        end
+      elsif current_user.isAdmin?
         @user = User.create(params[:user])
         @user.update_attribute(:authentic_email, 1)
         
@@ -597,7 +601,27 @@ class UsersController < ApplicationController
   
   def sponsor_edit
     @user = User.find(params[:id])
-    render "sponsor_new"
+    
+    if @user.inAdmins?(current_user)
+      render "sponsor_new"
+    else
+      redirect_to profile_path(@user)
+    end
+  end
+  
+  def events
+    @user = User.find(params[:id])
+    
+    if @user.isSponsor
+      @next_events = Event.find(:all, :conditions => ['user_id = ? AND date >= ?', @user.id, DateTime.now]).to_set.classify { |event| event.date.month }
+      @prev_events = Event.find(:all, :conditions => ['user_id = ? AND date < ?', @user.id, DateTime.now])
+      
+      #Juntar photos y videos que el usuario ya tiene
+      @photos = Photo.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
+      @videos = Video.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
+    else
+      redirect_to profile_path(@user)
+    end
   end
   
   def add_admin

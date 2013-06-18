@@ -159,6 +159,15 @@ input.search-query{
     text-align:right;
     color:white;
 }
+.username .dropdown-menu li.admin {
+    padding: 0px 20px;
+}
+.username .dropdown-menu li.admin_user {
+    background-color: #333;
+}
+.username .dropdown-menu li.admin_user img {
+    margin-top: 2px;
+}
 
 /*NEWS*/
 .post{}
@@ -840,6 +849,7 @@ ul.sponsor-third li:first-child:before, ul.sponsor-third li:after{
 .page-title h3 a:hover{}
 
 .images .image-gallery{
+    min-height: 600px;
     padding: 3%;
     width: 94%;
     background:white;

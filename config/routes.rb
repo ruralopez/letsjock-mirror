@@ -58,6 +58,7 @@ Letsjock::Application.routes.draw do
   match '/profile/:id/add_admin' => 'users#add_admin', :as => :add_admin
   match '/profile/:id/add_post' => 'posts#add_user_post', :as => :add_post
   match '/profile/:id/new_event' => 'events#new', :as => :new_event
+  match '/profile/:id/events' => 'users#events', :as => :user_events
   match '/settings' => 'settings#index', :as => :settings
   match '/forgotten_password' => 'users#forgotten_password', :as => :forgotten_password
   match '/new_password_request' => 'users#new_password_request', :as => :new_password_request

@@ -1,0 +1,98 @@
+<div class="event-info">
+  <h5><i class="icon-building"></i>Industry<span><%= @user.preferences[:industries].join(", ") %></span></h5>
+  <h5>
+    <i class="icon-calendar"></i>Founded<span><%= ( @user.birth && @user.birth != "" ) ? @user.birth.year : "?" %></span>
+  </h5>
+  <h5>
+    <i class="icon-map-marker"></i>Headquarters<span><%= @user.citybirth ? @user.citybirth : "Location" %>, <%= @user.country ? @user.country : "Country" %></span>
+  </h5>
+  <!--<h5><i class="icon-group"></i>Size<span><%= @user.preferences[:size] %> employees</span></h5>-->
+  
+<% if @user.inAdmins?(current_user) %>
+  <h5><i class="icon-group"></i>Admins <span style="color: #999"><small>(Only admins see this info)</small></span></h5>
+  <div class="sponsor-pictures employees">
+  <% @user.admins.each do |admin| %>
+    <%= link_to image_tag(admin.profilephotourl, :title => admin.full_name), '#' %>
+  <% end %>
+  </div>
+  <div class="input-prepend input-append">
+    <span class="add-on"><i class="icon-user"></i></span>
+    <input type="hidden" id="admin_id" name="admin_id" value="">
+    <input type="text" class="typeahead users span2" placeholder="Add user as admin" data-provide="typeahead">
+    <button class="btn btn-add-admin" type="button">Add</button>
+  </div>
+  <script>
+    $(document).ready(function(){
+      var results = {};
+      
+      $(".typeahead.users").typeahead({
+        source: function (query, process) {
+          return $.get('/typeahead', { type: "User", query: query }, function (data) {
+            results = data.options;
+            
+            var arr = $.map(data.options, function(el, i) {
+              return el.name + " " + el.lastname;
+            });
+            console.log(results);
+            return process(arr);
+          });
+        },
+        updater: function(item){
+          user = $.grep(results, function(element, index){
+            return element.name + " " + element.lastname == item;
+          })[0];
+          
+          $("input[name=admin_id]").val(user.id);
+          
+          return item;
+        }
+      });
+      
+      $(".btn-add-admin").click(function(){
+        if($("input[name=admin_id]").val() != ""){
+          var data = {};
+          data["admin_id"] = $("input[name=admin_id]").val();
+          
+          $.post("/profile/<%= @user.id %>/add_admin", data, function(){
+            location.href = "/profile/<%= @user.id %>";
+          });
+        }
+      });
+    });
+  </script>
+<% end %>
+
+  <h5><i class="icon-camera"></i><%= link_to 'Pictures' , pictures_path(@user) %></h5>
+  <div class="event-pictures">
+    <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+    <%  @photos.take(6).each do |photo| %>
+        <% if photo.url != @user.profilephotourl %>
+          <%= link_to image_tag(photo.url) , photo.url, "data-gallery" => "gallery" %>
+        <% end %>
+    <%  end %>
+    </div>
+  </div><!--user-pictures-->
+  
+  <h5 class="white">
+    <%= @photos.count %> pictures
+    <%= link_to 'see more' , pictures_path(@user) %>
+    <% if @user.inAdmins?(current_user) %>
+    <a href="#photoModal" data-toggle="modal" role="button" id="btn-photo" class="btn btn-mini btn-success pull-right">Upload <i class="icon-white icon-circle-arrow-up"></i></a>
+    <% end %>
+  </h5>
+  
+  <h5><i class="icon-facetime-video"></i><a href="#">Videos</a></h5>
+  <div class="user-video">
+    <%  @videos.take(3).each do |video| %>
+        <%= raw(youtube_embed(video.url,270,200, true)) %>
+    <%  end %>
+  </div><!--user-video-->
+
+  <h5 class="white">
+    <%= @videos.count %> videos
+    <%= link_to 'see more' , pictures_path(@user) %>
+    <% if @user.inAdmins?(current_user) %>
+    <a href="#videoModal" data-toggle="modal" role="button" id="btn-video" class="btn btn-mini btn-success pull-right">Upload <i class="icon-white icon-circle-arrow-up"></i></a>
+    <% end %>
+  </h5>
+</div><!--event info-->

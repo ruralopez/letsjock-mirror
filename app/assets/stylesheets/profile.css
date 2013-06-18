@@ -127,6 +127,7 @@ ul.profileIcons, .profileInfo{
     -moz-box-shadow:-1px 0 1px #CCC;
     padding:0 30px;
     margin-left:0;
+    min-height: 600px;
 }
 
 .resume{
@@ -671,6 +672,9 @@ h1.single-title{
 	}
 	#latest-post .input-post textarea {
             border: none;
+        }
+        #latest-post textarea {
+            overflow: hidden;
 	}
         #latest-post .input-post .thumbnail {
             max-width: 200px;

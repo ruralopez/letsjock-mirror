@@ -21,7 +21,6 @@ class User < ActiveRecord::Base
   
   has_many :user_admins, :dependent => :destroy
   has_many :admins, :through => :user_admins, :source => :admin
-  has_many :admin_users, :through => :user_admins, :source => :user
 
   has_many :competitions, :dependent => :destroy
   has_many :recognitions, :dependent => :destroy
@@ -187,6 +186,10 @@ class User < ActiveRecord::Base
   
   def inAdmins?(user) # Si un usuario es administrador de otro, para el caso de las instituciones
     user.isAdmin? || UserAdmin.exists?(:user_id => self.id, :admin_id => user.id)
+  end
+  
+  def administerUser
+    User.where(:id => UserAdmin.select("user_id").where(:admin_id => self.id) )
   end
 
   def compare_password(pass)

@@ -28,7 +28,7 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @event = Event.find(params[:id])
-
+    
     if signed_in?
       userstats = Stat.all(:conditions => ["user_id = ? AND type = ? AND created_at between ? AND ?", current_user.id, "Event", Time.zone.now.beginning_of_day, Time.zone.now.end_of_day])
       if userstats.empty?
@@ -45,7 +45,7 @@ class EventsController < ApplicationController
 
     @creator = User.find(@event.user_id)
     @event_admins = EventAdmin.all(:conditions => ["event_id = ?", params[:id]])
-    @post = @event.posts.build if signed_in? && @event.admin?(current_user)
+    @post = @event.posts.build if signed_in? && ( @event.admin?(current_user) || @creator.inAdmins?(current_user) )
     @posts = Post.all(:conditions => ["event_id = ?", @event.id])
     respond_to do |format|
       format.html # show.html.erb
@@ -56,9 +56,10 @@ class EventsController < ApplicationController
   # GET /events/new
   # GET /events/new.json
   def new
-    if signed_in? && current_user.isAdmin?
+    @user = User.find(params[:id])
+    
+    if signed_in? && @user.inAdmins?(current_user)
       @event = Event.new
-      @user = User.find(params[:id])
       
       respond_to do |format|
         format.html # new.html.erb

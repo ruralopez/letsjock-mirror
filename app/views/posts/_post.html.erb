@@ -1,0 +1,40 @@
+<% user = post.user%>
+<li>
+  <a class="img-polaroid">
+    <%= image_tag(user.profilepic) %>
+  </a>
+  <div class="single-post">
+    <h1 class="single-title"><%= user.full_name%></h1>
+  <% if post.event_id %>
+    <p>
+      <i class="icon-bullhorn"></i> Write a post in event <%= link_to post.event.name, event_path(post.event_id) %>:
+    </p>
+  <% end %>
+    <p>
+      <%= raw(post.content) %>
+    </p>
+    <p>
+      <small>
+        <a href="#">Like <i class="icon-trophy icon-large icon-gray"></i></a>
+        <%= time_ago_in_words(post.created_at) %> ago
+      </small>
+    </p>
+    <!--comentarios-->
+    <ul class="comments">
+      <li class="view-more">
+        <i class="icon-comments"></i>
+        <p><small>Be the first to comment</small></p>
+      </li>
+      <% if signed_in? %>
+      <li>
+        <a class="img-rounded">
+          <%= image_tag(current_user.profilephotourl, :title => current_user.full_name) %>
+        </a>
+        <div class="single-comment">
+          <textarea class="input-block-level" rows="1" placeholder="Write a comment"></textarea>
+        </div>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+</li>
