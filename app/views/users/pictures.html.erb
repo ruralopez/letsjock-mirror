@@ -107,9 +107,9 @@
             if(photo.tags && photo.tags.length > 0){
                 for(i=0;i<photo.tags.length;i++){
                     if(photo.tags[i].lastname)
-                        $(this).find("#tags_user").after('<span style="margin-right: 2px;" class="label label-info">' + fullname(photo.tags[i]) + ' <input type="hidden" name="tags[users][]" value="' + photo.tags[i].id + '"><button type="button" class="close pull-right" aria-hidden="true">×</button></span>');
+                        $(this).find("#appendtags").after('<span style="margin-right: 2px;" class="label label-info">' + fullname(photo.tags[i]) + ' <input type="hidden" name="tags[users][]" value="' + photo.tags[i].id + '"><button type="button" class="close pull-right" aria-hidden="true">×</button></span>');
                     else
-                        $(this).find("#tags_event").after('<span style="margin-right: 2px;" class="label label-success">' + photo.tags[i].name + ' <input type="hidden" name="tags[events][]" value="' + photo.tags[i].id + '"><button type="button" class="close pull-right" aria-hidden="true">×</button></span>');
+                        $(this).find("#appendtags").after('<span style="margin-right: 2px;" class="label label-success">' + photo.tags[i].name + ' <input type="hidden" name="tags[events][]" value="' + photo.tags[i].id + '"><button type="button" class="close pull-right" aria-hidden="true">×</button></span>');
                 }
              }
             console.log(photo);

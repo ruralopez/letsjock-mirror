@@ -58,6 +58,7 @@
 
     <%= form_tag({:controller => 'users', :action => 'add_tag'}) do  %>
         <fieldset>
+          <div id="appendtags"></div>
           <input type="text" id="tags_user" class="tags" placeholder="Tags Users">
           <input type="text" id="tags_event" class="tags" placeholder="Tags Events">
           <input type="hidden" name="tags[photo_id]" value="">
@@ -85,7 +86,7 @@
                          results: function() {}
                      } ,
                      select: function( event, ui ) {
-                         $("#tags_user").after('<span style="margin-right: 2px;" class="label label-info">' + ui.item.label + ' <input type="hidden" name="tags[users][]" value="' + ui.item.value + '"><button type="button" class="close pull-right" aria-hidden="true">×</button></span>');
+                         $("#appendtags").after('<span style="margin-right: 2px;" class="label label-info">' + ui.item.label + ' <input type="hidden" name="tags[users][]" value="' + ui.item.value + '"><button type="button" class="close pull-right" aria-hidden="true">×</button></span>');
                          $("#tags_user").attr("value", "");
                          return false;
                      } ,
@@ -107,7 +108,7 @@
                          results: function() {}
                      } ,
                      select: function( event, ui ) {
-                         $("#tags_event").after('<span style="margin-right: 2px;" class="label label-success">' + ui.item.label + ' <input type="hidden" name="tags[events][]" value="' + ui.item.value + '"><button type="button" class="close pull-right" aria-hidden="true">×</button></span>');
+                         $("#appendtags").after('<span style="margin-right: 2px;" class="label label-success">' + ui.item.label + ' <input type="hidden" name="tags[events][]" value="' + ui.item.value + '"><button type="button" class="close pull-right" aria-hidden="true">×</button></span>');
                          $("#tags_event").attr("value", "");
                          return false;
                      } ,
