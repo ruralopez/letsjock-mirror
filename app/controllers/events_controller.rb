@@ -27,11 +27,11 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @event = Event.find(params[:id])
-    @tags = Tags.all(:conditions => ["type1 = ? AND type2 = ? AND id2 = ?", "Photo", "Event", @event.id])
+    @tags = Tags.all(:conditions => ["type2 = ? AND type1 = ? AND id1 = ?", "Photo", "Event", @event.id])
     @photos = []
     unless @tags.empty?
       @tags.each do |tag|
-        @photos.push(Photo.find(tag.id1))
+        @photos.push(Photo.find(tag.id2))
       end
     end
 
