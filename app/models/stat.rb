@@ -4,11 +4,11 @@ class Stat < ActiveRecord::Base
   attr_accessible :info, :type, :user_id
 
   #before_save :set_data
-  serialize :info, Hash
+  #serialize :info, Hash
 
-  def after_initialize
-    self.info ||= {}
-  end
+  #def after_initialize
+  #  self.info ||= {}
+  #end
 
   #def set_info
   #  if self.info[:tags].is_a? String

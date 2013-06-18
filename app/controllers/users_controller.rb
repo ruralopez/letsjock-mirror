@@ -135,16 +135,9 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if signed_in?
-      userstats = Stat.all(:conditions => ["user_id = ? AND type = ? AND created_at between ? AND ?", current_user.id, "User", Time.zone.now.beginning_of_day, Time.zone.now.end_of_day])
+      userstats = Stat.all(:conditions => ["user_id = ? AND type = ? AND info = ? AND created_at between ? AND ?", current_user.id, "User", @user.id, Time.zone.now.beginning_of_day, Time.zone.now.end_of_day])
       if userstats.empty? && @user.id != current_user.id
-        Stat.new(:user_id => current_user.id, :type => "User", :info => {:target_id => @user.id}).save
-      else
-        userstats.each do |st|
-          if  YAML.load(st.info)[:target_id] != @user.id && @user.id != current_user.id
-            Stat.new(:user_id => current_user.id, :type => "User", :info => {:target_id => @user.id}).save
-            break
-          end
-        end
+        Stat.new(:user_id => current_user.id, :type => "User", :info => @user.id).save
       end
     end
 

@@ -217,7 +217,7 @@ ActiveRecord::Schema.define(:version => 20130614210504) do
   create_table "stats", :force => true do |t|
     t.integer  "user_id"
     t.string   "type"
-    t.text     "info"
+    t.integer  "info"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
