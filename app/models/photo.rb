@@ -42,4 +42,22 @@ class Photo < ActiveRecord::Base
     url = AWS::S3::S3Object.url_for(filename, 'letsjock-photos', :authenticated => false)
   end
 
+  def tags
+    users = []
+    events = []
+    if Tags.exists?(:id2 => self.id, :type2 => "Photo", :type1 => "User")
+      ids = Tags.select("id1").find(:all, :conditions => ["id2 = ? AND type2 = ? AND type1 = ?", self.id, "Photo", "User"])
+      idX = []
+      ids.each {|id| idX.push(id.id1)}
+      users = User.select("id, name, lastname, isSponsor").find(:all, :conditions => ["id IN (?)", idX])
+    end
+    if Tags.exists?(:id2 => self.id, :type2 => "Photo", :type1 => "Event")
+      ids = Tags.select("id1").find(:all, :conditions => ["id2 = ? AND type2 = ? AND type1 = ?", self.id, "Photo", "Event"])
+      idX = []
+      ids.each {|id| idX.push(id.id1)}
+      events = Event.select("id, name").find(:all, :conditions => ["id IN (?)", idX])
+    end
+    tag = users + events
+  end
+
 end

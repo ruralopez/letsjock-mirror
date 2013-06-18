@@ -70,6 +70,7 @@ Letsjock::Application.routes.draw do
   match '/follow_letsjock' => 'users#follow_letsjock', :as => :follow_letsjock
   match '/stadistics' => 'stats#index', :as => :stats
   match '/tags' => 'tags#index', :as => :tags
+  match '/add_tag' => 'users#add_tag', :as => :add_tag
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

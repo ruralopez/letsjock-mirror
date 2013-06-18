@@ -703,6 +703,29 @@ class UsersController < ApplicationController
     redirect_to news_path
   end
 
+  def add_tag
+
+    params[:tags][:users].each do |tag|
+      #3 condiciones: doble existencia, existencia en el servidor y existencia en params[:tags][:users]
+      #Recorrer el servidor, si el tag está en el array, lo saco. Si no está, lo elimino (de la bd).
+      #Si array queda con elementos, estos elementos los creo.
+      #arr.delete_if (|item| item == 'id')
+      unless Tags.exists?(:id1 => tag, :type1 => "User", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+          Tags.create(:id1 => tag, :type1 => "User", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+      end
+    end
+    params[:tags][:events].each do |tag|
+      #3 condiciones: doble existencia, existencia en el servidor y existencia en params[:tags][:users]
+      #Recorrer el servidor, si el tag está en el array, lo saco. Si no está, lo elimino (de la bd).
+      #Si array queda con elementos, estos elementos los creo.
+      #arr.delete_if (|item| item == 'id')
+      unless Tags.exists?(:id1 => tag, :type1 => "Event", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+        Tags.create(:id1 => tag, :type1 => "Event", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+      end
+    end
+    redirect_to request.referer
+  end
+
 end
 
 class NullObject
