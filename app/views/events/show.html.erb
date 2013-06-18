@@ -50,7 +50,9 @@
   <div class="event-info">
     <h5><i class="icon-camera"></i><a href="#">Pictures</a></h5>
     <div class="event-pictures">
-
+      <%  @photos.take(6).each do |photo| %>
+              <%= link_to image_tag(photo.url) , photo.url %>
+      <%  end %>
     </div><!--user-pictures-->
     <h5 class="white">0 pictures <a href="#">see more</a></h5>
 

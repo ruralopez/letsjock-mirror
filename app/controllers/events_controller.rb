@@ -27,6 +27,13 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @event = Event.find(params[:id])
+    @tags = Tags.all(:conditions => ["type1 = ? AND type2 = ? AND id2 = ?", "Photo", "Event", @event.id])
+    @photos = []
+    unless @tags.empty?
+      @tags.each do |tag|
+        @photos.push(Photo.find(tag.id1))
+      end
+    end
 
     if signed_in?
       userstats = Stat.all(:conditions => ["user_id = ? AND type = ? AND info = ? AND created_at between ? AND ?", current_user.id, "Event", @event.id, Time.zone.now.beginning_of_day, Time.zone.now.end_of_day])
