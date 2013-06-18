@@ -18,6 +18,15 @@
         </h3>
       </div>
     </div>
+    <div class="input-prepend input-append pull-right" style="margin-right: 7px;">
+      <span class="add-on" rel="tooltip" title="show/hide videos"><i class="icon-facetime-video"></i></span>
+      <span class="add-on"><input class="cb" type="checkbox" id="checkBoxVideos"></span>
+    </div>
+    <div class="input-prepend input-append pull-right" style="margin-right: 7px;">
+      <span class="add-on" rel="tooltip" title="show/hide pictures"><i class="icon-camera"></i></span>
+      <span class="add-on"><input class="cb" type="checkbox" id="checkBoxPictures"></span>
+    </div>
+
   </div>
 
   <div class="row relative">
@@ -42,7 +51,9 @@
         <%  end %>
         </div>
         <%  @videos.each do |video| %>
-            <%= raw(youtube_embed(video.url,240,200,true)) %>
+            <div class="video">
+              <%= raw(youtube_embed(video.url,240,200,true)) %>
+            </div>
         <%  end %>
       </div>
     </div>
@@ -56,11 +67,24 @@
 
 
 <script>
-  $(document).ready(function(){
-    $('.dropdown-toggle').dropdown();
-    
-    $('#video-submit').click(function(){
-      $("#new_video").submit();
+    $(document).ready(function(){
+        $('.dropdown-toggle').dropdown();
+
+        $('#video-submit').click(function(){
+            $("#new_video").submit();
+        });
+        $(".cb").attr("checked","checked");
+
+        $('#checkBoxPictures').change(function(){
+            $(".image-editable").each(function(){
+                $( this ).toggle();
+            });
+        });
+
+        $('#checkBoxVideos').change(function(){
+            $(".video").each(function(){
+                $( this ).toggle();
+            });
+        });
     });
-  });
 </script>
