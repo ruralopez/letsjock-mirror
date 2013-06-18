@@ -36,7 +36,7 @@
         <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
         <%  @photos.each do |photo| %>
           <div class="image-editable">
-            <a href="<%= photo.url %>" data-gallery="gallery">
+            <a href="<%= photo.url %>" data-gallery="gallery" data-id="<%= photo.id %>">
               <%= image_tag(photo.url) %>
             </a>  
             <% if signed_in? && @user.id == current_user.id %>
@@ -68,6 +68,8 @@
 
 <script>
     $(document).ready(function(){
+        var photos = <%= raw (@photos.to_json)%>;
+
         $('.dropdown-toggle').dropdown();
 
         $('#video-submit').click(function(){
@@ -86,5 +88,15 @@
                 $( this ).toggle();
             });
         });
+        $('#modal-gallery').on('load', function () {
+            var modalData = $(this).data('modal');
+            var photo_id = $(modalData.$links[modalData.options.index]).attr("data-id");
+
+            var photo = $.grep(photos, function(element, index){
+                return element.id == photo_id;
+            })[0];
+            $(this).find("#description").html(photo.comment);
+        });
+
     });
 </script>
