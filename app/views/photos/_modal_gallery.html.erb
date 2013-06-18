@@ -1,6 +1,112 @@
+<style>
+    .tags {
+        border-radius: 0 4px 4px 0;
+        -moz-border-radius: 0 4px 4px 0;
+        -webkit-border-radius: 0 4px 4px 0;
+        border-right: 1px solid #ccc;
+    }
+
+        /* Autocomplete
+        ----------------------------------*/
+    .ui-autocomplete { background: white; position: absolute; cursor: default; border: #ccc 1px solid; color: #444; font-size: 12px; }
+    .ui-autocomplete-loading { background: white right center no-repeat; }
+
+        /* workarounds */
+    * html .ui-autocomplete { width:1px; } /* without this, the menu expands to 100% in IE6 */
+
+        /* Menu
+        ----------------------------------*/
+    .ui-helper-hidden-accessible { display:none; }
+    .ui-menu {
+        list-style:none;
+        padding: 2px;
+        margin: 0;
+        display:block;
+    }
+    .ui-menu .ui-menu {
+        margin-top: -3px;
+    }
+    .ui-menu .ui-menu-item {
+        margin:0;
+        padding: 0;
+        width: 100%;
+    }
+    .ui-menu .ui-menu-item:hover {
+        background-color: #ccc;
+    }
+    .ui-menu .ui-menu-item a {
+        text-decoration:none;
+        display:block;
+        padding:.2em .4em;
+        line-height:1.5;
+        zoom:1;
+    }
+    .ui-menu .ui-menu-item a.ui-state-hover,
+    .ui-menu .ui-menu-item a.ui-state-active {
+        margin: -1px;
+        color: #0f0;
+    }
+
+</style>
+
 <!-- modal-gallery is the modal dialog used for the image gallery -->
 <div id="modal-gallery" class="modal modal-gallery hide fade" tabindex="-1">
   <div class="modal-body">
     <div class="modal-image"></div>
+
+      <input type="text" id="tags_user" class="tags" placeholder="Tags Users">
+      <input type="text" id="tags_event" class="tags" placeholder="Tags Events">
+
   </div>
 </div>
+
+ <script>
+     $(document).ready(function() {
+         $( "#tags_user" )
+                 .bind( "keydown", function( event ) {
+                     if ( event.keyCode === $.ui.keyCode.TAB &&
+                             $( this ).data( "ui-autocomplete" ).menu.active ) {
+                         event.preventDefault();
+                     }
+                 })
+                 .autocomplete({
+                     source: tagsUserArray,
+                     messages: {
+                         noResults: '',
+                         results: function() {}
+                     } ,
+                     select: function( event, ui ) {
+                         $("#tags_user").after('<span style="margin-right: 2px;" class="label label-info">' + ui.item.label + ' <button type="button" class="close pull-right" aria-hidden="true">×</button></span>');
+                         $("#tags_user").attr("value", "");
+                         return false;
+                     } ,
+                     focus: function( event, ui ) {
+                         return false;
+                     }
+                 });
+         $( "#tags_event" )
+                 .bind( "keydown", function( event ) {
+                     if ( event.keyCode === $.ui.keyCode.TAB &&
+                             $( this ).data( "ui-autocomplete" ).menu.active ) {
+                         event.preventDefault();
+                     }
+                 })
+                 .autocomplete({
+                     source: tagsEventArray,
+                     messages: {
+                         noResults: '',
+                         results: function() {}
+                     } ,
+                     select: function( event, ui ) {
+                         $("#tags_event").after('<span style="margin-right: 2px;" class="label label-success">' + ui.item.label + ' <button type="button" class="close pull-right" aria-hidden="true">×</button></span>');
+                         $("#tags_event").attr("value", "");
+                         return false;
+                     } ,
+                     focus: function( event, ui ) {
+                         return false;
+                     }
+                 });
+     });
+     var tagsUserArray = <%= @user.followers.map{|p| {:label=>p.full_name,:value=>p.id}}.to_json.html_safe %>;
+     var tagsEventArray = <%= @myevents.map{|event| {:label=>event.name,:value=>event.id}}.to_json.html_safe %>;
+ </script>

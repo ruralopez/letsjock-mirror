@@ -178,6 +178,10 @@ class UsersController < ApplicationController
       
       # Eventos en los que ha participado
       @events = UserEvent.all(:conditions => ['user_id = ?', @user.id])
+      @myevents = []
+      @events.each do |event|
+        @myevents.push(Event.find(event.event_id))
+      end
     end
     
     #Juntar photos y videos que el usuario ya tiene
@@ -266,6 +270,11 @@ class UsersController < ApplicationController
       @photo = @user.photos.build if signed_in?
       @video = @user.videos.build if signed_in?
 
+      @events = UserEvent.all(:conditions => ['user_id = ?', current_user.id])
+      @myevents = []
+      @events.each do |event|
+        @myevents.push(Event.find(event.event_id))
+      end
     else
       flash[:error] = "You must be logged in."
       sign_out
