@@ -710,13 +710,13 @@ class UsersController < ApplicationController
     tagsUserArray = params[:tags][:users]
     tagsEventArray = params[:tags][:events]
 
-    unless tagsUserArray.empty?
+    unless tagsUserArray.blank?
       if !tagsUser.empty?
         tagsUser.each do |tag|
           tagsUserArray.delete_if {|user| user == tag}
           #Si tag no está en el arreglo, tengo que eliminarlo de la base de datos
         end
-        if !tagsUserArray.empty?
+        if !tagsUserArray.blank?
           tagsUserArray.each do |tag|
             Tags.create(:id1 => tag, :type1 => "User", :id2 => params[:tags][:photo_id], :type2 => "Photo")
           end
@@ -724,13 +724,13 @@ class UsersController < ApplicationController
       end
     end
 
-    unless tagsEventArray.empty?
+    unless tagsEventArray.blank?
       if !tagsEvent.empty?
         tagsEvent.each do |tag|
           tagsEventArray.delete_if {|event| event == tag}
           #Si tag no está en el arreglo, tengo que eliminarlo de la base de datos
         end
-        if !tagsEventArray.empty?
+        if !tagsEventArray.blank?
           tagsEventArray.each do |tag|
             Tags.create(:id1 => tag, :type1 => "Event", :id2 => params[:tags][:photo_id], :type2 => "Photo")
           end
