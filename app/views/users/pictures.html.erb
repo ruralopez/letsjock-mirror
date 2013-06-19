@@ -93,6 +93,11 @@
                 $( this ).toggle();
             });
         });
+
+        $("#modal-gallery").delegate(".close", "click", function () {
+            $(this).closest('span.label').remove();
+        });
+
         $('#modal-gallery').on('load', function () {
             var modalData = $(this).data('modal');
             var photo_id = $(modalData.$links[modalData.options.index]).attr("data-id");
@@ -107,13 +112,12 @@
             if(photo.tags && photo.tags.length > 0){
                 for(i=0;i<photo.tags.length;i++){
                     if(photo.tags[i].lastname)
-                        $(this).find("#appendtags").after('<span style="margin-right: 2px;" class="label label-info">' + fullname(photo.tags[i]) + ' <input type="hidden" name="tags[users][]" value="' + photo.tags[i].id + '"><button type="button" class="close pull-right" aria-hidden="true">×</button></span>');
+                        $(this).find("#appendtags").after('<span style="margin-right: 2px; display: inline;" class="label label-info">' + fullname(photo.tags[i]) + ' <input type="hidden" name="tags[users][]" value="' + photo.tags[i].id + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
                     else
-                        $(this).find("#appendtags").after('<span style="margin-right: 2px;" class="label label-success">' + photo.tags[i].name + ' <input type="hidden" name="tags[events][]" value="' + photo.tags[i].id + '"><button type="button" class="close pull-right" aria-hidden="true">×</button></span>');
+                        $(this).find("#appendtags").after('<span style="margin-right: 2px; display: inline;" class="label label-success">' + photo.tags[i].name + ' <input type="hidden" name="tags[events][]" value="' + photo.tags[i].id + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
                 }
              }
             console.log(photo);
         });
-
     });
 </script>
