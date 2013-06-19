@@ -52,9 +52,9 @@
             <% if current_user.isAdmin? %>
               <li><%= link_to 'Create institution', new_sponsor_path %></li>
             <% end %>
-            <% if users = current_user.administerUser %>
+            <% if current_user.administerUser.any? %>
               <li class="admin">Administer institutions...</li>
-              <% users.each do |user| %>
+              <% current_user.administerUser.each do |user| %>
               <li class="admin_user">
                 <%= link_to profile_path(user) do %>
                   <%= image_tag user.profilepic, :class => "pull-left" %>
