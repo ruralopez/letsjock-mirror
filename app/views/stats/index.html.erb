@@ -8,7 +8,6 @@
     <th>UserID</th>
     <th>Type</th>
     <th>Info</th>
-    <th>Test</th>
     <th></th>
     <th></th>
     <th></th>
@@ -16,12 +15,10 @@
 
   <% @stats.each do |st| %>
       <tr>
-        <% if  st.id > 54 %>
         <td><%= st.id %></td>
         <td><%= st.user_id %></td>
         <td><%= st.type %></td>
-        <td><%= YAML.load(st.info) %></td>
-        <% end %>
+        <td><%= st.info %></td>
       </tr>
   <% end %>
 </table>

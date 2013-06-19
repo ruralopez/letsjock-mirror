@@ -135,16 +135,9 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if signed_in?
-      userstats = Stat.all(:conditions => ["user_id = ? AND type = ? AND created_at between ? AND ?", current_user.id, "User", Time.zone.now.beginning_of_day, Time.zone.now.end_of_day])
+      userstats = Stat.all(:conditions => ["user_id = ? AND type = ? AND info = ? AND created_at between ? AND ?", current_user.id, "User", @user.id, Time.zone.now.beginning_of_day, Time.zone.now.end_of_day])
       if userstats.empty? && @user.id != current_user.id
-        Stat.new(:user_id => current_user.id, :type => "User", :info => {:target_id => @user.id}).save
-      else
-        userstats.each do |st|
-          if  YAML.load(st.info)[:target_id] != @user.id && @user.id != current_user.id
-            Stat.new(:user_id => current_user.id, :type => "User", :info => {:target_id => @user.id}).save
-            break
-          end
-        end
+        Stat.new(:user_id => current_user.id, :type => "User", :info => @user.id).save
       end
     end
 
@@ -185,6 +178,10 @@ class UsersController < ApplicationController
       
       # Eventos en los que ha participado
       @events = UserEvent.all(:conditions => ['user_id = ?', @user.id])
+      @myevents = []
+      @events.each do |event|
+        @myevents.push(Event.find(event.event_id))
+      end
     end
     
     #Juntar photos y videos que el usuario ya tiene
@@ -273,6 +270,11 @@ class UsersController < ApplicationController
       @photo = @user.photos.build if signed_in?
       @video = @user.videos.build if signed_in?
 
+      @events = UserEvent.all(:conditions => ['user_id = ?', current_user.id])
+      @myevents = []
+      @events.each do |event|
+        @myevents.push(Event.find(event.event_id))
+      end
     else
       flash[:error] = "You must be logged in."
       sign_out
@@ -808,6 +810,29 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.js { render :json => { :user_id => current_user.id } }
     end
+  end
+
+  def add_tag
+
+    params[:tags][:users].each do |tag|
+      #3 condiciones: doble existencia, existencia en el servidor y existencia en params[:tags][:users]
+      #Recorrer el servidor, si el tag está en el array, lo saco. Si no está, lo elimino (de la bd).
+      #Si array queda con elementos, estos elementos los creo.
+      #arr.delete_if (|item| item == 'id')
+      unless Tags.exists?(:id1 => tag, :type1 => "User", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+          Tags.create(:id1 => tag, :type1 => "User", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+      end
+    end
+    params[:tags][:events].each do |tag|
+      #3 condiciones: doble existencia, existencia en el servidor y existencia en params[:tags][:users]
+      #Recorrer el servidor, si el tag está en el array, lo saco. Si no está, lo elimino (de la bd).
+      #Si array queda con elementos, estos elementos los creo.
+      #arr.delete_if (|item| item == 'id')
+      unless Tags.exists?(:id1 => tag, :type1 => "Event", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+        Tags.create(:id1 => tag, :type1 => "Event", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+      end
+    end
+    redirect_to request.referer
   end
 
 end

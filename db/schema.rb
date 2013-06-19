@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130619200714) do
+ActiveRecord::Schema.define(:version => 20130614210504) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -23,15 +23,6 @@ ActiveRecord::Schema.define(:version => 20130619200714) do
     t.string   "act_type"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
-  end
-
-  create_table "comments", :force => true do |t|
-    t.integer  "user_id",     :null => false
-    t.integer  "object_id",   :null => false
-    t.string   "object_type", :null => false
-    t.text     "comment",     :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
   end
 
   create_table "competitions", :force => true do |t|
@@ -104,16 +95,6 @@ ActiveRecord::Schema.define(:version => 20130619200714) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "likes", :force => true do |t|
-    t.integer  "user_id",     :null => false
-    t.integer  "object_id",   :null => false
-    t.string   "object_type", :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  add_index "likes", ["user_id", "object_id", "object_type"], :name => "index_likes_on_user_id_and_object_id_and_object_type", :unique => true
-
   create_table "messages", :force => true do |t|
     t.integer  "user_id"
     t.integer  "receiver_id"
@@ -154,9 +135,9 @@ ActiveRecord::Schema.define(:version => 20130619200714) do
 
   create_table "posts", :force => true do |t|
     t.integer  "user_id",    :null => false
-    t.integer  "event_id"
+    t.integer  "event_id",   :null => false
     t.string   "title"
-    t.text     "content"
+    t.string   "content"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -236,7 +217,7 @@ ActiveRecord::Schema.define(:version => 20130619200714) do
   create_table "stats", :force => true do |t|
     t.integer  "user_id"
     t.string   "type"
-    t.text     "info"
+    t.integer  "info"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -296,15 +277,6 @@ ActiveRecord::Schema.define(:version => 20130619200714) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "user_admins", :force => true do |t|
-    t.integer  "user_id",    :null => false
-    t.integer  "admin_id",   :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "user_admins", ["user_id", "admin_id"], :name => "index_user_admins_on_user_id_and_admin_id", :unique => true
-
   create_table "user_events", :id => false, :force => true do |t|
     t.integer  "user_id",    :null => false
     t.integer  "event_id",   :null => false
@@ -318,10 +290,10 @@ ActiveRecord::Schema.define(:version => 20130619200714) do
     t.integer  "user_id",    :null => false
     t.integer  "sport_id",   :null => false
     t.string   "position"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
     t.date     "init"
     t.date     "end"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_index "user_sports", ["user_id", "sport_id"], :name => "index_user_sports_on_user_id_and_sport_id", :unique => true
@@ -344,9 +316,9 @@ ActiveRecord::Schema.define(:version => 20130619200714) do
     t.string   "email_token"
     t.boolean  "authentic_email"
     t.boolean  "isSponsor"
+    t.text     "preferences"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
-    t.text     "preferences"
     t.string   "address"
   end
 
