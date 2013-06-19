@@ -15,8 +15,8 @@
     </p>
     <p>
       <small>
-        <a href="#">Like <i class="icon-trophy icon-large icon-gray"></i></a>
-        <%= time_ago_in_words(post.created_at) %> ago
+        <%= render :partial => 'users/like', :locals => {:object => post} if signed_in? %>
+        posted <%= time_ago_in_words(post.created_at) %> ago
       </small>
     </p>
     <!--comentarios-->

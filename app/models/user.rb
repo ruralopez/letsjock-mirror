@@ -41,6 +41,7 @@ class User < ActiveRecord::Base
   has_many :event_admins, :dependent => :destroy
   has_many :events, :through => :event_admins
   has_many :posts
+  has_many :likes, :dependent => :destroy
 
   has_many :messages
 

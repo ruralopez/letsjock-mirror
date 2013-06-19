@@ -848,6 +848,7 @@ ul.comments{
 			ul.comments li.view-more p{display:inline-block;}
 
 /*Likes*/
+.btn-like.liked, .btn-like.liked i { color: #C6091C; }
 .icon-gray{color:#999999;}
 .single-post a i {text-decoration:none;}
 .single-post p small i{margin-left:2px;}

@@ -74,6 +74,7 @@ Letsjock::Application.routes.draw do
   match '/stadistics' => 'stats#index', :as => :stats
   match '/tags' => 'tags#index', :as => :tags
   match '/typeahead' => 'users#typeahead', :as => :tags
+  match '/profile/:id/like' => 'users#like', :as => :like
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

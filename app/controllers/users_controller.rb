@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events]
+  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like]
   
   def verify_login
     unless signed_in?
@@ -762,6 +762,20 @@ class UsersController < ApplicationController
       end
     else
       redirect_to news_path
+    end
+  end
+  
+  def like
+    if params[:object_id] !="" && params[:object_type] != ""
+      if Like.exists?(:user_id => current_user.id, :object_id => params[:object_id], :object_type => params[:object_type])
+        likes = Like.where(:user_id => current_user.id, :object_id => params[:object_id], :object_type => params[:object_type]).first.destroy
+      else
+        Like.create(:user_id => current_user.id, :object_id => params[:object_id], :object_type => params[:object_type])
+      end
+    end
+    
+    respond_to do |format|
+      format.js { render :json => { :user_id => current_user.id } }
     end
   end
 

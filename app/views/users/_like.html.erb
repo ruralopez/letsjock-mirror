@@ -1,0 +1,8 @@
+<%= link_to like_path(:id => current_user.id, :object_id => object.id, :object_type => object.class.name ), :remote => true do %>
+  <% liked = Like.exists?(:user_id => current_user.id, :object_id => object.id, :object_type => object.class.name) %>
+  <button class='btn btn-mini btn-like <%= liked ? "liked" : "" %>'><i class='icon-trophy icon-gray'></i> <span>Like<%= liked ? "d" : "" %></span></button>
+<% end %>
+&nbsp;•&nbsp;
+<% likes = Like.where(:object_id => object.id, :object_type => object.class.name).count %>
+<a><i class="icon-trophy icon-large"></i> <span class="likes-count" data-count="<%= likes %>"><%= likes %> likes</span></a>
+&nbsp;•&nbsp;

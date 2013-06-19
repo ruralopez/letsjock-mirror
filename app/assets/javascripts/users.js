@@ -106,6 +106,24 @@ $(function(){
     });
   });
   
+  // LIKES
+  $(".btn-like").click(function(){
+    var span = $(this).parent().next().find("span.likes-count");
+    var count = parseInt(span.attr("data-count"));
+    
+    if($(this).hasClass("liked")){
+      $(this).find("span").text("Like");
+      count--;
+    }
+    else{
+      $(this).find("span").text("Liked");
+      count++;
+    }
+    
+    span.text(count + " likes").attr("data-count", count);
+    $(this).toggleClass("liked");
+  });
+  
 });
 
 /*
