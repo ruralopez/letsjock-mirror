@@ -710,33 +710,50 @@ class UsersController < ApplicationController
     tagsUserArray = params[:tags][:users]
     tagsEventArray = params[:tags][:events]
 
-    unless tagsUserArray.blank?
+
       if !tagsUser.empty?
         tagsUser.each do |tag|
-          tagsUserArray.delete_if {|user| user == tag}
-          #Si tag no está en el arreglo, tengo que eliminarlo de la base de datos
-        end
-        if !tagsUserArray.blank?
-          tagsUserArray.each do |tag|
-            Tags.create(:id1 => tag, :type1 => "User", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+          if !tagsUserArray.blank?
+            res = tagsUserArray.reject! {|user| user.to_i == tag.id1}
+          else
+            res = nil
+          end
+
+          if(res == nil)
+            Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "User", params[:tags][:photo_id], "Photo"]).each do |us|
+              us.destroy
+            end
           end
         end
       end
-    end
+      if !tagsUserArray.blank?
+        tagsUserArray.each do |tag|
+          Tags.create(:id1 => tag, :type1 => "User", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+        end
+      end
 
-    unless tagsEventArray.blank?
+
       if !tagsEvent.empty?
         tagsEvent.each do |tag|
-          tagsEventArray.delete_if {|event| event == tag}
-          #Si tag no está en el arreglo, tengo que eliminarlo de la base de datos
-        end
-        if !tagsEventArray.blank?
-          tagsEventArray.each do |tag|
-            Tags.create(:id1 => tag, :type1 => "Event", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+          if !tagsEventArray.blank?
+            res = tagsEventArray.reject! {|event| event.to_i == tag.id1}
+          else
+            res = nil
+          end
+
+          if(res == nil)
+            Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "Event", params[:tags][:photo_id], "Photo"]).each do |ev|
+               ev.destroy
+            end
           end
         end
       end
-    end
+      if !tagsEventArray.blank?
+        tagsEventArray.each do |tag|
+          Tags.create(:id1 => tag, :type1 => "Event", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+        end
+      end
+
     #3 condiciones: doble existencia, existencia en el servidor y existencia en params[:tags][:users]
     #Recorrer el servidor, si el tag está en el array, lo saco. Si no está, lo elimino (de la bd).
     #Si array queda con elementos, estos elementos los creo.
