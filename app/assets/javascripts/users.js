@@ -106,6 +106,47 @@ $(function(){
     });
   });
   
+  // LIKES
+  $(".btn-like").click(function(){
+    var span = $(this).parent().next().find("span.likes-count");
+    var count = parseInt(span.attr("data-count"));
+    
+    if($(this).hasClass("liked")){
+      $(this).find("span").text("Like");
+      count--;
+    }
+    else{
+      $(this).find("span").text("Liked");
+      count++;
+    }
+    
+    span.text(count + " likes").attr("data-count", count);
+    $(this).toggleClass("liked");
+  });
+  
+  // COMMENTS
+  $(".single-comment textarea").keypress(function(e){
+    if ( event.which == 13 && $(this).val() != "") {
+      event.preventDefault();
+      
+      var data = {};
+      data["object_id"] = $(this).attr("data-id");
+      data["object_type"] = $(this).attr("data-type");
+      data["comment"] = $(this).val();
+      objeto = $(this).attr("disabled", "disabled");
+      
+      $.post("/add_comment", data, function(data){
+        var li = objeto.parents("li.new_comment").prev();
+        objeto.parents("li.new_comment").before(li.clone());
+        
+        li.find(".comment_text").text(objeto.val());
+        li.show();
+        
+        objeto.val("").removeAttr("disabled");
+      }, "json");
+    }
+  });
+  
 });
 
 /*

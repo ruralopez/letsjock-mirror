@@ -189,7 +189,7 @@ $(document).ready(function(){
       <h4 class="inline">Working Experience</h4>
       
     <% if signed_in? && current_user.id == @user.id %>
-      <a href="#" class="add-new pull-right"><span>+</span>Add Working Experience</a>
+      <a href="#" class="add-new pull-right"><span>+</span>Add Work Experience</a>
       <%= render 'working_profile_form'  %>
     <% elsif current_user.id == @user.id %>
       <p>You must be logged in to complete your profile!</p>
@@ -220,6 +220,9 @@ $(document).ready(function(){
 <div class="box-connect box-contact span3 box">
   <%= render 'layouts/rightbox' %>
 </div><!--box-connect-->
+
+<%= render 'layouts/invitebox' %>
+  
 </div>
 </div><!-- /.container -->
 

@@ -1,24 +1,17 @@
 <div class="box-content">
-  <h5>Spread the word and help us to change the sports world!</h5>
-  <a href="#inviteFriends" class="btn btn-success input-block-level" role="button" data-toggle="modal">
-    <strong>Invite your friends</strong>
-  </a>
-  <br>
-</div>
-<div class="box-content">
-  <h4>People you may know</h4>
+  <h4>Users you may know</h4>
   <ul class="aside connect-people">
     <%  User.find(:all, :conditions => ["id NOT IN (?) AND id != ?", current_user.followed_users.count > 0 ? current_user.followed_users : 0 , current_user.id] ).sample(4).each do |user| %>
-        <li id="follow-user-mini-<%= user.id %>">
-          <div class="img-container">
-            <%= image_tag user.profilepic %>
-          </div>
-          <div class="metadata">
-            <%= link_to user.full_name, user %>
-            <p class="block"><%= user.followers.count.to_s %> followers</p>
-            <%= render :partial => 'users/mini_follow', :locals => {:user => user} if signed_in? %>
-          </div>
-        </li>
+      <li id="follow-user-mini-<%= user.id %>">
+        <div class="img-container">
+          <%= image_tag user.profilepic %>
+        </div>
+        <div class="metadata">
+          <%= link_to user.full_name, user %>
+          <p class="block"><%= user.followers.count.to_s %> followers</p>
+          <%= render :partial => 'users/mini_follow', :locals => {:user => user} if signed_in? %>
+        </div>
+      </li>
     <%  end %>
   </ul>
 </div>

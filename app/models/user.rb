@@ -21,6 +21,9 @@ class User < ActiveRecord::Base
   has_many :followed_users, :through => :relationships, :source => :followed
   has_many :reverse_relationships, :foreign_key => "followed_id", :class_name => "Relationship", :dependent => :destroy
   has_many :followers, :through => :reverse_relationships, :source => :follower
+  
+  has_many :user_admins, :dependent => :destroy
+  has_many :admins, :through => :user_admins, :source => :admin
 
   has_many :competitions, :dependent => :destroy
   has_many :recognitions, :dependent => :destroy
@@ -38,6 +41,8 @@ class User < ActiveRecord::Base
   has_many :event_admins, :dependent => :destroy
   has_many :events, :through => :event_admins
   has_many :posts
+  has_many :likes, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
 
   has_many :messages
 
@@ -71,6 +76,20 @@ class User < ActiveRecord::Base
     end
   end
   
+  def generate_alias
+    if self.full_name.split(" ").length > 1
+      temp_alias = ""
+      
+      self.full_name.split(" ").each do |w|
+        temp_alias += ActiveSupport::Inflector.transliterate(w.downcase)
+      end
+      
+      return temp_alias
+    else
+      self.full_name
+    end
+  end
+
   def age
     now = Time.now.utc.to_date
     now.year - self.birth.year - (self.birth.to_date.change(:year => now.year) > now ? 1 : 0)
@@ -168,6 +187,14 @@ class User < ActiveRecord::Base
   
   def isAdmin? #Obviamente hay que crear el atributo, pero por mientras
     self.id == 1 # Si es el usuario LetsJock
+  end
+  
+  def inAdmins?(user) # Si un usuario es administrador de otro, para el caso de las instituciones
+    user.isAdmin? || UserAdmin.exists?(:user_id => self.id, :admin_id => user.id)
+  end
+  
+  def administerUser
+    User.where(:id => UserAdmin.select("user_id").where(:admin_id => self.id) )
   end
 
   def compare_password(pass)

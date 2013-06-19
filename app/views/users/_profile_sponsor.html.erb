@@ -1,6 +1,9 @@
 <%= stylesheet_link_tag    "users" %>
 <%= stylesheet_link_tag    "profile" %>
 <%= javascript_include_tag "application" %>
+<%= javascript_include_tag "load-image" %>
+<%= javascript_include_tag "bootstrap-image-gallery" %>
+<%= stylesheet_link_tag    "bootstrap-image-gallery" %>
 
 <% provide(:title, @user.name) %>
 
@@ -9,7 +12,7 @@
 <div class="box box-media span3 event-single">
   <div class="img-polaroid">
     <%=	link_to image_tag(@user.profilepic, :class => 'user-profile'), '#' %>
-    <% if signed_in? && current_user.isAdmin? %>
+    <% if signed_in? && @user.inAdmins?(current_user) %>
     <div class="dropdown">
       <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-pencil"></i> Change Photos</a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -20,26 +23,16 @@
      </div>
     <% end %>
   </div>
-  <div class="event-info">
-    <h5><i class="icon-building"></i>Industry<span><%= @user.preferences[:industries].join(", ") %></span></h5>
-    <h5>
-      <i class="icon-calendar"></i>Founded<span><%= ( @user.birth && @user.birth != "" ) ? @user.birth.year : "?" %></span>
-    </h5>
-    <h5>
-      <i class="icon-map-marker"></i>Headquarters<span><%= @user.citybirth ? @user.citybirth : "Location" %>, <%= @user.country ? @user.country : "Country" %></span>
-    </h5>
-    <!--<h5><i class="icon-group"></i>Size<span><%= @user.preferences[:size] %> employees</span></h5>-->
-  </div><!--event info-->
-
+  <%= render 'layouts/sponsor_leftbox' %>
 </div><!--box-media-->
 
-<div class="span9 company-header" <% if @user.preferences[:bgpicture] %>style="background-image: url('<%= @user.preferences[:bgpicture] %>')"<% end %>>
+<div class="span9 company-header" <% if @user.preferences[:bgpicture] && @user.preferences[:bgpicture] != "" %>style="background-image: url('<%= @user.preferences[:bgpicture] %>')"<% end %>>
 
 </div><!-- /profileIcons -->
 
 <div class="profileInfo relative span9">
   <div class="user">
-    <% if signed_in? && current_user.isAdmin?  %>
+    <% if signed_in? && @user.inAdmins?(current_user)  %>
       <%= link_to(edit_sponsor_path(@user), :class => "pull-right link-on", :style => "list-style: none; padding-top: 20px;") do %>
         <i class='icon-pencil icon-2x'></i>
       <% end %>
@@ -62,100 +55,105 @@
   <div class="resume">
     <p><%= @user.resume %></p>
   </div><!--resume-->
+  
   <div class="post resume">
-    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-      <li class="active"><a href="#next-events" data-toggle="tab">
-        <h4>Next Events</h4></a>
+    <ul class="important-info">
+      <li><!--Followers-->
+        <%= link_to(social_path(@user)) do %>
+          <div class="img-polaroid">
+            <p><i class="icon-eye-open"></i> <%= @user.followers.count %></p>
+          </div><!--frame-->
+          <span class="title-info">Followers</span>
+        <% end %>
       </li>
-      <li><a href="#pre-events" data-toggle="tab">
-        <h4>Previous Events</h4></a>
+      <li><!--Events-->
+        <%= link_to user_events_path(@user) do %>
+          <div class="img-polaroid">
+            <p><i class="icon-calendar"></i></p>
+            <div class="photo-cover-event" <% if Event.where(:user_id => @user.id).count > 0 %>style="background-image: url('<%= Event.where(:user_id => @user.id).sample(1)[0].imageurl %>')"<% end %> ></div><!--se usa la imagen como background-image-->
+          </div><!--frame-->
+          <span class="title-info">Events</span>
+        <% end %>
+      </li>
+      <li><!--Photos-->
+        <%= link_to(pictures_path(@user)) do %>
+          <div class="img-polaroid">
+            <p><i class="icon-camera"></i></p>
+            <div class="photo-cover-photos" <% if @photos.count > 0 %>style="background-image: url('<%= @photos.sample(1)[0].url %>')"<% end %> ></div><!--se usa la imagen como background-image-->
+          </div><!--frame-->
+          <span class="title-info">Photos</span>
+        <% end %>
+      </li>
+      <li><!--Video-->
+        <%= link_to(pictures_path(@user)) do %>
+          <div class="img-polaroid">
+            <p><i class="icon-facetime-video"></i></p>
+          </div><!--frame-->
+          <span class="title-info">Videos</span>
+        <% end %>
       </li>
     </ul>
-
-    <div id="my-tab-content" class="tab-content">
-      <div class="tab-pane active" id="next-events">
-    <% if @next_events.count > 0 %>
-      <% @next_events.each do |month, events| %>
-        <h5><%= Date::MONTHNAMES[month] %></h5>
-        <table class="table table-bordered event-table">
-          <tbody>
-          <% events.collect do |event| %>
-          <tr><!-- comienza bloque evento -->
-            <td><i class="icon-calendar"></i> <%= event.date.strftime("%A, %B #{event.date.day.ordinalize}, %Y") %>
-              <a href="<%= event_path(event) %>"><h4><%= event.name %></h4></a>
-            </td>
-            <td class="w-30"><%= event.user_events.count %> Assistants
-              <div class="assistants"><!--maximo 4 -->
-              <% event.user_events.limit(4).each do |user_event| %>
-                <%= link_to image_tag(user_event.user.profilepic, :class => "img-rounded"), '#' %>
-              <% end %>
-              </div>
-            </td>
-            <td class="w-10"><a href="<%= event_path(event) %>"><%= event.date.strftime("%H:%M") %></a></td>
-          </tr><!--termina bloque evento-->
-          <% end %>
-          </tbody>
-        </table>
-      <% end %>
-    <% else %>
-        <h3>No upcoming events</h3>
+    
+    <hr>
+    
+    <div id="latest-post">
+  <% if signed_in? && @user.inAdmins?(current_user)  %>
+    <%= form_tag(add_post_path(@user), :id => "new_post", :multipart => true, :accept => "image/gif,image/png,image/jpg") do %>
+      <div class="fileupload fileupload-new" data-provides="fileupload">
+        <div class="input-post">
+          <textarea name="post_content" id="post_content" class="input-block-level" rows="3" placeholder="Write a post"></textarea>
+          <div class="fileupload-preview thumbnail fileupload-exists"></div>
+          <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+        </div>
+        <ul class="post-actions">
+          <li><a href="javascript:void(0)" class="btn-file"><i class="icon-camera"></i><input type="file" name="post_picture" id="post_picture" accept="image/*" /></a></li>
+          <li><a href="#"><i class="icon-facetime-video"></i></a></li>
+          <li class="pull-right"><button type="submit" class="btn btn-success"><b>Post</b></button></li>
+        </ul><!--post-actions-->
+      </div>
     <% end %>
-        <%= link_to "Create event", new_event_path(@user), :class => "btn " if current_user.isAdmin? %>
-      </div><!-- #next-events -->
+  <% end %>
       
-      <div class="tab-pane" id="pre-events">
-    <% if @prev_events.count > 0 %>
-      <% @prev_events.each do |event| %>
-        <div class="item-block">
-          <a href="<%= event_path(event) %>">
-            <div class="item-img">
-              <%= image_tag event.imageurl %>
-            </div>
-            <div class="item-info">
-              <h4><%= event.name %></h4>
-              <p><b><%= event.assistants.count %> assistants</b> <%= event.date.strftime("on %B #{event.date.day.ordinalize}") %></p>
-            </div>
-          </a>
-        </div><!--item-block-->
+    <% if @posts_combined.any? %>
+      <ul>
+      <% @posts_combined.each do |post| %>
+        <% if post.class.name == "Event" %>
+          <%=  render :partial => 'posts/post_event', :locals => {:event => post} %>
+        <% else %>
+          <%= render post  %>
+        <% end %>
       <% end %>
+      </ul>
     <% else %>
-      <h3>No previous events</h3>
+      <h3>No posts found.</h3>
     <% end %>
-      </div><!-- #pre-events -->
-    </div><!-- #my-tab-content-->
-
-    <script type="text/javascript">
-      jQuery(document).ready(function ($) {
-        $('#tabs').tab();
-      });
-    </script>
-
+    </div><!-- #latest-post -->
   </div><!--post resume-->
 </div><!--span6 company-->
 
 <div class="box box-connect span3">
-  <div class="box-content">
-    <h4><span><%= @user.followers.count %></span> Followers</h4>
-    <ul class="sponsor-main">
-    <%  @user.followers.sample(4).each do |user| %>
-      <li>
-        <div class="img-container">
-          <%= image_tag user.profilepic %>
-        </div>
-        <div class="metadata">
-          <%= link_to user.full_name, user %>
-          <p class="block"><%= user.followers.count.to_s %> followers</p>
-        </div>
-      </li>
-    <% end %>
-    </ul>
-    <%= link_to "See more", social_path(@user), :class=> "align-right" %>
-  </div><!--box-content-->
-</div><!--box-connect-->
+  <%= render 'layouts/rightbox' %>
+</div>
+
+<%= render 'layouts/invitebox' %>
+
 </div>
 
 </div><!-- /.container -->
 
-<%=  render 'photos/photo_modal' %>
+<script>
+  $(document).ready(function(){
+    $("textarea.input-block-level").keyup(function(e){
+      while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
+        $(this).height($(this).height()+1);
+      };
+    });
+  });
+</script>
+
 <%=  render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
 <%=  render :partial => 'photos/bg_picture', :locals => {:photos => @photos} %>
+<%=  render 'photos/modal_gallery' %>
+<%=  render 'photos/photo_modal' %>
+<%=  render 'videos/video_modal' %>
+<%=  render 'layouts/invite' %>

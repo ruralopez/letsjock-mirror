@@ -27,6 +27,7 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @event = Event.find(params[:id])
+    
     @tags = Tags.all(:conditions => ["type2 = ? AND type1 = ? AND id1 = ?", "Photo", "Event", @event.id])
     @photos = []
     unless @tags.empty?
@@ -44,7 +45,7 @@ class EventsController < ApplicationController
 
     @creator = User.find(@event.user_id)
     @event_admins = EventAdmin.all(:conditions => ["event_id = ?", params[:id]])
-    @post = @event.posts.build if signed_in? && @event.admin?(current_user)
+    @post = @event.posts.build if signed_in? && ( @event.admin?(current_user) || @creator.inAdmins?(current_user) )
     @posts = Post.all(:conditions => ["event_id = ?", @event.id])
     ids = SponsorsEvent.where(:event_id => @event.id).collect(&:user_id)
     @sponsors = User.all(:conditions => ["id IN (?)", ids])
@@ -57,11 +58,15 @@ class EventsController < ApplicationController
   # GET /events/new
   # GET /events/new.json
   def new
-    if signed_in? && current_user.isAdmin?
+    @user = User.find(params[:id])
+    
+    if signed_in? && @user.inAdmins?(current_user)
       @event = Event.new
+      
       @user = User.find(params[:id])
       #@sponsors = User.where(:isSponsor => true).collect(&:name)
       @sponsors = User.where(:isSponsor => true).collect { |sponsor| [sponsor.name, sponsor.id] }
+      
       respond_to do |format|
         format.html # new.html.erb
         format.json { render :json => @event }
@@ -75,6 +80,7 @@ class EventsController < ApplicationController
   def edit
     @event = Event.find(params[:id])
     @user = User.find(@event.user_id)
+    @sponsors = User.where(:isSponsor => true).collect { |sponsor| [sponsor.name, sponsor.id] }
     render "new"
   end
 

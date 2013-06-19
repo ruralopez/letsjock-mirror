@@ -201,6 +201,24 @@
             <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
         </li>
+    <% elsif n.act_type == "202"%>
+      <% user = n.publisher.user %>
+      <% post = n.post %>
+        <li><!-- NOMBRE_INSTITUCION has new post -->
+          <a class="img-rounded" href="#">
+            <%= image_tag user.profilephotourl %>
+          </a>
+          <div class="single-post">
+            <p><%= link_to user.full_name, profile_path(user) %> has a new post</p>
+            <div class="img-polaroid company-resume">
+              <i class="icon-bullhorn"></i><br>
+              <p> <%= raw(post.content) %>
+                <%= link_to 'See more', profile_path(user), :class => 'see-more'%>
+              </p>
+            </div>
+            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+          </div>
+        </li>
     <%else%>
         <!-- <p>Event new Admin</p>-->
     <%end%>
@@ -218,6 +236,8 @@
 
 <div class="box-index box-connect box-contact span3">
   <%= render 'layouts/rightbox' %>
+  
+  <%= render 'layouts/invitebox' %>
 </div><!--box-connect-->
 
 </div>

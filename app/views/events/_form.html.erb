@@ -10,9 +10,13 @@
       <div class="img-polaroid fileupload" data-provides="fileupload">
         <div class="thumbnail">
           <div class="fileupload-new">
+          <% if @event.imageurl != "" %>
+            <%= image_tag(@event.imageurl, :class => "user-profile") %>
+          <% else %>
             <i class="default-icon icon-user icon-4x">
               <a class="btn btn-file btn-success">Upload a photo<input type="file" name="profile_picture" id="profile_picture" accept="image/*" /></a>
             </i>
+          <% end %>
           </div>
           <div class="fileupload-exists">
             <i class="default-icon">

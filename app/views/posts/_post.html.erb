@@ -1,0 +1,25 @@
+<% user = post.user%>
+<li>
+  <a class="img-polaroid">
+    <%= image_tag(user.profilepic) %>
+  </a>
+  <div class="single-post">
+    <h1 class="single-title"><%= user.full_name%></h1>
+  <% if post.event_id %>
+    <p>
+      <i class="icon-bullhorn"></i> Write a post in event <%= link_to post.event.name, event_path(post.event_id) %>:
+    </p>
+  <% end %>
+    <p>
+      <%= raw(post.content) %>
+    </p>
+    <p>
+      <small>
+        <%= render :partial => 'users/like', :locals => {:object => post} if signed_in? %>
+        posted <%= time_ago_in_words(post.created_at) %> ago
+      </small>
+    </p>
+    <!--comentarios-->
+    <%= render :partial => 'users/comments', :locals => {:object => post} %>
+  </div>
+</li>

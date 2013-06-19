@@ -49,9 +49,20 @@
               <i class="icon-chevron-down"></i>
             </a>
             <ul class="dropdown-menu">
-              <% if current_user.isAdmin? %>
+            <% if current_user.isAdmin? %>
               <li><%= link_to 'Create institution', new_sponsor_path %></li>
+            <% end %>
+            <% if users = current_user.administerUser %>
+              <li class="admin">Administer institutions...</li>
+              <% users.each do |user| %>
+              <li class="admin_user">
+                <%= link_to profile_path(user) do %>
+                  <%= image_tag user.profilepic, :class => "pull-left" %>
+                  <%= user.full_name %>
+                <% end %>
+              </li>
               <% end %>
+            <% end %>
               <li><%= link_to 'Settings', settings_path %>
               <li><%= link_to 'Log Out', signout_path %></li>
             </ul>

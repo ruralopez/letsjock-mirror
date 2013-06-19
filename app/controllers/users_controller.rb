@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile]
+  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment]
   
   def verify_login
     unless signed_in?
@@ -142,9 +142,9 @@ class UsersController < ApplicationController
     end
 
     if @user.isSponsor?
-      # Eventos en los que ha participado      
-      @next_events = Event.find(:all, :conditions => ['user_id = ? AND date >= ?', @user.id, DateTime.now]).to_set.classify { |event| event.date.month }
-      @prev_events = Event.find(:all, :conditions => ['user_id = ? AND date < ?', @user.id, DateTime.now])
+      posts = Post.where(:user_id => @user.id).order("created_at ASC")
+      events = Event.where(:user_id => @user.id).order("created_at ASC")
+      @posts_combined = ( posts + events ).sort_by(&:created_at).reverse
     else
       #Juntar competitions, teams, trains, results y recognitions como athlete experiences
       @competitions = Competition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "init DESC, end DESC")
@@ -575,8 +575,13 @@ class UsersController < ApplicationController
     respond_to do |format|
       if User.exists?(params[:user][:id])
         @user = User.find(params[:user][:id])
-        @user.update_attributes(params[:user])
-      else
+        
+        if @user.inAdmins?(current_user)
+          @user.update_attributes(params[:user])
+        else
+          redirect_to profile_path(@user) and return
+        end
+      elsif current_user.isAdmin?
         @user = User.create(params[:user])
         @user.update_attribute(:authentic_email, 1)
         
@@ -600,7 +605,47 @@ class UsersController < ApplicationController
   
   def sponsor_edit
     @user = User.find(params[:id])
-    render "sponsor_new"
+    
+    if @user.inAdmins?(current_user)
+      render "sponsor_new"
+    else
+      redirect_to profile_path(@user)
+    end
+  end
+  
+  def events
+    @user = User.find(params[:id])
+    
+    if @user.isSponsor
+      @next_events = Event.find(:all, :conditions => ['user_id = ? AND date >= ?', @user.id, DateTime.now]).to_set.classify { |event| event.date.month }
+      @prev_events = Event.find(:all, :conditions => ['user_id = ? AND date < ?', @user.id, DateTime.now])
+      
+      #Juntar photos y videos que el usuario ya tiene
+      @photos = Photo.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
+      @videos = Video.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
+      
+      #Crear variables photo y video para poder subir
+      @photo = @user.photos.build if signed_in?
+      @video = @user.videos.build if signed_in?
+    else
+      redirect_to profile_path(@user)
+    end
+  end
+  
+  def add_admin
+    user = User.find(params[:id])
+    
+    if user.inAdmins?(current_user)
+      if params[:admin_id] && User.exists?(:id => params[:admin_id])
+        admin = User.find(params[:admin_id])
+        
+        unless user.inAdmins?(admin)
+          UserAdmin.create(:user_id => user.id, :admin_id => admin.id)
+        end
+      end
+    end
+    
+    redirect_to profile_path(user)
   end
 
   def invite
@@ -615,9 +660,11 @@ class UsersController < ApplicationController
     notification = Notification.find(params[:id])
     notification.update_attributes(:read => true)
     if notification.not_type == "003"
-      redirect_to User.find(notification.user2_id)
+      redirect_to profile_path( notification.user2_id )
     elsif notification.not_type == "104"
       redirect_to Event.find(notification.event_id)
+    elsif notification.not_type == "200"
+      redirect_to profile_path( notification.event_id )
     elsif notification.not_type == "999"
       redirect_to User.find(notification.user_id)
     end
@@ -701,6 +748,68 @@ class UsersController < ApplicationController
     end
     
     redirect_to news_path
+  end
+  
+  def typeahead
+    if params[:type] && params[:query] != ""
+      class_name = params[:type]
+      like = []
+      
+      params[:query].split(" ").each do |qy|
+        like.push("lower(name) LIKE '%" + qy.downcase + "%' OR lower(lastname) LIKE '%" + qy.downcase + "%'")
+      end
+      
+      users = class_name.constantize.select("id, name, lastname").where(like.join(" OR ")).uniq.order("name").limit(8)
+      
+      respond_to do |format|
+        format.json { render :json => { :options => users } }
+      end
+    else
+      redirect_to news_path
+    end
+  end
+  
+  def like
+    if params[:object_id] !="" && params[:object_type] != ""
+      if Like.exists?(:user_id => current_user.id, :object_id => params[:object_id], :object_type => params[:object_type])
+        likes = Like.where(:user_id => current_user.id, :object_id => params[:object_id], :object_type => params[:object_type]).first.destroy
+      else
+        Like.create(:user_id => current_user.id, :object_id => params[:object_id], :object_type => params[:object_type])
+      end
+    end
+    
+    respond_to do |format|
+      format.js { render :json => { :user_id => current_user.id } }
+    end
+  end
+  
+  def add_comment
+    if params[:object_id] !="" && params[:object_type] != "" && params[:comment] != ""
+      comment = Comment.new(:user_id => current_user.id, :object_id => params[:object_id], :object_type => params[:object_type])
+      
+      # Pasar urls a su formato HTML
+      comment.comment = params[:comment].gsub( %r{http://[^\s<]+} ) do |url|
+          "<a href='#{url}'>#{url}</a>"
+      end
+      
+      if comment.save
+        if params[:object_type] == "Post"
+          user = Post.find(params[:object_id]).user
+          
+          # Manda notificaciones a todos los administradores
+          if user.isSponsor && user.admins.any?
+            user.admins.each do |admin|
+              Notification.create(:user_id => admin.id, :user2_id => current_user.id, :event_id => user.id, :read => false, :not_type => "200")
+            end
+          end
+        end
+        
+      end 
+    end
+    
+    respond_to do |format|
+      format.js { render :json => { :user_id => current_user.id } }
+    end
   end
 
   def add_tag
