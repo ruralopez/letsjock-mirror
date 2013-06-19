@@ -20,21 +20,6 @@
       </small>
     </p>
     <!--comentarios-->
-    <ul class="comments">
-      <li class="view-more">
-        <i class="icon-comments"></i>
-        <p><small>Be the first to comment</small></p>
-      </li>
-      <% if signed_in? %>
-      <li>
-        <a class="img-rounded">
-          <%= image_tag(current_user.profilephotourl, :title => current_user.full_name) %>
-        </a>
-        <div class="single-comment">
-          <textarea class="input-block-level" rows="1" placeholder="Write a comment"></textarea>
-        </div>
-      </li>
-      <% end %>
-    </ul>
+    <%= render :partial => 'users/comments', :locals => {:object => post} %>
   </div>
 </li>

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like]
+  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment]
   
   def verify_login
     unless signed_in?
@@ -658,9 +658,11 @@ class UsersController < ApplicationController
     notification = Notification.find(params[:id])
     notification.update_attributes(:read => true)
     if notification.not_type == "003"
-      redirect_to User.find(notification.user2_id)
+      redirect_to profile_path( notification.user2_id )
     elsif notification.not_type == "104"
       redirect_to Event.find(notification.event_id)
+    elsif notification.not_type == "200"
+      redirect_to profile_path( notification.event_id )
     elsif notification.not_type == "999"
       redirect_to User.find(notification.user_id)
     end
@@ -772,6 +774,35 @@ class UsersController < ApplicationController
       else
         Like.create(:user_id => current_user.id, :object_id => params[:object_id], :object_type => params[:object_type])
       end
+    end
+    
+    respond_to do |format|
+      format.js { render :json => { :user_id => current_user.id } }
+    end
+  end
+  
+  def add_comment
+    if params[:object_id] !="" && params[:object_type] != "" && params[:comment] != ""
+      comment = Comment.new(:user_id => current_user.id, :object_id => params[:object_id], :object_type => params[:object_type])
+      
+      # Pasar urls a su formato HTML
+      comment.comment = params[:comment].gsub( %r{http://[^\s<]+} ) do |url|
+          "<a href='#{url}'>#{url}</a>"
+      end
+      
+      if comment.save
+        if params[:object_type] == "Post"
+          user = Post.find(params[:object_id]).user
+          
+          # Manda notificaciones a todos los administradores
+          if user.isSponsor && user.admins.any?
+            user.admins.each do |admin|
+              Notification.create(:user_id => admin.id, :user2_id => current_user.id, :event_id => user.id, :read => false, :not_type => "200")
+            end
+          end
+        end
+        
+      end 
     end
     
     respond_to do |format|

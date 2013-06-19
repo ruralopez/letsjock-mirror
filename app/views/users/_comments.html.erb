@@ -1,0 +1,46 @@
+<ul class="comments">
+<% comments = Comment.where( :object_id => object.id, :object_type => object.class.name ).order("created_at ASC") %>
+  <% if comments.count == 0 %>
+  <li class="view-more">  
+    <i class="icon-comments"></i>
+    <p><small>Be the first to comment</small></p>
+  </li>
+  <% end %>
+  <% if comments.any? %>
+    <% comments.each do |comment| %>
+    <% user = comment.user %>
+  <li>
+    <a class="img-rounded">
+      <%= image_tag user.profilepic %>
+    </a>
+    <div class="single-comment">
+      <%= link_to user.full_name, profile_path(user) %> 
+      <p><%= raw(comment.comment) %></p>
+      <p><small>posted <%= time_ago_in_words(comment.created_at) %> ago</small></p>
+    </div>
+  </li>
+    <% end %>
+  <% end %>
+  <% if signed_in? %>
+  <!-- En blanco para que se muestre automáticamente -->
+  <li class="hide">
+    <a class="img-rounded">
+      <%= image_tag current_user.profilepic %>
+    </a>
+    <div class="single-comment">
+      <%= link_to current_user.full_name, profile_path(current_user) %> 
+      <p class="comment_text"></p>
+      <p><small>posted just now</small></p>
+    </div>
+  </li>
+  <!-- end -->
+  <li class="new_comment">
+    <a class="img-rounded">
+      <%= image_tag(current_user.profilephotourl, :title => current_user.full_name) %>
+    </a>
+    <div class="single-comment">
+      <textarea class="input-block-level" rows="1" placeholder="Write a comment" data-id="<%= object.id %>" data-type="<%= object.class.name %>"></textarea>
+    </div>
+  </li>
+  <% end %>
+</ul>

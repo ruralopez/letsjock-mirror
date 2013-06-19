@@ -132,6 +132,21 @@
                 <% end %>
               </li>
               <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+              
+            <% elsif notification.not_type == "200" && User.exists?(notification.user2_id) %>
+                <% user = User.find(notification.user2_id) %>
+                <% institution = User.find(notification.event_id) %>
+                <li>
+                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                      <div class="popover-left">
+                        <%= image_tag (user.profilepic)%>
+                      </div><!--popover-left-->
+                      <div class="popover-right">
+                        <span><%= user.full_name %></span> commented in <%= institution.full_name %> Wall
+                        <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                      </div>
+                  <% end %>
+                </li>
 
             <% elsif notification.not_type == "999" %>
                 <li>

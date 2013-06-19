@@ -60,6 +60,8 @@ Letsjock::Application.routes.draw do
   match '/profile/:id/new_event' => 'events#new', :as => :new_event
   match '/profile/:id/events' => 'users#events', :as => :user_events
   match '/profile/:id/new_event/add_sponsor' => 'events#add_sponsor', :as => :add_sponsor
+  match '/profile/:id/like' => 'users#like', :as => :like
+  match '/add_comment' => 'users#add_comment', :as => :add_comment
   match '/settings' => 'settings#index', :as => :settings
   match '/forgotten_password' => 'users#forgotten_password', :as => :forgotten_password
   match '/new_password_request' => 'users#new_password_request', :as => :new_password_request
@@ -74,7 +76,6 @@ Letsjock::Application.routes.draw do
   match '/stadistics' => 'stats#index', :as => :stats
   match '/tags' => 'tags#index', :as => :tags
   match '/typeahead' => 'users#typeahead', :as => :tags
-  match '/profile/:id/like' => 'users#like', :as => :like
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

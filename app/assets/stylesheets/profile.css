@@ -820,32 +820,31 @@ h1.single-title{
 /*COMENTARIOS*/
 
 ul.comments{
-	background-color:#F8F8F8;
-	}
-	
-	ul.comments li{
-		min-height:1px;
-		padding:1em;
-		margin:0;
-		border-bottom:3px solid white;
-		}
-		
-		.post ul li .single-post ul.comments li  [class*="img"]{
-			width:32px;
-			height:32px;
-			overflow:hidden;
-			position:absolute;
-			}
-			
-		ul.comments li .single-comment{
-			margin-left:40px;
-			}
-		
-		ul.comments li.view-more{
-			padding:.5em 1em;
-			}
-			
-			ul.comments li.view-more p{display:inline-block;}
+    background-color:#F8F8F8;
+    margin-top: 5px;
+}    
+    ul.comments li{
+        min-height:1px;
+        padding:1em;
+        margin:0;
+        border-bottom:3px solid white;
+    }
+            .post ul li .single-post ul.comments li  [class*="img"]{
+                    width:32px;
+                    height:32px;
+                    overflow:hidden;
+                    position:absolute;
+                    }
+                    
+            ul.comments li .single-comment{
+                    margin-left:40px;
+                    }
+            
+            ul.comments li.view-more{
+                    padding:.5em 1em;
+                    }
+                    
+                    ul.comments li.view-more p{display:inline-block;}
 
 /*Likes*/
 .btn-like.liked, .btn-like.liked i { color: #C6091C; }

@@ -107,7 +107,9 @@ class PostsController < ApplicationController
         end
       end
       
-      post.save
+      if post.save
+        Activity.create(:publisher_id => Publisher.find_by_user_id(user).id, :post_id => post.id, :act_type => "202")
+      end
     end
     
     redirect_to profile_path(user)
