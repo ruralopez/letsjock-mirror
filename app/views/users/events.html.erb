@@ -11,7 +11,7 @@
 <div class="row">
 <div class="box box-media span3 event-single">
   <div class="img-polaroid">
-    <%=	link_to image_tag(@user.profilepic, :class => 'user-profile'), '#' %>
+    <%=	link_to image_tag(@user.profilepic, :class => 'user-profile'), profile_path(@user) %>
     <% if signed_in? && @user.inAdmins?(current_user) %>
     <div class="dropdown">
       <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-pencil"></i> Change Photos</a>
@@ -38,7 +38,7 @@
       <% end %>
     <% end %>
     
-    <h2><%= @user.name %></h2>
+    <h2><%= link_to @user.full_name, profile_path(@user) %></h2>
     <p>
       <i class="icon-globe icon-large"></i>
       <%= link_to @user.preferences[:url], @user.preferences[:url] %>
@@ -142,11 +142,18 @@
 </div><!--span6 company-->
 
 <div class="box box-connect span3">
-  <%= render 'layouts/sponsor_rightbox' %>
-</div><!--box-connect-->
+  <%= render 'layouts/rightbox' %>
+</div>
+
+<%= render 'layouts/invitebox' %>
+
 </div>
 
 </div><!-- /.container -->
 
 <%=  render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
 <%=  render :partial => 'photos/bg_picture', :locals => {:photos => @photos} %>
+<%=  render 'photos/modal_gallery' %>
+<%=  render 'photos/photo_modal' %>
+<%=  render 'videos/video_modal' %>
+<%=  render 'layouts/invite' %>

@@ -47,7 +47,7 @@
                   <div class="inbox-resume">
                     <h5><%=	 user.full_name %></h5>
                     <p><%= current_user.last_message_with(user).content %></p>
-                    <p><i>5 hours ago</i></p>
+                    <p><i><%= time_ago_in_words(current_user.last_message_with(user).created_at) %> ago</i></p>
                   </div>
               <% end%>
             </li>

@@ -9,7 +9,6 @@ class EventsController < ApplicationController
       else
         @date -= params[:page].to_i.abs.weeks
       end
-
     else
       params[:page] = 0
     end
@@ -47,6 +46,8 @@ class EventsController < ApplicationController
     @event_admins = EventAdmin.all(:conditions => ["event_id = ?", params[:id]])
     @post = @event.posts.build if signed_in? && ( @event.admin?(current_user) || @creator.inAdmins?(current_user) )
     @posts = Post.all(:conditions => ["event_id = ?", @event.id])
+    ids = SponsorsEvent.where(:event_id => @event.id).collect(&:user_id)
+    @sponsors = User.all(:conditions => ["id IN (?)", ids])
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @event }
@@ -61,6 +62,10 @@ class EventsController < ApplicationController
     if signed_in? && @user.inAdmins?(current_user)
       @event = Event.new
       
+      @user = User.find(params[:id])
+      #@sponsors = User.where(:isSponsor => true).collect(&:name)
+      @sponsors = User.where(:isSponsor => true).collect { |sponsor| [sponsor.name, sponsor.id] }
+      
       respond_to do |format|
         format.html # new.html.erb
         format.json { render :json => @event }
@@ -74,6 +79,7 @@ class EventsController < ApplicationController
   def edit
     @event = Event.find(params[:id])
     @user = User.find(@event.user_id)
+    @sponsors = User.where(:isSponsor => true).collect { |sponsor| [sponsor.name, sponsor.id] }
     render "new"
   end
 
@@ -91,7 +97,13 @@ class EventsController < ApplicationController
           if eventadmin.save && publisher.save && eventuser.save
             Subscription.new(:user_id => current_user.id, :publisher_id => publisher.id).save
             Activity.new(:publisher_id => Publisher.find_by_user_id(@event.user_id).id, :event_id => @event.id, :act_type => "031").save
-            
+
+            params[:sponsors].each_with_index do |sponsor, index|
+              if sponsor[1][:id] != ""
+                SponsorsEvent.new(:user_id => sponsor[1][:id], :event_id => @event.id, :category => sponsor[1][:category]).save
+              end
+            end
+
             if params[:profile_picture] && params[:profile_picture] != ""
               url = Photo.upload_file(params[:profile_picture])
               @event.update_attribute(:imageurl, url) if url != ""
@@ -197,6 +209,16 @@ class EventsController < ApplicationController
     else
       flash[:error] = "The specified user does not exist."
       redirect_to event_path(params[:id])
+    end
+  end
+
+  def add_sponsor
+    @index = params[:index]
+    @category = params[:category]
+    #@sponsors = User.where(:isSponsor => true).collect(&:name)
+    @sponsors = User.where(:isSponsor => true).collect { |sponsor| [sponsor.name, sponsor.id] }
+    respond_to do |format|
+      format.js
     end
   end
 

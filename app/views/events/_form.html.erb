@@ -10,9 +10,13 @@
       <div class="img-polaroid fileupload" data-provides="fileupload">
         <div class="thumbnail">
           <div class="fileupload-new">
+          <% if @event.imageurl != "" %>
+            <%= image_tag(@event.imageurl, :class => "user-profile") %>
+          <% else %>
             <i class="default-icon icon-user icon-4x">
               <a class="btn btn-file btn-success">Upload a photo<input type="file" name="profile_picture" id="profile_picture" accept="image/*" /></a>
             </i>
+          <% end %>
           </div>
           <div class="fileupload-exists">
             <i class="default-icon">
@@ -26,7 +30,21 @@
       </div>
       
       <div class="event-info">
-        
+        <h4>Sponsors</h4>
+        <label>Gold</label>
+        <div id="1-sponsors">
+          <%= render :partial => 'events/sponsor', :locals => {:index => 0, :sponsors => @sponsors, :category => 1} %>
+        </div>
+        <label>Silver</label>
+        <div id="2-sponsors">
+          <%= render :partial => 'events/sponsor', :locals => {:index => 100, :sponsors => @sponsors, :category => 2} %>
+        </div>
+        <label>Bronze</label>
+        <div id="3-sponsors">
+          <%= render :partial => 'events/sponsor', :locals => {:index => 200, :sponsors => @sponsors, :category => 3} %>
+        </div>
+
+
       </div><!--event info-->
     </div><!--box-media-->
     
@@ -56,37 +74,70 @@
                   <span class="add-on"><i class="icon-circle"></i></span>
                   <%= f.text_field :name, :placeholder => "Event Name", :validation => 'required notBlank'%>
                 </div>
-                
-                <div class="bfh-timepicker" data-time="<% if @event.date %><%= @event.date.strftime("%H:%M") %><% end%>">
-                  <div class="input-prepend bfh-timepicker-toggle" data-toggle="bfh-timepicker">
-                    <span class="add-on"><i class="icon-time"></i></span>
-                    <input type="text" class="input-medium" readonly>
+                <div>
+                  <div class="input-prepend date" id="dp5" data-date="01-01-2013" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+                    <span class="add-on"><i class="icon-calendar"></i></span>
+                    <input type="text" id="dateInput" class="span2 mixedInput" value="<% if @event.date %><%= @event.date.strftime("%d-%m-%Y") %><% end%>" validation="required notBlank" placeholder="from">
                   </div>
-                  <div class="bfh-timepicker-popover">
-                    <table class="table">
-                      <tbody>
-                      <tr>
-                        <td class="hour">
-                          <a class="next" href="#"><i class="icon-chevron-up deco-none"></i></a><br>
-                          <input type="text" id="hourInput" class="input-mini mixedInput" readonly><br>
-                          <a class="previous" href="#"><i class="icon-chevron-down deco-none"></i></a>
-                        </td>
-                        <td class="separator">:</td>
-                        <td class="minute">
-                          <a class="next" href="#"><i class="icon-chevron-up deco-none"></i></a><br>
-                          <input type="text" id="minuteInput" class="input-mini mixedInput" readonly><br>
-                          <a class="previous" href="#"><i class="icon-chevron-down deco-none"></i></a>
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
+                  <div class="bfh-timepicker" data-time="<% if @event.date %><%= @event.date.strftime("%H:%M") %><% end%>" style="display:inline;">
+                    <div class="input-prepend bfh-timepicker-toggle" data-toggle="bfh-timepicker">
+                      <span class="add-on"><i class="icon-time"></i></span>
+                      <input type="text" class="input-medium" readonly>
+                    </div>
+                    <div class="bfh-timepicker-popover">
+                      <table class="table">
+                        <tbody>
+                        <tr>
+                          <td class="hour">
+                            <a class="next" href="#"><i class="icon-chevron-up deco-none"></i></a><br>
+                            <input type="text" id="hourInput" class="input-mini mixedInput" readonly><br>
+                            <a class="previous" href="#"><i class="icon-chevron-down deco-none"></i></a>
+                          </td>
+                          <td class="separator">:</td>
+                          <td class="minute">
+                            <a class="next" href="#"><i class="icon-chevron-up deco-none"></i></a><br>
+                            <input type="text" id="minuteInput" class="input-mini mixedInput" readonly><br>
+                            <a class="previous" href="#"><i class="icon-chevron-down deco-none"></i></a>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
-      
-                <div class="input-prepend date" id="dp5" data-date="01-01-2013" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
-                  <span class="add-on"><i class="icon-calendar"></i></span>
-                  <input type="text" id="dateInput" class="span2 mixedInput" value="<% if @event.date %><%= @event.date.strftime("%d-%m-%Y") %><% end%>" validation="required notBlank">
+
+            <div>
+              <div class="input-prepend date" id="dp6" data-date="01-01-2013" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+                <span class="add-on"><i class="icon-calendar"></i></span>
+                <input type="text" id="dateEndInput" class="span2 mixedInput" value="<% if @event.date_end %><%= @event.date_end.strftime("%d-%m-%Y") %><% end%>" validation="required notBlank" placeholder="to">
+              </div>
+              <div class="bfh-timepicker" data-time="<% if @event.date_end %><%= @event.date_end.strftime("%H:%M") %><% end%>" style="display:inline;">
+                <div class="input-prepend bfh-timepicker-toggle" data-toggle="bfh-timepicker">
+                  <span class="add-on"><i class="icon-time"></i></span>
+                  <input type="text" class="input-medium" readonly>
                 </div>
+                <div class="bfh-timepicker-popover">
+                  <table class="table">
+                    <tbody>
+                    <tr>
+                      <td class="hour">
+                        <a class="next" href="#"><i class="icon-chevron-up deco-none"></i></a><br>
+                        <input type="text" id="hourEndInput" class="input-mini mixedInput" readonly><br>
+                        <a class="previous" href="#"><i class="icon-chevron-down deco-none"></i></a>
+                      </td>
+                      <td class="separator">:</td>
+                      <td class="minute">
+                        <a class="next" href="#"><i class="icon-chevron-up deco-none"></i></a><br>
+                        <input type="text" id="minuteEndInput" class="input-mini mixedInput" readonly><br>
+                        <a class="previous" href="#"><i class="icon-chevron-down deco-none"></i></a>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
                 <div class="input-prepend">
                   <span class="add-on"><i class="icon-map-marker"></i></span>
                   <%= f.text_field :place, :placeholder => "Location", :id => "addresspicker_map"%>
@@ -103,6 +154,7 @@
                 </div>
                 <div style="display: none;">
                   <%= f.text_field :date, :id => "dateTimeInput" %>
+                  <%= f.text_field :date_end, :id => "dateEndTimeInput" %>
                   <%= f.text_field :lat, :id => "latInput" %>
                   <%= f.text_field :lon, :id => "lonInput" %>
                 </div>
@@ -140,8 +192,10 @@
     !function ($) {
       $(function(){
         $('#dp5').datepicker();
+        $('#dp6').datepicker();
         $('.container').mousedown(function(){
           $("#dateTimeInput").attr('value',$('#dateInput').val() + " " + $('#hourInput').val() + ":" +  $('#minuteInput').val() + ":00");
+          $("#dateEndTimeInput").attr('value',$('#dateEndInput').val() + " " + $('#hourEndInput').val() + ":" +  $('#minuteEndInput').val() + ":00");
         });
         
         var form;

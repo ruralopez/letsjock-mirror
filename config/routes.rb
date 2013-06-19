@@ -59,6 +59,7 @@ Letsjock::Application.routes.draw do
   match '/profile/:id/add_post' => 'posts#add_user_post', :as => :add_post
   match '/profile/:id/new_event' => 'events#new', :as => :new_event
   match '/profile/:id/events' => 'users#events', :as => :user_events
+  match '/profile/:id/new_event/add_sponsor' => 'events#add_sponsor', :as => :add_sponsor
   match '/settings' => 'settings#index', :as => :settings
   match '/forgotten_password' => 'users#forgotten_password', :as => :forgotten_password
   match '/new_password_request' => 'users#new_password_request', :as => :new_password_request
@@ -67,6 +68,8 @@ Letsjock::Application.routes.draw do
   match '/new_password_form' => 'settings#new_password_form', :as => :new_password_form
   match '/invite' => 'users#invite', :as => :invite
   match '/send_mail_auth' => 'users#send_mail_auth', :as => :send_mail_auth
+  match 'auth/:provider/callback', :to => 'sessions#create'
+  match 'auth/failure', :to => 'home#index'
   match '/follow_letsjock' => 'users#follow_letsjock', :as => :follow_letsjock
   match '/stadistics' => 'stats#index', :as => :stats
   match '/tags' => 'tags#index', :as => :tags

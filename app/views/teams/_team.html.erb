@@ -7,6 +7,10 @@
               <li><h5><i class="icon-flag"></i>Trained <span>by</span> <% if train.trainer_id%><%= link_to User.find(train.trainer_id).full_name, User.find(train.trainer_id) %><% else%><%= train.name %><% end%></h5></li>
           <% end %>
       <% end %>
-      <li class="calendar"><i class="icon-calendar"></i><%= team.init.strftime("%B %Y") %> to <%= team.end.strftime("%B %Y") %></li>
+      <% if team.end %>
+          <li class="calendar"><i class="icon-calendar"></i><%= team.init.strftime("%B %Y") %> to <%= team.end.strftime("%B %Y") %></li>
+      <% else %>
+          <li class="calendar"><i class="icon-calendar"></i>Currently here since <%= team.init.strftime("%B %Y") %></li>
+      <% end %>
     </ul>
 <% end %>

@@ -33,6 +33,7 @@
             <%= content_tag :button, :type => :submit, :class => "btn btn-success pull-right clearfix" do %>
                 Iniciar sesión
             <% end %>
+
             <label class="checkbox">
               <input type="checkbox"> Recordar mis datos
               <span class="separator">·</span>
@@ -52,6 +53,7 @@
             <%= content_tag :button, :type => :submit, :class => "btn btn-success pull-right clearfix" do %>
                 Regístrate en Let's Jock
             <% end %>
+            <%= link_to image_tag("facebook.png"), '/auth/facebook' %>
             <div class="clearfix"></div>
         <%	end %>
 

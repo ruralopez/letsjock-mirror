@@ -1,7 +1,7 @@
 /*Profile CSS */
 
-/*.box{background:aqua;}*/
-.box p, .box ul, .box ol{font-size:13px;}
+.box p, .box ul, .box ol{font-size:12px;}
+
 
 /*box-media: left box for photos, videos and more*/
 .box-media{}/*added: background deleted*/
@@ -232,7 +232,8 @@ ul.aside .metadata button{display:block; margin-top:0.8em;}
 .metadata{}
 
 /*events related in a list*/
-ul.connect-events li{border-top:1px solid #444; border-bottom:1px solid black; padding:10px 0;}
+ul.connect-events li{border-top:1px solid #444; border-bottom:1px solid black; margin-left:-10px; margin-right:-10px; padding:10px;}
+ul.connect-events li:hover{background-color:#4D4D4D; cursor:pointer;}
 /*ul.connect-events li:first-child{border-top:none;}*/
 
 /*people in a list*/
@@ -501,28 +502,50 @@ input.error-field:hover, textarea.error-field:hover{
 }
 
 /*Companies Contacts*/
-.all-followers{
-    column-count:6;
+
+ul.all-followers{
     -moz-column-count:6;
-    -webkit-column-count:6;
-    column-gap:20px;
-    -moz-column-gap:20px;
-    -webkit-column-gap:20px;
-    margin-top:20px;
-	width:100%;
+    -moz-column-gap: 18 px;
+    -webkit-column-count: 5;
+    -webkit-column-gap: 30px;/*ajustado sólo para chrome que no funciona con las seis columnas*/
+    column-count:6;
+    column-gap: 18px;
+    display:block;
+    margin:10px 0 0;
 }
-.all-followers .sponsor-follower{
+
+li.sponsor-follower{
     box-shadow:0 1px 1px rgba(0,0,0,0.3);
     -moz-box-shadow:0 1px 1px rgba(0,0,0,0.3);
-    -webkit-box-shadow:0 1px 1px rgba(0,0,0,0.3);
+    -webkit-box-shadow:0 1px 3px rgba(0,0,0,0.3);
     border-radius:4px;
     -moz-border-radius:4px;
     -webkit-border-radius:4px;
     overflow:hidden;
-    width:100%;
-    display:inline-block;
-    margin-bottom:20px;
+    display: inline-block; /* Display inline-block, and absolutely NO FLOATS! */
+    width: 99%;
+    margin-bottom:18px;
+    margin-left:1%;
 }
+	
+	li.sponsor-follower a{
+		text-decoration:none;
+		color:#5A5A5A;
+		text-decoration:none;
+		background-color:#F9F9F9;
+		transition: all 0.3s ease 0s;
+		-webkit-transition: all 0.3s ease 0s;
+		display:block;
+	}
+	
+	li.sponsor-follower a:hover{
+		background-color:white;
+	}
+	
+	li.sponsor-follower.secondary-info{
+		position:inherit;
+	}
+	
 .all-followers .sponsor-follower img{
     width:100%;
 }
@@ -534,6 +557,25 @@ input.error-field:hover, textarea.error-field:hover{
 }
 	
 /*Contacts*/
+
+div.item-block{
+	box-shadow:0 1px 1px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow:0 1px 2px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow:0 1px 2px rgba(0, 0, 0, 0.1);
+	color:#5A5A5A;
+	text-decoration:none;
+	background-color:#F9F9F9;
+	transition: all 0.3s ease 0s;
+	-webkit-transition: all 0.3s ease 0s;
+}
+
+div.item-block:hover{
+	box-shadow:0 1px 5px -1px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow:0 1px 5px -1px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow:0 1px 5px -1px rgba(0, 0, 0, 0.2);
+	background-color:white;
+}
+
 #followers, #following{
 	column-count:4;
 	-moz-column-count:4;
@@ -545,34 +587,33 @@ input.error-field:hover, textarea.error-field:hover{
 	}
 	
 	#following .item-block, #followers .item-block{
-		width:100%;
+		width:99%;
 		display:inline-block;
 		margin-bottom:20px;
-		background-color:white;
-		}
+	}
 
 /*Form Password*/
 
 .row.white{
 	min-height:500px;
-	}
+}
 .form-center{
 	float:none;
 	margin:30px auto 30px;
 	padding:0 1em;
-	}
+}
 	
 	.form-center h3{
 		line-height:120%;
 		margin-bottom:1.2em;
-		}
+	}
 	
 .help{
 	background-color:#F2F2F2;
 	font-size:0.9em;
 	margin:2em 0;
 	padding: 1em 1em 0.5em;
-	}
+}
 
 /*Profile Let's Jock*/
 
@@ -831,9 +872,23 @@ ul.important-info{
 			width:auto;
 			height:70px;
 			text-align:center;
-			background-color:#F8F8F8;
+			background-color:#F2F2F2;
 			padding:0;
 			position:relative;
+			color:#C4C4C4;
+			text-shadow:1px 1px 1px rgba(255,255,255,0.6), 0px -1px 0px rgba(0,0,0,0.20);
+			transition: all 0.8s ease 0.2s;
+			-webkit-transition: all 0.8s ease 0.2s;
+			box-shadow:0 0 2px -1px rgba(0,0,0,0.6);
+			-moz-box-shadow:0 0 2px -1px rgba(0,0,0,0.6);
+			-webkit-box-shadow:0 0 2px -1px rgba(0,0,0,0.6);
+			border:3px solid #F2F2F2;
+		}
+			
+			.post ul.important-info li a:hover [class*="img"]{
+				color:#C6091C;
+				text-shadow:none;
+				border-color:white;
 			}
 		
 			.post ul.important-info li a [class*="img"] img{
@@ -882,3 +937,51 @@ ul.important-info{
 #latest-post ul li .single-post ul.comments [class*="img"]{
 	margin:0;
 	}
+
+/*Sponsored Ads*/
+
+.box-connect.sponsored{
+	border-radius:0 0 4px 4px;
+	-moz-border-radius:0 0 4px 4px;
+	-webkit-border-radius:0 0 4px 4px;
+	position:relative;
+}
+
+	i.icon-special-header{
+		position:absolute;
+		top:-5px;
+		right:10px;
+		color:goldenrod;
+		text-shadow:0 0 2px rgba(255,255,255,0.2);
+		}
+
+.sponsored ul{
+	list-style:none outside none;
+	margin:0;
+	}
+
+	.sponsored ul li{
+		border-top: 1px solid #444444;
+		border-bottom:1px solid black;
+		}
+
+		.sponsored ul li:first-child{border-top:none;}
+		.sponsored ul li:last-child{border-bottom:none;}
+
+	.sponsored ul li a, ul.aside{
+		margin:0 -10px;
+		padding:8px 10px;
+		display:block;
+		text-decoration:none;
+	}
+
+	.sponsored ul li a:hover{
+		background-color:#4D4D4D;
+	}
+
+	.sponsored ul li a span{color:white; display:block; line-height:120%;}
+	.sponsored ul li a span.url{font-size:12px; margin-bottom:10px;}
+	.sponsored ul li img{width:100px; height:auto; float:left;}
+	.sponsored ul li p{font-size:11px; line-height:130%; color:white; font-weight:normal; margin-left:108px;}
+
+	.sponsored a.align-right{margin:4px 0 12px;}

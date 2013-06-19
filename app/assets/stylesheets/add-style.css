@@ -127,7 +127,7 @@ input.search-query{
 
 /*Username*/
 .navbar .btn, .navbar .btn-group {margin:0;} /* before was 8*/ 
-.btn-group.username a.btn{ padding:14px 20px;}
+.btn-group.username a.btn{padding:12px 20px;}
 .username .dropdown-menu{margin:0; border-radius:0 0 4px 4px; -moz-border-radius:0 0 4px 4px; -webkit-border-radius:0 0 4px 4px;}
 .username .btn:focus{color:white;}
 .username a{color:white;}
@@ -722,7 +722,7 @@ ul .metadata p{text-align:left;}
 p.special:before{content:"~ ";}
 p.special:after{content:" ~";}
 
-.secondary-info{background-color:#EEE; position:relative; font-size:12px;}
+.secondary-info{background-color:#EEE; font-size:12px;}
 .secondary-info a.send-message{background-color:#DDD; width:100%; display:block; margin-top:10px;}
 .secondary-info a.send-message:hover{background-color:#CCC;}
 

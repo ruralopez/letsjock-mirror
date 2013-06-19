@@ -1,8 +1,6 @@
 <%= javascript_include_tag "application" %>
 <%= stylesheet_link_tag    "profile" %>
 
-<body>
-
 <div class="container">
 
 <!-- Three columns of text below the carousel -->
@@ -12,131 +10,121 @@
     <h3 class="inline"><% if signed_in? && @user.id == current_user.id %><%else%><%= link_to @user.full_name, @user %>'s<% end %> Contacts</h3>
     </div>
   </div>
+  
+  </br> </br>
 
-    </br> </br>
-
-    <div class="span9">
+  <div class="span9">
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
       <li <% unless @tab2 %> class="active" <% end %> ><a href="#followers" data-toggle="tab"><%= @followers.count.to_s%> followers</a></li>
       <li <% if @tab2 %> class="active" <% end %> ><a href="#following" data-toggle="tab"><%= @followed.count.to_s%> following</a></li>
-
+      
       <div class="input-append pull-right search-friend">
         <input class="span2" id="appendedInput" type="text" placeholder="Find your friends!" data-provide="typeahead" data-source= '<%= @friends_list %>' data-items="6">
         <span class="add-on"><i class="icon-search"></i></span>
       </div>
-
+      
       <div class="input-prepend input-append pull-right" style="margin-right: 7px;">
         <span class="add-on" rel="tooltip" title="show/hide institutions"><i class="icon-briefcase"></i></span>
         <span class="add-on"><input class="cb" type="checkbox" id="checkBoxInstitutions"></span>
       </div>
-
+      
       <div class="input-prepend input-append pull-right" style="margin-right: 7px;">
         <span class="add-on" rel="tooltip" title="show/hide people"><i class="icon-user"></i></span>
         <span class="add-on"><input class="cb" type="checkbox" id="checkBoxPeople"></span>
       </div>
     </ul>
-    </div>
+  </div>
 </div>
 
 <div class="row relative">
-<div class="span9 contacts">
-<div id="my-tab-content" class="tab-content">
-<div class="tab-pane <% unless @tab2 %>active<% end %>" id="followers">
-
-  <% unless @followers.blank? %>
-      <%	 @followers.each do |follower| %>
-          <div class="item-block span2 socialDiv" sponsor="<%= follower.isSponsor %>">
-            <div class="item-img">
-              <%= link_to image_tag(follower.profilephotourl) , follower%>
+  <div class="span9 contacts">
+    <div id="my-tab-content" class="tab-content">
+      
+      <div class="tab-pane <% unless @tab2 %>active<% end %>" id="followers">
+        <% unless @followers.blank? %>
+          <% @followers.each do |follower| %>
+            <div class="item-block socialDiv" sponsor="<%= follower.isSponsor %>">
+              <div class="item-img">
+                <%= link_to image_tag(follower.profilephotourl), profile_path(follower) %>
+              </div>
+              <div class="item-info">
+                <h4><%= link_to follower.full_name, profile_path(follower) %></h4>
+                <p><%= follower.sport_show %></p>
+                <p class="special"><%= follower.citybirth %>, <%= follower.country %></p>
+              </div>
+              <div class="item-info secondary-info">
+                <p><%= link_to follower.followers.count.to_s + " followers", social_path(follower) %> | <%= link_to follower.followed_users.count.to_s + "  following", social_path(follower)  %></p>
+                <a href="#inboxModal" data-toggle="modal" role="button" id="new-inbox-btn" class="send-message"><i class="icon-envelope"></i></a>
+              </div>
             </div>
-            <div class="item-info">
-              <h4><%=	 link_to follower.full_name, follower %></h4>
-              <p><%= follower.sport_show %></p>
-              <p class="special"><%= follower.citybirth %>, <%= follower.country %></p>
+          <% end %>
+        <% end %>
+      </div><!-- #followers -->
+      
+      <div class="tab-pane <% if @tab2 %>active<% end %>" id="following">
+        <% unless @followed.blank? %>
+          <% @followed.each do |followed| %>
+            <div id='following-block-<%= followed.id %>' class="item-block socialDiv" sponsor="<%= followed.isSponsor %>">
+              <div class="item-img">
+                <%= link_to image_tag(followed.profilephotourl), profile_path(followed) %>
+              </div>
+              <div class="item-info">
+                <h4><%= link_to followed.full_name, profile_path(followed) %></h4>
+                <p><%= followed.sport_show %></p>
+                <p class="special"><%= followed.citybirth %>, <%= followed.country %></p>
+              </div>
+              <div class="item-info secondary-info">
+                <p><%= link_to( followed.followers.count.to_s + " followers", social_path(followed) ) %> | <%= link_to( followed.followed_users.count.to_s + "  following", social_path(followed) ) %></p>
+                <a href="#" class="send-message"><i class="icon-envelope"></i></a>
+              </div>
             </div>
-            <div class="item-info secondary-info">
-              <p><b><%= link_to follower.followers.count.to_s + " followers", social_path(follower) %></b> | <%= link_to follower.followed_users.count.to_s + "  following", social_path(follower) %></p>
-              <a href="#inboxModal" data-toggle="modal" role="button" id="new-inbox-btn" class="send-message"><i class="icon-envelope"></i></a>
-            </div>
-          </div>
-      <% end %>
-  <% end %>
+          <% end %>
+        <% end %>
+      </div><!-- #following -->
+      
+    </div><!-- #my-tab-content-->
+  </div><!-- #contacts-->
 
-</div><!-- #followers -->
-
-<div class="tab-pane <% if @tab2 %>active<% end %>" id="following">
-
-  <% unless @followed.blank? %>
-      <%	 @followed.each do |followed| %>
-          <div id='following-block-<%= followed.id %>' class="item-block span2 socialDiv" sponsor="<%= followed.isSponsor %>">
-            <div class="item-img">
-              <%= link_to image_tag(followed.profilephotourl) , followed%>
-            </div>
-            <div class="item-info">
-              <h4><%=	 link_to followed.full_name, followed %></h4>
-              <p><%= followed.sport_show %></p>
-              <p class="special"><%= followed.citybirth %>, <%= followed.country %></p>
-            </div>
-            <div class="item-info secondary-info">
-              <p><b><%= link_to followed.followers.count.to_s + " followers", social_path(followed) %></b> | <%= link_to followed.followed_users.count.to_s + "  following", social_path(followed) %></p>
-              <a href="#" class="send-message"><i class="icon-envelope"></i></a>
-            </div>
-          </div>
-      <% end %>
-  <% end %>
-
-</div><!-- #following -->
-
-</div><!-- #my-tab-content-->
-
-<script type="text/javascript">
+  <script type="text/javascript">
     jQuery(document).ready(function ($) {
-        $('#tabs').tab();
+      $('#tabs').tab();
     });
-
-</script>
-
-</div><!--row>
-
-      <!-- /END THE FEATURETTES -->
-
-
+  </script>
+  
   <div class="box-index box-connect box-contact span3" style="padding-top: 30px;">
     <%= render 'layouts/rightbox' %>
+    
+    <%= render 'layouts/invitebox' %>
   </div><!--box-connect-->
-</div>
+
+</div><!--row-->
+
   <%= render 'layouts/invite' %>
   <%=  render :partial => 'messages/form', :locals => {:followers_list => @followers_list} %>
 </div><!-- /.container -->
-
 
 
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script>
-    $(document).ready(function(){
-        $(".cb").attr("checked","checked");
-
-        $('#checkBoxPeople').change(function(){
-               $(".socialDiv").each(function(){
-                   if($( this ).attr("sponsor") == "false"){
-                       $( this ).toggle();
-                   }
-               });
-        });
-
-        $('#checkBoxInstitutions').change(function(){
-                $(".socialDiv").each(function(){
-                    if($( this ).attr("sponsor") == "true"){
-                        $( this ).toggle();
-                    }
-                });
-        });
+  $(document).ready(function(){
+    $(".cb").attr("checked","checked");
+    
+    $('#checkBoxPeople').change(function(){
+      $(".socialDiv").each(function(){
+        if($( this ).attr("sponsor") == "false"){
+          $( this ).toggle();
+        }
+      });
     });
+    
+    $('#checkBoxInstitutions').change(function(){
+      $(".socialDiv").each(function(){
+        if($( this ).attr("sponsor") == "true"){
+          $( this ).toggle();
+        }
+      });
+    });
+  });
 </script>
-</body>
-
-
-
-

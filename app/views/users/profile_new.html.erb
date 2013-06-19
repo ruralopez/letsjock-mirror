@@ -8,19 +8,36 @@
     <div class="box box-media span3 event-single">
       <div class="img-polaroid fileupload" data-provides="fileupload">
         <div class="thumbnail">
-          <div class="fileupload-new">
-            <i class="default-icon icon-user icon-4x">
-              <a class="btn btn-file btn-success">Upload a photo<input type="file" name="profile_picture" id="profile_picture" accept="image/*" /></a>
-            </i>
-          </div>
-          <div class="fileupload-exists">
-            <i class="default-icon">
-              <div class="fileupload-preview">
-                
+          <% if @user.profilephotourl %>
+              <div class="img-polaroid">
+                <%= link_to image_tag(@user.profilephotourl, :class => "user-profile"), '#' %>
+                <% if signed_in? && @user.id == current_user.id %>
+                    <div class="dropdown">
+                      <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-pencil"></i> Change Photo</a>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                        <li><a href="#profilePictureModal" data-toggle="modal"><i class="icon-picture"></i> Choose from photos</a></li>
+                        <li><a href="#photoModal" data-toggle="modal"><i class="icon-arrow-up"></i> Upload a photo</a></li>
+                        <!-- <li><a><i class="icon-pencil"></i> Edit thumbnail</a></li> -->
+                        <!-- <li><a><i class="icon-remove"></i> Remove</a></li> -->
+                      </ul>
+                    </div>
+                <% end %>
               </div>
-              <a class="btn" data-dismiss="fileupload">Remove</a>
-            </i>
-          </div>
+          <% else %>
+              <div class="fileupload-new">
+                <i class="default-icon icon-user icon-4x">
+                  <a class="btn btn-file btn-success">Upload a photo<input type="file" name="profile_picture" id="profile_picture" accept="image/*" /></a>
+                </i>
+              </div>
+              <div class="fileupload-exists">
+                <i class="default-icon">
+                  <div class="fileupload-preview">
+
+                  </div>
+                  <a class="btn" data-dismiss="fileupload">Remove</a>
+                </i>
+              </div>
+          <% end %>
         </div>
       </div>
       

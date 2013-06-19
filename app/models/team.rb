@@ -11,7 +11,7 @@ class Team < ActiveRecord::Base
 
   has_many :videos
 
-  attr_accessible :end, :sport_id, :user_id, :init, :name, :category, :as_athlete, :work_id
+  attr_accessible :end, :sport_id, :user_id, :init, :name, :category, :as_athlete, :work_id, :localization
 
   def name_category
     if category
