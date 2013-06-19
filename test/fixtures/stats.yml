@@ -3,9 +3,9 @@
 one:
   user_id: 1
   type: 
-  data: MyText
+  info: 1
 
 two:
   user_id: 1
   type: 
-  data: MyText
+  info: 1

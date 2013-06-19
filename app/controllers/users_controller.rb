@@ -145,6 +145,7 @@ class UsersController < ApplicationController
       posts = Post.where(:user_id => @user.id).order("created_at ASC")
       events = Event.where(:user_id => @user.id).order("created_at ASC")
       @posts_combined = ( posts + events ).sort_by(&:created_at).reverse
+      @myevents = events
     else
       #Juntar competitions, teams, trains, results y recognitions como athlete experiences
       @competitions = Competition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "init DESC, end DESC")
