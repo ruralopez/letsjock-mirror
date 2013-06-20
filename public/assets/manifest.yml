@@ -3,8 +3,8 @@ FontAwesome.otf: FontAwesome-468f83b63df32064983141584a19ff17.otf
 FontAwesome/index.otf: FontAwesome-468f83b63df32064983141584a19ff17.otf
 fontawesome-webfont.eot: fontawesome-webfont-635909f146e208b3509acdf3b154bf0d.eot
 fontawesome-webfont/index.eot: fontawesome-webfont-635909f146e208b3509acdf3b154bf0d.eot
-fontawesome-webfont.svg: fontawesome-webfont-0552c14743241144dc709b3cbc57b0b6.svg
-fontawesome-webfont/index.svg: fontawesome-webfont-0552c14743241144dc709b3cbc57b0b6.svg
+fontawesome-webfont.svg: fontawesome-webfont-45e6d71ae17a5e54908d46ad8237b04f.svg
+fontawesome-webfont/index.svg: fontawesome-webfont-45e6d71ae17a5e54908d46ad8237b04f.svg
 fontawesome-webfont.ttf: fontawesome-webfont-6a4e273908b7e43d9e479d38b8ae5957.ttf
 fontawesome-webfont/index.ttf: fontawesome-webfont-6a4e273908b7e43d9e479d38b8ae5957.ttf
 fontawesome-webfont.woff: fontawesome-webfont-a0fbd98b232e7e1ef9cdaad813b26eb3.woff
@@ -19,8 +19,6 @@ fontawesome-webfont/index.woff: fontawesome-webfont-a0fbd98b232e7e1ef9cdaad813b2
 90x90/index.gif: 90x90-1397022a9e79abebdc170764c3471750.gif
 Sin-titulo-8.png: Sin-titulo-8-327bf9ea0f6929b5e98fd5627506e618.png
 Sin-titulo-8/index.png: Sin-titulo-8-327bf9ea0f6929b5e98fd5627506e618.png
-Sin-tÝtulo-8.png: Sin-tÝtulo-8-327bf9ea0f6929b5e98fd5627506e618.png
-Sin-tÝtulo-8/index.png: Sin-tÝtulo-8-327bf9ea0f6929b5e98fd5627506e618.png
 arrowBottom.png: arrowBottom-7a458441d2c36031f442d256c3779953.png
 arrowBottom/index.png: arrowBottom-7a458441d2c36031f442d256c3779953.png
 background.jpg: background-40d87d2d3401a3681c5dcfa8cc46e7bb.jpg
@@ -215,8 +213,8 @@ welcome_3.png: welcome_3-bd72296762ab314abf69a05aef7cb526.png
 welcome_3/index.png: welcome_3-bd72296762ab314abf69a05aef7cb526.png
 welcome_3B.png: welcome_3B-4410d60895f3004da6519cb55a671a14.png
 welcome_3B/index.png: welcome_3B-4410d60895f3004da6519cb55a671a14.png
-application.js: application-17cc1f3df7b85f02f1bed338d76b25d8.js
-application/index.js: application-17cc1f3df7b85f02f1bed338d76b25d8.js
+application.js: application-33b54ce74496dae9f9bfeafcab1e6b02.js
+application/index.js: application-33b54ce74496dae9f9bfeafcab1e6b02.js
 bootstrap-image-gallery.js: bootstrap-image-gallery-389a55fe14983b9e5f699bab0278df02.js
 bootstrap-image-gallery/index.js: bootstrap-image-gallery-389a55fe14983b9e5f699bab0278df02.js
 events.js: events-c6efef8c38f093598c2dc381cf0f84a4.js
@@ -232,6 +230,8 @@ users_validations.js: users_validations-edd4eba822a5f463c8146e9760e97066.js
 users_validations/index.js: users_validations-edd4eba822a5f463c8146e9760e97066.js
 validations.js: validations-dbeeee6663e77ac85171447dda8ee485.js
 validations/index.js: validations-dbeeee6663e77ac85171447dda8ee485.js
+add-style.css.bak: add-style.css-fbf346e4ef0b1cea43b4220c6cc41799.bak
+add-style/index.css.bak: add-style.css-fbf346e4ef0b1cea43b4220c6cc41799.bak
 application.css: application-8721850af0639d60a5f4a756749c62ce.css
 application/index.css: application-8721850af0639d60a5f4a756749c62ce.css
 bootstrap-image-gallery.css: bootstrap-image-gallery-5de3b22d9c7bb8b9342f50a0e21ab066.css
@@ -239,8 +239,11 @@ bootstrap-image-gallery/index.css: bootstrap-image-gallery-5de3b22d9c7bb8b9342f5
 home.css: home-10b57606e1c938909f037a91d6a15862.css
 home/index.css: home-10b57606e1c938909f037a91d6a15862.css
 indexcss.css: indexcss-cf746b009ed228ba1341acd7beb9d7fb.css
+indexcss.css.bak: indexcss.css-8b24740c61eb6d7f8ee76ec5f0fed358.bak
 profile.css: profile-55ed0834d634fb22520931c9ede874e1.css
 profile/index.css: profile-55ed0834d634fb22520931c9ede874e1.css
+profile.css.bak: profile.css-46fb3eb1124d1164ba90178e8cbd2e5e.bak
+profile/index.css.bak: profile.css-46fb3eb1124d1164ba90178e8cbd2e5e.bak
 sessions.css: sessions-4adad407f24e270eb9896e7f6d00d7e4.css
 sessions/index.css: sessions-4adad407f24e270eb9896e7f6d00d7e4.css
 users.css: users-c52a198f14637b78dc0ba9e3cf444469.css
