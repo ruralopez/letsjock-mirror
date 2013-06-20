@@ -25,11 +25,11 @@
             </a>
             
             <a id="notifications-button" class="notifications" style="color: #666666; text-decoration: none; cursor: pointer;">
-              <i class="icon-globe icon-white"></i><% if  current_user.new_notifications.count > 0 %> <span style="color: red;"> (<%= current_user.new_notifications.count %>)</span><% end %>
+              <i class="icon-globe icon-white"></i><% if current_user.new_notifications_count > 0 %> <span style="color: red;"> (<%= current_user.new_notifications_count %>)</span><% end %>
             </a>
             
             <div class="popover fade bottom in" id="notifications-pop" style="display: none; top: 40px; left: 261px;">
-              <%=	 render 'layouts/notifications' %>
+              <%= render 'layouts/notifications' %>
             </div>
         </ul>
 

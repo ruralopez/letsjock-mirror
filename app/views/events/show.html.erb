@@ -1,6 +1,9 @@
 <%= javascript_include_tag "application" %>
 <%= javascript_include_tag "events" %>
 <%= stylesheet_link_tag "profile" %>
+<%= javascript_include_tag "load-image" %>
+<%= javascript_include_tag "bootstrap-image-gallery" %>
+<%= stylesheet_link_tag    "bootstrap-image-gallery" %>
 
 <div class="container">
 <div class="row">
@@ -50,9 +53,11 @@
   <div class="event-info">
     <h5><i class="icon-camera"></i><a href="#">Pictures</a></h5>
     <div class="event-pictures">
-      <%  @photos.take(6).each do |photo| %>
-              <%= link_to image_tag(photo.url) , photo.url %>
-      <%  end %>
+      <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+        <% @photos.take(6).each do |photo| %>
+          <%= link_to image_tag(photo.url), photo.url, "data-gallery" => "gallery", "data-id" => photo.id %>
+        <% end %>
+      </div>
     </div><!--user-pictures-->
     <h5 class="white">0 pictures <a href="#">see more</a></h5>
 
@@ -183,6 +188,8 @@
 </div><!--box-connect-->
 </div>
 </div><!-- /.container -->
+
+<%= render 'photos/modal_gallery' %>
 
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript">

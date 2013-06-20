@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment]
+  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :pictures, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment]
   
   def verify_login
     unless signed_in?
@@ -131,13 +131,12 @@ class UsersController < ApplicationController
   end
 
   def profile
-    #@usersport = UserSport.all
     @user = User.find(params[:id])
-
-    if signed_in?
+    
+    if @user.id != current_user.id
       userstats = Stat.all(:conditions => ["user_id = ? AND type = ? AND info = ? AND created_at between ? AND ?", current_user.id, "User", @user.id, Time.zone.now.beginning_of_day, Time.zone.now.end_of_day])
-      if userstats.empty? && @user.id != current_user.id
-        Stat.new(:user_id => current_user.id, :type => "User", :info => @user.id).save
+      if userstats.empty? 
+        Stat.create(:user_id => current_user.id, :type => "User", :info => @user.id)
       end
     end
 
@@ -180,9 +179,7 @@ class UsersController < ApplicationController
       # Eventos en los que ha participado
       @events = UserEvent.all(:conditions => ['user_id = ?', @user.id])
       @myevents = []
-      @events.each do |event|
-        @myevents.push(Event.find(event.event_id))
-      end
+      @events.each { |event| @myevents.push(Event.select("id, name").find(event.id)) }
     end
     
     #Juntar photos y videos que el usuario ya tiene
@@ -263,25 +260,15 @@ class UsersController < ApplicationController
   end
 
   def pictures
-
-    if signed_in?
-      @user = User.find(params[:id])
-      @photos = Photo.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
-      @videos = Video.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
-      @photo = @user.photos.build if signed_in?
-      @video = @user.videos.build if signed_in?
-
-      @events = UserEvent.all(:conditions => ['user_id = ?', current_user.id])
-      @myevents = []
-      @events.each do |event|
-        @myevents.push(Event.find(event.event_id))
-      end
-    else
-      flash[:error] = "You must be logged in."
-      sign_out
-      redirect_to root_path
-    end
-
+    @user = User.find(params[:id])
+    @photos = Photo.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
+    @videos = Video.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
+    @photo = @user.photos.build if signed_in?
+    @video = @user.videos.build if signed_in?
+    
+    @events = UserEvent.all(:conditions => ['user_id = ?', current_user.id])
+    @myevents = []
+    @events.each { |event| @myevents.push(Event.select("id, name").find(event.id)) }
   end
 
   def auth_email

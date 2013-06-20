@@ -67,7 +67,7 @@
     <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
     <%  @photos.take(6).each do |photo| %>
         <% if photo.url != @user.profilephotourl %>
-          <%= link_to image_tag(photo.url) , photo.url, "data-gallery" => "gallery" %>
+          <%= link_to image_tag(photo.url), photo.url, "data-gallery" => "gallery", "data-id" => photo.id %>
         <% end %>
     <%  end %>
     </div>

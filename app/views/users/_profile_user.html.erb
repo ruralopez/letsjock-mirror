@@ -31,13 +31,13 @@
     <h5><i class="icon-camera"></i><%= link_to 'Pictures' , pictures_path(@user) %></h5>
     <div class="event-pictures">
       <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
-      <%  @photos.take(6).each do |photo| %>
-          <%	 if photo.url != @user.profilephotourl %>
-                <a href="<%= photo.url %>" data-gallery="gallery" data-id="<%= photo.id %>">
-                  <%= image_tag(photo.url) %>
-                </a>
-          <% end %>
-      <%  end %>
+      <% @photos.take(6).each do |photo| %>
+        <% if photo.url != @user.profilephotourl %>
+          <a href="<%= photo.url %>" data-gallery="gallery" data-id="<%= photo.id %>">
+            <%= image_tag(photo.url) %>
+          </a>
+        <% end %>
+      <% end %>
       </div>
     </div><!--user-pictures-->
     

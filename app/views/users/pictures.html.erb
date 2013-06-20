@@ -67,25 +67,25 @@
 
 
 <script>
-    $(document).ready(function(){
-
-        $('.dropdown-toggle').dropdown();
-
-        $('#video-submit').click(function(){
-            $("#new_video").submit();
-        });
-        $(".cb").attr("checked","checked");
-
-        $('#checkBoxPictures').change(function(){
-            $(".image-editable").each(function(){
-                $( this ).toggle();
-            });
-        });
-
-        $('#checkBoxVideos').change(function(){
-            $(".video").each(function(){
-                $( this ).toggle();
-            });
-        });
+  $(document).ready(function(){
+    $('.dropdown-toggle').dropdown();
+    
+    $('#video-submit').click(function(){
+      $("#new_video").submit();
     });
+    
+    $(".cb").attr("checked","checked");
+    
+    $('#checkBoxPictures').change(function(){
+      $(".image-editable").each(function(){
+        $( this ).toggle();
+      });
+    });
+    
+    $('#checkBoxVideos').change(function(){
+      $(".video").each(function(){
+        $( this ).toggle();
+      });
+    });
+  });
 </script>

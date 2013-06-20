@@ -3,11 +3,11 @@
   <h3 class="popover-title">Notifications</h3>
   <ul class="popover-content">
 
-      <%	 if @global_notifications %>
+      <% if @global_notifications %>
          <% @global_notifications.each do |notification| %>
-
+         
             <% if notification.not_type == "003" && User.exists?(notification.user2_id) %>
-                <% user = User.find(notification.user2_id) %>
+                <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
                 <li>
                   <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
                       <div class="popover-left">
@@ -19,7 +19,7 @@
                       </div>
                   <% end %>
                 </li>
-
+                
             <% elsif notification.not_type == "104" %>
                 <% event = Event.find(notification.event_id) %>
                 <li>

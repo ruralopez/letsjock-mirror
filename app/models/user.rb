@@ -185,6 +185,10 @@ class User < ActiveRecord::Base
     @new
   end
   
+  def new_notifications_count
+    Notification.all(:conditions => ["`user_id` = ? AND `read` = 0", self.id]).count
+  end
+  
   def isAdmin? #Obviamente hay que crear el atributo, pero por mientras
     self.id == 1 # Si es el usuario LetsJock
   end
