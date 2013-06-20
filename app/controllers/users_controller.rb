@@ -183,7 +183,19 @@ class UsersController < ApplicationController
     end
     
     #Juntar photos y videos que el usuario ya tiene
+    @tags = Tags.all(:conditions => ["type2 = ? AND type1 = ? AND id1 = ?", "Photo", "User", @user.id])
+    @tag_photos = []
+    unless @tags.empty?
+      @tags.each do |tag|
+        @tag_photos.push(Photo.find(tag.id2))
+      end
+    end
+
     @photos = Photo.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
+    unless @tag_photos.empty?
+      @photos = @photos + @tag_photos
+    end
+
     @videos = Video.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
     #Crear variables photo y video para poder subir
     @photo = @user.photos.build if signed_in?
@@ -261,7 +273,18 @@ class UsersController < ApplicationController
 
   def pictures
     @user = User.find(params[:id])
+
+    @tags = Tags.all(:conditions => ["type2 = ? AND type1 = ? AND id1 = ?", "Photo", "User", @user.id])
+    @tag_photos = []
+    unless @tags.empty?
+      @tags.each do |tag|
+        @tag_photos.push(Photo.find(tag.id2))
+      end
+    end
     @photos = Photo.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
+    unless @tag_photos.empty?
+      @photos = @photos + @tag_photos
+    end
     @videos = Video.all(:conditions => ['user_id = ?', @user.id], :order => "id desc")
     @photo = @user.photos.build if signed_in?
     @video = @user.videos.build if signed_in?
