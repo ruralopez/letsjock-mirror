@@ -117,6 +117,6 @@
                      }
                  });
      });
-     var tagsUserArray = <%= @user.followers.map{|p| {:label=>p.full_name,:value=>p.id}}.to_json.html_safe %>;
-     var tagsEventArray = <%= @myevents.map{|event| {:label=>event.name,:value=>event.id}}.to_json.html_safe %>;
+     var tagsUserArray = <%= @user.followers.any? ? @user.followers.map{|p| {:label=>p.full_name,:value=>p.id}}.to_json.html_safe : nil %>;
+     var tagsEventArray = <%= ( @myevents && @myevents.any? ) ? @myevents.map{|event| {:label=>event.name,:value=>event.id}}.to_json.html_safe : nil %>;
  </script>
