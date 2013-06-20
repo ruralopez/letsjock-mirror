@@ -10,7 +10,7 @@
       <div class="img-polaroid fileupload" data-provides="fileupload">
         <div class="thumbnail">
           <div class="fileupload-new">
-          <% if @event.imageurl != "" %>
+          <% if @event.imageurl && @event.imageurl != "" %>
             <%= image_tag(@event.imageurl, :class => "user-profile") %>
           <% else %>
             <i class="default-icon icon-user icon-4x">
