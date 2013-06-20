@@ -33,7 +33,9 @@
       <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
       <%  @photos.take(6).each do |photo| %>
           <%	 if photo.url != @user.profilephotourl %>
-                  <%= link_to image_tag(photo.url) , photo.url, "data-gallery" => "gallery" %>
+                <a href="<%= photo.url %>" data-gallery="gallery" data-id="<%= photo.id %>">
+                  <%= image_tag(photo.url) %>
+                </a>
           <% end %>
       <%  end %>
       </div>
@@ -250,12 +252,12 @@ $(document).ready(function(){
   <div class="clearfix"></div>
 </div>
 
-<%=  render 'photos/modal_gallery' %>
 <%=  render 'photos/photo_modal' %>
 <%=  render 'videos/video_modal' %>
 <%=  render 'events/event_modal' %>
 <%=  render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
 <%=  render 'layouts/invite' %>
+<%=  render 'photos/modal_gallery' %>
 
 
 <!-- Le javascript
