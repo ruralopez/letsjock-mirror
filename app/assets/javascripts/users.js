@@ -21,7 +21,7 @@ $(function(){
                 var h4 = aux.getElementsByTagName("h4");
                 var link = h4[0].getElementsByTagName("a");
                 var name = link[0].innerText;
-                if(name.indexOf(elem.data('oldVal')) != -1)
+                if(name.toLowerCase().indexOf(elem.data('oldVal').toLowerCase()) != -1)
                 {
                   divUsers[i].style.display = "block";
                 }

@@ -318,10 +318,10 @@ ActiveRecord::Schema.define(:version => 20130619233605) do
     t.integer  "user_id",    :null => false
     t.integer  "sport_id",   :null => false
     t.string   "position"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
     t.date     "init"
     t.date     "end"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_index "user_sports", ["user_id", "sport_id"], :name => "index_user_sports_on_user_id_and_sport_id", :unique => true
@@ -344,9 +344,9 @@ ActiveRecord::Schema.define(:version => 20130619233605) do
     t.string   "email_token"
     t.boolean  "authentic_email"
     t.boolean  "isSponsor"
+    t.text     "preferences"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
-    t.text     "preferences"
     t.string   "address"
   end
 
