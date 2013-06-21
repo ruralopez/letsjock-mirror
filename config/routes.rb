@@ -77,6 +77,7 @@ Letsjock::Application.routes.draw do
   match '/tags' => 'tags#index', :as => :tags
   match '/typeahead' => 'users#typeahead', :as => :tags
   match '/add_tag' => 'users#add_tag', :as => :add_tag
+  match '/photos/:id' => 'photos#edit', :as => :photo
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

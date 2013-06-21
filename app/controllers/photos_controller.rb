@@ -10,6 +10,14 @@ class PhotosController < ApplicationController
       format.json { render :json => @photos }
     end
   end
+
+  def edit
+    if signed_in?
+      @photo = Photo.find(params[:photo][:photo_id])
+      @photo.update_attributes(:comment => params[:photo][:comment])
+      redirect_to profile_path(current_user)
+    end
+  end
   
   def open_aws_connection
     AWS::S3::Base.establish_connection!(

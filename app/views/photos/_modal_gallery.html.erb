@@ -57,7 +57,11 @@
 <div id="modal-gallery" class="modal modal-gallery hide fade" tabindex="-1">
   <div class="modal-body">
     <div class="modal-image"></div>
-    <ul style="margin-bottom: 5px;" id="descriptionFrame" class="breadcrumb"><li id="description" class="active"></li><!-- <i class="icon-pencil pull-right editDescription"></i> --></ul>
+    <ul style="margin-bottom: 5px;" id="descriptionFrame" class="breadcrumb">
+      <li id="description" class="active"></li>
+      <li id="editDescriptionForm"></li>
+      <i class="icon-pencil pull-right editDescription" style="color: graytext; cursor: pointer;"></i>
+    </ul>
     
     <%= form_tag({:controller => 'users', :action => 'add_tag'}, :id => "tagsForm") do  %>
       <fieldset>
@@ -144,6 +148,15 @@
             $("#submitBadge").show("normal");
         });
 
+        $("#modal-gallery").delegate("#submitPhotoComment", "click", function () {
+            $('.formEditPhoto').submit();
+        });
+
+        $('.editDescription').click(function(){
+            $('#description').toggle();
+            $('#editDescriptionForm').toggle();
+        });
+
         $('#clickTags').click(function(){
             $("#inputTags").show("normal");
             $("#submitBadge").show("normal");
@@ -157,16 +170,19 @@
                 return element.id == photo_id;
             })[0];
 
+            $(this).find("form.formEditPhoto").remove();
             $("#descriptionFrame").hide();
-            //$(".editDescription").hide();
+            $(".editDescription").hide();
+            $("#editDescriptionForm").append('<form action="/photos/' + photo.id + '" id="edit_photo_' + photo.id + '" method="post" class="formEditPhoto"><input type="hidden" name="photo[photo_id]" value="' + photo.id + '"><textarea class="span5" id="photo_comment" name="photo[comment]" rows="3" placeholder="Write a description"></textarea><span style="cursor: pointer;" id="submitPhotoComment" class="badge badge-success"><i class="icon-ok icon-white"></i></span></form>');
             if(photo.comment.length > 0){
+                $(this).find("#photo_comment").val(photo.comment);
                 $(this).find("#descriptionFrame").show();
                 $(this).find("#description").html(photo.comment);
-            <%# if @user && signed_in? && @user.id == current_user.id  %>
-                //if(photo.user_id == <%= current_user.id %>){
-                    //$(".editDescription").show();
-                //}
-            <%# end %>
+            <% if @user && signed_in? && @user.id == current_user.id  %>
+                if(photo.user_id == <%= current_user.id %>){
+                    $(".editDescription").show();
+                }
+            <% end %>
             }
 
             $(this).find("input[name='tags[photo_id]']").val(photo.id);
@@ -184,6 +200,7 @@
             $(".close").hide();
             $("#inputTags").hide();
             $("#submitBadge").hide();
+            $("#editDescriptionForm").hide();
 
                 <% if signed_in? %>
                     if(photo.user_id == <%= current_user.id %>)
