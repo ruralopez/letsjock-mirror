@@ -672,6 +672,8 @@ class UsersController < ApplicationController
     notification.update_attributes(:read => true)
     if notification.not_type == "003"
       redirect_to profile_path( notification.user2_id )
+    elsif notification.not_type == "004"
+      redirect_to pictures_path(notification.user2_id)
     elsif notification.not_type == "104"
       redirect_to Event.find(notification.event_id)
     elsif notification.not_type == "200"
@@ -849,6 +851,7 @@ class UsersController < ApplicationController
       if !tagsUserArray.blank?
         tagsUserArray.each do |tag|
           Tags.create(:id1 => tag, :type1 => "User", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+          Notification.create(:user_id => tag, :user2_id => params[:tags][:user_id], :aux_id => params[:tags][:photo_id], :aux_type => "Photo", :read => false, :not_type => "004")
         end
       end
 

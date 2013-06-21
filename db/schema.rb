@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130619233605) do
+ActiveRecord::Schema.define(:version => 20130621002339) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -131,6 +131,8 @@ ActiveRecord::Schema.define(:version => 20130619233605) do
     t.string   "not_type"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "aux_id"
+    t.string   "aux_type"
   end
 
   create_table "outcomes", :force => true do |t|

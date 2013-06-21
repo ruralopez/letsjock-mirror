@@ -19,7 +19,21 @@
                       </div>
                   <% end %>
                 </li>
-                
+
+            <% elsif notification.not_type == "004" && User.exists?(notification.user2_id) %>
+                <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
+                <li>
+                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                      <div class="popover-left">
+                        <%= image_tag (Photo.find(notification.aux_id).url)%>
+                      </div><!--popover-left-->
+                      <div class="popover-right">
+                        <span><%= user.full_name %></span> have tagged you in a picture
+                        <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                      </div>
+                  <% end %>
+                </li>
+
             <% elsif notification.not_type == "104" %>
                 <% event = Event.find(notification.event_id) %>
                 <li>

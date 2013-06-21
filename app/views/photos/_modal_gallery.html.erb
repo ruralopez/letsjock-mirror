@@ -72,6 +72,7 @@
           <input type="text" id="tags_user" class="tags pull-left" placeholder="Users">
           <input type="text" id="tags_event" class="tags pull-left" placeholder="Events">
           <input type="hidden" name="tags[photo_id]" value="">
+          <input type="hidden" name="tags[user_id]" value="<%= current_user.id if signed_in? %>">
         </div>
       </fieldset>
     <% end %>
