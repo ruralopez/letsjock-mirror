@@ -114,4 +114,40 @@ class PostsController < ApplicationController
     
     redirect_to profile_path(user)
   end
+  
+  def remove_user_post
+    user = User.find(params[:id])
+    
+    if signed_in? && user.inAdmins?(current_user) && params[:post_id] != ""
+      post = Post.find(params[:post_id])
+      
+      # Elimina activities si existen
+      if Activity.exists?(:post_id => post.id)
+        Activity.where(:post_id => post.id).each { |a| a.destroy }
+      end
+      
+      # Elimina comentarios si existen
+      if Comment.exists?(:object_id => post.id, :object_type => "Post")
+        cl = []
+        Comment.where(:object_id => post.id, :object_type => "Post").each  do |c|
+          cl.push(c.id)
+          c.destroy
+        end
+        
+        # Eliminar likes de los comentarios
+        if Like.exists?(:object_id => cl, :object_type => "Comment")
+          Like.where(:object_id => cl, :object_type => "Comment").each { |l| l.destroy }
+        end
+      end
+      
+      # Elimina likes si existen
+      if Like.exists?(:object_id => post.id, :object_type => "Post")
+        Like.where(:object_id => post.id, :object_type => "Post").each { |l| l.destroy }
+      end
+      
+      post.destroy
+    end
+    
+    redirect_to profile_path(user)
+  end
 end
