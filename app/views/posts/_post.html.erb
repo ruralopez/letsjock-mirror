@@ -1,5 +1,14 @@
 <% user = post.user%>
-<li>
+<li class="post-item" data-id="<%= post.id %>">
+<% if signed_in? && @user.inAdmins?(current_user) %>
+  <div class="edit-post pull-right">
+    <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-cog"></i></a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+      <li><a href="#" class="delete-post-button"><i class="icon-remove"></i> Delete</a></li>
+      <li><a href="#"><i class="icon-bullhorn"></i> Promote</a></li>
+    </ul>
+  </div>
+<% end %>
   <a class="img-polaroid">
     <%= image_tag(user.profilepic) %>
   </a>

@@ -92,16 +92,38 @@ $(function(){
     $(this).parents("ul.experience").append($('.alert-delete').toggleClass("hide"));
   });
   
-  $(".alert-delete .btn-cancel").click(function(e){
+  $("ul.experience").delegate(".alert-delete .btn-cancel", "click", function(e){
     $(this).parents("ul.experience .alert-delete").toggleClass("hide");
   });
   
-  $(".alert-delete .btn-confirm").click(function(e){
+  $("ul.experience").delegate(".alert-delete .btn-confirm", "click", function(e){
+    $(this).attr("disabled", "disabled")
     var data = {};
     data["object_id"] = $(this).parents("ul.experience").attr("data-id");
     data["object_type"] = $(this).parents("ul.experience").attr("data-type");
     
     $.post("/profile/" + $("#user_id").val() + "/remove_profile", data, function(){
+      location = "/profile/" + $("#user_id").val();
+    });
+  });
+  
+  // _profile_sponsor: DELETE POST
+  $('#latest-post .delete-post-button').click(function(e){
+    e.preventDefault();
+    $(this).parents("li.post-item").before($('.alert-delete').toggleClass("hide"));
+  });
+  
+  $("#latest-post").delegate(".alert-delete .btn-cancel", "click", function(e){
+    $("#latest-post .alert-delete").toggleClass("hide");
+  });
+  
+  $("#latest-post").delegate(".alert-delete .btn-confirm", "click", function(e){
+    $(this).attr("disabled", "disabled");
+    var data = {};
+    data["post_id"] = $(this).parents(".alert-delete").next().attr("data-id");
+    console.log(data);
+    
+    $.post("/profile/" + $("#user_id").val() + "/remove_post", data, function(){
       location = "/profile/" + $("#user_id").val();
     });
   });
