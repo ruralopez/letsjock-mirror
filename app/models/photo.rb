@@ -4,8 +4,9 @@ class Photo < ActiveRecord::Base
 
   has_many :activities
 
-  attr_accessible :comment, :title, :url, :user_id, :sport_id#,:tags
+  attr_accessible :comment, :title, :url, :user_id, :sport_id, :owner_name#,:tags
 
+  before_save :set_owner_name
   #serialize :tags, Array
   #before_save :set_tags
   # Necesitamos un Array[Hash] para almacenar los tags
@@ -28,6 +29,10 @@ class Photo < ActiveRecord::Base
   #    self.tags = self.tags.split(", ")
   #  end
   #end
+
+  def set_owner_name
+    self.owner_name = User.find(self.user_id).full_name
+  end
 
   def self.upload_file(fileUp)
     AWS::S3::Base.establish_connection!(

@@ -57,6 +57,7 @@
 <div id="modal-gallery" class="modal modal-gallery hide fade" tabindex="-1">
   <div class="modal-body">
     <div class="modal-image"></div>
+    <ul style="margin-bottom: 3px; margin-top: 5px;" class="nav nav-pills"></ul>
     <ul style="margin-bottom: 5px;" id="descriptionFrame" class="breadcrumb">
       <li id="description" class="active"></li>
       <li id="editDescriptionForm"></li>
@@ -170,6 +171,10 @@
                 return element.id == photo_id;
             })[0];
 
+            $(this).find("#photo-owner").remove();
+            $(this).find(".nav-pills").append('<li id="photo-owner"><a href="/profile/' + photo.user_id + '" style="color: #808080;"><b>' + photo.owner_name + '&rsquo;s photo</b></a></li>');
+
+            $(this).find("#description").html("Write a description");
             $(this).find("form.formEditPhoto").remove();
             $("#descriptionFrame").hide();
             $(".editDescription").hide();
@@ -178,12 +183,13 @@
                 $(this).find("#photo_comment").val(photo.comment);
                 $(this).find("#descriptionFrame").show();
                 $(this).find("#description").html(photo.comment);
-            <% if @user && signed_in? && @user.id == current_user.id  %>
-                if(photo.user_id == <%= current_user.id %>){
-                    $(".editDescription").show();
-                }
-            <% end %>
             }
+            <% if @user && signed_in? && @user.id == current_user.id  %>
+            if(photo.user_id == <%= current_user.id %>){
+                $(this).find("#descriptionFrame").show();
+                $(".editDescription").show();
+            }
+            <% end %>
 
             $(this).find("input[name='tags[photo_id]']").val(photo.id);
             $(this).find("span.label").remove();
