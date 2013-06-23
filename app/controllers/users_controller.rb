@@ -882,7 +882,8 @@ class UsersController < ApplicationController
     #Si array queda con elementos, estos elementos los creo.
     #arr.delete_if (|item| item == 'id')
 
-    redirect_to request.referer
+    redirect_to pictures_path(User.find(params[:tags][:actual_user_id]), {:callback_id => params[:tags][:photo_id]})
+    #redirect_to request.referer
   end
 
 end

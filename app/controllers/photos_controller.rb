@@ -15,7 +15,7 @@ class PhotosController < ApplicationController
     if signed_in?
       @photo = Photo.find(params[:photo][:photo_id])
       @photo.update_attributes(:comment => params[:photo][:comment])
-      redirect_to profile_path(current_user)
+      redirect_to pictures_path(current_user, {:callback_id => params[:photo][:photo_id]})
     end
   end
   

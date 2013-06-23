@@ -78,6 +78,7 @@
           <input type="text" id="tags_event" class="tags pull-left" placeholder="Events">
           <input type="hidden" name="tags[photo_id]" value="">
           <input type="hidden" name="tags[user_id]" value="<%= current_user.id if signed_in? %>">
+          <input type="hidden" name="tags[actual_user_id]" value="<%= params[:id] if signed_in? %>">
         </div>
       </fieldset>
     <% end %>
@@ -225,6 +226,10 @@
             }
             <% end %>
         });
+
+        <% if params[:callback_id] && params[:callback_id] != "" %>
+            $(document).find("a[data-gallery='gallery'][data-id='<%= params[:callback_id] %>']").click();
+        <% end %>
     });
 
     var photos = <%= @photos.any? ? @photos.to_json(:methods => :tags).html_safe : "{}" %>;
