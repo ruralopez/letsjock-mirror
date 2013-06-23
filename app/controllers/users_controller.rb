@@ -673,7 +673,7 @@ class UsersController < ApplicationController
     if notification.not_type == "003"
       redirect_to profile_path( notification.user2_id )
     elsif notification.not_type == "004"
-      redirect_to pictures_path(notification.user2_id)
+      redirect_to pictures_path(notification.user2_id, {:callback_id => notification.aux_id})
     elsif notification.not_type == "104"
       redirect_to Event.find(notification.event_id)
     elsif notification.not_type == "200"

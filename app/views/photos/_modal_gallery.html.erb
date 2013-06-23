@@ -208,22 +208,22 @@
             $("#submitBadge").hide();
             $("#editDescriptionForm").hide();
 
-                <% if signed_in? %>
-                    if(photo.user_id == <%= current_user.id %>)
-                        $(".close").show();
-                    else {
-                        for(i=0;i<photo.tags.length;i++){
-                            if(photo.tags[i].lastname && photo.tags[i].id == <%= current_user.id %>){
-                                var target = $('#modal-gallery').find("input[name='tags[users][]']");
-                                for(j=0;j<target.length;j++){
-                                    if($(target[j]).val() == photo.tags[i].id){
-                                        $(target[j]).siblings("button.close").show();
-                                    }
-                                }
+            <% if signed_in? %>
+            if(photo.user_id == <%= current_user.id %>)
+                $(".close").show();
+            else {
+                for(i=0;i<photo.tags.length;i++){
+                    if(photo.tags[i].lastname && photo.tags[i].id == <%= current_user.id %>){
+                        var target = $('#modal-gallery').find("input[name='tags[users][]']");
+                        for(j=0;j<target.length;j++){
+                            if($(target[j]).val() == photo.tags[i].id){
+                                $(target[j]).siblings("button.close").show();
                             }
                         }
                     }
-                <% end %>
+                }
+            }
+            <% end %>
         });
     });
 

@@ -87,5 +87,8 @@
         $( this ).toggle();
       });
     });
+      <% if params[:callback_id] && params[:callback_id] != "" %>
+        $(document).find("a[data-gallery='gallery'][data-id='<%= params[:callback_id] %>']").click();
+      <% end %>
   });
 </script>
