@@ -1,3 +1,5 @@
+<%= javascript_include_tag "application" %>
+<%= javascript_include_tag "index" %>
 <div class="main-content">
   <div class="container front">
     <div class="row">
@@ -43,8 +45,7 @@
             </label>
         <% end %>
         <form class="form-login facebook">
-          <%= link_to raw('<button class="btn facebook-login input-block-level"><i class="icon-facebook icon-large"></i> | Conéctate con Facebook</button>'), '/auth/facebook', :style => "text-decoration: none;" %>
-
+          <button class="btn facebook-login input-block-level" id="button-facebook-login"><i class="icon-facebook icon-large"></i> | Conéctate con Facebook</button>
         </form>
         <%=	form_for @user, :url => { :controller => :users, :action => :create }, :html => { :class => "form-login"} do |f|   %>
             <hgroup>
@@ -114,3 +115,4 @@
     </div><!--row-->
   </div><!--container-->
 </div><!--second-content-->
+
