@@ -1,0 +1,23 @@
+.hr-sponsor
+{
+    height: 1px;
+    margin: 0px 0px 10px 0px;
+}
+
+#sponsor-gold
+{
+    color: #ffd700;
+    background-color: #ffd700;
+}
+
+#sponsor-silver
+{
+    color: #c0c0c0;
+    background-color: #c0c0c0;
+}
+
+#sponsor-bronze
+{
+    color: #CD7F32;
+    background-color: #CD7F32;
+}

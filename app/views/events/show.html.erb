@@ -4,6 +4,7 @@
 <%= javascript_include_tag "load-image" %>
 <%= javascript_include_tag "bootstrap-image-gallery" %>
 <%= stylesheet_link_tag    "bootstrap-image-gallery" %>
+<%= stylesheet_link_tag    "events" %>
 
 <div class="container">
 <div class="row">
@@ -15,8 +16,9 @@
         <%= link_to image_tag(@creator.profilephotourl) , "#", :class => "user-profile" %>
     <% end %>
   </div>
-  <h4>Invites <%= link_to @creator.full_name, @creator %></h4>
+  <h4>Invites</h4>
   <!-- begin Sponsors -->
+  <hr id="sponsor-gold" class="hr-sponsor">
   <div class="sponsors">
     <ul class="sponsor-main">
       <li>
@@ -24,25 +26,42 @@
           <%= image_tag @creator.profilephotourl %>
         </div>
         <div class="metadata">
-          <a href="#">Milo</a>
+          <%= link_to @creator.full_name, @creator %>
           <p><%= @creator.followers.count %> Followers</p>
         </div>
       </li>
     </ul>
     <% unless @sponsors.empty? %>
-        <h5>Also invites</h5>
+        <h5>Sponsors</h5>
         <ul class="sponsor-second">
-        <% @sponsors.each do |sponsor| %>
-          <li>
-            <div class="img-container">
-              <%= image_tag sponsor.profilephotourl%>
-            </div>
-            <div class="metadata">
-              <%= link_to sponsor.full_name, sponsor %>
-              <p><%= sponsor.followers.count %> Followers</p>
-            </div>
-          </li>
-        <% end %>
+          <hr id="sponsor-silver" class="hr-sponsor">
+          <% @sponsors.each do |sponsor| %>
+            <% if sponsor.category_in(@event) == 2 %>
+                <li>
+                  <div class="img-container">
+                    <%= image_tag sponsor.profilephotourl%>
+                  </div>
+                  <div class="metadata">
+                    <%= link_to sponsor.full_name, sponsor %>
+                    <p><%= sponsor.followers.count %> Followers</p>
+                  </div>
+                </li>
+            <% end %>
+          <% end %>
+          <hr id="sponsor-bronze" class="hr-sponsor">
+          <% @sponsors.each do |sponsor| %>
+              <% if sponsor.category_in(@event) == 3 %>
+                  <li>
+                    <div class="img-container">
+                      <%= image_tag sponsor.profilephotourl%>
+                    </div>
+                    <div class="metadata">
+                      <%= link_to sponsor.full_name, sponsor %>
+                      <p><%= sponsor.followers.count %> Followers</p>
+                    </div>
+                  </li>
+              <% end %>
+          <% end %>
         </ul>
     <% end %>
 
