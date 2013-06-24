@@ -24,7 +24,7 @@
               <i class="icon-envelope icon-white"></i><% if current_user.unread_messages.count > 0 %><span style="color: red;"> (<%= current_user.unread_messages.count %>)</span><% end %>
             </a>
             
-            <a id="notifications-button" class="notifications" style="color: #666666; text-decoration: none; cursor: pointer;">
+            <a id="notifications-button" class="notifications" style="color: #666666; text-decoration: none; cursor: pointer;" href="/profile/<%= current_user.id %>/read_all" data-remote="true">
               <i class="icon-globe icon-white"></i><% if current_user.new_notifications_count > 0 %> <span style="color: red;"> (<%= current_user.new_notifications_count %>)</span><% end %>
             </a>
             
