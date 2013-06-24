@@ -70,7 +70,7 @@
             <%= text_field_tag :result_value, @result.value, :placeholder => "Mark", :style => "width: 50px;" %>
             <%= select_tag :result_var, options_for_select(GLOBAL_UNITS_RESULT, @result.var), :style => "width: 120px;" %>
             <%= select_tag :result_category, options_for_select(GLOBAL_CATEGORIES_RESULT, @result.category), :style => "width: 120px;" %>
-            <label>Best mark on this sport! <%= check_box_tag :result_best_mark, 1  %> </label>
+            <label>Personal best <%= check_box_tag :result_best_mark, 1  %> </label>
 
         </div>
     </div>
