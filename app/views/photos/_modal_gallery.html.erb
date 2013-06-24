@@ -180,11 +180,13 @@
             $("#descriptionFrame").hide();
             $(".editDescription").hide();
             $("#editDescriptionForm").append('<form action="/photos/' + photo.id + '" id="edit_photo_' + photo.id + '" method="post" class="formEditPhoto"><input type="hidden" name="photo[photo_id]" value="' + photo.id + '"><textarea class="span5" id="photo_comment" name="photo[comment]" rows="3" placeholder="Write a description"></textarea><span style="cursor: pointer;" id="submitPhotoComment" class="badge badge-success"><i class="icon-ok icon-white"></i></span></form>');
-            if(photo.comment.length > 0){
+            
+            if(photo.comment && photo.comment.length > 0){
                 $(this).find("#photo_comment").val(photo.comment);
                 $(this).find("#descriptionFrame").show();
                 $(this).find("#description").html(photo.comment);
             }
+            
             <% if @user && signed_in? && @user.id == current_user.id  %>
             if(photo.user_id == <%= current_user.id %>){
                 $(this).find("#descriptionFrame").show();

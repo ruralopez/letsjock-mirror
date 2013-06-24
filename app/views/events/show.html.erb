@@ -13,7 +13,7 @@
     <% if @event.imageurl && @event.imageurl != "" %>
         <%= link_to image_tag(@event.imageurl) , "#", :class => "user-profile" %>
     <% else %>
-        <%= link_to image_tag(@creator.profilephotourl) , "#", :class => "user-profile" %>
+        <%= link_to image_tag(@user.profilephotourl) , "#", :class => "user-profile" %>
     <% end %>
   </div>
   <h4>Invites</h4>
@@ -23,7 +23,7 @@
     <ul class="sponsor-main">
       <li>
         <div class="img-container">
-          <%= image_tag @creator.profilephotourl %>
+          <%= image_tag @user.profilephotourl %>
         </div>
         <div class="metadata">
           <%= link_to @creator.full_name, @creator %>
@@ -64,10 +64,9 @@
           <% end %>
         </ul>
     <% end %>
-
   </div>
-  <!--sponsors-->
   <!--end Sponsors -->
+  
   <br>
   <div class="event-info">
     <h5><i class="icon-camera"></i><a href="#">Pictures</a></h5>
@@ -79,10 +78,9 @@
       </div>
     </div><!--user-pictures-->
     <h5 class="white">0 pictures <a href="#">see more</a></h5>
-
   </div><!--event info-->
-
 </div><!--box-media-->
+
 <div class="profileInfo relative span9">
   <div class="user">
     <h2><%= @event.name %></h2>
@@ -99,24 +97,19 @@
   <div class="resume">
   <% unless @event.date_end %>
     <h4><i class="icon-calendar"></i><%= @event.date.strftime("%d/%b/%y") %></h4>
-    <% if @event.admin?(current_user) || @creator.inAdmins?(current_user) %>
-      <h4><%= link_to 'Edit Event', edit_event_path(@event), :class => "pull-right" %> </h4>
-    <% end %>
     <h4><i class="icon-time"></i><%= @event.date.strftime("%H:%M") %></h4>
   <% else %>
     <% if @event.date.strftime("%A, %B %d, %Y") == @event.date_end.strftime("%A, %B %d, %Y")  %>
       <h4><i class="icon-calendar"></i><%= @event.date.strftime("%d/%b/%y") %></h4>
-      <% if @event.admin?(current_user) || @creator.inAdmins?(current_user) %>
-        <h4><%= link_to 'Edit Event', edit_event_path(@event), :class => "pull-right" %> </h4>
-      <% end %>
       <h4><i class="icon-time"></i><%= @event.date.strftime("%H:%M") %> to <%= @event.date_end.strftime("%H:%M") %></h4>
     <% else %>
       <h4><i class="icon-calendar"></i>From <%= @event.date.strftime("%d/%b/%y") %> to <%= @event.date_end.strftime("%d/%b/%y") %></h4>
-      <% if @event.admin?(current_user) %>
-        <h4><%= link_to 'Edit Event', edit_event_path(@event), :class => "pull-right" %> </h4>
-      <% end %>
     <% end %>
   <% end %>
+  
+    <% if signed_in? && ( @event.admin?(current_user) || @user.inAdmins?(current_user) ) %>
+      <h4><%= link_to 'Edit Event', edit_event_path(@event), :class => "pull-right" %> </h4>
+    <% end %>
     
     <div class="accordion" id="accordion6"> <!--mapa-->
       <div class="accordion-group events-filter">
@@ -134,51 +127,49 @@
     </div><!--termina filtro accordion-->
     
     <p><b><%= @event.description %></b></p>
-    
   </div><!--resume-->
+  
   <div class="post resume">
-    <h4><span>-</span> Latest Post <span>-</span></h4>
-    <ul>
-  <% if @posts.any? %>
-    <% @posts.each do |post| %>
-      <li>
-        <%= link_to image_tag(User.find(post.user_id).profilepic), User.find(post.user_id), :class => "img-polaroid"%>
-        <div class="single-post">
-          <%= link_to User.find(post.user_id).full_name, User.find(post.user_id)%>
-          <p><b><%= post.title %></b></p>
-          <p><%= post.content %></p>
-          <p><small>posted on <%= post.created_at.strftime("%B %d")%></small></p>
+    <div id="latest-post">
+  <% if signed_in? && ( current_user.joined?(@event) || @user.inAdmins?(current_user) ) %>
+    <%= form_tag(add_post_path(@user), :id => "new_post", :multipart => true, :accept => "image/gif,image/png,image/jpg") do %>
+      <input type="hidden" id="user_id" name="user_id" value="<%= @user.id %>">
+      <input type="hidden" id="event_id" name="event_id" value="<%= @event.id %>">
+      <input type="hidden" id="writer_id" name="writer_id" value="<%= @user.inAdmins?(current_user) ? @user.id : current_user.id %>">
+      <div class="fileupload fileupload-new" data-provides="fileupload">
+        <div class="input-post">
+          <textarea name="post_content" id="post_content" class="input-block-level" rows="3" placeholder="Write a post"></textarea>
+          <div class="fileupload-preview thumbnail fileupload-exists"></div>
+          <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
         </div>
-      </li>
+        <ul class="post-actions">
+          <li><a href="javascript:void(0)" class="btn-file"><i class="icon-camera"></i><input type="file" name="post_picture" id="post_picture" accept="image/*" /></a></li>
+          <li><a href="#"><i class="icon-facetime-video"></i></a></li>
+          <li class="pull-right"><button type="submit" class="btn btn-success"><b>Post</b></button></li>
+        </ul><!--post-actions-->
+      </div>
     <% end %>
   <% end %>
-    </ul>
-  </div>
-
-<% if signed_in? %>
-  <% if @event.admin?(current_user) || @creator.inAdmins?(current_user) %>
-  <div class="post resume">
-    <h4><span>-</span> New Post <span>-</span></h4>
-    <ul>
-      <div>
-        <%= form_for @post do |f| %>
-          <%= f.text_field :title, :placeholder => "Title" %>
-          <%= f.text_area :content, :placeholder => "Write your post...", :size => "50x2" %>
-          <%= f.hidden_field :user_id, :value => @creator.id %>
-          <%= f.hidden_field :event_id, :value => @event.id %>
-          <%= f.submit "Post", :class => "btn" %>
-        <% end %>
-      </div>
-    </ul>
-  </div>
+      
+    <% if @posts.any? %>
+      <ul>
+      <% @posts.each do |post| %>
+        <%= render post  %>
+      <% end %>
+      </ul>
+    <% else %>
+      <h3>No posts found.</h3>
+    <% end %>
+    </div><!-- #latest-post -->
+  </div><!-- post resume -->
   
+  <% if signed_in? && ( @event.admin?(current_user) || @user.inAdmins?(current_user) ) %>
   <h4><span>-</span> New Admin <span>-</span></h4>
     <%=form_tag(:controller => "events", :action => "new_admin") do%>
       <%= text_field_tag(:email) %>
       <%= submit_tag "Submit email", :class => "btn btn-small" %>
     <% end %>
   <% end %>
-<% end %>
 </div>
 
 <div class="box box-connect span3 event-single">
@@ -206,6 +197,18 @@
   </div><!--box-content-->
 </div><!--box-connect-->
 </div>
+
+<div class="alert alert-block alert-delete hide">
+  <h4><i class="icon-warning-sign"></i>Warning!</h4>
+  This action will remove permanently this post, including user's comments and likes.
+  Are you sure to continue?
+  
+  <button class="btn btn-cancel pull-right">Cancel</button>
+  <button class="btn btn-confirm pull-right"><i class="icon-remove-sign"></i> Delete</button>
+  
+  <div class="clearfix"></div>
+</div>
+
 </div><!-- /.container -->
 
 <%= render 'photos/modal_gallery' %>
@@ -213,13 +216,21 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript">
     var myOptions = {
-        <% if @event.lat && @event.lon %>
+        <% if @event.lat != "" && @event.lon != "" %>
         <%= "zoom:15, center: new google.maps.LatLng(#{@event.lat},#{@event.lon})," %>
         <% else %>
         <%= "zoom:2, center: new google.maps.LatLng(-33.468699,-70.641921)," %>
         <% end %>
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-
+    
     var map = new google.maps.Map(document.getElementById("map"), myOptions);
+    
+    $(document).ready(function(){
+      $("textarea.input-block-level").keyup(function(e){
+        while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
+          $(this).height($(this).height()+1);
+        };
+      });
+    });
 </script>

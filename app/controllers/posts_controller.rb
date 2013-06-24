@@ -85,11 +85,12 @@ class PostsController < ApplicationController
   def add_user_post
     user = User.find(params[:id])
     
-    if signed_in? && user.inAdmins?(current_user) && params[:post_content] != ""
-      post = Post.new(:user_id => user.id, :event_id => nil)
+    if signed_in? && params[:post_content] != ""
+      isAdmin = ( user.id == params[:writer_id].to_i )
+      post = Post.new( :user_id => user.id, :event_id => params[:event_id] ? params[:event_id] : nil, :writer_id => params[:writer_id] )
       
       #Primero pasar URL's a A html tag
-      post.title = user.full_name + " post"
+      #post.title = user.full_name + " post"
       post.content = params[:post_content].gsub( %r{http://[^\s<]+} ) do |url|
         if url[/(?:png|jpe?g|gif|svg)$/]
           "<img class='img-rounded' src='#{url}' />"
@@ -102,17 +103,37 @@ class PostsController < ApplicationController
         url = Photo.upload_file(params[:post_picture])
         
         if url && url != ""
-          Photo.create(:user_id => user.id, :url => url)
+          photo = Photo.create(:user_id => params[:writer_id], :url => url)
           post.content += "<img class='img-rounded' src='#{url}' />"
+          
+          # Si es evento, debe tagearlo para que la foto quede en la vista de pictures
+          if post.event_id
+            Tags.create(:id1 => post.event_id, :type1 => "Event", :id2 => photo.id, :type2 => "Photo")
+          end
         end
       end
       
       if post.save
-        Activity.create(:publisher_id => Publisher.find_by_user_id(user).id, :post_id => post.id, :act_type => "202")
+        if isAdmin && params[:event_id] # Event new Post
+          Activity.create(:publisher_id => Publisher.find_by_event_id( params[:event_id] ).id, :post_id => post.id, :act_type => "101")
+        elsif isAdmin # Institution has a new post
+          Activity.create(:publisher_id => Publisher.find_by_user_id( user ).id, :post_id => post.id, :act_type => "202")
+        elsif params[:event_id] # User posted in a Event
+          Activity.create(:publisher_id => Publisher.find_by_user_id( params[:writer_id] ).id, :post_id => post.id, :event_id => params[:event_id], :act_type => "032")
+        else # User posted in Institution's wall
+          Activity.create(:publisher_id => Publisher.find_by_user_id( params[:writer_id] ).id, :post_id => post.id, :user_id => user.id, :act_type => "003")
+        end
+        
+        # Manda notificaciones a todos los administradores
+        if user.isSponsor && user.admins.any?
+          user.admins.each do |admin|
+            Notification.create(:user_id => admin.id, :user2_id => params[:writer_id], :event_id => post.event_id, :aux_id => user.id, :read => false, :not_type => post.event_id ? "105" : "200")
+          end
+        end
       end
     end
     
-    redirect_to profile_path(user)
+    redirect_to request.referer
   end
   
   def remove_user_post
