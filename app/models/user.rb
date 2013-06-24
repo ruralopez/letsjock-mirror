@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  default_scope where("authentic_email = 1")
   
   has_many :user_sports, :dependent => :destroy
   has_many :sports, :through => :user_sports

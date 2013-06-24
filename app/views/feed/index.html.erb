@@ -91,6 +91,37 @@
             <p><small>on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
         </li>
+    <% elsif n.act_type == "003"%>
+      <% user = n.publisher.user %>
+      <% institution = n.user %>
+      <% post = n.post %>
+        <li><!-- NOMBRE_APELLIDO posted in Y's wall -->
+          <a class="img-rounded" href="#">
+            <%= image_tag user.profilephotourl %>
+          </a>
+          <div class="single-post">
+            <p><%= link_to user.full_name, profile_path(user) %> posted in <%= link_to institution.full_name, profile_path(institution) %>'s profile</p>
+            <div class="img-polaroid company-resume">
+              <i class="icon-bullhorn"></i><br>
+              <p> <%= raw(post.content) %>
+                <%= link_to 'See more', profile_path(institution), :class => 'see-more'%>
+              </p>
+            </div>
+            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+          </div>
+        </li>
+    <% elsif n.act_type == "004"%>
+      <% user = n.publisher.user %>
+      <% institution = n.post.writer %>
+        <li><!-- NOMBRE_APELLIDO commented a Y's post -->
+          <a class="img-rounded" href="#">
+            <%= image_tag user.profilephotourl %>
+          </a>
+          <div class="single-post">
+            <p><%= link_to user.full_name, profile_path(user) %> commented a <%= link_to institution.full_name, profile_path(institution) %>'s post</p>
+            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+          </div>
+        </li>
     <% elsif n.act_type == "010" && n.user %>
       <% publisher_user = n.publisher.user %>
       <% followed_user = n.user %>
@@ -179,6 +210,37 @@
               <i class="icon-time"></i><p><%= event.date.strftime("%R") %></p>
               <i class="icon-map-marker"></i><p><%= event.place %></p>
             </div>
+            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+          </div>
+        </li>
+    <% elsif n.act_type == "032"%>
+      <% user = n.publisher.user %>
+      <% event = n.event %>
+      <% post = n.post %>
+        <li><!-- NOMBRE_APELLIDO posted in event -->
+          <a class="img-rounded" href="#">
+            <%= image_tag user.profilephotourl %>
+          </a>
+          <div class="single-post">
+            <p><%= link_to user.full_name, profile_path(user) %> posted in event <%= link_to event.name, event %></p>
+            <div class="img-polaroid company-resume">
+              <i class="icon-bullhorn"></i><br>
+              <p> <%= raw(post.content) %>
+                <%= link_to 'See more', event_path(event), :class => 'see-more'%>
+              </p>
+            </div>
+            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+          </div>
+        </li>
+    <% elsif n.act_type == "033"%>
+      <% user = n.publisher.user %>
+      <% event = n.event %>
+        <li><!-- NOMBRE_APELLIDO commented in event -->
+          <a class="img-rounded" href="#">
+            <%= image_tag user.profilephotourl %>
+          </a>
+          <div class="single-post">
+            <p><%= link_to user.full_name, profile_path(user) %> commented a post in event <%= link_to event.name, event %></p>
             <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
         </li>

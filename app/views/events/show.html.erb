@@ -26,8 +26,8 @@
           <%= image_tag @user.profilephotourl %>
         </div>
         <div class="metadata">
-          <%= link_to @creator.full_name, @creator %>
-          <p><%= @creator.followers.count %> Followers</p>
+          <%= link_to @user.full_name, @user %>
+          <p><%= @user.followers.count %> Followers</p>
         </div>
       </li>
     </ul>
