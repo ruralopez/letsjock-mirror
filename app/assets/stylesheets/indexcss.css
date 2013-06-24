@@ -1,5 +1,5 @@
 /*CSS for index*/
-body {
+body{
     background: url("imgHome5.jpg") no-repeat center fixed;
     background-color:black;
     -webkit-background-size: cover;
@@ -25,7 +25,7 @@ footer .container{padding-bottom:0;}
 .presentation{
     width:700px;
     height:auto;
-    margin: 50px auto 0;
+    margin:100px auto 0;
     background-color:rgba(255,255,255,0.1);
     border-radius:5px;
     -moz-border-radius:5px;
@@ -183,16 +183,16 @@ footer .container{padding-bottom:0;}
 }
 
 .welcome ul{
-    width:100%;
+    width:64%;
     list-style:none outside none;
     margin:0 0 20px;
 
     -moz-column-count: 3;
-    -moz-column-gap: 8px;
+    -moz-column-gap: 90px;
     -webkit-column-count: 3;
-    -webkit-column-gap: 8px;
+    -webkit-column-gap: 90px;
     column-count: 3;
-    column-gap: 8px;
+    column-gap: 90px;
 }
 
 .welcome ul li{
@@ -273,7 +273,16 @@ img.welcome-logo{
 
 .form-login label.checkbox, .form-login p{
     font-size:0.75em;
+    line-height:130%;
+    margin:.5em 0;
+    display:block;
 }
+.form-login label.checkbox{margin-bottom:0;}
+
+.form-login hgroup{margin-bottom:1em;}
+.form-login h2, .form-login h3{line-height:140%; margin:0;}
+.form-login h2{font-size:1.2em;}
+.form-login h3{font-size:1em; font-weight:normal;}
 
 a.forgot{color:white; display:inline;}
 
@@ -299,33 +308,29 @@ a.forgot{color:white; display:inline;}
     padding:0;
 }
 
-.gray-content .welcome h3{
+.gray-content .welcome h4{
     padding:0;
     line-height:100%;
 }
 
 .gray-content .welcome ul{
-    margin:-20px 0 20px;
+    margin:-20px auto 0;
 }
 
 .gray-content .welcome ul li img{
     margin-bottom:-18px;
 }
 
-.enunciado{
-    width:90%;
+blockquote.enunciado{
+    width:80%;
     color:#999;
     margin:0 auto 10px;
-    padding: 10px 0 20px;
+    padding: 0 0 10px;
     box-shadow:0 4px 5px -5px rgba(0, 0, 0, 0.4);
     -moz-box-shadow:0 4px 5px -5px rgba(0, 0, 0, 0.4);
     -webkit-box-shadow:0 4px 5px -5px rgba(0, 0, 0, 0.4);
-}
-
-.enunciado h4{
     line-height:150%;
-    width:90%;
-    margin:0 auto 1em;
+    font-weight:bold;
 }
 
 /*Segundo contenedor*/
@@ -351,13 +356,33 @@ a.forgot{color:white; display:inline;}
 
 ul.patrocinador{
     list-style:none outside none;
+    box-shadow:0 4px 5px -5px rgba(0, 0, 0, 0.3), 0 -3px 5px -5px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow:0 4px 5px -5px rgba(0, 0, 0, 0.3), 0 -3px 5px -5px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow:0 4px 5px -5px rgba(0, 0, 0, 0.3), 0 -3px 5px -5px rgba(0, 0, 0, 0.3);
+    padding:10px 0;
+    margin:0 auto;
+    width: 90%;
 }
 
+ul.patrocinador.auspiciador{
+    box-shadow:none;
+    -moz-box-shadow:none;
+    -webkit-box-shadow:none;
+}
+
+h3.auspicio{color:#999;}
+
 ul.patrocinador li{
-    width:100px;
+    max-width:96px;
     height:auto;
     display:inline-block;
-    margin:0 3px;
+    margin:0 8px;
+}
+
+ul.patrocinador li a img{max-height:56px;}
+
+ul.auspiciador li{
+    width:80px;
 }
 
 img.main-img{
@@ -453,4 +478,75 @@ button.close {
     background: transparent;
     border: 0;
     -webkit-appearance: none;
+}
+
+/*Modal Send Mail*/
+#forgot .modal-footer a{
+    color:black;
+}
+
+#forgot .modal-footer a.btn-success{
+    color:white;
+}
+
+/*Inputs*/
+
+.form-login .btn{
+    border-radius:0;
+    -moz-border-radius:0;
+    -webkit-border-radius:0;
+    padding:4px 6px;
+    border:none;
+}
+
+.half{
+    column-count:2;
+    -moz-column-count:2;
+    -webkit-column-count:2;
+    column-gap:1px;
+    -moz-column-gap:1px;
+    -webkit-column-gap:1px;
+}
+
+.half input, .half button{
+    display:inline-block;
+    margin:0;
+}
+
+.form-login input, .form-login select{
+    margin:0;
+    margin-bottom:1px;
+    border-radius:0;
+    -moz-border-radius:0;
+    -webkit-border-radius:0;
+    border:0;
+    font-size:12px;
+}
+
+.form-login input:focus, .form-login select:focus{
+    box-shadow:none;
+    -moz-box-shadow:none;
+    -webkit-box-shadow:none;
+    border-color:none;
+}
+
+.facebook-login{
+    cursor:pointer;
+    background-image:#3B5998 !important;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #3B5998;
+    background-image: -moz-linear-gradient(top, #3B5998, #3B5998);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3B5998), to(#3B5998));
+    background-image: -webkit-linear-gradient(top, #3B5998, #3B5998);
+    background-image: -o-linear-gradient(top, #3B5998, #3B5998);
+    background-image: linear-gradient(to bottom, #3B5998, #3B5998);
+    background-repeat: repeat-x;
+    border-color: #3B5998 #3B5998 #387038;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+
+.facebook-login:hover{
+    background-color: #3B5998;
+    color:white;
 }

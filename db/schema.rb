@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130622155211) do
+ActiveRecord::Schema.define(:version => 20130624003421) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -162,7 +162,6 @@ ActiveRecord::Schema.define(:version => 20130622155211) do
     t.text     "content"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "writer_id"
   end
 
   create_table "publishers", :force => true do |t|
@@ -352,6 +351,7 @@ ActiveRecord::Schema.define(:version => 20130622155211) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.string   "address"
+    t.boolean  "certified"
   end
 
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
