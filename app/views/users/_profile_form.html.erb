@@ -32,7 +32,7 @@
         <% end %>
     </div>
 
-    <div class="<% unless @train.id? %>hiddenDiv<% end %> input-prepend _js-train" data-validate='["train_name"]'>
+    <div class="<% unless @train.id? %>hiddenDiv<% end %> input-prepend _js-train" data-validate='["train_name"]' id="div-train">
         <span class="add-on"><i class="icon-user"></i></span>
         <select>
           <option>Trained by</option>
@@ -41,7 +41,7 @@
         <%= text_field_tag :train_name, @train.name, :placeholder => "Trainer Name" %>
     </div>
     
-    <div class="<% unless @team.id? %>hiddenDiv<% end %> input-prepend input-append _js-team" data-validate='["team_name"]'>
+    <div class="<% unless @team.id? %>hiddenDiv<% end %> input-prepend input-append _js-team" data-validate='["team_name"]' id="div-team">
         <span class="add-on"><i class="icon-group"></i></span>
         <%= hidden_field_tag :team_id, @team.id if @team.id? %>
         <%= text_field_tag :team_name, @team.name, :placeholder => "Team Name" %>
@@ -84,7 +84,7 @@
             <span class="add-on"><i class="icon-calendar"></i></span>
             <%= text_field_tag :end, @end ? @end.strftime("%d-%m-%Y") : nil, :placeholder => "Date to (dd-mm-yyyy)", :class => "span2", :id => "end-date-profile" %>
         </div>
-        <p>Currently doing this  <%= check_box_tag :'currently-profile', 1, ( @edit_profile && !@end ) ? true : false %></p>
+        <p id="currently-here-profile" style="display: none;">Currently doing this  <%= check_box_tag :'currently-profile', 1, ( @edit_profile && !@end ) ? true : false %></p>
     </div>
     
     <div class="alert alert-error hide">
@@ -101,6 +101,12 @@
                     e.preventDefault();
                     $(this).toggleClass("active");
                     $('#<%= @edit_profile ? "edit" : "new" %>-profile-entry ._js-' + $(this).attr("data-block")).toggle("normal");
+                    setTimeout(function(){
+                        if ($('#div-train')[0].style['display'] != "none" || $('#div-team')[0].style['display'] != "none")
+                        {$('#currently-here-profile').show();}
+                        else {$('#currently-here-profile').hide();}
+                    }, 450);
+
                 });
                 
                 $('#<%= @edit_profile ? "edit" : "new" %>-profile-entry .btn-success[type=submit]').click(function(e){
