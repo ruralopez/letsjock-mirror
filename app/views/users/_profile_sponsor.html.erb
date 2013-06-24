@@ -97,9 +97,10 @@
     <hr>
     
     <div id="latest-post">
-  <% if signed_in? && @user.inAdmins?(current_user)  %>
+  <% if signed_in? && ( current_user.following?(@user) || @user.inAdmins?(current_user) ) %>
     <%= form_tag(add_post_path(@user), :id => "new_post", :multipart => true, :accept => "image/gif,image/png,image/jpg") do %>
-      <input type="hidden" id="user_id" value="<%= @user.id %>">
+      <input type="hidden" id="user_id" name="user_id" value="<%= @user.id %>">
+      <input type="hidden" id="writer_id" name="writer_id" value="<%= @user.inAdmins?(current_user) ? @user.id : current_user.id %>">
       <div class="fileupload fileupload-new" data-provides="fileupload">
         <div class="input-post">
           <textarea name="post_content" id="post_content" class="input-block-level" rows="3" placeholder="Write a post"></textarea>
