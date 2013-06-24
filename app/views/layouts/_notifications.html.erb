@@ -149,7 +149,7 @@
               
             <% elsif notification.not_type == "200" && User.exists?(notification.user2_id) %>
                 <% user = User.find(notification.user2_id) %>
-                <% institution = User.find(notification.event_id) %>
+                <% institution = User.find(notification.aux_id) %>
                 <li>
                   <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
                       <div class="popover-left">

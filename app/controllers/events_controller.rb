@@ -28,25 +28,25 @@ class EventsController < ApplicationController
   def show
     @event = Event.find(params[:id])
     
-    @tags = Tags.all(:conditions => ["type2 = ? AND type1 = ? AND id1 = ?", "Photo", "Event", @event.id])
+    @tags = Tags.select("id2").all(:conditions => ["type2 = ? AND type1 = ? AND id1 = ?", "Photo", "Event", @event.id])
     @photos = []
     unless @tags.empty?
       @tags.each do |tag|
         @photos.push(Photo.find(tag.id2))
       end
     end
-
+    
     if signed_in?
       userstats = Stat.all(:conditions => ["user_id = ? AND type = ? AND info = ? AND created_at between ? AND ?", current_user.id, "Event", @event.id, Time.zone.now.beginning_of_day, Time.zone.now.end_of_day])
       if userstats.empty?
-         Stat.new(:user_id => current_user.id, :type => "Event", :info => @event.id).save
+        Stat.new(:user_id => current_user.id, :type => "Event", :info => @event.id).save
       end
     end
-
-    @creator = User.find(@event.user_id)
+    
+    @user = User.find(@event.user_id)
     @event_admins = EventAdmin.all(:conditions => ["event_id = ?", params[:id]])
-    @post = @event.posts.build if signed_in? && ( @event.admin?(current_user) || @creator.inAdmins?(current_user) )
-    @posts = Post.all(:conditions => ["event_id = ?", @event.id])
+    @post = @event.posts.build if signed_in? && ( @event.admin?(current_user) || @user.inAdmins?(current_user) )
+    @posts = Post.all(:conditions => ["event_id = ?", @event.id], :order => "created_at DESC")
     ids = SponsorsEvent.where(:event_id => @event.id).collect(&:user_id)
     @sponsors = User.all(:conditions => ["id IN (?)", ids])
     respond_to do |format|

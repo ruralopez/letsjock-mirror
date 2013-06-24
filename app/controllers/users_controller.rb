@@ -807,12 +807,17 @@ class UsersController < ApplicationController
       
       if comment.save
         if params[:object_type] == "Post"
-          user = Post.find(params[:object_id]).user
+          post = Post.find(params[:object_id])
+          user = post.user
+          isAdmin = user.inAdmins?(current_user) # hay que copiar la logica del writer
+          
+          # Si existe evento es act_type 033 (User comment in event) sino 004 (user commented a Y's post)
+          Activity.create(:publisher_id => Publisher.find_by_user_id( current_user ).id, :post_id => post.id, :event_id => post.event_id, :act_type => post.event_id ? "033" : "004")
           
           # Manda notificaciones a todos los administradores
           if user.isSponsor && user.admins.any?
             user.admins.each do |admin|
-              Notification.create(:user_id => admin.id, :user2_id => current_user.id, :event_id => user.id, :read => false, :not_type => "200")
+              Notification.create( :user_id => admin.id, :user2_id => current_user.id, :event_id => post.event_id, :aux_id => user.id, :read => false, :not_type => post.event_id ? "106" : "201" )
             end
           end
         end

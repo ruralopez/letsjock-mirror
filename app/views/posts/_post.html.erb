@@ -1,11 +1,10 @@
-<% user = post.user%>
+<% user = post.writer %>
 <li class="post-item" data-id="<%= post.id %>">
-<% if signed_in? && @user.inAdmins?(current_user) %>
+<% if signed_in? && ( @user.inAdmins?(current_user) || current_user.id == user.id ) %>
   <div class="edit-post pull-right">
     <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-cog"></i></a>
     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
       <li><a href="#" class="delete-post-button"><i class="icon-remove"></i> Delete</a></li>
-      <li><a href="#"><i class="icon-bullhorn"></i> Promote</a></li>
     </ul>
   </div>
 <% end %>
@@ -14,7 +13,7 @@
   </a>
   <div class="single-post">
     <h1 class="single-title"><%= user.full_name%></h1>
-  <% if post.event_id %>
+  <% if post.event_id && current_page?(:controller => 'users', :action => 'profile') %>
     <p>
       <i class="icon-bullhorn"></i> Write a post in event <%= link_to post.event.name, event_path(post.event_id) %>:
     </p>

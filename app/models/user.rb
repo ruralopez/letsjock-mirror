@@ -144,6 +144,10 @@ class User < ActiveRecord::Base
     relationships.first(:conditions => ["followed_id = ?", other_user.id]).destroy
     Subscription.first(:conditions => ["user_id = ? AND publisher_id = ?", self.id, Publisher.find_by_user_id(other_user.id).id]).destroy
   end
+  
+  def joined?(event)
+    UserEvent.exists?(:user_id => self.id, :event_id => event.id)
+  end
 
   def profilepic
     self.profilephotourl ||= "default-profile.png"
