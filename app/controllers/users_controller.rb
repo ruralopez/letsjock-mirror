@@ -834,61 +834,84 @@ class UsersController < ApplicationController
 
     tagsUser = Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "User", params[:tags][:photo_id], "Photo"])
     tagsEvent = Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "Event", params[:tags][:photo_id], "Photo"])
+    tagsIam =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_IAM", params[:tags][:user_id], "User"])
     tagsUserArray = params[:tags][:users]
     tagsEventArray = params[:tags][:events]
+    tagsIamArray = params[:tags][:iam]
 
 
-      if !tagsUser.empty?
-        tagsUser.each do |tag|
-          if !tagsUserArray.blank?
-            res = tagsUserArray.reject! {|user| user.to_i == tag.id1}
-          else
-            res = nil
-          end
-
-          if(res == nil)
-            Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "User", params[:tags][:photo_id], "Photo"]).each do |us|
-              us.destroy
-            end
-          end
+    if !tagsUser.empty?
+      tagsUser.each do |tag|
+        if !tagsUserArray.blank?
+          res = tagsUserArray.reject! {|user| user.to_i == tag.id1}
+        else
+          res = nil
         end
-      end
-      if !tagsUserArray.blank?
-        tagsUserArray.each do |tag|
-          Tags.create(:id1 => tag, :type1 => "User", :id2 => params[:tags][:photo_id], :type2 => "Photo")
-          Notification.create(:user_id => tag, :user2_id => params[:tags][:user_id], :aux_id => params[:tags][:photo_id], :aux_type => "Photo", :read => false, :not_type => "004")
-        end
-      end
 
-
-      if !tagsEvent.empty?
-        tagsEvent.each do |tag|
-          if !tagsEventArray.blank?
-            res = tagsEventArray.reject! {|event| event.to_i == tag.id1}
-          else
-            res = nil
-          end
-
-          if(res == nil)
-            Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "Event", params[:tags][:photo_id], "Photo"]).each do |ev|
-               ev.destroy
-            end
+        if(res == nil)
+          Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "User", params[:tags][:photo_id], "Photo"]).each do |us|
+            us.destroy
           end
         end
       end
-      if !tagsEventArray.blank?
-        tagsEventArray.each do |tag|
-          Tags.create(:id1 => tag, :type1 => "Event", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+    end
+    if !tagsUserArray.blank?
+      tagsUserArray.each do |tag|
+        Tags.create(:id1 => tag, :type1 => "User", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+        Notification.create(:user_id => tag, :user2_id => params[:tags][:user_id], :aux_id => params[:tags][:photo_id], :aux_type => "Photo", :read => false, :not_type => "004")
+      end
+    end
+
+
+    if !tagsEvent.empty?
+      tagsEvent.each do |tag|
+        if !tagsEventArray.blank?
+          res = tagsEventArray.reject! {|event| event.to_i == tag.id1}
+        else
+          res = nil
+        end
+
+        if(res == nil)
+          Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "Event", params[:tags][:photo_id], "Photo"]).each do |ev|
+            ev.destroy
+          end
         end
       end
+    end
+    if !tagsEventArray.blank?
+      tagsEventArray.each do |tag|
+        Tags.create(:id1 => tag, :type1 => "Event", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+      end
+    end
+
+    if !tagsIam.empty?
+      tagsIam.each do |tag|
+        if !tagsIamArray.blank?
+          res = tagsIamArray.reject! {|iam| iam.to_i == tag.id1}
+        else
+          res = nil
+        end
+
+        if(res == nil)
+          Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "GLOBAL_TAGS_IAM", params[:tags][:user_id], "User"]).each do |ev|
+            ev.destroy
+          end
+        end
+      end
+    end
+    if !tagsIamArray.blank?
+      tagsIamArray.each do |tag|
+        Tags.create(:id1 => tag, :type1 => "GLOBAL_TAGS_IAM", :id2 => params[:tags][:user_id], :type2 => "User")
+      end
+    end
 
     #3 condiciones: doble existencia, existencia en el servidor y existencia en params[:tags][:users]
     #Recorrer el servidor, si el tag está en el array, lo saco. Si no está, lo elimino (de la bd).
     #Si array queda con elementos, estos elementos los creo.
     #arr.delete_if (|item| item == 'id')
 
-    redirect_to pictures_path(User.find(params[:tags][:actual_user_id]), {:callback_id => params[:tags][:photo_id]})
-    #redirect_to request.referer
+    #redirect_to pictures_path(User.find(params[:tags][:actual_user_id]), {:callback_id => params[:tags][:photo_id]})
+    redirect_to request.referer
   end
 
 end

@@ -217,6 +217,16 @@ class User < ActiveRecord::Base
     end
   end
 
+  def tags
+    iam = []
+    if Tags.exists?(:id2 => self.id, :type2 => "User", :type1 => "GLOBAL_TAGS_IAM")
+      ids = Tags.select("id1").find(:all, :conditions => ["id2 = ? AND type2 = ? AND type1 = ?", self.id, "User", "GLOBAL_TAGS_IAM"])
+      idX = []
+      ids.each {|id| idX.push(id.id1)}
+      return idX
+    end
+  end
+
   private
   def create_remember_token
     #self.remember_token = SecureRandom.urlsafe_base64

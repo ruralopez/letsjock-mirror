@@ -1,4 +1,78 @@
 <%= javascript_include_tag "application" %>
+<style>
+    .tags {
+        border-radius: 0 4px 4px 0;
+        -moz-border-radius: 0 4px 4px 0;
+        -webkit-border-radius: 0 4px 4px 0;
+        border-right: 1px solid #ccc;
+        font-size: 12px !important;
+        height: 10px !important;
+        width: 100px !important;
+        margin-right: 3px !important;
+    }
+
+        /* Autocomplete
+        ----------------------------------*/
+    .ui-autocomplete { background: white; position: absolute; cursor: default; border: #ccc 1px solid; color: #444; font-size: 12px; }
+    .ui-autocomplete-loading { background: white right center no-repeat; }
+
+        /* workarounds */
+    * html .ui-autocomplete { width:1px; } /* without this, the menu expands to 100% in IE6 */
+
+        /* Menu
+        ----------------------------------*/
+    .ui-helper-hidden-accessible { display:none; }
+    .ui-menu {
+        list-style:none;
+        padding: 2px;
+        margin: 0;
+        display:block;
+    }
+    .ui-menu .ui-menu {
+        margin-top: -3px;
+    }
+    .ui-menu .ui-menu-item {
+        margin:0;
+        padding: 0;
+        width: 100%;
+    }
+    .ui-menu .ui-menu-item:hover {
+        /*Falta que cambie a este color cuando me muevo con las flechas (hover con keydown)*/
+        background-color: #ccc;
+    }
+    .ui-menu .ui-menu-item a {
+        text-decoration:none;
+        display:block;
+        padding:.2em .4em;
+        line-height:1.5;
+        zoom:1;
+    }
+    .ui-menu .ui-menu-item a.ui-state-hover,
+    .ui-menu .ui-menu-item a.ui-state-active {
+        margin: -1px;
+        color: #0f0;
+    }
+    .tags-textbox {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 2px 4px;
+    }
+
+    .tags-textbox li {
+        display: inline-block;
+        list-style: none;
+        margin-left: 5px;
+    }
+</style>
+
+<!-- GLOBAL_TAGS test -->
+<%= form_tag({:controller => 'users', :action => 'add_tag'}, :id => "userTagsForm") do  %>
+    <ul class="tags-textbox">
+      <li><input type="text" id="tags_user_iam" class="tags pull-left" placeholder="What are you?"></li>
+      <input type="hidden" name="tags[user_id]" value="<%= current_user.id if signed_in? %>">
+    </ul>
+    <input role="button" type="submit" class="btn btn-success" value="send tags">
+<% end %>
 
 <h1>Listing tags</h1>
 
@@ -27,3 +101,41 @@
 </table>
 
 <br />
+
+<script>
+    $(document).ready(function() {
+        $( "#tags_user_iam" )
+                .bind( "keydown", function( event ) {
+                    if ( event.keyCode === $.ui.keyCode.TAB &&
+                            $( this ).data( "ui-autocomplete" ).menu.active ) {
+                        event.preventDefault();
+                    }
+                })
+                .autocomplete({
+                    source: tagsUserIamArray,
+                    messages: {
+                        noResults: '',
+                        results: function() {}
+                    } ,
+                    select: function( event, ui ) {
+                        $(".tags-textbox").append('<span style="margin-right: 2px; display: inline;" class="label label-info pull-left">' + ui.item.label + ' <input type="hidden" name="tags[iam][]" value="' + ui.item.value + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+                        $("#tags_user_iam").attr("value", "");
+                        return false;
+                    } ,
+                    focus: function( event, ui ) {
+                        return false;
+                    }
+                });
+
+        <% if current_user.tags && current_user.tags.length > 0 %>
+            <% current_user.tags.each do |tag|%>
+                $(document).find(".tags-textbox").append('<span style="margin-right: 2px; display: inline;" class="label label-info pull-left"><%= GLOBAL_TAGS_IAM[tag.to_i] %> <input type="hidden" name="tags[iam][]" value="<%= tag.to_i %>"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+            <% end %>
+        <% end %>
+
+        $('.close').click(function(){
+            $(this).closest('span.label').remove();
+        });
+    });
+    var tagsUserIamArray = <%= GLOBAL_TAGS_IAM.map{|p| {:label=>p[1],:value=>p[0]}}.to_json.html_safe %>;
+</script>
