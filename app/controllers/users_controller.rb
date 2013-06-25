@@ -670,16 +670,17 @@ class UsersController < ApplicationController
   def read_notification
     notification = Notification.find(params[:id])
     notification.update_attributes(:read => true)
+    
     if notification.not_type == "003"
       redirect_to profile_path( notification.user2_id )
     elsif notification.not_type == "004"
       redirect_to pictures_path(notification.user2_id, {:callback_id => notification.aux_id})
-    elsif notification.not_type == "104"
-      redirect_to Event.find(notification.event_id)
-    elsif notification.not_type == "200"
-      redirect_to profile_path( notification.event_id )
+    elsif notification.not_type == "104" || notification.not_type == "105" || notification.not_type == "106"
+      redirect_to event_path( notification.event_id )
+    elsif notification.not_type == "200" || notification.not_type == "201"
+      redirect_to profile_path( notification.aux_id )
     elsif notification.not_type == "999"
-      redirect_to User.find(notification.user_id)
+      redirect_to profile_path( notification.user_id )
     end
   end
 
