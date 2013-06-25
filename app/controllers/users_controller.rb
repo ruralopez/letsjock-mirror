@@ -834,10 +834,8 @@ class UsersController < ApplicationController
 
     tagsUser = Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "User", params[:tags][:photo_id], "Photo"])
     tagsEvent = Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "Event", params[:tags][:photo_id], "Photo"])
-    tagsIam =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_IAM", params[:tags][:user_id], "User"])
     tagsUserArray = params[:tags][:users]
     tagsEventArray = params[:tags][:events]
-    tagsIamArray = params[:tags][:iam]
 
 
     if !tagsUser.empty?
@@ -884,6 +882,27 @@ class UsersController < ApplicationController
       end
     end
 
+
+
+    #3 condiciones: doble existencia, existencia en el servidor y existencia en params[:tags][:users]
+    #Recorrer el servidor, si el tag está en el array, lo saco. Si no está, lo elimino (de la bd).
+    #Si array queda con elementos, estos elementos los creo.
+    #arr.delete_if (|item| item == 'id')
+
+    redirect_to pictures_path(User.find(params[:tags][:actual_user_id]), {:callback_id => params[:tags][:photo_id]})
+
+  end
+
+  def add_user_tag
+    tagsIam =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_IAM", params[:tags][:user_id], "User"])
+    tagsLooking =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_LOOKING", params[:tags][:user_id], "User"])
+    tagsInterest =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_INTEREST", params[:tags][:user_id], "User"])
+    tagsDivision =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_DIVISION", params[:tags][:user_id], "User"])
+    tagsIamArray = params[:tags][:iam]
+    tagsLookingArray = params[:tags][:looking]
+    tagsInterestArray = params[:tags][:interest]
+    tagsDivisionArray = params[:tags][:division]
+
     if !tagsIam.empty?
       tagsIam.each do |tag|
         if !tagsIamArray.blank?
@@ -905,12 +924,70 @@ class UsersController < ApplicationController
       end
     end
 
-    #3 condiciones: doble existencia, existencia en el servidor y existencia en params[:tags][:users]
-    #Recorrer el servidor, si el tag está en el array, lo saco. Si no está, lo elimino (de la bd).
-    #Si array queda con elementos, estos elementos los creo.
-    #arr.delete_if (|item| item == 'id')
 
-    #redirect_to pictures_path(User.find(params[:tags][:actual_user_id]), {:callback_id => params[:tags][:photo_id]})
+    if !tagsLooking.empty?
+      tagsLooking.each do |tag|
+        if !tagsLookingArray.blank?
+          res = tagsLookingArray.reject! {|look| look.to_i == tag.id1}
+        else
+          res = nil
+        end
+
+        if(res == nil)
+          Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "GLOBAL_TAGS_LOOKING", params[:tags][:user_id], "User"]).each do |ev|
+            ev.destroy
+          end
+        end
+      end
+    end
+    if !tagsLookingArray.blank?
+      tagsLookingArray.each do |tag|
+        Tags.create(:id1 => tag, :type1 => "GLOBAL_TAGS_LOOKING", :id2 => params[:tags][:user_id], :type2 => "User")
+      end
+    end
+
+    if !tagsInterest.empty?
+      tagsInterest.each do |tag|
+        if !tagsInterestArray.blank?
+          res = tagsInterestArray.reject! {|inte| inte.to_i == tag.id1}
+        else
+          res = nil
+        end
+
+        if(res == nil)
+          Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "GLOBAL_TAGS_INTEREST", params[:tags][:user_id], "User"]).each do |ev|
+            ev.destroy
+          end
+        end
+      end
+    end
+    if !tagsInterestArray.blank?
+      tagsInterestArray.each do |tag|
+        Tags.create(:id1 => tag, :type1 => "GLOBAL_TAGS_INTEREST", :id2 => params[:tags][:user_id], :type2 => "User")
+      end
+    end
+
+    if !tagsDivision.empty?
+      tagsDivision.each do |tag|
+        if !tagsDivisionArray.blank?
+          res = tagsDivisionArray.reject! {|div| div.to_i == tag.id1}
+        else
+          res = nil
+        end
+
+        if(res == nil)
+          Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "GLOBAL_TAGS_DIVISION", params[:tags][:user_id], "User"]).each do |ev|
+            ev.destroy
+          end
+        end
+      end
+    end
+    if !tagsDivisionArray.blank?
+      tagsDivisionArray.each do |tag|
+        Tags.create(:id1 => tag, :type1 => "GLOBAL_TAGS_DIVISION", :id2 => params[:tags][:user_id], :type2 => "User")
+      end
+    end
+
     redirect_to request.referer
   end
 
