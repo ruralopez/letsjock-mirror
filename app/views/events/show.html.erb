@@ -143,7 +143,7 @@
           <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
         </div>
         <ul class="post-actions">
-        <% if @user.inAdmins?(current_user) %>
+        <% if @user.inAdmins?(current_user) && @user.id != current_user.id %>
           <li>
             <div class="dropdown switch-user">
               <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
