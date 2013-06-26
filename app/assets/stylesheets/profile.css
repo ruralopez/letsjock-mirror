@@ -778,31 +778,37 @@ h1.single-title{
                 color:white;
                 border:1px solid #376f37;
             }
-                #latest-post .post-actions .btn-success {
-                    margin: 8px 8px;
+            #latest-post .post-actions .btn-success {
+                margin: 8px 8px;
+            }
+            .post-actions .dropdown > a  i {
+                margin-left: 4px;
+            }
+            .post-actions .dropdown ul.dropdown-menu {
+                margin: 0;
+                padding: 0;
+                border-radius:0px 0px 4px 4px;
+                -moz-border-radius:0px 0px 4px 4px;
+                -webkit-border-radius:0px 0px 4px 4px;
+                margin-left:-1px;
+                background-color:#E6E6E6;
+                border-left:1px solid #CCC;
+                border-top:none;
+                box-shadow:none;
+                -moz-box-shadow:none;
+                -webkit-box-shadow:none;
+            }
+            #latest-post ul.post-actions li .dropdown.open a{
+                background-color:#E6E6E6;
+            }
+                #latest-post ul.post-actions li .dropdown li {
+                    margin-left: 0;
+                    width: 100%;
+                    border: none;
                 }
-                .post-actions .dropdown ul.dropdown-menu {
-                    padding:1em;
-                    border-radius:0px 0px 4px 4px;
-                    -moz-border-radius:0px 0px 4px 4px;
-                    -webkit-border-radius:0px 0px 4px 4px;
-                    margin-left:-1px;
-                    background-color:#E6E6E6;
-                    border-left:1px solid #CCC;
-                    border-top:none;
-                    box-shadow:none;
-                    -moz-box-shadow:none;
-                    -webkit-box-shadow:none;
-                }
-                #latest-post ul.post-actions li .dropdown.open a{
-                    background-color:#E6E6E6;
-                }
-                .post-actions .dropdown form{
-                    margin:0;
-                    padding:0;
-                    background:none !important;
-                }
-                
+                    #latest-post ul.post-actions li .dropdown li a:hover {
+                        background-color: #D6D6D6;
+                    }
 #next-events ul.post-actions{margin-top:0; font-size:12px;}
 #next-events h5.first{
     margin-top:0;

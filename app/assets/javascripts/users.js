@@ -107,6 +107,14 @@ $(function(){
     });
   });
   
+  // _profile_sponsor: CREATE POST
+  $("#latest-post .switch-user .dropdown-menu a").click(function(e){
+    e.preventDefault();
+    var i = $(".switch-user i");
+    $("#latest-post .switch-user a.dropdown-toggle").text("Post as " + $(this).text()).append(i);
+    $("#latest-post form #writer_id").val($(this).attr("data-id"));
+  });
+  
   // _profile_sponsor: DELETE POST
   $('#latest-post .delete-post-button').click(function(e){
     e.preventDefault();
@@ -121,7 +129,6 @@ $(function(){
     $(this).attr("disabled", "disabled");
     var data = {};
     data["post_id"] = $(this).parents(".alert-delete").next().attr("data-id");
-    console.log(data);
     
     $.post("/profile/" + $("#user_id").val() + "/remove_post", data, function(){
       location = "/profile/" + $("#user_id").val();
