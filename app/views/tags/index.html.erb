@@ -7,7 +7,7 @@
         border-right: 1px solid #ccc;
         font-size: 12px !important;
         height: 10px !important;
-        width: 150px !important;
+        width: 160px !important;
         margin-right: 3px !important;
     }
 
@@ -68,21 +68,18 @@
 <!-- GLOBAL_TAGS test -->
 <%= form_tag({:controller => 'users', :action => 'add_user_tag'}, :id => "userTagsForm") do  %>
     <ul class="tags-textbox" id="iam">
-      <li><input type="text" id="tags_user_iam" class="tags pull-left" placeholder="I'm a..."></li>
-      <input type="hidden" name="tags[user_id]" value="<%= current_user.id if signed_in? %>">
+      <li><input type="text" id="tags_user_iam" class="tags pull-left" placeholder="I'm a...(max 2)"></li>
     </ul>
     <ul class="tags-textbox" id="looking">
-      <li><input type="text" id="tags_user_looking" class="tags pull-left" placeholder="What I'm looking for?"></li>
-      <input type="hidden" name="tags[user_id]" value="<%= current_user.id if signed_in? %>">
+      <li><input type="text" id="tags_user_looking" class="tags pull-left" placeholder="What I'm looking for? (max 2)"></li>
     </ul>
     <ul class="tags-textbox" id="interest">
-      <li><input type="text" id="tags_user_interest" class="tags pull-left" placeholder="Areas of interest"></li>
-      <input type="hidden" name="tags[user_id]" value="<%= current_user.id if signed_in? %>">
+      <li><input type="text" id="tags_user_interest" class="tags pull-left" placeholder="Areas of interest (max 4)"></li>
     </ul>
     <ul class="tags-textbox" id="division">
       <li><input type="text" id="tags_user_division" class="tags pull-left" placeholder="Division of interest"></li>
-      <input type="hidden" name="tags[user_id]" value="<%= current_user.id if signed_in? %>">
     </ul>
+    <input type="hidden" name="tags[user_id]" value="<%= current_user.id if signed_in? %>">
     <input role="button" type="submit" class="btn btn-success" value="send tags">
 <% end %>
 
@@ -255,7 +252,7 @@
             <% end %>
         <% end %>
 
-        $('.close').click(function(){
+        $("#userTagsForm").delegate(".close", "click", function () {
             $(this).closest('span.label').remove();
         });
 
