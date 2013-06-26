@@ -797,6 +797,18 @@ class UsersController < ApplicationController
     end
   end
   
+  def is_liked?
+    liked = false
+    
+    if params[:object_id] !="" && params[:object_type] != ""
+      liked = Like.exists?(:user_id => current_user.id, :object_id => params[:object_id], :object_type => params[:object_type])
+    end
+    
+    respond_to do |format|
+      format.js { render :json => { :liked => liked } }
+    end
+  end
+  
   def add_comment
     if params[:object_id] !="" && params[:object_type] != "" && params[:comment] != ""
       comment = Comment.new(:user_id => current_user.id, :object_id => params[:object_id], :object_type => params[:object_type])

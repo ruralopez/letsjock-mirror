@@ -510,6 +510,18 @@ input.error-field:hover, textarea.error-field:hover{
     color: white;
 }
 
+/* Modal Gallery */
+#modal-gallery .photo-like {
+    margin-top: 4px;
+    font-size: 13px;
+}
+    #modal-gallery .photo-like a {
+        text-decoration: none;
+    }
+    #modal-gallery .photo-like small i {
+        margin-left: 2px;
+    }
+
 /*Companies Contacts*/
 
 ul.all-followers{

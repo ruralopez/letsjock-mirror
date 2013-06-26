@@ -149,8 +149,19 @@ $(function(){
       count++;
     }
     
-    span.text(count + " likes").attr("data-count", count);
+    span.text(count).attr("data-count", count);
     $(this).toggleClass("liked");
+    
+    // Si es desde el modal-gallery
+    if($(this).parents(".photo-like").length > 0){
+      photo_id = $("#tagsForm input[name='tags[photo_id]']").val();
+      
+      var photo = $.grep(photos, function(element, index){
+        return element.id == photo_id;
+      })[0];
+      
+      photo.likes = count;
+    }
   });
   
   // COMMENTS

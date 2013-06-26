@@ -64,5 +64,8 @@ class Photo < ActiveRecord::Base
     end
     tag = users + events
   end
-
+  
+  def likes
+    Like.where(:object_id => self.id, :object_type => "Photo").count
+  end
 end
