@@ -86,8 +86,10 @@
             <%= image_tag user.profilephotourl%>
           </a>
           <div class="single-post">
-            <%= link_to user.full_name, profile_path(user) %>
-            <p><b>Has updated</b> his/her profile</p>
+            <p>
+              <%= link_to user.full_name, profile_path(user) %>
+              <b>has updated</b> his/her profile
+            </p>
             <p><small>on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
         </li>
@@ -107,7 +109,12 @@
                 <%= link_to 'See more', profile_path(institution), :class => 'see-more'%>
               </p>
             </div>
-            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+            <p>
+              <small>
+                <%= render :partial => 'users/like', :locals => {:object => post} %>
+                posted on <%= n.created_at.strftime("%B %d")%>
+              </small>
+            </p>
           </div>
         </li>
     <% elsif n.act_type == "004"%>
@@ -130,8 +137,10 @@
             <%= image_tag publisher_user.profilephotourl%>
           </a>
           <div class="single-post">
-            <%= link_to publisher_user.full_name, profile_path(publisher_user) %>
-            <p>is following <%= link_to followed_user.full_name, profile_path(followed_user) %></p>
+            <p>
+              <%= link_to publisher_user.full_name, profile_path(publisher_user) %>
+              is following <%= link_to followed_user.full_name, profile_path(followed_user) %>
+            </p>
             <div class="user-avatar">
               <%= link_to image_tag(followed_user.profilephotourl, :class => "img-rounded"), profile_path(followed_user) %>
             </div>
@@ -145,38 +154,56 @@
             <%= image_tag user.profilephotourl%>
           </a>
           <div class="single-post">
-            <%= link_to user.full_name, profile_path(user) %>
-            <p>has a new follower</p>
+            <p>
+              <%= link_to user.full_name, profile_path(user) %>
+              has a new follower
+            </p>
             <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
         </li>
     <% elsif n.act_type == "020"%>
-      <% if Photo.find(n.photo_id) %>
+      <% if Photo.exists?(n.photo_id) %>
+        <% photo = n.photo %>
         <% user = n.publisher.user %>
         <li><!--NOMBRE_APELLIDO added a new photo-->
           <a class="img-rounded">
             <%= image_tag user.profilephotourl%>
           </a>
           <div class="single-post">
-            <%= link_to user.full_name, profile_path(user) %>
-            <p>added a new photo</p>
-            <%= image_tag Photo.find(n.photo_id).url, :class => "img-polaroid"%>
-            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+            <p>
+              <%= link_to user.full_name, profile_path(user) %>
+              added a new photo
+            </p>
+            <%= image_tag photo.url, :class => "img-polaroid"%>
+            <p>
+              <small>
+                <%= render :partial => 'users/like', :locals => {:object => photo} %>
+                posted on <%= n.created_at.strftime("%B %d")%>
+              </small>
+            </p>
           </div>
         </li>
       <% end %>
     <% elsif n.act_type == "021"%>
-      <% if Video.find(n.video_id) %>
+      <% if Video.exists?(n.video_id) %>
+        <% video = n.video %>
         <% user = n.publisher.user %>
         <li><!--NOMBRE_APELLIDO added a new video-->
           <a class="img-rounded">
             <%= image_tag user.profilephotourl%>
           </a>
           <div class="single-post">
-            <%= link_to user.full_name, profile_path(user) %>
-            <p>added a new video</p>
-            <%= raw(youtube_embed(Video.find(n.video_id).url,305,230,true)) %>
-            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+            <p>
+              <%= link_to user.full_name, profile_path(user) %>
+              added a new video
+            </p>
+            <%= raw(youtube_embed(video.url,305,230,true)) %>
+            <p>
+              <small>
+                <%= render :partial => 'users/like', :locals => {:object => video} %>
+                posted on <%= n.created_at.strftime("%B %d")%>
+              </small>
+            </p>
           </div>
         </li>
       <% end %>
@@ -188,8 +215,10 @@
             <%= image_tag user.profilephotourl%>
           </a>
           <div class="single-post">
-            <%= link_to user.full_name, profile_path(user) %>
-            <p>joined <%= link_to event.name, event %> on <b><%= event.date.strftime("%B %d") %></b></p>
+            <p>
+              <%= link_to user.full_name, profile_path(user) %>
+              joined <%= link_to event.name, event %> on <b><%= event.date.strftime("%B %d") %></b>
+            </p>
             <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
         </li>
@@ -201,8 +230,10 @@
             <%= image_tag user.profilephotourl%>
           </a>
           <div class="single-post">
-            <%= link_to user.full_name, profile_path(user) %>
-            <p>Posted a new event <%= link_to event.name, event %> on <b><%= event.date.strftime("%B %d") %></b></p>
+            <p>
+              <%= link_to user.full_name, profile_path(user) %>
+              Posted a new event <%= link_to event.name, event %> on <b><%= event.date.strftime("%B %d") %></b>
+            </p>
             <div class="img-polaroid company-resume">
               <%= image_tag event.imageurl %>
               <h4><%= link_to event.name, event %></h4>
@@ -210,7 +241,12 @@
               <i class="icon-time"></i><p><%= event.date.strftime("%R") %></p>
               <i class="icon-map-marker"></i><p><%= event.place %></p>
             </div>
-            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+            <p>
+              <small>
+                <%= render :partial => 'users/like', :locals => {:object => event} %>
+                posted on <%= n.created_at.strftime("%B %d")%>
+              </small>
+            </p>
           </div>
         </li>
     <% elsif n.act_type == "032"%>
@@ -229,7 +265,12 @@
                 <%= link_to 'See more', event_path(event), :class => 'see-more'%>
               </p>
             </div>
-            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+            <p>
+              <small>
+                <%= render :partial => 'users/like', :locals => {:object => post} %>
+                posted on <%= n.created_at.strftime("%B %d")%>
+              </small>
+            </p>
           </div>
         </li>
     <% elsif n.act_type == "033"%>
@@ -248,6 +289,7 @@
         <!-- <p>Event Update Info</p> -->
     <% elsif n.act_type == "101"%>
       <% event = n.publisher.event %>
+      <% post = n.post %>
         <li><!-- NOMBRE_EVENTO has new post -->
           <a class="img-rounded" href="#">
             <i class="icon-calendar icon-2x"></i>
@@ -256,11 +298,16 @@
             <p>Event <%= link_to event.name, event %> has a new post</p>
             <div class="img-polaroid company-resume">
               <i class="icon-bullhorn"></i><br>
-              <p> <%= n.post.content %>
+              <p> <%= post.content %>
                 <%= link_to 'See more', event, :class => 'see-more'%>
               </p>
             </div>
-            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+            <p>
+              <small>
+                <%= render :partial => 'users/like', :locals => {:object => post} %>
+                posted on <%= n.created_at.strftime("%B %d")%>
+              </small>
+            </p>
           </div>
         </li>
     <% elsif n.act_type == "202"%>
@@ -278,7 +325,12 @@
                 <%= link_to 'See more', profile_path(user), :class => 'see-more'%>
               </p>
             </div>
-            <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
+            <p>
+              <small>
+                <%= render :partial => 'users/like', :locals => {:object => post} %>
+                posted on <%= n.created_at.strftime("%B %d")%>
+              </small>
+            </p>
           </div>
         </li>
     <%else%>
