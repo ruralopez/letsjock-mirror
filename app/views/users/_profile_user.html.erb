@@ -224,6 +224,8 @@ $(document).ready(function(){
 </div><!--box-connect-->
 
 <%= render 'layouts/invitebox' %>
+
+<%= render 'layouts/viewed' if @user.id == current_user.id %>
   
 </div>
 </div><!-- /.container -->
