@@ -692,7 +692,6 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to request.referer }
       format.js
     end
   end

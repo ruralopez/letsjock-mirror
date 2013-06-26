@@ -46,5 +46,18 @@
         });
     </script>
   <% end %>
+
+  <% if current_user %>
+  <script>
+      $(document).ready(function() {
+          $('#notifications-button').click(function() {
+              setTimeout(function() {
+                  $('#notifications-button').attr("href", "/profile/<%= current_user.id %>/read_all");
+                  $('#notifications-button').attr("data-remote", "true");
+              }, 200);
+          });
+      });
+  </script>
+  <% end %>
 </footer>
 
