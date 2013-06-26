@@ -684,6 +684,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def read_all_notifications
+    notifications = Notification.find(:all, :conditions => ["user_id = ?", current_user.id])
+    notifications.each do |n|
+      if !n.read
+        n.update_attributes(:read => true)
+      end
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def search
     if params[:query]
       @query = params[:query]
