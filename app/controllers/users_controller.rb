@@ -912,9 +912,7 @@ class UsersController < ApplicationController
         end
 
         if(res == nil)
-          Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "GLOBAL_TAGS_IAM", params[:tags][:user_id], "User"]).each do |ev|
-            ev.destroy
-          end
+          Tags.delete_all("id1 = #{tag.id1} AND type1 = 'GLOBAL_TAGS_IAM' AND id2 = #{params[:tags][:user_id]} AND type2 = 'User'")
         end
       end
     end
@@ -934,9 +932,7 @@ class UsersController < ApplicationController
         end
 
         if(res == nil)
-          Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "GLOBAL_TAGS_LOOKING", params[:tags][:user_id], "User"]).each do |ev|
-            ev.destroy
-          end
+          Tags.delete_all("id1 = #{tag.id1} AND type1 = 'GLOBAL_TAGS_LOOKING' AND id2 = #{params[:tags][:user_id]} AND type2 = 'User'")
         end
       end
     end
@@ -955,9 +951,7 @@ class UsersController < ApplicationController
         end
 
         if(res == nil)
-          Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "GLOBAL_TAGS_INTEREST", params[:tags][:user_id], "User"]).each do |ev|
-            ev.destroy
-          end
+          Tags.delete_all("id1 = #{tag.id1} AND type1 = 'GLOBAL_TAGS_INTEREST' AND id2 = #{params[:tags][:user_id]} AND type2 = 'User'")
         end
       end
     end
@@ -976,9 +970,7 @@ class UsersController < ApplicationController
         end
 
         if(res == nil)
-          Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "GLOBAL_TAGS_DIVISION", params[:tags][:user_id], "User"]).each do |ev|
-            ev.destroy
-          end
+          Tags.delete_all("id1 = #{tag.id1} AND type1 = 'GLOBAL_TAGS_DIVISION' AND id2 = #{params[:tags][:user_id]} AND type2 = 'User'")
         end
       end
     end
