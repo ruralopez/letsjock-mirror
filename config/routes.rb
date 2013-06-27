@@ -64,6 +64,7 @@ Letsjock::Application.routes.draw do
   match '/profile/:id/new_event/add_sponsor' => 'events#add_sponsor', :as => :add_sponsor
   match '/profile/:id/like' => 'users#like', :as => :like
   match '/profile/:id/is_liked' => 'users#is_liked?', :as => :is_liked
+  match '/profile/:id/certify' => 'users#certify', :as => :certify
   match '/add_comment' => 'users#add_comment', :as => :add_comment
   match '/settings' => 'settings#index', :as => :settings
   match '/forgotten_password' => 'users#forgotten_password', :as => :forgotten_password

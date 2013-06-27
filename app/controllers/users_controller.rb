@@ -821,7 +821,21 @@ class UsersController < ApplicationController
       format.js { render :json => { :liked => liked } }
     end
   end
-  
+
+  def certify
+    @user = User.find(params[:id])
+
+    if(@user.certified)
+      @user.update_attribute(:certified, false)
+    else
+      @user.update_attribute(:certified, true)
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def add_comment
     if params[:object_id] !="" && params[:object_type] != "" && params[:comment] != ""
       comment = Comment.new(:user_id => current_user.id, :object_id => params[:object_id], :object_type => params[:object_type])
