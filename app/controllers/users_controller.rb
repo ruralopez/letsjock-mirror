@@ -769,9 +769,17 @@ class UsersController < ApplicationController
   
   def follow_letsjock
     if signed_in? && current_user.id == 1
-      User.unscoped.find(:all, :conditions => ["id NOT IN (?) AND id != ?", current_user.followers, current_user.id] ).each do |user|
-        user.follow!(current_user)
+      #User.unscoped.find(:all, :conditions => ["id NOT IN (?) AND id != ?", current_user.followers, current_user.id] ).each do |user|
+      #  user.follow!(current_user)
+      #end
+
+      # Perfil invitado sigue a sus seguidores
+      invitado = User.find(21)
+
+      invitado.followed_users.each do |user|
+        user.follow!(invitado) unless user.following?(invitado)
       end
+
     end
     
     redirect_to news_path
