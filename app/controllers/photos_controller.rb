@@ -30,7 +30,7 @@ class PhotosController < ApplicationController
     new_photo = params[:photo] #Para llevar temporalmente las variables del form
     @user = User.find(params[:photo][:user_id])
     
-    if signed_in? && ( current_user.id == @user.id || current_user.isAdmin? ) # Se debe arreglar la lógica del admin
+    if signed_in? && ( current_user.id == @user.id || @user.inAdmins?(current_user) ) # Se debe arreglar la lógica del admin
       @photo = Photo.create(:user_id => @user.id, :title => new_photo['title'], :comment => new_photo['comment'], :sport_id => new_photo['sport_id'])
       
       if fileUp = new_photo['file']
@@ -56,14 +56,13 @@ class PhotosController < ApplicationController
       end
     else
       flash[:error] = "You must be logged in."
-      sign_out
-      redirect_to signin_path
+      redirect_to root_path
     end
   end
 
   def destroy
     @photo = Photo.find(params[:id])
-    if signed_in? && ( current_user.id == @photo.user_id || current_user.isAdmin? )
+    if signed_in? && ( current_user.id == @photo.user_id || User.find(@photo.user_id).inAdmins?(current_user) )
       @activities = Activity.where(["publisher_id = ? AND photo_id = ? AND act_type = ?", Publisher.find_by_user_id(@photo.user_id).id,@photo.id, "020"])
       
       if @activities.count > 0
@@ -82,8 +81,7 @@ class PhotosController < ApplicationController
       end
     else
       flash[:error] = "You must be logged in."
-      sign_out
-      redirect_to signin_path
+      redirect_to root_path
     end
   end
 end
