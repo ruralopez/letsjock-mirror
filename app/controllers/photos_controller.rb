@@ -70,7 +70,9 @@ class PhotosController < ApplicationController
       end
       
       if @photo.url.include? "s3.amazonaws.com/letsjock-photos/"
-        AWS::S3::S3Object.find(@photo.url.split("/").last, @@BUCKET).delete
+        if AWS::S3::S3Object.exists?(@photo.url.split("/").last, @@BUCKET)
+          AWS::S3::S3Object.delete(@photo.url.split("/").last, @@BUCKET) #.delete
+        end
       end
       
       @photo.destroy
