@@ -772,14 +772,14 @@ class UsersController < ApplicationController
       #User.unscoped.find(:all, :conditions => ["id NOT IN (?) AND id != ?", current_user.followers, current_user.id] ).each do |user|
       #  user.follow!(current_user)
       #end
-
+      
       # Perfil invitado sigue a sus seguidores
       invitado = User.find(21)
-
+      
       invitado.followed_users.each do |user|
         user.follow!(invitado) unless user.following?(invitado)
       end
-
+      
     end
     
     redirect_to news_path
@@ -845,8 +845,8 @@ class UsersController < ApplicationController
   end
 
   def add_comment
-    if params[:object_id] !="" && params[:object_type] != "" && params[:comment] != ""
-      comment = Comment.new(:user_id => current_user.id, :object_id => params[:object_id], :object_type => params[:object_type])
+    if params[:object_id] !="" && params[:object_type] != "" && params[:writer_id] != "" && params[:comment] != ""
+      comment = Comment.new(:user_id => params[:writer_id], :object_id => params[:object_id], :object_type => params[:object_type])
       
       # Pasar urls a su formato HTML
       comment.comment = params[:comment].gsub( %r{http://[^\s<]+} ) do |url|
@@ -857,15 +857,14 @@ class UsersController < ApplicationController
         if params[:object_type] == "Post"
           post = Post.find(params[:object_id])
           user = post.user
-          isAdmin = user.inAdmins?(current_user) # hay que copiar la logica del writer
           
           # Si existe evento es act_type 033 (User comment in event) sino 004 (user commented a Y's post)
-          Activity.create(:publisher_id => Publisher.find_by_user_id( current_user ).id, :post_id => post.id, :event_id => post.event_id, :act_type => post.event_id ? "033" : "004")
+          Activity.create(:publisher_id => Publisher.find_by_user_id( params[:writer_id] ).id, :post_id => post.id, :event_id => post.event_id, :act_type => post.event_id ? "033" : "004")
           
           # Manda notificaciones a todos los administradores
           if user.isSponsor && user.admins.any?
             user.admins.each do |admin|
-              Notification.create( :user_id => admin.id, :user2_id => current_user.id, :event_id => post.event_id, :aux_id => user.id, :read => false, :not_type => post.event_id ? "106" : "201" )
+              Notification.create( :user_id => admin.id, :user2_id => params[:writer_id], :event_id => post.event_id, :aux_id => user.id, :read => false, :not_type => post.event_id ? "106" : "201" )
             end
           end
         end
@@ -874,7 +873,7 @@ class UsersController < ApplicationController
     end
     
     respond_to do |format|
-      format.js { render :json => { :user_id => current_user.id } }
+      format.js { render :json => { :user_id => params[:writer_id], :comment_id => comment ? comment.id : nil } }
     end
   end
 

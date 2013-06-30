@@ -35,7 +35,16 @@
     <div class="single-comment">
       <%= link_to current_user.full_name, profile_path(current_user) %> 
       <p class="comment_text"></p>
-      <p><small>posted just now</small></p>
+      <p>
+        <small>
+          <%= link_to "#", :remote => true do %>
+            <button class="btn btn-mini btn-like"><i class="icon-trophy icon-gray"></i> <span>Like</span></button>
+          <% end %>
+          &nbsp;•&nbsp;
+          <a><i class="icon-trophy icon-large"></i> <span class="likes-count" data-count="0">0</span> likes</a>
+          posted just now
+        </small>
+      </p>
     </div>
   </li>
   <!-- end -->
@@ -43,7 +52,29 @@
     <a class="img-rounded">
       <%= image_tag(current_user.profilephotourl, :title => current_user.full_name) %>
     </a>
+  <% if @user.inAdmins?(current_user) && @user.id != current_user.id %>
+    <div class="dropdown switch-user">
+      <a class=dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
+        <i class="icon-chevron-down"></i>
+      </a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <li>
+          <a href="#" data-toggle="modal" data-id="<%= @user.id %>">
+            <%= image_tag @user.profilephotourl, :class => "img-rounded" %>
+            <%= @user.full_name %>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-toggle="modal" data-id="<%= current_user.id %>">
+            <%= image_tag current_user.profilephotourl, :class => "img-rounded" %>
+            <%= current_user.full_name %>
+          </a>
+        </li>
+      </ul>
+    </div>
+  <% end %>
     <div class="single-comment">
+      <input type="hidden" id="writer_id" name="writer_id" value="<%= current_user.id %>">
       <textarea class="input-block-level" rows="1" placeholder="Write a comment" data-id="<%= object.id %>" data-type="<%= object.class.name %>"></textarea>
     </div>
   </li>
