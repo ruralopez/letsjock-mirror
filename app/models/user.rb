@@ -227,6 +227,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def tags?
+    return Tags.exists?(:id2 => self.id, :type2 => "User")
+  end
+
   private
   def create_remember_token
     #self.remember_token = SecureRandom.urlsafe_base64

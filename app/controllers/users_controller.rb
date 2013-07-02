@@ -81,7 +81,7 @@ class UsersController < ApplicationController
         if @user.update_attributes(params[:user])
           
           #Guarda el deporte principal del usuario
-          if params[:sport_id] != ""
+          if params[:sport_id] && params[:sport_id] != ""
             @user.set_sport_main(params[:sport_id])
           end
 

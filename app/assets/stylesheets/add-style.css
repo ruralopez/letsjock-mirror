@@ -1259,6 +1259,15 @@ img.preview{
 
 .box-connect h4 span {font-size:1.3em; color:white;}
 
+.link-on.link-tag.pull-right {
+    margin-left: 140px;
+    cursor: pointer;
+}
+
+.link-on {
+    list-style: none;
+}
+
 .link-on:hover {
     text-decoration: none;
 }

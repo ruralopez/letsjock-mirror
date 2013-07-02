@@ -73,7 +73,7 @@
 <div class="profileInfo relative span9">
   <div class="user">
     <% if signed_in? && @user.id == current_user.id  %>
-      <%= link_to('#', :class => "pull-right link-on", :style => "list-style: none; padding-top: 20px;", :id => "edit-profile-link") do %>
+      <%= link_to('#', :class => "pull-right link-on", :style => "padding-top: 20px;", :id => "edit-profile-link") do %>
         <i class='icon-pencil icon-2x'></i>
       <% end %>
     <% end %>
@@ -105,57 +105,6 @@
 </div><!-- /profileInfo -->
 
 <div class="box box-info span6">
-
-<script>
-$(document).ready(function(){
-    $('#video-submit').click(function(){
-        $("#new_video").submit();
-    });
-    <% if signed_in? && current_user.id == @user.id %>
-    $('#edit_user_submit').click(function(){
-        $("#edit_user_<%= @user.id %>").submit();
-        $("#userIamForm").submit();
-    });
-    <% end %>
-    $( "#tags_user_iam" )
-            .bind( "keydown", function( event ) {
-                if ( event.keyCode === $.ui.keyCode.TAB &&
-                        $( this ).data( "ui-autocomplete" ).menu.active ) {
-                    event.preventDefault();
-                }
-            })
-            .on( "click", function( event ) {
-                $(this).autocomplete("search", "");
-            })
-            .autocomplete({
-                source: tagsUserIamArray,
-                minLength: 0,
-                messages: {
-                    noResults: '',
-                    results: function() {}
-                } ,
-                select: function( event, ui ) {
-                    $("#iam").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-info pull-left">' + ui.item.label + ' <input type="hidden" name="tags[iam][]" value="' + ui.item.value + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
-                    $("#tags_user_iam").attr("value", "");
-                    return false;
-                } ,
-                focus: function( event, ui ) {
-                    return false;
-                }
-            });
-
-    <% if current_user.tags("GLOBAL_TAGS_IAM") && current_user.tags("GLOBAL_TAGS_IAM").length > 0 %>
-        <% current_user.tags("GLOBAL_TAGS_IAM").each do |tag|%>
-            $(document).find("#iam").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-info pull-left"><%= GLOBAL_TAGS_IAM[tag.to_i] %> <input type="hidden" name="tags[iam][]" value="<%= tag.to_i %>"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
-        <% end %>
-    <% end %>
-
-    $("#userIamForm").delegate(".close", "click", function () {
-        $(this).closest('span.label').remove();
-    });
-});
-var tagsUserIamArray = <%= GLOBAL_TAGS_IAM.map{|p| {:label=>p[1], :value=>p[0]}}.to_json.html_safe %>;
-</script>
 
   <div id="edit-profile" class="hidden resume">
   <%= form_for current_user, :class => "edit_user" do |f| %>
@@ -208,11 +157,6 @@ var tagsUserIamArray = <%= GLOBAL_TAGS_IAM.map{|p| {:label=>p[1], :value=>p[0]}}
             <%= f.text_field :birth, :value => current_user.birth ? current_user.birth.strftime("%d-%m-%Y") : nil, :class => "span2", :placeholder => "Date birth" %>
           </div>
         </div>
-        <!--Description
-        <div class="input-prepend">
-          <span class="add-on"><i class="icon-pencil"></i></span>
-          <%# f.text_area :resume, :class => "span5", :value => current_user.resume, :placeholder => "Describe your skills & attributes", :rows => 4, :validation => 'lengthMax255' %>
-        </div> -->
       </div>
   <% end %>
     <%= form_tag({:controller => 'users', :action => 'add_iam_tag'}, :id => "userIamForm", :class => "fix-top") do  %>
@@ -236,35 +180,71 @@ var tagsUserIamArray = <%= GLOBAL_TAGS_IAM.map{|p| {:label=>p[1], :value=>p[0]}}
         <div class="span7">
           <p><%= @user.resume %></p>
         </div>
+
         <div class="span5">
           <ul>
-            <li>Interests</li>
-            <% if @user.tags("GLOBAL_TAGS_LOOKING") && @user.tags("GLOBAL_TAGS_LOOKING").length > 0 %>
-                <li>I'm looking for
-                  <% @user.tags("GLOBAL_TAGS_LOOKING").each do |tag|%>
-                      <a href="#"><%= GLOBAL_TAGS_LOOKING[tag.to_i] %></a>
+            <% if signed_in? && @user.id == current_user.id  %>
+                <li>Interests
+                  <i class='icon-pencil pull-right link-on link-tag' id='edit-tags-link'></i>
+                </li>
+            <% end %>
+            <% if @user.tags? %>
+                <% if @user.id != current_user.id %><li>Interests</li><% end %>
+                <% if @user.tags("GLOBAL_TAGS_LOOKING") && @user.tags("GLOBAL_TAGS_LOOKING").length > 0 %>
+                    <li>I'm looking for
+                      <% @user.tags("GLOBAL_TAGS_LOOKING").each do |tag|%>
+                          <a href="#"><%= GLOBAL_TAGS_LOOKING[tag.to_i] %></a>
+                      <% end %>
+                    </li>
                 <% end %>
-                </li>
-            <% end %>
-            <% if @user.tags("GLOBAL_TAGS_INTEREST") && @user.tags("GLOBAL_TAGS_INTEREST").length > 0 %>
-                <li><i class="icon-book"></i>
-                  <% @user.tags("GLOBAL_TAGS_INTEREST").each do |tag|%>
-                      <a href="#"><%= GLOBAL_TAGS_INTEREST[tag.to_i] %></a>
-                  <% end %>
-                </li>
-            <% end %>
-            <% if @user.tags("GLOBAL_TAGS_DIVISION") && @user.tags("GLOBAL_TAGS_DIVISION").length > 0 %>
-                <li><i class="icon-tag"></i>
-                  <% @user.tags("GLOBAL_TAGS_DIVISION").each do |tag|%>
-                      <a href="#"><%= GLOBAL_TAGS_DIVISION[tag.to_i] %></a>
-                  <% end %>
-                </li>
+                <% if @user.tags("GLOBAL_TAGS_INTEREST") && @user.tags("GLOBAL_TAGS_INTEREST").length > 0 %>
+                    <li><i class="icon-book"></i>
+                      <% @user.tags("GLOBAL_TAGS_INTEREST").each do |tag|%>
+                          <a href="#"><%= GLOBAL_TAGS_INTEREST[tag.to_i] %></a>
+                      <% end %>
+                    </li>
+                <% end %>
+                <% if @user.tags("GLOBAL_TAGS_DIVISION") && @user.tags("GLOBAL_TAGS_DIVISION").length > 0 %>
+                    <li><i class="icon-tag"></i>
+                      <% @user.tags("GLOBAL_TAGS_DIVISION").each do |tag|%>
+                          <a href="#"><%= GLOBAL_TAGS_DIVISION[tag.to_i] %></a>
+                      <% end %>
+                    </li>
+                <% end %>
             <% end %>
             <!-- <li><i class="icon-map-marker"></i><a href="#">Santiago</a><a href="#">Viña del Mar</a></li> -->
           </ul>
         </div>
+
       </div>
     </div><!--resume-->
+
+    <div id="edit-tags" class="hidden resume">
+      <%= form_for current_user, :html => {:class => "edit_user", :id => "edit_tags_form"} do |f| %>
+          <legend>Edit Resume & Tags</legend>
+          <div class="main-fields">
+            <!--Description -->
+        <div class="input-prepend">
+          <span class="add-on"><i class="icon-pencil"></i></span>
+          <%= f.text_area :resume, :class => "span5", :value => current_user.resume, :placeholder => "Describe your skills & attributes", :rows => 4, :validation => 'lengthMax255' %>
+        </div>
+          </div>
+      <% end %>
+      <%= form_tag({:controller => 'users', :action => 'add_user_tag'}, :id => "userTagsForm", :class => "fix-top") do  %>
+          <ul class="tags-textbox" id="looking">
+            <li><input type="text" id="tags_user_looking" class="tags pull-left" placeholder="What I'm looking for? (max 2)"></li>
+          </ul>
+          <ul class="tags-textbox" id="interest">
+            <li><input type="text" id="tags_user_interest" class="tags pull-left" placeholder="Areas of interest (max 4)"></li>
+          </ul>
+          <ul class="tags-textbox" id="division">
+            <li><input type="text" id="tags_user_division" class="tags pull-left" placeholder="Division of interest"></li>
+          </ul>
+          <input type="hidden" name="tags[user_id]" value="<%= current_user.id if signed_in? %>">
+      <% end %>
+      <button id="edit_tags_cancel" class="btn pull-right">Cancel</button> <button id="edit_tags_submit" name="commit" class="btn btn-success pull-right"><b>Save</b></button>
+      <div class="clearfix"></div>
+    </div>
     
     <div class="resume">
       <h4 class="inline">Jock Information</h4>
@@ -356,4 +336,186 @@ var tagsUserIamArray = <%= GLOBAL_TAGS_IAM.map{|p| {:label=>p[1], :value=>p[0]}}
 
 <!-- Le javascript
 ================================================== -->
+
+<script>
+    $(document).ready(function(){
+        $('#video-submit').click(function(){
+            $("#new_video").submit();
+        });
+        <% if signed_in? && current_user.id == @user.id %>
+        $('#edit_user_submit').click(function(){
+            $.post($("#edit_user_<%= @user.id %>").attr("action"), $("#edit_user_<%= @user.id %>").serialize(),
+                    function() {
+                        $.post($("#userIamForm").attr("action"), $("#userIamForm").serialize(),
+                                function() {
+                                    location.reload();
+                                });
+                    });
+        });
+        $('#edit_tags_submit').click(function(){
+            $.post($("#edit_tags_form").attr("action"), $("#edit_tags_form").serialize(),
+                    function() {
+                        $.post($("#userTagsForm").attr("action"), $("#userTagsForm").serialize(),
+                                function() {
+                                    location.reload();
+                                });
+                    });
+        });
+        <% end %>
+
+        //GLOBAL_TAGS_IAM
+        $( "#tags_user_iam" )
+                .bind( "keydown", function( event ) {
+                    if ( event.keyCode === $.ui.keyCode.TAB &&
+                            $( this ).data( "ui-autocomplete" ).menu.active ) {
+                        event.preventDefault();
+                    }
+                })
+                .on( "click", function( event ) {
+                    $(this).autocomplete("search", "");
+                })
+                .autocomplete({
+                    source: tagsUserIamArray,
+                    minLength: 0,
+                    messages: {
+                        noResults: '',
+                        results: function() {}
+                    } ,
+                    select: function( event, ui ) {
+                        $("#iam").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left">' + ui.item.label + ' <input type="hidden" name="tags[iam][]" value="' + ui.item.value + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+                        $("#tags_user_iam").attr("value", "");
+                        return false;
+                    } ,
+                    focus: function( event, ui ) {
+                        return false;
+                    }
+                });
+
+        //GLOBAL_TAGS_LOOKING
+        $( "#tags_user_looking" )
+                .bind( "keydown", function( event ) {
+                    if ( event.keyCode === $.ui.keyCode.TAB &&
+                            $( this ).data( "ui-autocomplete" ).menu.active ) {
+                        event.preventDefault();
+                    }
+                })
+                .on( "click", function( event ) {
+                    $(this).autocomplete("search", "");
+                })
+                .autocomplete({
+                    source: tagsUserLookingArray,
+                    minLength: 0,
+                    messages: {
+                        noResults: '',
+                        results: function() {}
+                    } ,
+                    select: function( event, ui ) {
+                        $("#looking").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left">' + ui.item.label + ' <input type="hidden" name="tags[looking][]" value="' + ui.item.value + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+                        $("#tags_user_looking").attr("value", "");
+                        return false;
+                    } ,
+                    focus: function( event, ui ) {
+                        return false;
+                    }
+                });
+
+        //GLOBAL_TAGS_INTEREST
+        $( "#tags_user_interest" )
+                .bind( "keydown", function( event ) {
+                    if ( event.keyCode === $.ui.keyCode.TAB &&
+                            $( this ).data( "ui-autocomplete" ).menu.active ) {
+                        event.preventDefault();
+                    }
+                })
+                .on( "click", function( event ) {
+                    $(this).autocomplete("search", "");
+                })
+                .autocomplete({
+                    source: tagsUserInterestArray,
+                    minLength: 0,
+                    messages: {
+                        noResults: '',
+                        results: function() {}
+                    } ,
+                    select: function( event, ui ) {
+                        $("#interest").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left">' + ui.item.label + ' <input type="hidden" name="tags[interest][]" value="' + ui.item.value + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+                        $("#tags_user_interest").attr("value", "");
+                        return false;
+                    } ,
+                    focus: function( event, ui ) {
+                        return false;
+                    }
+                });
+
+        //GLOBAL_TAGS_DIVISION
+        $( "#tags_user_division" )
+                .bind( "keydown", function( event ) {
+                    if ( event.keyCode === $.ui.keyCode.TAB &&
+                            $( this ).data( "ui-autocomplete" ).menu.active ) {
+                        event.preventDefault();
+                    }
+                })
+                .on( "click", function( event ) {
+                    $(this).autocomplete("search", "");
+                })
+                .autocomplete({
+                    source: tagsUserDivisionArray,
+                    minLength: 0,
+                    messages: {
+                        noResults: '',
+                        results: function() {}
+                    } ,
+                    select: function( event, ui ) {
+                        $("#division").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left">' + ui.item.label + ' <input type="hidden" name="tags[division][]" value="' + ui.item.value + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+                        $("#tags_user_division").attr("value", "");
+                        return false;
+                    } ,
+                    focus: function( event, ui ) {
+                        return false;
+                    }
+                });
+
+        <% if current_user.tags("GLOBAL_TAGS_IAM") && current_user.tags("GLOBAL_TAGS_IAM").length > 0 %>
+        <% current_user.tags("GLOBAL_TAGS_IAM").each do |tag|%>
+        $(document).find("#iam").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left"><%= GLOBAL_TAGS_IAM[tag.to_i] %> <input type="hidden" name="tags[iam][]" value="<%= tag.to_i %>"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+        <% end %>
+        <% end %>
+
+        <% if current_user.tags("GLOBAL_TAGS_LOOKING") && current_user.tags("GLOBAL_TAGS_LOOKING").length > 0 %>
+        <% current_user.tags("GLOBAL_TAGS_LOOKING").each do |tag|%>
+        $(document).find("#looking").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left"><%= GLOBAL_TAGS_LOOKING[tag.to_i] %> <input type="hidden" name="tags[looking][]" value="<%= tag.to_i %>"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+        <% end %>
+        <% end %>
+
+        <% if current_user.tags("GLOBAL_TAGS_INTEREST") && current_user.tags("GLOBAL_TAGS_INTEREST").length > 0 %>
+        <% current_user.tags("GLOBAL_TAGS_INTEREST").each do |tag|%>
+        $(document).find("#interest").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left"><%= GLOBAL_TAGS_INTEREST[tag.to_i] %> <input type="hidden" name="tags[interest][]" value="<%= tag.to_i %>"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+        <% end %>
+        <% end %>
+
+        <% if current_user.tags("GLOBAL_TAGS_DIVISION") && current_user.tags("GLOBAL_TAGS_DIVISION").length > 0 %>
+        <% current_user.tags("GLOBAL_TAGS_DIVISION").each do |tag|%>
+        $(document).find("#division").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left"><%= GLOBAL_TAGS_DIVISION[tag.to_i] %> <input type="hidden" name="tags[division][]" value="<%= tag.to_i %>"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+        <% end %>
+        <% end %>
+
+        $("#userTagsForm").delegate(".close", "click", function () {
+            $(this).closest('span.label').remove();
+        });
+        $("#userIamForm").delegate(".close", "click", function () {
+            $(this).closest('span.label').remove();
+        });
+        $('#edit-tags-link').click(function(){
+            $('#edit-tags').toggle("normal").toggleClass("hidden");
+        });
+        $('#edit_tags_cancel').click(function(e){
+            e.preventDefault();
+            $('#edit-tags-link').click();
+        });
+    });
+    var tagsUserIamArray = <%= GLOBAL_TAGS_IAM.map{|p| {:label=>p[1], :value=>p[0]}}.to_json.html_safe %>;
+    var tagsUserLookingArray = <%= GLOBAL_TAGS_LOOKING.map{|p| {:label=>p[1], :value=>p[0]}}.to_json.html_safe %>;
+    var tagsUserInterestArray = <%= GLOBAL_TAGS_INTEREST.map{|p| {:label=>p[1], :value=>p[0]}}.to_json.html_safe %>;
+    var tagsUserDivisionArray = <%= GLOBAL_TAGS_DIVISION.map{|p| {:label=>p[1], :value=>p[0]}}.to_json.html_safe %>;
+</script>
 <!-- Placed at the end of the document so the pages load faster -->
