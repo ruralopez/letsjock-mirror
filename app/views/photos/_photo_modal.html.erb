@@ -28,10 +28,10 @@
                       
                       <%= f.text_field :url, :placeholder => "http://", :id => "photo-link-input", :class => "span3" %>
                       <%= f.hidden_field :title, :value => "Title" %>
-                      <%= f.hidden_field :user_id, :value => @user.isSponsor && current_user.isAdmin? ? @user.id : current_user.id %>
+                      <%= f.hidden_field :user_id, :value => @user.isSponsor && @user.inAdmins?(current_user) ? @user.id : current_user.id %>
                       <%= f.hidden_field :sport_id, :value => 1 %>
                       <%= f.hidden_field :click_source, :value => "false" %>
-
+                      
                       <div style="height: 240px">
                         <div class="event-pictures fileupload-preview fileupload-exists thumbnail" style="height: 230px; width: 350px; margin: 0 auto;"></div>
                         <div class="event-pictures fileupload-new thumbnail" style="width: 350px; height: 230px; margin: 0 auto;"><img id="image-upload-input" src="" /></div>

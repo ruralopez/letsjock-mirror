@@ -4,5 +4,5 @@
 <% end %>
 &nbsp;•&nbsp;
 <% likes = Like.where(:object_id => object.id, :object_type => object.class.name).count %>
-<a><i class="icon-trophy icon-large"></i> <span class="likes-count" data-count="<%= likes %>"><%= likes %> likes</span></a>
+<a><i class="icon-trophy icon-large"></i> <span class="likes-count" data-count="<%= likes %>"><%= likes %></span> likes</a>
 &nbsp;•&nbsp;

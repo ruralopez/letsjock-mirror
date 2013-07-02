@@ -77,7 +77,16 @@
         <i class='icon-pencil icon-2x'></i>
       <% end %>
     <% end %>
-    
+
+    <% if signed_in? && @user.id != current_user.id && current_user.id == 1  %>
+        <%= link_to(certify_path, :remote => true, :class => "pull-right") do %>
+            <i id="icon-certify" class='icon-ok-circle icon-2x' style='text-decoration: none; padding-top: 20px;' rel='tooltip' title='Certify profile'></i>
+            <i id="icon-decertify" class='icon-remove-circle icon-2x' style='text-decoration: none; padding-top: 20px;' rel='tooltip' title='Decertify profile'></i>
+        <% end %>
+    <% end %>
+
+    <%= image_tag('verified.png', :class => "pull-right", :rel => "tooltip", :title => "Certification FAQ", :id => "certification-icon") %>
+
     <h2><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :name, :type => :input, :inner_class => "nameInput" %> <%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :lastname, :type => :input, :inner_class => "nameInput"  %></h2>
     <p><b><%= @user.sport_show %> </b><%  if @user.birth && @user.birth != "" %><%= @user.age  %> years, <%else%> Age not verified, <%  end %>
       <%  if @user.citybirth != "" %> <%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %>,
@@ -94,9 +103,15 @@
 <div class="box box-info span6">
 <script>
 $(document).ready(function(){
-  $('#video-submit').click(function(){
-    $("#new_video").submit();
-  });
+    $('#video-submit').click(function(){
+        $("#new_video").submit();
+    });
+    <% if !@user.certified %>
+        $('#certification-icon').hide();
+        $('#icon-decertify').hide();
+    <% else %>
+        $('#icon-certify').hide();
+    <% end %>
 });
 </script>
   <div id="edit-profile" class="hidden resume">
@@ -225,6 +240,8 @@ $(document).ready(function(){
 </div><!--box-connect-->
 
 <%= render 'layouts/invitebox' %>
+
+<%= render 'layouts/viewed' if @user.id == current_user.id %>
   
 </div>
 </div><!-- /.container -->

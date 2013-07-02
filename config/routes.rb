@@ -44,6 +44,7 @@ Letsjock::Application.routes.draw do
   match '/inbox/new'=> 'messages#new', :as => :new_message
   match '/profile/:id/follow' => 'relationships#create', :as => :follow
   match '/profile/:id/unfollow' => 'relationships#destroy', :as => :unfollow
+  match '/profile/:id/read_all' => 'users#read_all_notifications', :as => :read_all
   match '/profile/:id/change_profile_pic' => 'users#change_profile_pic', :as => :change_profile_pic
   match '/profile/:id/change_bg_pic' => 'users#change_bg_pic', :as => :change_bg_pic
   match '/profile/:id/email_authentication/:token' => 'users#auth_email', :as => :auth_email
@@ -62,6 +63,8 @@ Letsjock::Application.routes.draw do
   match '/profile/:id/events' => 'users#events', :as => :user_events
   match '/profile/:id/new_event/add_sponsor' => 'events#add_sponsor', :as => :add_sponsor
   match '/profile/:id/like' => 'users#like', :as => :like
+  match '/profile/:id/is_liked' => 'users#is_liked?', :as => :is_liked
+  match '/profile/:id/certify' => 'users#certify', :as => :certify
   match '/add_comment' => 'users#add_comment', :as => :add_comment
   match '/settings' => 'settings#index', :as => :settings
   match '/forgotten_password' => 'users#forgotten_password', :as => :forgotten_password

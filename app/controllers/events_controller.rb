@@ -87,7 +87,9 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    if signed_in? && current_user.isAdmin?
+    user = User.find(params[:event][:user_id])
+    
+    if signed_in? && user.inAdmins?(current_user)
       @event = Event.new(params[:event])
       respond_to do |format|
         if @event.save
@@ -107,6 +109,7 @@ class EventsController < ApplicationController
 
             if params[:profile_picture] && params[:profile_picture] != ""
               url = Photo.upload_file(params[:profile_picture])
+              # Podríamos poner un Tag
               @event.update_attribute(:imageurl, url) if url != ""
             end
             
