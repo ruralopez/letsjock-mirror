@@ -83,7 +83,7 @@ class UsersController < ApplicationController
           #Guarda el deporte principal del usuario
           params.each do |key, value|
             if key.start_with?("sport_id") && value != ""
-              @user.set_sport(value, key.slice(-1, 1).to_i + 1)
+              @user.set_sport(value.to_s, key.slice(-1, 1).to_i + 1)
             end
           end
 
