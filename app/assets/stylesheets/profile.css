@@ -298,7 +298,7 @@ a.follow:hover i{text-decoration:none;}
 }
 
 .box-info .resume form.edit_user{
-    margin-bottom: -70px;
+    margin-bottom: -80px;
 }
 
 .box-info .resume form fieldset{
@@ -1248,12 +1248,19 @@ table.table-profile .icon-remove{
 .color4{color:rgb(240,240,66);} /*yellow*/
 .color3{color:rgb(93,211,232);} /*light blue*/
 
-.tags {
+.tags.pull-left {
     font-size: 14px !important;
-    height: 24px !important;
-    width: 160px !important;
+    height: 21px !important;
+    width: 100px !important;
     margin-right: 3px !important;
     border: none !important;
+    -webkit-box-shadow: none;
+
+}
+.tags.pull-left:focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+
 }
 
 /* Autocomplete
@@ -1305,10 +1312,11 @@ table.table-profile .icon-remove{
     border: 1px solid #cccccc;
     padding: 2px 4px;
     height: 30px !important;
-    width: 450px !important;
+    width: 470px !important;
     line-height: 20px;
     color: #555555;
     vertical-align: middle;
+    margin-left: 0px;
 }
 
 .tags-textbox li {
