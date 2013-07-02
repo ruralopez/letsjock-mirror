@@ -158,6 +158,7 @@ ActiveRecord::Schema.define(:version => 20130624003421) do
   create_table "posts", :force => true do |t|
     t.integer  "user_id",    :null => false
     t.integer  "event_id"
+    t.integer  "writer_id"
     t.string   "title"
     t.text     "content"
     t.datetime "created_at", :null => false

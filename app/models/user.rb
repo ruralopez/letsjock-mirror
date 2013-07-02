@@ -94,7 +94,15 @@ class User < ActiveRecord::Base
     now = Time.now.utc.to_date
     now.year - self.birth.year - (self.birth.to_date.change(:year => now.year) > now ? 1 : 0)
   end
-  
+
+  def set_sport(sport_id, category)
+    if UserSport.exists?(:user_id => self.id, :position => category) || UserSport.exists?(:user_id => self.id, :position => "main")
+      UserSport.where(:user_id => self.id, :position => category).each {|usersport| usersport.destroy}
+      UserSport.where(:user_id => self.id, :position => "main").each {|usersport| usersport.destroy}
+    end
+    UserSport.new(:user_id => self.id, :sport_id => sport_id, :position => category).save
+  end
+
   def set_sport_main(sport_id)
     current_main = self.get_sport_id_main
     
@@ -123,6 +131,8 @@ class User < ActiveRecord::Base
       "Institution"
     elsif UserSport.exists?(:user_id => self.id, :position => "main")
       Sport.find(UserSport.all(:conditions => ["user_id = ? AND position = 'main'", self.id]).first.sport_id).full_name
+    elsif UserSport.exists?(:user_id => self.id, :position => "1")
+      Sport.find(UserSport.all(:conditions => ["user_id = ? AND position = '1'", self.id]).first.sport_id).full_name
     else
       "No sport yet!"
     end

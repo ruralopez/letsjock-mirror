@@ -81,8 +81,10 @@ class UsersController < ApplicationController
         if @user.update_attributes(params[:user])
           
           #Guarda el deporte principal del usuario
-          if params[:sport_id] != ""
-            @user.set_sport_main(params[:sport_id])
+          params.each do |key, value|
+            if key.start_with?("sport_id") && value != ""
+              @user.set_sport(value, key.slice(-1, 1).to_i + 1)
+            end
           end
 
           Activity.new(:publisher_id => Publisher.find_by_user_id(@user.id).id, :act_type => "000").save
@@ -695,6 +697,71 @@ class UsersController < ApplicationController
       unless @result != []
         @result = -1
       end
+    elsif params[:commit] == "Find"
+      @result = User.all
+      if params[:name] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.name.downcase.include?(params[:name].downcase)
+        end
+      end
+      if params[:lastname] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.lastname.downcase.include?(params[:lastname].downcase)
+        end
+      end
+      if params[:init] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.birth.to_date >= params[:init].to_date
+        end
+      end
+      if params[:end] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.birth.to_date <= params[:end].to_date
+        end
+      end
+      if params[:weight_min] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.weight >= params[:weight_min].to_i
+        end
+      end
+      if params[:weight_max] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.weight <= params[:weight_max].to_i
+        end
+      end
+      if params[:height_min] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.height >= params[:height_min].to_i
+        end
+      end
+      if params[:height_max] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.height <= params[:height_max].to_i
+        end
+      end
+      if params[:gender] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.gender.downcase == params[:gender].downcase
+        end
+      end
     end
     @filters = User.new
     @sports_list = Sport.select('name').all.map(&:name)
@@ -889,6 +956,14 @@ class UsersController < ApplicationController
 
     redirect_to pictures_path(User.find(params[:tags][:actual_user_id]), {:callback_id => params[:tags][:photo_id]})
     #redirect_to request.referer
+  end
+
+  def add_sport_profile
+    @index = params[:index]
+    @sport_id = params[:sport_id]
+    respond_to do |format|
+      format.js
+    end
   end
 
 end

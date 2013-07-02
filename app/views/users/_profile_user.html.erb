@@ -100,66 +100,67 @@ $(document).ready(function(){
 });
 </script>
   <div id="edit-profile" class="hidden resume">
-  <%= form_for current_user, :class => "edit_user" do |f| %>
-      <legend>Edit Profile</legend>
-      <div class="main-fields">
-        <!--First Name-->
-        <div class="input-prepend">
-          <span class="add-on"><i class="icon-user"></i></span>
-          <%= f.text_field :name, :value => current_user.name, :placeholder => "Name", :validation => 'required notBlank' %>
-        </div>
-        <!--Last Name-->
-        <div class="input-prepend">
-          <span class="add-on"><i class="icon-user"></i></span>
-          <%= f.text_field :lastname, :value => current_user.lastname, :placeholder => "Last Name", :validation => 'required notBlank' %>
-        </div>
-        <!--Sport-->
-        <div class="input-prepend">
-          <span class="add-on"><i class="icon-circle"></i></span>
-          <%= render :partial => 'sports/autocomplete', :locals => { :sport_id => current_user.get_sport_id_main } %>
-        </div>
-        <br />
-        <!--Gender-->
-        <div class="input-prepend">
-          <span class="add-on"><i class="icon-file"></i></span>
-          <%= f.select(:gender, [['Select a gender', nil], ['Male', 'M'], ['Female', 'F']], {:class => 'span3'}) %>
-        </div>
-        <br />
-        <!--Height-->
-        <div class="input-prepend input-append">
-          <span class="add-on"><i class="icon-file"></i></span>
-          <%= f.text_field :height, :value => current_user.height, :placeholder => "Heigth", :class => "span1" %>
-          <span class="add-on">inches</span>
-        </div>
-        <!--Weight-->
-        <div class="input-prepend input-append">
-          <span class="add-on"><i class="icon-file"></i></span>
-          <%= f.text_field :weight, :value => current_user.weight, :placeholder => "Weigth", :class => "span1" %>
-          <span class="add-on">pounds</span>
-        </div>
-        <!--Location-->
-        <div class="input-prepend">
-          <span class="add-on"><i class="icon-map-marker"></i></span>
-          <%= f.text_field :country, :value => current_user.country, :placeholder => "Country" %>
-          <%= f.text_field :citybirth, :value => current_user.citybirth, :placeholder => "City" %>
-        </div>
-        <!--Date-->
-        <div id="divDate" class="input-prepend">
-          <div class="input-prepend date" id="dp2" data-date="<%= current_user.birth ? current_user.birth.strftime("%d-%m-%Y") : '01-01-1990' %>" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
-            <span class="add-on"><i class="icon-calendar"></i></span>
-            <%= f.text_field :birth, :value => current_user.birth ? current_user.birth.strftime("%d-%m-%Y") : nil, :class => "span2", :placeholder => "Date birth" %>
+      <%= form_for current_user, :class => "edit_user" do |f| %>
+          <legend>Edit Profile</legend>
+          <div class="main-fields">
+            <!--First Name-->
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-user"></i></span>
+              <%= f.text_field :name, :value => current_user.name, :placeholder => "Name", :validation => 'required notBlank' %>
+            </div>
+            <!--Last Name-->
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-user"></i></span>
+              <%= f.text_field :lastname, :value => current_user.lastname, :placeholder => "Last Name", :validation => 'required notBlank' %>
+            </div>
+            <!--Sport-->
+            <div class="input-prepend" id="sport-div-profile">
+              <% current_user.sports.each_with_index do |sport, index| %>
+                  <%= render :partial => 'sports/autocomplete_edit_user', :locals => { :sport_id => sport.id, :index => index } %>
+              <% end %>
+            </div>
+            <br />
+            <!--Gender-->
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-file"></i></span>
+              <%= f.select(:gender, [['Select a gender', nil], ['Male', 'M'], ['Female', 'F']], {:class => 'span3'}) %>
+            </div>
+            <br />
+            <!--Height-->
+            <div class="input-prepend input-append">
+              <span class="add-on"><i class="icon-file"></i></span>
+              <%= f.text_field :height, :value => current_user.height, :placeholder => "Heigth", :class => "span1" %>
+              <span class="add-on">inches</span>
+            </div>
+            <!--Weight-->
+            <div class="input-prepend input-append">
+              <span class="add-on"><i class="icon-file"></i></span>
+              <%= f.text_field :weight, :value => current_user.weight, :placeholder => "Weigth", :class => "span1" %>
+              <span class="add-on">pounds</span>
+            </div>
+            <!--Location-->
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-map-marker"></i></span>
+              <%= f.text_field :country, :value => current_user.country, :placeholder => "Country" %>
+              <%= f.text_field :citybirth, :value => current_user.citybirth, :placeholder => "City" %>
+            </div>
+            <!--Date-->
+            <div id="divDate" class="input-prepend">
+              <div class="input-prepend date" id="dp2" data-date="<%= current_user.birth ? current_user.birth.strftime("%d-%m-%Y") : '01-01-1990' %>" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+                <span class="add-on"><i class="icon-calendar"></i></span>
+                <%= f.text_field :birth, :value => current_user.birth ? current_user.birth.strftime("%d-%m-%Y") : nil, :class => "span2", :placeholder => "Date birth" %>
+              </div>
+            </div>
+            <!--Description-->
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-pencil"></i></span>
+              <%= f.text_area :resume, :class => "span5", :value => current_user.resume, :placeholder => "Describe your skills & attributes", :rows => 4, :validation => 'lengthMax255' %>
+            </div>
           </div>
-        </div>
-        <!--Description-->
-        <div class="input-prepend">
-          <span class="add-on"><i class="icon-pencil"></i></span>
-          <%= f.text_area :resume, :class => "span5", :value => current_user.resume, :placeholder => "Describe your skills & attributes", :rows => 4, :validation => 'lengthMax255' %>
-        </div>
-      </div>
-      
-      <button id="edit_user_cancel" class="btn pull-right">Cancel</button> <button type="submit" name="commit" class="btn btn-success pull-right"><b>Save</b></button>
-      <div class="clearfix"></div>
-  <% end %>
+
+          <button id="edit_user_cancel" class="btn pull-right">Cancel</button> <button type="submit" name="commit" class="btn btn-success pull-right"><b>Save</b></button>
+          <div class="clearfix"></div>
+      <% end %>
   </div>
 <% if signed_in? && (@user.following?(current_user) || current_user.id == @user.id) %>
     <div class="resume">
