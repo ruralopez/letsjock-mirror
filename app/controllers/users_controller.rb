@@ -717,63 +717,63 @@ class UsersController < ApplicationController
         aux = @result
         @result = []
         aux.each do |user|
-          @result.push(user) if user.name.downcase.include?(params[:name].downcase)
+          @result.push(user) if user.name && user.name.downcase.include?(params[:name].downcase)
         end
       end
       if params[:lastname] != ""
         aux = @result
         @result = []
         aux.each do |user|
-          @result.push(user) if user.lastname.downcase.include?(params[:lastname].downcase)
+          @result.push(user) if user.lastname && user.lastname.downcase.include?(params[:lastname].downcase)
         end
       end
       if params[:init] != ""
         aux = @result
         @result = []
         aux.each do |user|
-          @result.push(user) if user.birth.to_date >= params[:init].to_date
+          @result.push(user) if user.birth && user.birth.to_date >= params[:init].to_date
         end
       end
       if params[:end] != ""
         aux = @result
         @result = []
         aux.each do |user|
-          @result.push(user) if user.birth.to_date <= params[:end].to_date
+          @result.push(user) if user.birth && user.birth.to_date <= params[:end].to_date
         end
       end
       if params[:weight_min] != ""
         aux = @result
         @result = []
         aux.each do |user|
-          @result.push(user) if user.weight >= params[:weight_min].to_i
+          @result.push(user) if user.weight && user.weight >= params[:weight_min].to_i
         end
       end
       if params[:weight_max] != ""
         aux = @result
         @result = []
         aux.each do |user|
-          @result.push(user) if user.weight <= params[:weight_max].to_i
+          @result.push(user) if user.weight && user.weight <= params[:weight_max].to_i
         end
       end
       if params[:height_min] != ""
         aux = @result
         @result = []
         aux.each do |user|
-          @result.push(user) if user.height >= params[:height_min].to_i
+          @result.push(user) if user.height && user.height >= params[:height_min].to_i
         end
       end
       if params[:height_max] != ""
         aux = @result
         @result = []
         aux.each do |user|
-          @result.push(user) if user.height <= params[:height_max].to_i
+          @result.push(user) if user.height && user.height <= params[:height_max].to_i
         end
       end
       if params[:gender] != ""
         aux = @result
         @result = []
         aux.each do |user|
-          @result.push(user) if user.gender.downcase == params[:gender].downcase
+          @result.push(user) if user.gender && user.gender.downcase == params[:gender].downcase
         end
       end
     end
