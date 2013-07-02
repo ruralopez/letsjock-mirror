@@ -79,10 +79,23 @@
     <% end %>
     
     <h2><%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :name, :type => :input, :inner_class => "nameInput" %> <%=	best_in_place_if (signed_in? && @user.id == current_user.id), @user, :lastname, :type => :input, :inner_class => "nameInput"  %></h2>
-    <p><b><%= @user.sport_show %> </b><%  if @user.birth && @user.birth != "" %><%= @user.age  %> years, <%else%> Age not verified, <%  end %>
-      <%  if @user.citybirth != "" %> <%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %>,
-          <%  end %><%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %>
+
+    <p class="header-tags">
+        <% if @user.tags("GLOBAL_TAGS_IAM") && @user.tags("GLOBAL_TAGS_IAM").length > 0 %>
+              <% @user.tags("GLOBAL_TAGS_IAM").each do |tag|%>
+                  <a class="special-tag" href="#"><%= GLOBAL_TAGS_IAM[tag.to_i] %></a>
+              <% end %>
+        <% end %>
+
+      <a href="#"><%= @user.sport_show %></a>
+      <!-- <a href="#">tag posición - prueba</a> -->
     </p>
+    <p>
+      <a href="#"><%  if @user.birth && @user.birth != "" %><%= @user.age  %> years<%else%> Age not verified<%  end %></a>
+      <a href="#"><%  if @user.citybirth != "" %> <%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :citybirth, :type => :input, :inner_class => "locationInput" %></a>
+      <a href="#"><%  end %><%= best_in_place_if (signed_in? && @user.id == current_user.id), @user, :country, :type => :input, :inner_class => "locationInput" %></a>
+    </p>
+
   </div><!--user-->
   <div class="connections action-buttons span3">
     
@@ -92,13 +105,58 @@
 </div><!-- /profileInfo -->
 
 <div class="box box-info span6">
+
 <script>
 $(document).ready(function(){
-  $('#video-submit').click(function(){
-    $("#new_video").submit();
-  });
+    $('#video-submit').click(function(){
+        $("#new_video").submit();
+    });
+    <% if signed_in? && current_user.id == @user.id %>
+    $('#edit_user_submit').click(function(){
+        $("#edit_user_<%= @user.id %>").submit();
+        $("#userIamForm").submit();
+    });
+    <% end %>
+    $( "#tags_user_iam" )
+            .bind( "keydown", function( event ) {
+                if ( event.keyCode === $.ui.keyCode.TAB &&
+                        $( this ).data( "ui-autocomplete" ).menu.active ) {
+                    event.preventDefault();
+                }
+            })
+            .on( "click", function( event ) {
+                $(this).autocomplete("search", "");
+            })
+            .autocomplete({
+                source: tagsUserIamArray,
+                minLength: 0,
+                messages: {
+                    noResults: '',
+                    results: function() {}
+                } ,
+                select: function( event, ui ) {
+                    $("#iam").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-info pull-left">' + ui.item.label + ' <input type="hidden" name="tags[iam][]" value="' + ui.item.value + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+                    $("#tags_user_iam").attr("value", "");
+                    return false;
+                } ,
+                focus: function( event, ui ) {
+                    return false;
+                }
+            });
+
+    <% if current_user.tags("GLOBAL_TAGS_IAM") && current_user.tags("GLOBAL_TAGS_IAM").length > 0 %>
+        <% current_user.tags("GLOBAL_TAGS_IAM").each do |tag|%>
+            $(document).find("#iam").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-info pull-left"><%= GLOBAL_TAGS_IAM[tag.to_i] %> <input type="hidden" name="tags[iam][]" value="<%= tag.to_i %>"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+        <% end %>
+    <% end %>
+
+    $("#userIamForm").delegate(".close", "click", function () {
+        $(this).closest('span.label').remove();
+    });
 });
+var tagsUserIamArray = <%= GLOBAL_TAGS_IAM.map{|p| {:label=>p[1], :value=>p[0]}}.to_json.html_safe %>;
 </script>
+
   <div id="edit-profile" class="hidden resume">
   <%= form_for current_user, :class => "edit_user" do |f| %>
       <legend>Edit Profile</legend>
@@ -156,20 +214,56 @@ $(document).ready(function(){
           <%= f.text_area :resume, :class => "span5", :value => current_user.resume, :placeholder => "Describe your skills & attributes", :rows => 4, :validation => 'lengthMax255' %>
         </div>
       </div>
-      
-      <button id="edit_user_cancel" class="btn pull-right">Cancel</button> <button type="submit" name="commit" class="btn btn-success pull-right"><b>Save</b></button>
-      <div class="clearfix"></div>
   <% end %>
+    <%= form_tag({:controller => 'users', :action => 'add_iam_tag'}, :id => "userIamForm", :class => "fix-top") do  %>
+        <ul class="tags-textbox" id="iam">
+          <li><input type="text" id="tags_user_iam" class="tags pull-left" placeholder="I'm a...(max 2)"></li>
+        </ul>
+        <input type="hidden" name="tags[user_id]" value="<%= current_user.id if signed_in? %>">
+    <% end %>
+    <button id="edit_user_cancel" class="btn pull-right">Cancel</button> <button id="edit_user_submit" name="commit" class="btn btn-success pull-right"><b>Save</b></button>
+    <div class="clearfix"></div>
   </div>
 <% if signed_in? && (@user.following?(current_user) || current_user.id == @user.id) %>
-    <div class="resume">
+    <div class="resume user">
       <% if flash[:success] %>
           <div class="alert alert-success index-flash">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <%=  flash[:success] %>
           </div>
       <% end %>
-      <%= @user.resume %>
+      <div class="row-fluid">
+        <div class="span7">
+          <p><%= @user.resume %></p>
+        </div>
+        <div class="span5">
+          <ul>
+            <li>Interests</li>
+            <% if @user.tags("GLOBAL_TAGS_LOOKING") && @user.tags("GLOBAL_TAGS_LOOKING").length > 0 %>
+                <li>I'm looking for
+                  <% @user.tags("GLOBAL_TAGS_LOOKING").each do |tag|%>
+                      <a href="#"><%= GLOBAL_TAGS_LOOKING[tag.to_i] %></a>
+                <% end %>
+                </li>
+            <% end %>
+            <% if @user.tags("GLOBAL_TAGS_INTEREST") && @user.tags("GLOBAL_TAGS_INTEREST").length > 0 %>
+                <li><i class="icon-book"></i>
+                  <% @user.tags("GLOBAL_TAGS_INTEREST").each do |tag|%>
+                      <a href="#"><%= GLOBAL_TAGS_INTEREST[tag.to_i] %></a>
+                  <% end %>
+                </li>
+            <% end %>
+            <% if @user.tags("GLOBAL_TAGS_DIVISION") && @user.tags("GLOBAL_TAGS_DIVISION").length > 0 %>
+                <li><i class="icon-tag"></i>
+                  <% @user.tags("GLOBAL_TAGS_DIVISION").each do |tag|%>
+                      <a href="#"><%= GLOBAL_TAGS_DIVISION[tag.to_i] %></a>
+                  <% end %>
+                </li>
+            <% end %>
+            <!-- <li><i class="icon-map-marker"></i><a href="#">Santiago</a><a href="#">Viña del Mar</a></li> -->
+          </ul>
+        </div>
+      </div>
     </div><!--resume-->
     
     <div class="resume">

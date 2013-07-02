@@ -80,6 +80,7 @@ ul.profileIcons li:first-child{
     );
     color:white;
     position:relative;
+    padding-bottom: 10px;
 }
 
 .profileInfo a{
@@ -88,11 +89,26 @@ ul.profileIcons li:first-child{
 }
 
 .profileInfo h2{
-    margin-bottom:0;
+    margin-bottom:0; font-size:1.8em;
 }
 
-.profileInfo p b:after{
-    content:" / ";
+.profileInfo p{
+    margin-bottom: 0; font-size:.8em; line-height: 130%;
+}
+
+.profileInfo p a:after{
+    content:" · ";
+    text-decoration: none;
+    display: inline-block;
+    margin-left: .3em;
+}
+
+.profileInfo p a.special-tag:after{
+    content: "/";
+}
+
+.profileInfo p a:last-child:after{
+    content:none;
 }
 
 .profileInfo .user{
@@ -279,6 +295,10 @@ a.follow:hover i{text-decoration:none;}
     border:none;
     border-radius:4px;
     font-size: 13px;
+}
+
+.box-info .resume form.edit_user{
+    margin-bottom: -70px;
 }
 
 .box-info .resume form fieldset{
@@ -964,3 +984,338 @@ ul.important-info{
 	.sponsored ul li p{font-size:11px; line-height:130%; color:white; font-weight:normal; margin-left:108px;}
 
 	.sponsored a.align-right{margin:4px 0 12px;}
+
+/*Información de Usuario*/
+.resume.user{position:relative;}
+
+.resume.user span{
+    text-align: center;
+    display:block;
+    margin:0 0 -2px;
+}
+
+.resume.user p{
+    text-align:justify;
+    line-height:150%;
+    margin-bottom:.8em;
+    margin-top:.2em;
+}
+
+
+p.header-tags{
+    font-size: 1em;
+}
+
+.resume.user ul{
+    list-style:none outside none;
+    margin:0;
+    background-color:#F8F8F8;
+    padding:.8em 1em;
+    margin-top:-.8em;
+}
+
+.resume.user ul li{
+    margin-left:1.5em;
+    position:relative;
+}
+
+.resume.user ul li:first-child {
+    font-weight: bold;
+    margin-left: 0;
+}
+
+.resume.user ul li i{
+    position:absolute;
+    margin-top:.2em;
+    margin-left:-1.5em;
+}
+
+.resume.user li a{
+    /*color:black;*/
+    margin:0 .2em;
+}
+
+.resume.user li a:after{
+    display:inline-block;
+    content:" ,";
+}
+
+.resume.user li a:last-child:after{
+    content:".";
+}
+
+.resume.user p, .resume.user ul{
+    display:inline-block;
+}
+
+/*separar por deporte*/
+h4.sportname{
+    background-color:#C6091C;
+    color:white;
+    display:table;
+    margin-left:-30px;
+    padding:0.3em 0.6em 0.3em 30px;
+    margin-bottom:0;
+}
+
+p.sort-by{
+    display:inline-block;
+}
+
+select.sort-by{
+    margin:0;
+    width:70px !important;
+    padding-left:0;
+}
+
+/*experiencia destacado*/
+ul.experience.destacado{
+    box-shadow:1px 0px 2px rgba(0,0,0,0.1);
+    background-color:#FAFAFA;
+    transition: all 0.5s ease 0s;
+    -webkit-transition: all 0.5s ease 0s;
+    margin:5px;
+}
+
+ul.experience .icon-special-header{
+    color:gold;
+    margin-top:-2px;
+}
+
+ul.experience.destacado:hover{
+    background-color:#F4F4F4;
+}
+
+/*recomendaciones*/
+
+#myRecommendations{
+    margin:1em 0;
+}
+
+#myRecommendations .accordion-inner{
+    font-size: .9em;
+    line-height: 150%;
+    margin-left: 74px;
+}
+
+#myRecommendations a.accordion-toggle{
+    color:#C6091C;
+}
+
+#myRecommendations .accordion-heading{
+    text-align: left;
+    position: relative;
+}
+
+#myRecommendations .accordion-body{
+    margin:0;
+}
+
+#myRecommendations .accordion-heading div{
+    width:64px;
+    max-height:64px;
+    overflow:hidden;
+    display:inline-block;
+    margin-right:10px;
+    float:left;
+}
+#myRecommendations .accordion-heading h4, #myRecommendations .accordion-heading p{
+    line-height: 100%;
+    margin-top:0;
+}
+
+#myRecommendations .accordion-heading p{
+    font-size: .8em;
+    color:#5A5A5A;
+}
+
+#myRecommendations i.icon-chevron-down{
+    position: absolute;
+    bottom:0;
+    left:50%;
+    color:white;
+    background-color:#F2F2F2;
+    padding: .4em;
+    margin-left: -.4em;
+}
+
+#myRecommendations .btn {
+    margin-right:.5em;
+    background-color:#51A351;
+}
+
+#askRecommendation a{
+    color:#5A5A5A;
+}
+
+#askRecommendation a.btn-success{
+    color:white;
+}
+
+/*Tablas comparativas*/
+
+table.table-profile{
+    width:80%;
+    margin:0 auto;
+}
+
+table.table-profile thead{
+}
+
+
+table.table-profile thead tr th{
+    width:40%;
+    vertical-align:top;
+    font-weight:normal;
+    background-color:#F4F4F4;
+}
+
+table.table-profile thead tr th:first-child{
+    width:20%;
+}
+
+table.table-profile img{
+    width:45%;
+    float:left;
+    margin-right:.8em;
+}
+table.table-profile thead p{
+    margin-bottom:0;
+}
+
+table.table-profile tbody tr td{
+    vertical-align:middle;
+}
+
+
+table.table-profile tbody tr td:first-child{
+    font-weight:bold;
+}
+
+table.table-profile i{
+    font-size:2em;}
+
+table.table-profile .icon-ok{
+    color: #51A351;/*verde*/
+}
+
+table.table-profile .icon-remove{
+    color:#C6091C;/*rojo*/
+}
+
+/*Tags for Profile*/
+.tags-area{
+    display:inline-block;
+}
+
+.edit-tags p{
+    display: inline-block;
+    width:100px;
+}
+
+.edit-tags input{
+    display: block;
+    margin-left: 100px;
+}
+
+/*Botón verde*/
+.btn-green{
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #5bb75b;
+    *background-color: #51a351;
+    background-image: -moz-linear-gradient(top, #62c462, #51a351);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#62c462), to(#51a351));
+    background-image: -webkit-linear-gradient(top, #62c462, #51a351);
+    background-image: -o-linear-gradient(top, #62c462, #51a351);
+    background-image: linear-gradient(to bottom, #62c462, #51a351);
+    background-repeat: repeat-x;
+    border-color: #51a351 #51a351 #387038;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff51a351', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    border-radius:0;
+}
+
+.btn-green:hover{
+    color:white;
+}
+
+/*Colores*/
+.color1{color:rgb(25,153,207);} /*blue*/
+.color2{color:rgb(102,201,71);} /*green*/
+.color3{color:rgb(240,117,70);} /*red*/
+.color4{color:rgb(240,240,66);} /*yellow*/
+.color3{color:rgb(93,211,232);} /*light blue*/
+
+.tags {
+    font-size: 14px !important;
+    height: 24px !important;
+    width: 160px !important;
+    margin-right: 3px !important;
+    border: none !important;
+}
+
+/* Autocomplete
+----------------------------------*/
+.ui-autocomplete { background: white; position: absolute; cursor: default; border: #ccc 1px solid; color: #444; font-size: 12px; }
+.ui-autocomplete-loading { background: white right center no-repeat; }
+
+/* workarounds */
+* html .ui-autocomplete { width:1px; } /* without this, the menu expands to 100% in IE6 */
+
+/* Menu
+----------------------------------*/
+.ui-helper-hidden-accessible { display:none; }
+.ui-menu {
+    list-style:none;
+    padding: 2px;
+    margin: 0;
+    display:block;
+}
+.ui-menu .ui-menu {
+    margin-top: -3px;
+}
+.ui-menu .ui-menu-item {
+    margin:0;
+    padding: 0;
+    width: 100%;
+}
+.ui-menu .ui-menu-item:hover {
+    /*Falta que cambie a este color cuando me muevo con las flechas (hover con keydown)*/
+    background-color: #ccc;
+}
+.ui-menu .ui-menu-item a {
+    text-decoration:none;
+    display:block;
+    padding:.2em .4em;
+    line-height:1.5;
+    zoom:1;
+}
+.ui-menu .ui-menu-item a.ui-state-hover,
+.ui-menu .ui-menu-item a.ui-state-active {
+    margin: -1px;
+    color: #0f0;
+}
+.tags-textbox {
+    background-color: #fff;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border: 1px solid #cccccc;
+    padding: 2px 4px;
+    height: 30px !important;
+    width: 450px !important;
+    line-height: 20px;
+    color: #555555;
+    vertical-align: middle;
+}
+
+.tags-textbox li {
+    display: inline-block;
+    list-style: none;
+    margin-left: 5px;
+}
+.fix-top{
+    padding-top: -3000px;
+}

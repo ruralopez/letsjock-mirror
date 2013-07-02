@@ -893,15 +893,9 @@ class UsersController < ApplicationController
 
   end
 
-  def add_user_tag
+  def add_iam_tag
     tagsIam =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_IAM", params[:tags][:user_id], "User"])
-    tagsLooking =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_LOOKING", params[:tags][:user_id], "User"])
-    tagsInterest =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_INTEREST", params[:tags][:user_id], "User"])
-    tagsDivision =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_DIVISION", params[:tags][:user_id], "User"])
     tagsIamArray = params[:tags][:iam]
-    tagsLookingArray = params[:tags][:looking]
-    tagsInterestArray = params[:tags][:interest]
-    tagsDivisionArray = params[:tags][:division]
 
     if !tagsIam.empty?
       tagsIam.each do |tag|
@@ -922,6 +916,18 @@ class UsersController < ApplicationController
       end
     end
 
+    redirect_to request.referer
+  end
+
+  def add_user_tag
+
+    tagsLooking =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_LOOKING", params[:tags][:user_id], "User"])
+    tagsInterest =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_INTEREST", params[:tags][:user_id], "User"])
+    tagsDivision =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_DIVISION", params[:tags][:user_id], "User"])
+
+    tagsLookingArray = params[:tags][:looking]
+    tagsInterestArray = params[:tags][:interest]
+    tagsDivisionArray = params[:tags][:division]
 
     if !tagsLooking.empty?
       tagsLooking.each do |tag|
