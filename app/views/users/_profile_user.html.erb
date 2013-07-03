@@ -384,6 +384,9 @@
                     select: function( event, ui ) {
                         $("#iam").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left">' + ui.item.label + ' <input type="hidden" name="tags[iam][]" value="' + ui.item.value + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
                         $("#tags_user_iam").attr("value", "");
+                        if($("#iam").children("span.label").length > 1){
+                            $(this).hide();
+                        }
                         return false;
                     } ,
                     focus: function( event, ui ) {
@@ -412,6 +415,9 @@
                     select: function( event, ui ) {
                         $("#looking").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left">' + ui.item.label + ' <input type="hidden" name="tags[looking][]" value="' + ui.item.value + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
                         $("#tags_user_looking").attr("value", "");
+                        if($("#looking").children("span.label").length > 1){
+                            $(this).hide();
+                        }
                         return false;
                     } ,
                     focus: function( event, ui ) {
@@ -440,6 +446,9 @@
                     select: function( event, ui ) {
                         $("#interest").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left">' + ui.item.label + ' <input type="hidden" name="tags[interest][]" value="' + ui.item.value + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
                         $("#tags_user_interest").attr("value", "");
+                        if($("#interest").children("span.label").length > 3){
+                            $(this).hide();
+                        }
                         return false;
                     } ,
                     focus: function( event, ui ) {
@@ -478,18 +487,27 @@
         <% if current_user.tags("GLOBAL_TAGS_IAM") && current_user.tags("GLOBAL_TAGS_IAM").length > 0 %>
         <% current_user.tags("GLOBAL_TAGS_IAM").each do |tag|%>
         $(document).find("#iam").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left"><%= GLOBAL_TAGS_IAM[tag.to_i] %> <input type="hidden" name="tags[iam][]" value="<%= tag.to_i %>"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+        if($("#iam").children("span.label").length > 1){
+            $(document).find("#tags_user_iam").hide();
+        }
         <% end %>
         <% end %>
 
         <% if current_user.tags("GLOBAL_TAGS_LOOKING") && current_user.tags("GLOBAL_TAGS_LOOKING").length > 0 %>
         <% current_user.tags("GLOBAL_TAGS_LOOKING").each do |tag|%>
         $(document).find("#looking").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left"><%= GLOBAL_TAGS_LOOKING[tag.to_i] %> <input type="hidden" name="tags[looking][]" value="<%= tag.to_i %>"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+        if($("#looking").children("span.label").length > 1){
+            $(document).find("#tags_user_looking").hide();
+        }
         <% end %>
         <% end %>
 
         <% if current_user.tags("GLOBAL_TAGS_INTEREST") && current_user.tags("GLOBAL_TAGS_INTEREST").length > 0 %>
         <% current_user.tags("GLOBAL_TAGS_INTEREST").each do |tag|%>
         $(document).find("#interest").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left"><%= GLOBAL_TAGS_INTEREST[tag.to_i] %> <input type="hidden" name="tags[interest][]" value="<%= tag.to_i %>"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+        if($("#interest").children("span.label").length > 3){
+            $(document).find("#tags_user_interest").hide();
+        }
         <% end %>
         <% end %>
 
@@ -500,10 +518,12 @@
         <% end %>
 
         $("#userTagsForm").delegate(".close", "click", function () {
+            $(this).parent("span.label").siblings("li").children("input").show();
             $(this).closest('span.label').remove();
         });
         $("#userIamForm").delegate(".close", "click", function () {
             $(this).closest('span.label').remove();
+            $("#tags_user_iam").show();
         });
         $('#edit-tags-link').click(function(){
             $('#edit-tags').toggle("normal").toggleClass("hidden");
