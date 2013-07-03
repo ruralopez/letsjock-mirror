@@ -1,5 +1,9 @@
 <% unless train.team_id %>
-    <ul class="experience" data-id="<%= train.id %>" data-type="train">
+    <ul class="experience <%= train.highlight ? "destacado" : "" %>" data-id="<%= train.id %>" data-type="train">
+      <% if train.highlight %>
+      <i class="icon-3x icon-bookmark icon-special-header"></i>
+      <% end %>
+      
       <li><h5><i class="icon-bullhorn icon-large"></i>Trained by <% if train.trainer_id%><% if User.find(train.trainer_id) %><%= link_to User.find(train.trainer_id).full_name, User.find(train.trainer_id) %><% else %><%= train.name %><% end %><% else %><%= train.name%><%	 end %>  <span><%= Sport.find(train.sport_id).full_name %></span></h5></li>
       <% if train.end %>
         <li class="calendar"><i class="icon-calendar"></i><%= train.init.strftime("%B %Y") %>, to <%= train.end.strftime("%B %Y") %></li>

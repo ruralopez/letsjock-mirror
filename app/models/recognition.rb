@@ -8,5 +8,5 @@ class Recognition < ActiveRecord::Base
 
   has_many :videos
 
-  attr_accessible :date, :description, :work_id, :competition_id, :sport_id, :team_id, :user_id, :awarded_by, :as_athlete
+  attr_accessible :date, :description, :work_id, :competition_id, :sport_id, :team_id, :user_id, :awarded_by, :as_athlete, :highlight
 end

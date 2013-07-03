@@ -62,6 +62,9 @@ $(function(){
   // Solo para el ul.experience padre
   $('ul.experience').not("ul.experience ul.experience").append($('.edit-experience'));
   
+  // HIGHLIGHT: Solo para Jock
+  $('ul.experience').not("ul.experience[data-type=work], ul.experience[data-type=education]").find("li.hide").removeClass("hide");
+  
   // SHOW LOADING WHILE AJAX CALLING
   $(document).ajaxStart(function(){
     $(".box-info .async-form").append("<div id=loading></div>");
@@ -84,6 +87,27 @@ $(function(){
     $(this).parents(".resume").toggle("normal").after($(".async-form"));
     $(".box-info .async-form").show().load("/profile/" + $("#user_id").val() + "/edit_profile", data);
   });
+  
+  // HIGHLIGHT EXPERIENCE
+  $('.highlight-button').click(function(e){
+    e.preventDefault();
+    
+    var data = {};
+    var hito = $(this).parents("ul.experience");
+    data["object_id"] = hito.attr("data-id");
+    data["object_type"] = hito.attr("data-type");
+    
+    $.post("/profile/" + $("#user_id").val() + "/highlight", data, function(data){
+      if(data){
+        hito.toggleClass("destacado");
+        
+        if(data.highlight == 1)
+          hito.append('<i class="icon-3x icon-bookmark icon-special-header"></i>');
+        else
+          hito.find("i.icon-special-header").remove();
+      }
+    }, "json");
+  });
 
   // REMOVE EXPERIENCE
   $('.delete-experience-button').click(function(e){
@@ -97,7 +121,7 @@ $(function(){
   });
   
   $("ul.experience").delegate(".alert-delete .btn-confirm", "click", function(e){
-    $(this).attr("disabled", "disabled")
+    $(this).attr("disabled", "disabled");
     var data = {};
     data["object_id"] = $(this).parents("ul.experience").attr("data-id");
     data["object_type"] = $(this).parents("ul.experience").attr("data-type");

@@ -1,5 +1,9 @@
 <% unless Recognition.exists?(:competition_id => competition.id) %>
-    <ul class="experience" data-id="<%= competition.id %>" data-type="competition">
+    <ul class="experience <%= competition.highlight ? "destacado" : "" %>" data-id="<%= competition.id %>" data-type="competition">
+      <% if competition.highlight %>
+      <i class="icon-3x icon-bookmark icon-special-header"></i>
+      <% end %>
+      
       <li><h5><i class="icon-circle-blank icon-large"></i><%= competition.name %> <span><%=	 Sport.find(competition.sport_id).full_name %></span></h5></li>
       <% if competition.team_id %>
           <li><h5><i class="icon-group"></i><%= Team.find(competition.team_id).name %> <span><% if Train.exists?(:team_id => competition.team_id) %>Trained by <%= Train.find_by_team_id(competition.team_id).name %><% end %></span></h5></li> <!-- ToolTip -->

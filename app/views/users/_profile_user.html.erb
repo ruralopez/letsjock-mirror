@@ -197,10 +197,15 @@ $(document).ready(function(){
     <% elsif current_user.id == @user.id %>
       <p>You must be logged in to complete your profile!</p>
     <% end %>
-      
-    <% if @athleteExperiences.any?  %>
-      <%= render @athleteExperiences %>
+    
+  <% if @athleteExperiences.any?  %>
+    <% @athleteExperiences.each do |sport_id, experiences| %>
+      <h4 class="sportname"><%= Sport.find(sport_id).first_parent_name %></h4>
+      <% experiences.collect do |experience| %>
+        <%= render experience %>
+      <% end %>
     <% end %>
+  <% end %>
     </div><!--resume-->
     
     <div class="resume">
@@ -251,6 +256,8 @@ $(document).ready(function(){
   <a class="dropdown-toggle btn btn-small" data-toggle="dropdown" href="#"><i class="icon-cog"></i></a>
   <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
     <li><a href="#" class="edit-experience-button"><i class="icon-pencil"></i> Edit</a></li>
+    <li class="hide"><a href="#" class="highlight-button"><i class="icon-star"></i> Highlight</a></li>
+    <li class="divider"></li>
     <li><a href="#" class="delete-experience-button"><i class="icon-remove"></i> Delete</a></li>
   </ul>
 <% end %>

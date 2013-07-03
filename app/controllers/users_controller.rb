@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :pictures, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment]
+  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :pictures, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment, :highlight]
   
   def verify_login
     unless signed_in?
@@ -149,9 +149,9 @@ class UsersController < ApplicationController
       @myevents = events
     else
       #Juntar competitions, teams, trains, results y recognitions como athlete experiences
-      @competitions = Competition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "init DESC, end DESC")
-      @teams = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "init DESC, end DESC")
-      @trains = Train.all(:conditions => ['user_id = ?', @user.id], :order => "init DESC, end DESC")
+      @competitions = Competition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "end DESC, init DESC")
+      @teams = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "end DESC, init DESC")
+      @trains = Train.all(:conditions => ['user_id = ?', @user.id], :order => "end DESC, init DESC")
       @results = Result.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date DESC")
       @recognitions = Recognition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date DESC")
       
@@ -161,19 +161,19 @@ class UsersController < ApplicationController
         sports_exclude.push(milestone.sport_id)
       end
       
-      @user_sports = UserSport.all(:conditions => ['user_id = ? AND sport_id NOT IN ( ? ) AND position IS NULL AND init IS NOT NULL AND end IS NOT NULL', @user.id, sports_exclude.length > 0 ? sports_exclude : 0 ], :order => "init DESC, end DESC")
+      @user_sports = UserSport.all(:conditions => ['user_id = ? AND sport_id NOT IN ( ? ) AND position IS NULL AND init IS NOT NULL AND end IS NOT NULL', @user.id, sports_exclude.length > 0 ? sports_exclude : 0 ], :order => "end DESC, init DESC")
       
-      @athleteExperiences = (@competitions + @teams + @trains + @results + @recognitions + @user_sports)
+      @athleteExperiences = (@competitions + @teams + @trains + @results + @recognitions + @user_sports).to_set.classify { |milestone| milestone.sport_id }
       
       #Juntar Works
-      @teams_work = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, false], :order => "init DESC")
-      @trains_work = Trainee.all(:conditions => ['user_id = ?', @user.id], :order => "init DESC")
+      @teams_work = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, false], :order => "end DESC, init DESC")
+      @trains_work = Trainee.all(:conditions => ['user_id = ?', @user.id], :order => "end DESC, init DESC")
       @results_work = Result.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, false], :order => "date DESC")
       @recognitions_work = Recognition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, false], :order => "date DESC")
       @workExperiences = (@teams_work + @trains_work + @results_work + @recognitions_work)
-      @works = Work.all(:conditions => ['user_id = ?', @user.id], :order => "init DESC, end DESC")
+      @works = Work.all(:conditions => ['user_id = ?', @user.id], :order => "end DESC, init DESC")
       #Juntar Educational
-      @educations = Education.all(:conditions => ['user_id = ?', @user.id], :order => "init DESC, end DESC")
+      @educations = Education.all(:conditions => ['user_id = ?', @user.id], :order => "end DESC, init DESC")
       
       #Crear variable para poder crear competition, team, train, result o recognition.
       @recognition = @competition = @result = @team = @train = @trainee = @work = @education = NullObject.new # La clase NullObject está definida al final
@@ -525,6 +525,25 @@ class UsersController < ApplicationController
       end
     else
       redirect_to root_path
+    end
+  end
+  
+  def highlight
+    if params[:object_type] && params[:object_id]
+      class_name = params[:object_type].capitalize
+      objeto = class_name.constantize.find(params[:object_id])
+      
+      if objeto.highlight
+        objeto.update_attribute(:highlight, 0)
+      else
+        objeto.update_attribute(:highlight, 1)
+      end
+      
+      respond_to do |format|
+        format.json { render :json => { :user_id => params[:id], :highlight => objeto.highlight } }
+      end
+    else
+      redirect_to profile_path(params[:id])
     end
   end
   
