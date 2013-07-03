@@ -81,6 +81,8 @@ Letsjock::Application.routes.draw do
   match '/tags' => 'tags#index', :as => :tags
   match '/typeahead' => 'users#typeahead', :as => :tags
   match '/add_tag' => 'users#add_tag', :as => :add_tag
+  match '/add_user_tag' => 'users#add_user_tag', :as => :add_user_tag
+  match '/add_iam_tag' => 'users#add_iam_tag', :as => :add_iam_tag
   match '/photos/:id' => 'photos#edit', :as => :photo
   match '/profile/:id/add-sport' => 'users#add_sport_profile', :as => :add_sport_profile
   match '/profile/:id/highlight' => 'users#highlight', :as => :highlight

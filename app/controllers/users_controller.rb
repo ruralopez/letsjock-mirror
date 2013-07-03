@@ -79,7 +79,7 @@ class UsersController < ApplicationController
     if signed_in? && current_user.id == @user.id
       respond_to do |format|
         if @user.update_attributes(params[:user])
-          
+
           #Guarda el deporte principal del usuario
           params.each do |key, value|
             if key.start_with?("sport_id") && value != ""
@@ -88,17 +88,17 @@ class UsersController < ApplicationController
           end
 
           Activity.new(:publisher_id => Publisher.find_by_user_id(@user.id).id, :act_type => "000").save
-          
+
           format.html {
             if params[:profile_picture] && params[:profile_picture] != "" #Sube la foto de perfil si viene de la vista profile_new
               url = Photo.upload_file(params[:profile_picture])
-              
+
               if url && url != ""
                 Photo.create(:user_id => @user.id, :url => url)
                 @user.update_attribute(:profilephotourl, url)
               end
             end
-            
+
             redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully updated.'
           }
           format.json { head :no_content }
@@ -971,49 +971,51 @@ class UsersController < ApplicationController
     tagsEventArray = params[:tags][:events]
 
 
-      if !tagsUser.empty?
-        tagsUser.each do |tag|
-          if !tagsUserArray.blank?
-            res = tagsUserArray.reject! {|user| user.to_i == tag.id1}
-          else
-            res = nil
-          end
-
-          if(res == nil)
-            Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "User", params[:tags][:photo_id], "Photo"]).each do |us|
-              us.destroy
-            end
-          end
+    if !tagsUser.empty?
+      tagsUser.each do |tag|
+        if !tagsUserArray.blank?
+          res = tagsUserArray.reject! {|user| user.to_i == tag.id1}
+        else
+          res = nil
         end
-      end
-      if !tagsUserArray.blank?
-        tagsUserArray.each do |tag|
-          Tags.create(:id1 => tag, :type1 => "User", :id2 => params[:tags][:photo_id], :type2 => "Photo")
-          Notification.create(:user_id => tag, :user2_id => params[:tags][:user_id], :aux_id => params[:tags][:photo_id], :aux_type => "Photo", :read => false, :not_type => "004")
-        end
-      end
 
-
-      if !tagsEvent.empty?
-        tagsEvent.each do |tag|
-          if !tagsEventArray.blank?
-            res = tagsEventArray.reject! {|event| event.to_i == tag.id1}
-          else
-            res = nil
-          end
-
-          if(res == nil)
-            Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "Event", params[:tags][:photo_id], "Photo"]).each do |ev|
-               ev.destroy
-            end
+        if(res == nil)
+          Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "User", params[:tags][:photo_id], "Photo"]).each do |us|
+            us.destroy
           end
         end
       end
-      if !tagsEventArray.blank?
-        tagsEventArray.each do |tag|
-          Tags.create(:id1 => tag, :type1 => "Event", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+    end
+    if !tagsUserArray.blank?
+      tagsUserArray.each do |tag|
+        Tags.create(:id1 => tag, :type1 => "User", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+        Notification.create(:user_id => tag, :user2_id => params[:tags][:user_id], :aux_id => params[:tags][:photo_id], :aux_type => "Photo", :read => false, :not_type => "004")
+      end
+    end
+
+
+    if !tagsEvent.empty?
+      tagsEvent.each do |tag|
+        if !tagsEventArray.blank?
+          res = tagsEventArray.reject! {|event| event.to_i == tag.id1}
+        else
+          res = nil
+        end
+
+        if(res == nil)
+          Tags.find(:all, :conditions => ["id1 = ? AND type1 = ? AND id2 = ? AND type2 = ?", tag.id1, "Event", params[:tags][:photo_id], "Photo"]).each do |ev|
+            ev.destroy
+          end
         end
       end
+    end
+    if !tagsEventArray.blank?
+      tagsEventArray.each do |tag|
+        Tags.create(:id1 => tag, :type1 => "Event", :id2 => params[:tags][:photo_id], :type2 => "Photo")
+      end
+    end
+
+
 
     #3 condiciones: doble existencia, existencia en el servidor y existencia en params[:tags][:users]
     #Recorrer el servidor, si el tag está en el array, lo saco. Si no está, lo elimino (de la bd).
@@ -1021,7 +1023,103 @@ class UsersController < ApplicationController
     #arr.delete_if (|item| item == 'id')
 
     redirect_to pictures_path(User.find(params[:tags][:actual_user_id]), {:callback_id => params[:tags][:photo_id]})
-    #redirect_to request.referer
+
+  end
+
+  def add_iam_tag
+    tagsIam =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_IAM", params[:tags][:user_id], "User"])
+    tagsIamArray = params[:tags][:iam]
+
+    if !tagsIam.empty?
+      tagsIam.each do |tag|
+        if !tagsIamArray.blank?
+          res = tagsIamArray.reject! {|iam| iam.to_i == tag.id1}
+        else
+          res = nil
+        end
+
+        if(res == nil)
+          Tags.delete_all("id1 = #{tag.id1} AND type1 = 'GLOBAL_TAGS_IAM' AND id2 = #{params[:tags][:user_id]} AND type2 = 'User'")
+        end
+      end
+    end
+    if !tagsIamArray.blank?
+      tagsIamArray.each do |tag|
+        Tags.create(:id1 => tag, :type1 => "GLOBAL_TAGS_IAM", :id2 => params[:tags][:user_id], :type2 => "User")
+      end
+    end
+
+    redirect_to request.referer
+  end
+
+  def add_user_tag
+
+    tagsLooking =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_LOOKING", params[:tags][:user_id], "User"])
+    tagsInterest =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_INTEREST", params[:tags][:user_id], "User"])
+    tagsDivision =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_DIVISION", params[:tags][:user_id], "User"])
+
+    tagsLookingArray = params[:tags][:looking]
+    tagsInterestArray = params[:tags][:interest]
+    tagsDivisionArray = params[:tags][:division]
+
+    if !tagsLooking.empty?
+      tagsLooking.each do |tag|
+        if !tagsLookingArray.blank?
+          res = tagsLookingArray.reject! {|look| look.to_i == tag.id1}
+        else
+          res = nil
+        end
+
+        if(res == nil)
+          Tags.delete_all("id1 = #{tag.id1} AND type1 = 'GLOBAL_TAGS_LOOKING' AND id2 = #{params[:tags][:user_id]} AND type2 = 'User'")
+        end
+      end
+    end
+    if !tagsLookingArray.blank?
+      tagsLookingArray.each do |tag|
+        Tags.create(:id1 => tag, :type1 => "GLOBAL_TAGS_LOOKING", :id2 => params[:tags][:user_id], :type2 => "User")
+      end
+    end
+
+    if !tagsInterest.empty?
+      tagsInterest.each do |tag|
+        if !tagsInterestArray.blank?
+          res = tagsInterestArray.reject! {|inte| inte.to_i == tag.id1}
+        else
+          res = nil
+        end
+
+        if(res == nil)
+          Tags.delete_all("id1 = #{tag.id1} AND type1 = 'GLOBAL_TAGS_INTEREST' AND id2 = #{params[:tags][:user_id]} AND type2 = 'User'")
+        end
+      end
+    end
+    if !tagsInterestArray.blank?
+      tagsInterestArray.each do |tag|
+        Tags.create(:id1 => tag, :type1 => "GLOBAL_TAGS_INTEREST", :id2 => params[:tags][:user_id], :type2 => "User")
+      end
+    end
+
+    if !tagsDivision.empty?
+      tagsDivision.each do |tag|
+        if !tagsDivisionArray.blank?
+          res = tagsDivisionArray.reject! {|div| div.to_i == tag.id1}
+        else
+          res = nil
+        end
+
+        if(res == nil)
+          Tags.delete_all("id1 = #{tag.id1} AND type1 = 'GLOBAL_TAGS_DIVISION' AND id2 = #{params[:tags][:user_id]} AND type2 = 'User'")
+        end
+      end
+    end
+    if !tagsDivisionArray.blank?
+      tagsDivisionArray.each do |tag|
+        Tags.create(:id1 => tag, :type1 => "GLOBAL_TAGS_DIVISION", :id2 => params[:tags][:user_id], :type2 => "User")
+      end
+    end
+
+    redirect_to request.referer
   end
 
   def add_sport_profile

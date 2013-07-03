@@ -913,20 +913,20 @@ ul.nav.affix li:last-child{border-bottom:none;}
 
 /*botones de add y pedir recomendaciones*/
 a.add-new{
-	background-color: #F5F5F5;
+    background-color: #F5F5F5;
     margin: -10px -30px 0 0;
-	padding: .5em 1em;
+    padding: .5em 1em;
     position: absolute;
     right: 0;
-	color: #51A351;
-	text-decoration: none;
-	transition: all 0.3s ease 0s;
-	-webkit-transition: all 0.3s ease 0s;
+    color: #51A351;
+    text-decoration: none;
+    transition: all 0.3s ease 0s;
+    -webkit-transition: all 0.3s ease 0s;
 }
-	a.add-new:hover{
-		background-color: #51A351;
-		color:white;
-	}
+    a.add-new:hover{
+        background-color: #51A351;
+        color:white;
+    }
 /*end*/
 
 ul#myTab.span3{
@@ -1255,6 +1255,15 @@ img.preview{
 .company .event-table td:last-child{width:10%;}
 
 .box-connect h4 span {font-size:1.3em; color:white;}
+
+.link-on.link-tag.pull-right {
+    margin-left: 140px;
+    cursor: pointer;
+}
+
+.link-on {
+    list-style: none;
+}
 
 .link-on:hover {
     text-decoration: none;
