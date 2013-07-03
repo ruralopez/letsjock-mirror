@@ -96,11 +96,12 @@ class User < ActiveRecord::Base
   end
 
   def set_sport(sport_id, category)
-    if UserSport.exists?(:user_id => self.id, :position => category) || UserSport.exists?(:user_id => self.id, :position => "main")
-      UserSport.where(:user_id => self.id, :position => category).each {|usersport| usersport.destroy}
-      UserSport.where(:user_id => self.id, :position => "main").each {|usersport| usersport.destroy}
+    UserSport.delete_all(["user_id = ? AND position = ?", self.id, category.to_s]) if UserSport.exists?(:user_id => self.id, :position => category.to_s)
+    UserSport.delete_all(["user_id = ? AND position = ?", self.id, "main"]) if UserSport.exists?(:user_id => self.id, :position => "main")
+    if UserSport.exists?(:user_id => self.id, :sport_id => sport_id)
+      UserSport.delete_all(["user_id = ? AND sport_id = ?", self.id, sport_id])
     end
-    UserSport.new(:user_id => self.id, :sport_id => sport_id, :position => category).save
+    UserSport.new(:user_id => self.id, :sport_id => sport_id, :position => category.to_s).save
   end
 
   def set_sport_main(sport_id)
@@ -119,7 +120,9 @@ class User < ActiveRecord::Base
   end
   
   def get_sport_id_main
-    if UserSport.exists?(:user_id => self.id, :position => "main")
+    if UserSport.exists?(:user_id => self.id, :position => "1")
+      UserSport.all(:conditions => ["user_id = ? AND position = '1'", self.id]).first.sport_id
+    elsif UserSport.exists?(:user_id => self.id, :position => "main")
       UserSport.all(:conditions => ["user_id = ? AND position = 'main'", self.id]).first.sport_id
     else
       nil

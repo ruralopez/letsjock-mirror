@@ -113,11 +113,9 @@
                     e.preventDefault();
                     var current_form = $('#<%= @edit_profile ? "edit" : "new" %>-profile-entry');
                     var errors = {};
-                    
+
                     if(!validDate(current_form.find("#init").val()))
                         errors[current_form.attr("id")] = "<b>Date from</b> must be in <i>dd-mm-yyyy</i> format."
-                    else if(!validDate(current_form.find("#end-date-profile").val()))
-                        errors[current_form.attr("id")] = "<b>Date to</b> must be in <i>dd-mm-yyyy</i> format."
                         
                     form_profile_validate(current_form, errors);
                 });
