@@ -14,28 +14,95 @@
 <div class="row relative">
 <div class="span9">
 
+  <div class="accordion" id="accordion2">
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle btn-link" style="color:#0088cc;" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+          Advanced Search
+        </a>
+      </div>
+      <div id="collapseOne" class="accordion-body collapse">
+        <div class="accordion-inner">
+          <%=  form_tag ({:controller => "users", :action => "search"}) do |f| %>
+              <div class="span3">
+                <h5>Name</h5>
+                <%= text_field_tag :name, nil, :class => "span3" %>
+              </div>
+              <div class="span3">
+                <h5>Lastname</h5>
+                <%= text_field_tag :lastname, nil, :class => "span3" %>
+              </div>
+              <div class="span3">
+                <h5>Birthdate from</h5>
+                <div class="input-prepend date" data-date="12-02-1995" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+                  <span class="add-on"><i class="icon-calendar"></i></span>
+                  <%= text_field_tag :init, @init ? @init.strftime("%d-%m-%Y") : nil, :placeholder => "Date from (dd-mm-yyyy)", :class => "span3"%>
+                </div>
+              </div>
+              <div class="span3">
+                <h5>Birthdate to</h5>
+                <div class="input-prepend date" data-date="12-02-1995" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+                  <span class="add-on"><i class="icon-calendar"></i></span>
+                  <%= text_field_tag :end, @end ? @end.strftime("%d-%m-%Y") : nil, :placeholder => "Date to (dd-mm-yyyy)", :class => "span3"%>
+                </div>
+              </div>
+              <div class="span3">
+                <h5>Weight min.</h5>
+                <%= text_field_tag :weight_min, nil, :class => "span3" %>
+              </div>
+              <div class="span3">
+                <h5>Weight max.</h5>
+                <%= text_field_tag :weight_max, nil, :class => "span3" %>
+              </div>
+              <div class="span3">
+                <h5>Height min.</h5>
+                <%= text_field_tag :height_min, nil, :class => "span3" %>
+              </div>
+              <div class="span3">
+                <h5>Height max.</h5>
+                <%= text_field_tag :height_max, nil, :class => "span3" %>
+              </div>
+              <div class="span3">
+                <h5>Gender</h5>
+                <%= select_tag :gender, options_for_select([["Male", "M"], ["Female", "F"]]), :class => "span3" %>
+              </div>
+              <div class="span3">
+                <h5>Sport</h5>
+                <input class="span3" type="text" placeholder="Type a Sport" data-provide="typeahead" data-source= '<%= @sports_list %>' data-items="4">
+              </div>
+              <div class="span3">
+                <h5>Expected graduation date</h5>
+                <%= text_field_tag :grad_date, nil, :class => "span3", :disabled => true, :placeholder => "Soon" %>
+              </div>
+              <div class="span3">
+                <h5>School</h5>
+                <%= text_field_tag :school, nil, :class => "span3", :disabled => true, :placeholder => "Soon" %>
+              </div>
+              <div class="span3">
+                <h5>City</h5>
+                <%= text_field_tag :city, nil, :class => "span3", :disabled => true, :placeholder => "Soon" %>
+              </div>
+              <div class="span3">
+                <h5>Country</h5>
+                <%= text_field_tag :country, nil, :class => "span3", :disabled => true, :placeholder => "Soon" %>
+              </div>
+              <div class="span3">
+                <h5>Certified profile?</h5>
+                <%= check_box_tag :certified, 0, :class => "span3", :disabled => true, :placeholder => "Soon" %>
+              </div>
+              <div class="pull-left">
+                <%= submit_tag "Find", :class => "btn btn-primary", :style=>"margin-top:30px;" %>
+              </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 <!--
 <div>
-  <%=  form_for @filters, :url => {:action => "search"} do |f| %>
-      <div class="span3">
-        <h5>Gender</h5>
-        <%= f.select :gender, ["Female", "Male"], :class => "span3" %>
-      </div>
-      <div class="span3">
-        <h5>Age</h5>
-        <%= f.text_field :name, :class => "span3" %>
-      </div>
-      <div class="span3">
-        <h5>Sport</h5>
-        <input class="span3" type="text" placeholder="Type a Sport" data-provide="typeahead" data-source= '<%= @sports_list %>' data-items="4">
-      </div>
-      <div class="span3">
-        <h5>Currently</h5>
-        <%= f.select :lastname, ["Amateur", "College", "Professional", "National Team", "National Team - U20", "National Team - U18"], :class => "span3" %>
-      </div>
-      </br></br></br></br></br></br></br></br></br>
-      <%= f.submit "Find", :class => "btn btn-primary", :style=>"margin-left:30px;" %>
-  <% end %>
+
 </div>
  -->
 <%	 if @result %>

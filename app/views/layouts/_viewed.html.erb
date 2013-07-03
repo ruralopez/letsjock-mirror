@@ -1,0 +1,7 @@
+<div class="box box-connect span3">
+  <div class="box-content">
+    <h5 class="pull-right span2">people have viewed your profile</h5>
+    <h1 class="pull-right"><%= Stat.where(:type => "User", :info => current_user.id).count %></h1>
+    <div class="clearfix"></div>
+  </div>
+</div>

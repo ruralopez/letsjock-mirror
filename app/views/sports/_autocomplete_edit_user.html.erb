@@ -1,0 +1,113 @@
+<% if sport_id %>
+    <% sport = Sport.find(sport_id) %>
+<% else %>
+    <% sport = Sport.new %>
+<% end %>
+
+<script>
+    $(document).ready(function(){
+        $('#link-add-sport-<%= index %>').remove();
+        var sports = <%= raw Sport.order("parent_id ASC, name ASC").to_json(:only => [ :id, :name, :parent_id ]) %>;
+
+        $('.typeahead.sports').typeahead({minLength: 0, source: handlerSource, updater: handlerUpdater, highlighter: handlerHighlighter}).bind("focus", triggerShow);
+        <% if sport.parent_id %>
+            <% sport_parent = Sport.find(sport.parent_id) %>
+        $('.typeahead.sports_<%= sport.parent_id %>').typeahead({minLength: 0, source: handlerSource, updater: handlerUpdater});
+            <% if sport_parent.parent_id %>
+                <% sport_grandp = Sport.find(sport_parent.parent_id) %>
+        $('.typeahead.sports_<%= sport.id %>').typeahead({minLength: 0, source: handlerSource, updater: handlerUpdater});
+            <% end %>
+        <% end %>
+        
+        function handlerSource (query, process){
+            parent_id = this.$element.attr("data-parent") || null;
+            
+            if(parent_id == null)
+                sports_parents = $.grep(sports, function(element, index){ return true; });
+            else
+            sports_parents = $.grep(sports, function(element, index){
+                return element.parent_id == parent_id;
+            });
+            
+            var arr = $.map(sports_parents, function(el, i) {
+                return el.name;
+            });
+            
+            process(arr);
+        }
+        function handlerUpdater (item) {
+            sport = $.grep(sports_parents, function(element, index){
+                return element.name == item;
+            })[0];
+
+            this.$element.parent().find("#sport_id_<%= index %>").val(sport.id);
+            
+            this.$element.next(".typeahead").next(".typeahead").remove();
+            this.$element.next(".typeahead").remove();
+            
+            var childs = $.grep(sports, function(element, index){ return element.parent_id == sport.id; }).length > 0;
+            
+            if(childs){
+                this.$element.after("<input class='typeahead sports_" + sport.id + " span2' placeholder='Type position or category' data-provide='typeahead' type='text' data-parent='" + sport.id + "'>");
+                $( '.typeahead.sports_' + sport.id ).typeahead({minLength: 0, source: handlerSource, updater: handlerUpdater}).focus();
+            }
+            return item;
+        }
+        function handlerHighlighter(item){
+            sport = $.grep(sports_parents, function(element, index){
+                return element.name == item;
+            })[0];
+            
+            html = '<div class="typeahead">';
+            html += '<div class="left">';
+            html += '<div>'+sport.name+'</div>';
+            html += '<div class="sport-parent">'+_getSportParent(sport.parent_id)+'</div>';
+            html += '</div>';
+            html += '<div class="clear"></div>';
+            html += '</div>';
+            return html;
+        }
+        function _getSportParent(id){
+            var _tmp  = "";
+            
+            if(id){
+                sports_parent = $.grep(sports, function(element, index){
+                    return element.id == id;
+                })[0];
+                
+                _tmp = sports_parent.name;
+                
+                if(sports_parent.parent_id)
+                    _tmp += " < " + _getSportParent(sports_parent.parent_id);
+            }
+            
+            return _tmp;
+        }
+        function triggerShow(){
+            if($(this).val() == ""){
+                $(this).val("a");
+                $(this).typeahead("lookup");
+                $(this).val("");
+            }
+        }
+    });
+</script>
+<div>
+  <span class="add-on"><i class="icon-circle"></i></span>
+  <input id="sport_id_<%= index %>" name="sport_id_<%= index %>" placeholder="Sport" type="hidden" value="<%= sport.id %>">
+
+  <% if sport_parent %>
+      <% if sport_parent.parent_id %>
+          <input class="typeahead sports span2" placeholder="Type your sport" data-provide="typeahead" type="text" data-parent value="<%= sport_grandp.name %>">
+          <input class="typeahead sports_<%= sport_parent.parent_id %> span2" placeholder="Type your sport" data-provide="typeahead" type="text" data-parent="<%= sport_parent.parent_id %>" value="<%= sport_parent.name %>">
+      <% else %>
+          <input class="typeahead sports span2" placeholder="Type your sport" data-provide="typeahead" type="text" data-parent value="<%= sport_parent.name %>">
+      <% end %>
+      <input class="typeahead sports_<%= sport.parent_id %> span2" placeholder="Type your sport" data-provide="typeahead" type="text" data-parent="<%= sport.parent_id %>" value="<%= sport.name %>">
+  <% else %>
+      <input class="typeahead sports span2" placeholder="Type your sport" data-provide="typeahead" type="text" data-parent="<%= sport.parent_id ? sport.parent_id : nil %>" value="<%= sport.name %>">
+  <% end %>
+  <% if index.to_i < 2 %>
+    <%= link_to raw('<i class="icon-plus icon-large icon-add-sport"></i>'), add_sport_profile_path(:index => index), :class => "link-add-sport", :id => "link-add-sport-#{index}", :remote => true %>
+  <% end %>
+</div>

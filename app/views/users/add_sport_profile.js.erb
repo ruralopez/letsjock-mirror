@@ -1,0 +1,1 @@
+$('#sport-div-profile').append("<%= escape_javascript(render :partial => 'sports/autocomplete_edit_user', :locals => {:sport_id => @sport_id, :index => @index.to_i + 1}) %>");

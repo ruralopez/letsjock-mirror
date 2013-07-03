@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :pictures, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment]
+  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :pictures, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment, :highlight]
   
   def verify_login
     unless signed_in?
@@ -149,9 +149,9 @@ class UsersController < ApplicationController
       @myevents = events
     else
       #Juntar competitions, teams, trains, results y recognitions como athlete experiences
-      @competitions = Competition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "init DESC, end DESC")
-      @teams = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "init DESC, end DESC")
-      @trains = Train.all(:conditions => ['user_id = ?', @user.id], :order => "init DESC, end DESC")
+      @competitions = Competition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "end DESC, init DESC")
+      @teams = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "end DESC, init DESC")
+      @trains = Train.all(:conditions => ['user_id = ?', @user.id], :order => "end DESC, init DESC")
       @results = Result.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date DESC")
       @recognitions = Recognition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date DESC")
       
@@ -161,19 +161,19 @@ class UsersController < ApplicationController
         sports_exclude.push(milestone.sport_id)
       end
       
-      @user_sports = UserSport.all(:conditions => ['user_id = ? AND sport_id NOT IN ( ? ) AND position IS NULL AND init IS NOT NULL AND end IS NOT NULL', @user.id, sports_exclude.length > 0 ? sports_exclude : 0 ], :order => "init DESC, end DESC")
+      @user_sports = UserSport.all(:conditions => ['user_id = ? AND sport_id NOT IN ( ? ) AND position IS NULL AND init IS NOT NULL AND end IS NOT NULL', @user.id, sports_exclude.length > 0 ? sports_exclude : 0 ], :order => "end DESC, init DESC")
       
-      @athleteExperiences = (@competitions + @teams + @trains + @results + @recognitions + @user_sports)
+      @athleteExperiences = (@competitions + @teams + @trains + @results + @recognitions + @user_sports).to_set.classify { |milestone| milestone.sport_id }
       
       #Juntar Works
-      @teams_work = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, false], :order => "init DESC")
-      @trains_work = Trainee.all(:conditions => ['user_id = ?', @user.id], :order => "init DESC")
+      @teams_work = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, false], :order => "end DESC, init DESC")
+      @trains_work = Trainee.all(:conditions => ['user_id = ?', @user.id], :order => "end DESC, init DESC")
       @results_work = Result.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, false], :order => "date DESC")
       @recognitions_work = Recognition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, false], :order => "date DESC")
       @workExperiences = (@teams_work + @trains_work + @results_work + @recognitions_work)
-      @works = Work.all(:conditions => ['user_id = ?', @user.id], :order => "init DESC, end DESC")
+      @works = Work.all(:conditions => ['user_id = ?', @user.id], :order => "end DESC, init DESC")
       #Juntar Educational
-      @educations = Education.all(:conditions => ['user_id = ?', @user.id], :order => "init DESC, end DESC")
+      @educations = Education.all(:conditions => ['user_id = ?', @user.id], :order => "end DESC, init DESC")
       
       #Crear variable para poder crear competition, team, train, result o recognition.
       @recognition = @competition = @result = @team = @train = @trainee = @work = @education = NullObject.new # La clase NullObject está definida al final
@@ -528,6 +528,25 @@ class UsersController < ApplicationController
     end
   end
   
+  def highlight
+    if params[:object_type] && params[:object_id]
+      class_name = params[:object_type].capitalize
+      objeto = class_name.constantize.find(params[:object_id])
+      
+      if objeto.highlight
+        objeto.update_attribute(:highlight, 0)
+      else
+        objeto.update_attribute(:highlight, 1)
+      end
+      
+      respond_to do |format|
+        format.json { render :json => { :user_id => params[:id], :highlight => objeto.highlight } }
+      end
+    else
+      redirect_to profile_path(params[:id])
+    end
+  end
+  
   def remove_profile
     if signed_in?
       case params[:object_type]
@@ -672,16 +691,30 @@ class UsersController < ApplicationController
   def read_notification
     notification = Notification.find(params[:id])
     notification.update_attributes(:read => true)
+    
     if notification.not_type == "003"
       redirect_to profile_path( notification.user2_id )
     elsif notification.not_type == "004"
       redirect_to pictures_path(notification.user2_id, {:callback_id => notification.aux_id})
-    elsif notification.not_type == "104"
-      redirect_to Event.find(notification.event_id)
-    elsif notification.not_type == "200"
-      redirect_to profile_path( notification.event_id )
+    elsif notification.not_type == "104" || notification.not_type == "105" || notification.not_type == "106"
+      redirect_to event_path( notification.event_id )
+    elsif notification.not_type == "200" || notification.not_type == "201"
+      redirect_to profile_path( notification.aux_id )
     elsif notification.not_type == "999"
-      redirect_to User.find(notification.user_id)
+      redirect_to profile_path( notification.user_id )
+    end
+  end
+
+  def read_all_notifications
+    notifications = Notification.find(:all, :conditions => ["user_id = ?", current_user.id])
+    notifications.each do |n|
+      if !n.read
+        n.update_attributes(:read => true)
+      end
+    end
+
+    respond_to do |format|
+      format.js
     end
   end
 
@@ -696,6 +729,71 @@ class UsersController < ApplicationController
       @result = @result.uniq
       unless @result != []
         @result = -1
+      end
+    elsif params[:commit] == "Find"
+      @result = User.all
+      if params[:name] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.name && user.name.downcase.include?(params[:name].downcase)
+        end
+      end
+      if params[:lastname] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.lastname && user.lastname.downcase.include?(params[:lastname].downcase)
+        end
+      end
+      if params[:init] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.birth && user.birth.to_date >= params[:init].to_date
+        end
+      end
+      if params[:end] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.birth && user.birth.to_date <= params[:end].to_date
+        end
+      end
+      if params[:weight_min] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.weight && user.weight >= params[:weight_min].to_i
+        end
+      end
+      if params[:weight_max] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.weight && user.weight <= params[:weight_max].to_i
+        end
+      end
+      if params[:height_min] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.height && user.height >= params[:height_min].to_i
+        end
+      end
+      if params[:height_max] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.height && user.height <= params[:height_max].to_i
+        end
+      end
+      if params[:gender] != ""
+        aux = @result
+        @result = []
+        aux.each do |user|
+          @result.push(user) if user.gender && user.gender.downcase == params[:gender].downcase
+        end
       end
     end
     @filters = User.new
@@ -757,9 +855,17 @@ class UsersController < ApplicationController
   
   def follow_letsjock
     if signed_in? && current_user.id == 1
-      User.unscoped.find(:all, :conditions => ["id NOT IN (?) AND id != ?", current_user.followers, current_user.id] ).each do |user|
-        user.follow!(current_user)
+      #User.unscoped.find(:all, :conditions => ["id NOT IN (?) AND id != ?", current_user.followers, current_user.id] ).each do |user|
+      #  user.follow!(current_user)
+      #end
+      
+      # Perfil invitado sigue a sus seguidores
+      invitado = User.find(21)
+      
+      invitado.followed_users.each do |user|
+        user.follow!(invitado) unless user.following?(invitado)
       end
+      
     end
     
     redirect_to news_path
@@ -798,9 +904,35 @@ class UsersController < ApplicationController
     end
   end
   
+  def is_liked?
+    liked = false
+    
+    if params[:object_id] !="" && params[:object_type] != ""
+      liked = Like.exists?(:user_id => current_user.id, :object_id => params[:object_id], :object_type => params[:object_type])
+    end
+    
+    respond_to do |format|
+      format.js { render :json => { :liked => liked } }
+    end
+  end
+
+  def certify
+    @user = User.find(params[:id])
+
+    if(@user.certified)
+      @user.update_attribute(:certified, false)
+    else
+      @user.update_attribute(:certified, true)
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def add_comment
-    if params[:object_id] !="" && params[:object_type] != "" && params[:comment] != ""
-      comment = Comment.new(:user_id => current_user.id, :object_id => params[:object_id], :object_type => params[:object_type])
+    if params[:object_id] !="" && params[:object_type] != "" && params[:writer_id] != "" && params[:comment] != ""
+      comment = Comment.new(:user_id => params[:writer_id], :object_id => params[:object_id], :object_type => params[:object_type])
       
       # Pasar urls a su formato HTML
       comment.comment = params[:comment].gsub( %r{http://[^\s<]+} ) do |url|
@@ -811,15 +943,14 @@ class UsersController < ApplicationController
         if params[:object_type] == "Post"
           post = Post.find(params[:object_id])
           user = post.user
-          isAdmin = user.inAdmins?(current_user) # hay que copiar la logica del writer
           
           # Si existe evento es act_type 033 (User comment in event) sino 004 (user commented a Y's post)
-          Activity.create(:publisher_id => Publisher.find_by_user_id( current_user ).id, :post_id => post.id, :event_id => post.event_id, :act_type => post.event_id ? "033" : "004")
+          Activity.create(:publisher_id => Publisher.find_by_user_id( params[:writer_id] ).id, :post_id => post.id, :event_id => post.event_id, :act_type => post.event_id ? "033" : "004")
           
           # Manda notificaciones a todos los administradores
           if user.isSponsor && user.admins.any?
             user.admins.each do |admin|
-              Notification.create( :user_id => admin.id, :user2_id => current_user.id, :event_id => post.event_id, :aux_id => user.id, :read => false, :not_type => post.event_id ? "106" : "201" )
+              Notification.create( :user_id => admin.id, :user2_id => params[:writer_id], :event_id => post.event_id, :aux_id => user.id, :read => false, :not_type => post.event_id ? "106" : "201" )
             end
           end
         end
@@ -828,7 +959,7 @@ class UsersController < ApplicationController
     end
     
     respond_to do |format|
-      format.js { render :json => { :user_id => current_user.id } }
+      format.js { render :json => { :user_id => params[:writer_id], :comment_id => comment ? comment.id : nil } }
     end
   end
 
@@ -989,6 +1120,14 @@ class UsersController < ApplicationController
     end
 
     redirect_to request.referer
+  end
+
+  def add_sport_profile
+    @index = params[:index]
+    @sport_id = params[:sport_id]
+    respond_to do |format|
+      format.js
+    end
   end
 
 end

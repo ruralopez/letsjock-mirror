@@ -1,5 +1,5 @@
 <div class="event-info">
-  <h5><i class="icon-building"></i>Industry<span><%= @user.preferences[:industries].join(", ") %></span></h5>
+  <h5><i class="icon-building"></i>Industry<span><%= @user.preferences[:industries] ? @user.preferences[:industries].join(", ") : "--" %></span></h5>
   <h5>
     <i class="icon-calendar"></i>Founded<span><%= ( @user.birth && @user.birth != "" ) ? @user.birth.year : "?" %></span>
   </h5>

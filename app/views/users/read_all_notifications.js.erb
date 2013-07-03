@@ -1,0 +1,1 @@
+$('a#notifications-button').html("<i class='icon-globe icon-white'></i><% if current_user.new_notifications_count > 0 %> <span style='color: red;'> (<%= current_user.new_notifications_count %>)</span><% end %>")

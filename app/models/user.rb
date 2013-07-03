@@ -94,7 +94,16 @@ class User < ActiveRecord::Base
     now = Time.now.utc.to_date
     now.year - self.birth.year - (self.birth.to_date.change(:year => now.year) > now ? 1 : 0)
   end
-  
+
+  def set_sport(sport_id, category)
+    UserSport.delete_all(["user_id = ? AND position = ?", self.id, category.to_s]) if UserSport.exists?(:user_id => self.id, :position => category.to_s)
+    UserSport.delete_all(["user_id = ? AND position = ?", self.id, "main"]) if UserSport.exists?(:user_id => self.id, :position => "main")
+    if UserSport.exists?(:user_id => self.id, :sport_id => sport_id)
+      UserSport.delete_all(["user_id = ? AND sport_id = ?", self.id, sport_id])
+    end
+    UserSport.new(:user_id => self.id, :sport_id => sport_id, :position => category.to_s).save
+  end
+
   def set_sport_main(sport_id)
     current_main = self.get_sport_id_main
     
@@ -111,7 +120,9 @@ class User < ActiveRecord::Base
   end
   
   def get_sport_id_main
-    if UserSport.exists?(:user_id => self.id, :position => "main")
+    if UserSport.exists?(:user_id => self.id, :position => "1")
+      UserSport.all(:conditions => ["user_id = ? AND position = '1'", self.id]).first.sport_id
+    elsif UserSport.exists?(:user_id => self.id, :position => "main")
       UserSport.all(:conditions => ["user_id = ? AND position = 'main'", self.id]).first.sport_id
     else
       nil
@@ -123,6 +134,8 @@ class User < ActiveRecord::Base
       "Institution"
     elsif UserSport.exists?(:user_id => self.id, :position => "main")
       Sport.find(UserSport.all(:conditions => ["user_id = ? AND position = 'main'", self.id]).first.sport_id).full_name
+    elsif UserSport.exists?(:user_id => self.id, :position => "1")
+      Sport.find(UserSport.all(:conditions => ["user_id = ? AND position = '1'", self.id]).first.sport_id).full_name
     else
       "No sport yet!"
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130624003421) do
+ActiveRecord::Schema.define(:version => 20130702204832) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(:version => 20130624003421) do
     t.datetime "updated_at", :null => false
     t.string   "organizer"
     t.string   "place"
+    t.boolean  "highlight"
   end
 
   create_table "countries", :force => true do |t|
@@ -162,6 +163,7 @@ ActiveRecord::Schema.define(:version => 20130624003421) do
     t.text     "content"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "writer_id"
   end
 
   create_table "publishers", :force => true do |t|
@@ -184,6 +186,7 @@ ActiveRecord::Schema.define(:version => 20130624003421) do
     t.boolean  "as_athlete"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.boolean  "highlight"
   end
 
   create_table "relationships", :force => true do |t|
@@ -272,6 +275,7 @@ ActiveRecord::Schema.define(:version => 20130624003421) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.string   "localization"
+    t.boolean  "highlight"
   end
 
   create_table "trainees", :force => true do |t|
@@ -297,6 +301,7 @@ ActiveRecord::Schema.define(:version => 20130624003421) do
     t.date     "end"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.boolean  "highlight"
   end
 
   create_table "user_admins", :force => true do |t|

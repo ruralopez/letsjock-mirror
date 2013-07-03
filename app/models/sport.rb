@@ -33,6 +33,11 @@ class Sport < ActiveRecord::Base
       false
     end
   end
+  
+  def first_parent_name
+    ids = self.fullpath.split("/")
+    Sport.find(ids[1]).name
+  end
 
   private
   def create_full_path

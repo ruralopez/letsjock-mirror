@@ -1,0 +1,9 @@
+<% if !@user.certified %>
+$('#certification-icon').hide();
+$('#icon-decertify').hide();
+$('#icon-certify').show();
+<% else %>
+$('#certification-icon').show();
+$('#icon-decertify').show();
+$('#icon-certify').hide();
+<% end %>

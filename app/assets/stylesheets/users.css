@@ -17,3 +17,21 @@ span.errorClass span
     font-size: 10px;
 
 }
+
+.link-add-sport
+{
+    font-size: 14px !important;
+    text-decoration: none;
+    margin-top: 5px;
+}
+
+.icon-add-sport
+{
+    margin-top: 5px;
+}
+
+.link-add-sport:hover
+{
+    font-size: 14px;
+    text-decoration: none;
+}

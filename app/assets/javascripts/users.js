@@ -62,6 +62,9 @@ $(function(){
   // Solo para el ul.experience padre
   $('ul.experience').not("ul.experience ul.experience").append($('.edit-experience'));
   
+  // HIGHLIGHT: Solo para Jock
+  $('ul.experience').not("ul.experience[data-type=work], ul.experience[data-type=education]").find("li.hide").removeClass("hide");
+  
   // SHOW LOADING WHILE AJAX CALLING
   $(document).ajaxStart(function(){
     $(".box-info .async-form").append("<div id=loading></div>");
@@ -84,6 +87,27 @@ $(function(){
     $(this).parents(".resume").toggle("normal").after($(".async-form"));
     $(".box-info .async-form").show().load("/profile/" + $("#user_id").val() + "/edit_profile", data);
   });
+  
+  // HIGHLIGHT EXPERIENCE
+  $('.highlight-button').click(function(e){
+    e.preventDefault();
+    
+    var data = {};
+    var hito = $(this).parents("ul.experience");
+    data["object_id"] = hito.attr("data-id");
+    data["object_type"] = hito.attr("data-type");
+    
+    $.post("/profile/" + $("#user_id").val() + "/highlight", data, function(data){
+      if(data){
+        hito.toggleClass("destacado");
+        
+        if(data.highlight == 1)
+          hito.append('<i class="icon-3x icon-bookmark icon-special-header"></i>');
+        else
+          hito.find("i.icon-special-header").remove();
+      }
+    }, "json");
+  });
 
   // REMOVE EXPERIENCE
   $('.delete-experience-button').click(function(e){
@@ -97,7 +121,7 @@ $(function(){
   });
   
   $("ul.experience").delegate(".alert-delete .btn-confirm", "click", function(e){
-    $(this).attr("disabled", "disabled")
+    $(this).attr("disabled", "disabled");
     var data = {};
     data["object_id"] = $(this).parents("ul.experience").attr("data-id");
     data["object_type"] = $(this).parents("ul.experience").attr("data-type");
@@ -105,6 +129,14 @@ $(function(){
     $.post("/profile/" + $("#user_id").val() + "/remove_profile", data, function(){
       location = "/profile/" + $("#user_id").val();
     });
+  });
+  
+  // _profile_sponsor: CREATE POST
+  $("#latest-post .post-actions .switch-user .dropdown-menu a").click(function(e){
+    e.preventDefault();
+    var i = $(this).parents(".switch-user").find("i");
+    $("#latest-post .switch-user a.dropdown-toggle").text("Post as " + $(this).text()).append(i);
+    $("#latest-post form #writer_id").val($(this).attr("data-id"));
   });
   
   // _profile_sponsor: DELETE POST
@@ -121,7 +153,6 @@ $(function(){
     $(this).attr("disabled", "disabled");
     var data = {};
     data["post_id"] = $(this).parents(".alert-delete").next().attr("data-id");
-    console.log(data);
     
     $.post("/profile/" + $("#user_id").val() + "/remove_post", data, function(){
       location = "/profile/" + $("#user_id").val();
@@ -142,11 +173,30 @@ $(function(){
       count++;
     }
     
-    span.text(count + " likes").attr("data-count", count);
+    span.text(count).attr("data-count", count);
     $(this).toggleClass("liked");
+    
+    // Si es desde el modal-gallery
+    if($(this).parents(".photo-like").length > 0){
+      photo_id = $("#tagsForm input[name='tags[photo_id]']").val();
+      
+      var photo = $.grep(photos, function(element, index){
+        return element.id == photo_id;
+      })[0];
+      
+      photo.likes = count;
+    }
   });
   
   // COMMENTS
+  // _comments: SWITCH USER
+  $(".new_comment .switch-user .dropdown-menu a").click(function(e){
+    e.preventDefault();
+    $(".new_comment .img-rounded img").attr("src", $(this).find("img").attr("src"));
+    $(this).parents(".new_comment").find("#writer_id").val($(this).attr("data-id"));
+  });
+  
+  // _comments: CREATE COMMENT
   $(".single-comment textarea").keypress(function(e){
     if ( event.which == 13 && $(this).val() != "") {
       event.preventDefault();
@@ -154,17 +204,24 @@ $(function(){
       var data = {};
       data["object_id"] = $(this).attr("data-id");
       data["object_type"] = $(this).attr("data-type");
+      data["writer_id"] = $(this).prev().val();
       data["comment"] = $(this).val();
       objeto = $(this).attr("disabled", "disabled");
       
       $.post("/add_comment", data, function(data){
-        var li = objeto.parents("li.new_comment").prev();
-        objeto.parents("li.new_comment").before(li.clone());
-        
-        li.find(".comment_text").text(objeto.val());
-        li.show();
-        
-        objeto.val("").removeAttr("disabled");
+        if(data && data.comment_id){
+          var li = objeto.parents("li.new_comment").prev();
+          objeto.parents("li.new_comment").before(li.clone());
+          
+          li.find(".img-rounded img").attr("src", objeto.parents(".new_comment").find(".img-rounded img").attr("src"));
+          li.find(".single-comment > a").text( objeto.parents("li.new_comment").find("a[data-id=" + data.user_id + "]").text() );
+          li.find(".single-comment > a").attr("href", "/profile/" + data.user_id );
+          li.find(".comment_text").text(objeto.val());
+          li.find("a[data-remote=true]").attr("href", "/profile/" + data.user_id + "/like?object_id=" + data.comment_id + "&object_type=Comment")
+          li.show();
+          
+          objeto.val("").removeAttr("disabled");
+        }
       }, "json");
     }
   });
