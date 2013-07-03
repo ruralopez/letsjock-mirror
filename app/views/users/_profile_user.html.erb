@@ -80,8 +80,9 @@
     
     <% if signed_in? && current_user.isAdmin?  %>
       <%= link_to(certify_path, :remote => true, :class => "pull-right") do %>
-        <i id="icon-certify" class='icon-ok-circle icon-2x hide' style='text-decoration: none; padding-top: 20px;' rel='tooltip' title='Certify profile'></i>
-        <i id="icon-decertify" class='icon-remove-circle icon-2x hide' style='text-decoration: none; padding-top: 20px;' rel='tooltip' title='Decertify profile'></i>
+        <!-- Hay que sacar el estilo de cada ícono y ponerlo en profile.css (despues hacer un rake) -->
+        <i id="icon-certify" class='icon-ok-circle icon-2x' style='text-decoration: none; padding-top: 20px; display:none !important; margin-right: 5px;' rel='tooltip' title='Certify profile'></i>
+        <i id="icon-decertify" class='icon-remove-circle icon-2x' style='text-decoration: none; padding-top: 20px; display:none !important; margin-right: 5px;' rel='tooltip' title='Decertify profile'></i>
       <% end %>
     <% end %>
     
@@ -171,11 +172,11 @@
             <%= f.text_field :birth, :value => current_user.birth ? current_user.birth.strftime("%d-%m-%Y") : nil, :class => "span2", :placeholder => "Date birth" %>
           </div>
         </div>
-        <!--Description-->
+        <!--Description
         <div class="input-prepend">
           <span class="add-on"><i class="icon-pencil"></i></span>
-          <%= f.text_area :resume, :class => "span5", :value => current_user.resume, :placeholder => "Describe your skills & attributes", :rows => 4, :validation => 'lengthMax255' %>
-        </div>
+          <%# f.text_area :resume, :class => "span5", :value => current_user.resume, :placeholder => "Describe your skills & attributes", :rows => 4, :validation => 'lengthMax255' %>
+        </div> -->
       </div>
     <% end %>
     
