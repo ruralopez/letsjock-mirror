@@ -145,7 +145,7 @@ $(document).ready(function(){
             <!--Sport-->
             <div class="input-prepend" id="sport-div-profile">
               <% @indexReal = 0 %>
-              <% @usports = UserSport.all(:conditions => ["user_id = ? AND sport_id IN (?)", current_user.id, current_user.sports.collect(&:id)]).sort_by(&:position) %>
+              <% @usports = UserSport.all(:conditions => ["user_id = ? AND sport_id IN (?)", current_user.id, current_user.sports.collect(&:id)]) %>
               <% @usports.each_with_index do |sport, index| %>
                   <% if UserSport.where(:user_id => current_user.id, :sport_id => sport.sport_id).first.position && UserSport.where(:user_id => current_user.id, :sport_id => sport.sport_id).first.position != "" %>
                       <%= render :partial => 'sports/autocomplete_edit_user', :locals => { :sport_id => sport.sport_id, :index => @indexReal } %>
