@@ -79,24 +79,26 @@ class UsersController < ApplicationController
     if signed_in? && current_user.id == @user.id
       respond_to do |format|
         if @user.update_attributes(params[:user])
-          
+
           #Guarda el deporte principal del usuario
-          if params[:sport_id] && params[:sport_id] != ""
-            @user.set_sport_main(params[:sport_id])
+          params.each do |key, value|
+            if key.start_with?("sport_id") && value != ""
+              @user.set_sport(value.to_s, key.slice(-1, 1).to_i + 1)
+            end
           end
 
           Activity.new(:publisher_id => Publisher.find_by_user_id(@user.id).id, :act_type => "000").save
-          
+
           format.html {
             if params[:profile_picture] && params[:profile_picture] != "" #Sube la foto de perfil si viene de la vista profile_new
               url = Photo.upload_file(params[:profile_picture])
-              
+
               if url && url != ""
                 Photo.create(:user_id => @user.id, :url => url)
                 @user.update_attribute(:profilephotourl, url)
               end
             end
-            
+
             redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully updated.'
           }
           format.json { head :no_content }
