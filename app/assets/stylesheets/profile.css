@@ -1290,7 +1290,12 @@ table.table-profile{
 
 /* Autocomplete
 ----------------------------------*/
-.ui-autocomplete { background: white; position: absolute; cursor: default; border: #ccc 1px solid; color: #444; font-size: 12px; }
+.ui-autocomplete { background: white; position: absolute; cursor: default; border: #ccc 1px solid; color: #444; font-size: 12px; max-height: 120px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+    /* add padding to account for vertical scrollbar */
+    padding-right: 20px;}
 .ui-autocomplete-loading { background: white right center no-repeat; }
 
 /* workarounds */

@@ -257,11 +257,11 @@
       <ul class="tags-textbox" id="looking">
         <li><input type="text" id="tags_user_looking" class="tags pull-left" placeholder="What I'm looking for? (max 2)"></li>
       </ul>
-      <ul class="tags-textbox" id="interest">
-        <li><input type="text" id="tags_user_interest" class="tags pull-left" placeholder="Areas of interest (max 4)"></li>
-      </ul>
       <ul class="tags-textbox" id="division">
         <li><input type="text" id="tags_user_division" class="tags pull-left" placeholder="Division of interest"></li>
+      </ul>
+      <ul class="tags-textbox" id="interest" style="height: 60px !important;">
+        <li style="height: 24px;"><input type="text" id="tags_user_interest" class="tags pull-left" placeholder="Areas of interest (max 4)"></li>
       </ul>
       <input type="hidden" name="tags[user_id]" value="<%= current_user.id if signed_in? %>">
     <% end %>
