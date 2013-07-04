@@ -930,6 +930,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def compare
+    respond_to do |format|
+      format.html
+    end
+  end
+
   def add_comment
     if params[:object_id] !="" && params[:object_type] != "" && params[:writer_id] != "" && params[:comment] != ""
       comment = Comment.new(:user_id => params[:writer_id], :object_id => params[:object_id], :object_type => params[:object_type])

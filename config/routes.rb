@@ -79,6 +79,7 @@ Letsjock::Application.routes.draw do
   match '/follow_letsjock' => 'users#follow_letsjock', :as => :follow_letsjock
   match '/stadistics' => 'stats#index', :as => :stats
   match '/tags' => 'tags#index', :as => :tags
+  match '/compare' => 'users#compare', :as => :compare
   match '/typeahead' => 'users#typeahead', :as => :tags
   match '/add_tag' => 'users#add_tag', :as => :add_tag
   match '/add_user_tag' => 'users#add_user_tag', :as => :add_user_tag
