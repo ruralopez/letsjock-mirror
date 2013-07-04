@@ -1,8 +1,11 @@
 <%= javascript_include_tag "application" %>
+<%= stylesheet_link_tag    "profile" %>
 
 <%= form_tag({:controller => 'users', :action => 'compare'}) do  %>
-    <%= text_field_tag :user1_id, nil, :placeholder => "User 1 ID" %>
-    <%= text_field_tag :user2_id, nil, :placeholder => "User 2 ID" %>
+    <%= text_field_tag :user1, nil, :placeholder => "User 1", :class => "user-input" %>
+    <%= text_field_tag :user2, nil, :placeholder => "User 2", :class => "user-input" %>
+    <%= hidden_field_tag :user1_id, nil, :id => "user1input" %>
+    <%= hidden_field_tag :user2_id, nil, :id => "user2input" %>
     <%= submit_tag %>
 <% end %>
 
@@ -11,3 +14,42 @@
  -
 <% if @user2 %><%= @user2.full_name%>
 <% end %>
+
+<script>
+  $(document).ready(function(){
+      //users_array
+      $( ".user-input" )
+              .bind( "keydown", function( event ) {
+                  if ( event.keyCode === $.ui.keyCode.TAB &&
+                          $( this ).data( "ui-autocomplete" ).menu.active ) {
+                      event.preventDefault();
+                  }
+              })
+              .on( "click", function( event ) {
+                  $(this).autocomplete("search", "");
+              })
+              .autocomplete({
+                  source: <%= @users_array %>,
+                  minLength: 0,
+                  messages: {
+                      noResults: '',
+                      results: function() {}
+                  } ,
+                  select: function( event, ui ) {
+                      $(this).attr("value", ui.item.label);
+                      if($(this).attr("name") == "user1"){
+                          $(document).find("#user1input").attr("value", ui.item.value);
+                      }
+                      else{
+                          $(document).find("#user2input").attr("value", ui.item.value);
+                      }
+
+                      return false;
+                  } ,
+                  focus: function( event, ui ) {
+                      return false;
+                  }
+              });
+
+  });
+</script>

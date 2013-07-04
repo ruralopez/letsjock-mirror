@@ -931,8 +931,12 @@ class UsersController < ApplicationController
   end
 
   def compare
-    if params[:user1_id] && params[:user2_id] && params[:user1_id] != "" && params[:user2_id] != ""
+    @users_array = User.all.map{|p| {:label=>p.full_name, :value=>p.id}}.to_json.html_safe
+
+    if params[:user1_id] && params[:user1_id] != ""
       @user1 = User.find(params[:user1_id])
+    end
+    if params[:user2_id] && params[:user2_id] != ""
       @user2 = User.find(params[:user2_id])
     end
 
