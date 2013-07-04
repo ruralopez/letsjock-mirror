@@ -165,6 +165,14 @@ class User < ActiveRecord::Base
   def profilepic
     self.profilephotourl ||= "default-profile.png"
   end
+
+  def profilepic_route
+    if self.profilephotourl == "default-profile.png"
+      return "/assets/default-profile.png"
+    else
+      return self.profilephotourl
+    end
+  end
   
   def set_preferences
     if self.preferences[:industries].is_a? String
