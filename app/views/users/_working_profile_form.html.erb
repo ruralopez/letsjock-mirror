@@ -9,13 +9,9 @@
         <%= text_field_tag :role, @work.role, :placeholder => "Title" %>
     </div>
     
-    <div id="divLocation-working" class="input-prepend input-append" data-validate='["country", "city"]'>
+    <div id="divLocation-working" class="input-prepend input-append" data-validate='["country_id", "city"]'>
         <span class="add-on"><i class="icon-map-marker"></i></span>
-    <% if @edit_profile %>
-        <%= text_field_tag :country, Country.find(@work.country_id).name, :readonly => true %>
-    <% else %>
-        <%= text_field_tag :country, nil, :placeholder => "Country" %>
-    <% end %>
+        <%= render :partial => 'users/autocomplete_country', :locals => { :country_id => @work.country_id, :name => nil } %>
         <%= text_field_tag :city, @work.location, :placeholder => "City" %>
     </div>
 
@@ -85,6 +81,10 @@
             $(function(){
                 $('.date').datepicker();
                 $(".hiddenDiv").hide();
+                
+                <%if @edit_profile %>
+                    $('#<%= @edit_profile ? "edit" : "new" %>-working-entry .typeahead.country').typeahead({minLength: 0, source: handlerSourceCountry, updater: handlerUpdaterCountry}).bind("focus", triggerShow);
+                <% end %>
               
                 $("#<%= @edit_profile ? "edit" : "new" %>-working-entry .header-buttons .hito-click").click(function(e){
                     e.preventDefault();

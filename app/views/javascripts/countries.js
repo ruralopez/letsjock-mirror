@@ -1,0 +1,1 @@
+var countries = <%= @countries.any? ? @countries.to_json.html_safe : "{}" %>;

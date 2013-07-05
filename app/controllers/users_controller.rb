@@ -101,9 +101,9 @@ class UsersController < ApplicationController
 
             redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully updated.'
           }
-          format.json { head :no_content }
+          format.json { render :json => { :status => true } }
         else
-          format.html { render :action => "edit" }
+          format.html { redirect_to profile_path(current_user) }
           format.json { render :json => @user.errors, :status => :unprocessable_entity }
         end
       end
@@ -344,7 +344,7 @@ class UsersController < ApplicationController
         end
         
         if work
-          work.update_attributes(:company => params[:company], :role => params[:role], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :country_id => 46, :location => params[:city])
+          work.update_attributes(:company => params[:company], :role => params[:role], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :country_id => params[:country_id], :location => params[:city])
           as_athlete = false
         else
           work = NullObject.new
@@ -436,9 +436,9 @@ class UsersController < ApplicationController
         end
         
         if params[:highschool_name] != ""
-          education.update_attributes(:name => params[:highschool_name], :career => params[:country], :rank => params[:rank], :gda => params[:gda], :ncaa => params[:ncaa], :country_id => 46, :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
+          education.update_attributes(:name => params[:highschool_name], :rank => params[:rank], :gda => params[:gda], :ncaa => params[:ncaa], :country_id => params[:country_id], :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
         elsif params[:school_name] != ""
-          education.update_attributes(:name => params[:school_name], :career => params[:country], :degree => params[:degree], :country_id => 46, :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
+          education.update_attributes(:name => params[:school_name], :degree => params[:degree], :country_id => params[:country_id], :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
         end
       else
         flash[:error] = "You must complete all the required params."
@@ -1048,8 +1048,11 @@ class UsersController < ApplicationController
         Tags.create(:id1 => tag, :type1 => "GLOBAL_TAGS_IAM", :id2 => params[:tags][:user_id], :type2 => "User")
       end
     end
-
-    redirect_to request.referer
+    
+    respond_to do |format|
+      format.html { redirect_to request.referer }
+      format.json { render :json => { :status => true } }
+    end
   end
 
   def add_user_tag

@@ -1,6 +1,7 @@
 <%= stylesheet_link_tag    "profile" %>
 <%= javascript_include_tag "application" %>
 <%= javascript_include_tag "users_validations" %>
+<%= javascript_include_tag "/javascripts/countries.js" %>
 
 <style>
   #user_preferences_industries {
@@ -128,8 +129,8 @@
             <!--Headquarters-->	
             <div class="input append input-prepend">
               <span class="add-on"><i class="icon-map-marker"></i></span>
+              <%= render :partial => 'users/autocomplete_country', :locals => { :country_id => @user.country_id, :name => "user[country_id]" } %>
               <%= f.text_field :citybirth, :placeholder => "Location" %>
-              <%= f.text_field :country, :placeholder => "Country" %>
             </div>
             <!--Size-->
             <!-- <div class="input-prepend input-append">

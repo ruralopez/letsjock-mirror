@@ -43,6 +43,11 @@ $(function(){
   $(".date").datepicker();
   $('.dropdown-toggle').dropdown();
   
+  /*
+   *  view: _autocomplete_country
+   */  
+  $('.typeahead.country').typeahead({minLength: 0, source: handlerSourceCountry, updater: handlerUpdaterCountry}).bind("focus", triggerShow);
+  
   // EDIT PROFILE
   $('#edit-profile-link').click(function(){
     $('#edit-profile').toggle("normal").toggleClass("hidden");
@@ -266,6 +271,101 @@ function form_profile_validate(form, errors){
     form.submit();
   
   return false;
+}
+
+/*
+ *  Autocomplete
+ *  view: sports/_autocomplete
+ */
+function handlerSourceSport (query, process){
+  parent_id = this.$element.attr("data-parent") || null;
+  
+  if(parent_id == null)
+    sports_parents = $.grep(sports, function(element, index){ return true; });
+  else
+    sports_parents = $.grep(sports, function(element, index){
+      return element.parent_id == parent_id;
+    });
+  
+  var arr = $.map(sports_parents, function(el, i) {
+    return el.name;
+  });
+  
+  process(arr);
+}
+function handlerUpdaterSport (item) {
+  sport = $.grep(sports_parents, function(element, index){
+    return element.name == item;
+  })[0];
+  
+  this.$element.parent().find("#sport_id").val(sport.id);
+  
+  this.$element.next(".typeahead").next(".typeahead").remove();
+  this.$element.next(".typeahead").remove();
+  
+  var childs = $.grep(sports, function(element, index){ return element.parent_id == sport.id; }).length > 0;
+  
+  if(childs){
+    this.$element.after("<input class='typeahead sports_" + sport.id + " span2' placeholder='Type position or category' data-provide='typeahead' type='text' data-parent='" + sport.id + "'>");
+    $( '.typeahead.sports_' + sport.id ).typeahead({minLength: 0, source: handlerSourceSport, updater: handlerUpdaterSport}).focus();
+  }
+  return item;
+}
+function handlerHighlighterSport(item){
+  sport = $.grep(sports_parents, function(element, index){
+    return element.name == item;
+  })[0];
+  
+  html = '<div class="typeahead">';
+  html += '<div class="left">';
+  html += '<div>'+sport.name+'</div>';
+  html += '<div class="sport-parent">' + _getSportParent(sport.parent_id) + '</div>';
+  html += '</div>';
+  html += '<div class="clear"></div>';
+  html += '</div>';
+  return html;
+}
+function _getSportParent(id){
+  var _tmp  = "";
+  
+  if(id){
+    sports_parent = $.grep(sports, function(element, index){
+      return element.id == id;
+    })[0];
+    
+    _tmp = sports_parent.name;
+    
+    if(sports_parent.parent_id)
+      _tmp += " < " + _getSportParent(sports_parent.parent_id);
+  }
+  
+  return _tmp;
+}
+
+/*  
+ *  views: users/_autocomplete_country
+ */
+function handlerSourceCountry (query, process){
+  var arr = $.map(countries, function(el, i) {
+    return el.name;
+  });
+  
+  process(arr);
+}
+function handlerUpdaterCountry (item) {
+  country = $.grep(countries, function(element, index){
+    return element.name == item;
+  })[0];
+  
+  this.$element.prev().val(country.id);
+  return item;
+}
+function triggerShow(){
+  if($(this).val() == ""){
+    $(this).val("a");
+    $(this).typeahead("lookup");
+    $(this).val("");
+  }
 }
 
 /*

@@ -4,7 +4,7 @@
     <i class="icon-calendar"></i>Founded<span><%= ( @user.birth && @user.birth != "" ) ? @user.birth.year : "?" %></span>
   </h5>
   <h5>
-    <i class="icon-map-marker"></i>Headquarters<span><%= @user.citybirth ? @user.citybirth : "Location" %>, <%= @user.country ? @user.country : "Country" %></span>
+    <i class="icon-map-marker"></i>Headquarters<span><%= @user.citybirth ? @user.citybirth : "Location" %>, <%= @user.country_id ? @user.country.name : "" %></span>
   </h5>
   <!--<h5><i class="icon-group"></i>Size<span><%= @user.preferences[:size] %> employees</span></h5>-->
   
