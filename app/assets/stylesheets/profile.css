@@ -207,18 +207,18 @@ ul.experience .edit-experience,
 
 /*experiencia destacado*/
 ul.experience.destacado{
-	box-shadow:1px 0px 2px rgba(0,0,0,0.1);
-	background-color:#FAFAFA;
-	transition: all 0.5s ease 0s;
-	-webkit-transition: all 0.5s ease 0s;
-	margin:5px;
+    box-shadow:1px 0px 2px rgba(0,0,0,0.1);
+    background-color:#FAFAFA;
+    transition: all 0.5s ease 0s;
+    -webkit-transition: all 0.5s ease 0s;
+    margin:5px;
 }
-	ul.experience.destacado:hover{
-		background-color:#F4F4F4;
-	}
+    ul.experience.destacado:hover{
+        background-color:#F4F4F4;
+    }
 ul.experience .icon-special-header{
-	color:gold;
-	margin-top:-2px;
+    color:gold;
+    margin-top:-2px;
 }
 
 li.trained{
@@ -311,7 +311,7 @@ a.follow:hover i{text-decoration:none;}
 }
 
 .box-info .resume form.edit_user{
-    margin-bottom: -40px;
+    margin-bottom: -40px; /* OJO: Yo puse 40, ya que 70 quedaba sobrepuesto (WTOBAR) */
 }
 
 .box-info .resume form fieldset{
@@ -1104,24 +1104,6 @@ select.sort-by{
     margin:0;
     width:70px !important;
     padding-left:0;
-}
-
-/*experiencia destacado*/
-ul.experience.destacado{
-    box-shadow:1px 0px 2px rgba(0,0,0,0.1);
-    background-color:#FAFAFA;
-    transition: all 0.5s ease 0s;
-    -webkit-transition: all 0.5s ease 0s;
-    margin:5px;
-}
-
-ul.experience .icon-special-header{
-    color:gold;
-    margin-top:-2px;
-}
-
-ul.experience.destacado:hover{
-    background-color:#F4F4F4;
 }
 
 /*recomendaciones*/
