@@ -72,7 +72,7 @@
   <li><i class="icon-camera icon-white"></i><%= link_to @photos.count.to_s + ' pictures' , pictures_path(@user) %></li>
   <li><i class="icon-facetime-video icon-white"></i><%= link_to @videos.count.to_s + ' videos' , pictures_path(@user) %></li>
   <li><i class="icon-calendar icon-white"></i><%= link_to @events.count.to_s + ' events' , '#eventModal', :data => {:toggle => "modal"}, :role => "button" %></li>
-  <li><i class="icon-file-text"></i><a href="#"><%= @user.recommendations.count.to_s %> recommendations</a></li>
+  <li><i class="icon-file-text"></i><a href="#recommendations"><%= @user.recommendations.count.to_s %> recommendations</a></li>
 </ul><!-- /profileIcons -->
 <div class="profileInfo relative span9">
   <div class="user">
@@ -322,6 +322,56 @@
       <%= render @educations %>
     <% end %>
     </div><!--resume-->
+    
+    <div class="resume">
+      <h4 class="inline"><i class="icon-file-text"></i>Recommendations</h4>
+      
+    <% if signed_in? && current_user.id == @user.id %>
+      <a class="add-new pull-right" href="#askRecommendation" role="button" data-toggle="modal">Ask for a recommendation</a>
+    <% elsif current_user.id == @user.id %>
+      <p>You must be logged in to complete your profile!</p>
+    <% end %>
+    
+      <div id="myRecommendations">
+        <a name="recommendations"></a>
+        <div class="accordion" id="accordion2">
+        <% @user.recommendations.each do |recommendation| %>
+          <% writer = User.find(recommendation.writer_id) %>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_<%= recommendation.id %>">
+              <div>
+                <%= image_tag writer.profilepic %>
+              </div>
+              <h4><%= writer.full_name %></h4>
+              <p>
+                <% if writer.tags("GLOBAL_TAGS_IAM") && writer.tags("GLOBAL_TAGS_IAM").length > 0 %>
+                  <% writer.tags("GLOBAL_TAGS_IAM").each do |tag|%>
+                    <%= GLOBAL_TAGS_IAM[tag.to_i] %>, 
+                  <% end %>
+                <% end %>
+                
+                <%= writer.sport_show %>
+              </p>
+              <p>
+                <%= writer.birth != "" ? writer.age.to_s + " years" : "Age not verified" %>, 
+                <%= writer.citybirth ? writer.citybirth : "" %>, 
+                <%= writer.country_id ? writer.country.name : "" %>
+              </p>
+              <i class="icon-chevron-down"></i>
+              </a>
+            </div>
+            <div id="collapse_<%= recommendation.id %>" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <%= recommendation.content %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        </div><!--accordion-->
+      </div><!--#myRecommendations-->
+    </div><!--resume-->
+    
 <% end %>
 </div>
 
