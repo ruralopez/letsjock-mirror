@@ -72,6 +72,7 @@
   <li><i class="icon-camera icon-white"></i><%= link_to @photos.count.to_s + ' pictures' , pictures_path(@user) %></li>
   <li><i class="icon-facetime-video icon-white"></i><%= link_to @videos.count.to_s + ' videos' , pictures_path(@user) %></li>
   <li><i class="icon-calendar icon-white"></i><%= link_to @events.count.to_s + ' events' , '#eventModal', :data => {:toggle => "modal"}, :role => "button" %></li>
+  <li><i class="icon-file-text"></i><a href="#"><%= @user.recommendations.count.to_s %> recommendations</a></li>
 </ul><!-- /profileIcons -->
 <div class="profileInfo relative span9">
   <div class="user">
