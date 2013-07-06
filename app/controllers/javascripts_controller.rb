@@ -13,4 +13,8 @@ class JavascriptsController < ApplicationController
   def sports
     @sports = Sport.select("id, name, parent_id").find(:all)
   end
+  
+  def users
+    @users = User.select("id, name, lastname, email").find(:all, :conditions => ["isSponsor = 0"])
+  end
 end

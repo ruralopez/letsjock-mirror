@@ -6,8 +6,11 @@
 <%= javascript_include_tag "bootstrap-image-gallery" %>
 <%= stylesheet_link_tag    "bootstrap-image-gallery" %>
 
-<%= javascript_include_tag "/javascripts/countries.js" %>
-<%= javascript_include_tag "/javascripts/sports.js" %>
+<% if signed_in? && @user.id == current_user.id %>
+  <%= javascript_include_tag "/javascripts/countries.js" %>
+  <%= javascript_include_tag "/javascripts/sports.js" %>
+  <%= javascript_include_tag "/javascripts/users.js" %>
+<% end %>
 
 <% provide(:title, @user.full_name) %>
 
@@ -417,6 +420,7 @@
 <%=  render 'events/event_modal' %>
 <%=  render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
 <%=  render 'layouts/invite' %>
+<%=  render 'layouts/modal_recommendation' %>
 <%=  render 'photos/modal_gallery' %>
 
 

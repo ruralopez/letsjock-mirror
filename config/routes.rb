@@ -89,6 +89,7 @@ Letsjock::Application.routes.draw do
   
   get "javascripts/countries"
   get "javascripts/sports"
+  get "javascripts/users"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
