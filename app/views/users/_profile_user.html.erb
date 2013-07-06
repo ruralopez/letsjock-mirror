@@ -69,6 +69,8 @@
   <li><i class="icon-camera icon-white"></i><%= link_to @photos.count.to_s + ' pictures' , pictures_path(@user) %></li>
   <li><i class="icon-facetime-video icon-white"></i><%= link_to @videos.count.to_s + ' videos' , pictures_path(@user) %></li>
   <li><i class="icon-calendar icon-white"></i><%= link_to @events.count.to_s + ' events' , '#eventModal', :data => {:toggle => "modal"}, :role => "button" %></li>
+  <!-- Falta el diseño de la impresión del perfil (CSS o layout) -->
+  <!-- <li><i class="icon-print icon-white" id="print" style="cursor: pointer;" rel="tooltip" title="Print profile"></i></li> -->
 </ul><!-- /profileIcons -->
 <div class="profileInfo relative span9">
   <div class="user">
@@ -374,6 +376,9 @@
       $('#video-submit').click(function(){
         $("#new_video").submit();
       });
+    /*$("#print").click(function(){
+         window.print();
+      });*/
       
       <% if @user.certified %>
         $('#certification-icon').show();

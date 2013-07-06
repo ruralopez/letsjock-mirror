@@ -1,6 +1,5 @@
 <%= javascript_include_tag "application" %>
 <%= stylesheet_link_tag    "profile" %>
-
 <%= form_tag({:controller => 'users', :action => 'compare'}) do  %>
     <%= text_field_tag :user1, nil, :placeholder => "User 1", :class => "user-input" %>
     <%= text_field_tag :user2, nil, :placeholder => "User 2", :class => "user-input" %>
