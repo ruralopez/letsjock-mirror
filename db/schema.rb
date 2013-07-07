@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130702204832) do
+ActiveRecord::Schema.define(:version => 20130703161903) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -343,6 +343,7 @@ ActiveRecord::Schema.define(:version => 20130702204832) do
     t.string   "gender"
     t.date     "birth"
     t.string   "citybirth"
+    t.integer  "country_id",      :null => false
     t.string   "country"
     t.integer  "phone"
     t.text     "resume"
