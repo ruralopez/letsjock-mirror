@@ -129,6 +129,17 @@ class User < ActiveRecord::Base
     end
   end
 
+  def sports
+    @sports_array = []
+    if UserSport.exists?(:user_id => self.id)
+      UserSport.find(:all, :conditions => ["user_id = ?", self.id]).each do |user_sport|
+        sport = Sport.find(user_sport.sport_id)
+        @sports_array << sport
+      end
+    end
+    @sports_array
+  end
+
   def sport_show
     if self.isSponsor
       "Institution"
