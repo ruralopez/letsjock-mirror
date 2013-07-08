@@ -9,7 +9,6 @@
 <% if signed_in? && @user.id == current_user.id %>
   <%= javascript_include_tag "/javascripts/countries.js" %>
   <%= javascript_include_tag "/javascripts/sports.js" %>
-  <%= javascript_include_tag "/javascripts/users.js" %>
 <% end %>
 
 <% provide(:title, @user.full_name) %>

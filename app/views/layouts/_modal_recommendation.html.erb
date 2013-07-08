@@ -4,7 +4,9 @@
     <h3 id="myModalLabel"><i class="icon-file-text-alt"></i> Ask for a recommendation</h3>
   </div>
   <div class="modal-body">
-    <input type="text" class="input-small input-block-level" placeholder="find user">
+    <input type="hidden" id="writer_id" name="writer_id" value="">
+    <input type="text" class="typeahead users span2" placeholder="Find a user" data-provide="typeahead">
+    <!--<input type="text" class="input-small input-block-level" placeholder="find user">-->
     <textarea rows="3" class="input-small input-block-level" placeholder="ask for a recommendation"></textarea>
   </div>
   <div class="modal-footer">

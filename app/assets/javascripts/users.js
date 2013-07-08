@@ -47,6 +47,7 @@ $(function(){
    *  view: _autocomplete_country
    */  
   $('.typeahead.country').typeahead({minLength: 0, source: handlerSourceCountry, updater: handlerUpdaterCountry}).bind("focus", triggerShow);
+  $('.typeahead.users').typeahead({minLength: 0, source: handlerSourceUser, updater: handlerUpdaterUser});
   
   // EDIT PROFILE
   $('#edit-profile-link').click(function(){
@@ -367,6 +368,31 @@ function triggerShow(){
     $(this).val("");
   }
 }
+
+/*  
+ *  views: layouts/_sponsor_leftbox, layouts/_modal_recommendation
+ */
+function handlerSourceUser (query, process){
+  return $.get('/typeahead', { type: "User", query: query }, function (data) {
+    results = data.options;
+    
+    var arr = $.map(data.options, function(el, i) {
+      return el.name + " " + el.lastname;
+    });
+    
+    return process(arr);
+  });
+}
+function handlerUpdaterUser (item) {
+  user = $.grep(results, function(element, index){
+    return element.name + " " + element.lastname == item;
+  })[0];
+  
+  this.$element.prev().val(user.id);
+  
+  return item;
+}
+
 
 /*
  *  Additional functions

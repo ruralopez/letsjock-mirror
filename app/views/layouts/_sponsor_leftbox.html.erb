@@ -23,31 +23,6 @@
   </div>
   <script>
     $(document).ready(function(){
-      var results = {};
-      
-      $(".typeahead.users").typeahead({
-        source: function (query, process) {
-          return $.get('/typeahead', { type: "User", query: query }, function (data) {
-            results = data.options;
-            
-            var arr = $.map(data.options, function(el, i) {
-              return el.name + " " + el.lastname;
-            });
-            console.log(results);
-            return process(arr);
-          });
-        },
-        updater: function(item){
-          user = $.grep(results, function(element, index){
-            return element.name + " " + element.lastname == item;
-          })[0];
-          
-          $("input[name=admin_id]").val(user.id);
-          
-          return item;
-        }
-      });
-      
       $(".btn-add-admin").click(function(){
         if($("input[name=admin_id]").val() != ""){
           var data = {};
