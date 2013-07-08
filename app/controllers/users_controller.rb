@@ -49,7 +49,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(:phone => 18, :citybirth => "City", :country => "Country", :resume => "", :email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname], :isSponsor => false, :authentic_email => false, :gender => params[:gender])
+    @user = User.new(:phone => 18, :citybirth => "City", :country_id => 46, :resume => "", :email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname], :isSponsor => false, :authentic_email => false, :gender => params[:gender])
 
     if @user.save
       respond_to do |format|
