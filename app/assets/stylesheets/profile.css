@@ -1053,6 +1053,7 @@ p.header-tags{
 }
 
 .resume.user ul{
+    width: 100%;
     list-style:none outside none;
     margin:0;
     background-color:#F8F8F8;
@@ -1067,6 +1068,11 @@ p.header-tags{
             font-weight: bold;
             margin-left: 0;
         }
+            .resume.user ul li:first-child > i {
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
         .resume.user ul li i{
             position:absolute;
             margin-top:.2em;
