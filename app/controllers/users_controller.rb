@@ -1160,7 +1160,7 @@ class UsersController < ApplicationController
   def write_recommendation
     if signed_in?
       # Follow y followed, sino no va a poder ver el perfil
-      if User.exists?(params[:id])
+      if User.exists?(params[:id]) && params[:id] != current_user.id
         user = User.find(params[:id])
         
         unless user.following?(current_user)
@@ -1173,6 +1173,7 @@ class UsersController < ApplicationController
         
         redirect_to profile_path(user, { :section => "recommendations", :writer => true })
       else
+        session[:redirected_by] = nil
         redirect_to news_path
       end
     else
