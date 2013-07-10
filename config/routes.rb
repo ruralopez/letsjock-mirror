@@ -86,9 +86,13 @@ Letsjock::Application.routes.draw do
   match '/photos/:id' => 'photos#edit', :as => :photo
   match '/profile/:id/add-sport' => 'users#add_sport_profile', :as => :add_sport_profile
   match '/profile/:id/highlight' => 'users#highlight', :as => :highlight
+  match '/ask_recommendation' => 'users#ask_recommendation', :as => :ask_recommendation
+  match '/write_recommendation/:id' => 'users#write_recommendation', :as => :write_recommendation
+  match '/profile/:id/create_recommendation' => 'users#create_recommendation', :as => :create_recommendation
   
   get "javascripts/countries"
   get "javascripts/sports"
+  get "javascripts/users"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

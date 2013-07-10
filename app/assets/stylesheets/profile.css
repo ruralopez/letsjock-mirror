@@ -207,18 +207,18 @@ ul.experience .edit-experience,
 
 /*experiencia destacado*/
 ul.experience.destacado{
-	box-shadow:1px 0px 2px rgba(0,0,0,0.1);
-	background-color:#FAFAFA;
-	transition: all 0.5s ease 0s;
-	-webkit-transition: all 0.5s ease 0s;
-	margin:5px;
+    box-shadow:1px 0px 2px rgba(0,0,0,0.1);
+    background-color:#FAFAFA;
+    transition: all 0.5s ease 0s;
+    -webkit-transition: all 0.5s ease 0s;
+    margin:5px;
 }
-	ul.experience.destacado:hover{
-		background-color:#F4F4F4;
-	}
+    ul.experience.destacado:hover{
+        background-color:#F4F4F4;
+    }
 ul.experience .icon-special-header{
-	color:gold;
-	margin-top:-2px;
+    color:gold;
+    margin-top:-2px;
 }
 
 li.trained{
@@ -311,7 +311,7 @@ a.follow:hover i{text-decoration:none;}
 }
 
 .box-info .resume form.edit_user{
-    margin-bottom: -40px;
+    margin-bottom: -40px; /* OJO: Yo puse 40, ya que 70 quedaba sobrepuesto (WTOBAR) */
 }
 
 .box-info .resume form fieldset{
@@ -1053,6 +1053,7 @@ p.header-tags{
 }
 
 .resume.user ul{
+    width: 100%;
     list-style:none outside none;
     margin:0;
     background-color:#F8F8F8;
@@ -1067,6 +1068,11 @@ p.header-tags{
             font-weight: bold;
             margin-left: 0;
         }
+            .resume.user ul li:first-child > i {
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
         .resume.user ul li i{
             position:absolute;
             margin-top:.2em;
@@ -1104,24 +1110,6 @@ select.sort-by{
     margin:0;
     width:70px !important;
     padding-left:0;
-}
-
-/*experiencia destacado*/
-ul.experience.destacado{
-    box-shadow:1px 0px 2px rgba(0,0,0,0.1);
-    background-color:#FAFAFA;
-    transition: all 0.5s ease 0s;
-    -webkit-transition: all 0.5s ease 0s;
-    margin:5px;
-}
-
-ul.experience .icon-special-header{
-    color:gold;
-    margin-top:-2px;
-}
-
-ul.experience.destacado:hover{
-    background-color:#F4F4F4;
 }
 
 /*recomendaciones*/
@@ -1172,12 +1160,22 @@ ul.experience.destacado:hover{
         margin-right:.5em;
         background-color:#51A351;
     }
-    #askRecommendation a{
-        color:#5A5A5A;
+    #askRecommendation .modal-body{
+        text-align: left;
+        overflow-y: visible;
     }
-    #askRecommendation a.btn-success{
-        color:white;
-    }
+        #askRecommendation .typeahead.hide{
+            display: none;
+        }
+        #askRecommendation .email-box.hide{
+            display: none;
+        }
+        #askRecommendation a{
+            color:#5A5A5A;
+        }
+            #askRecommendation a.btn-success{
+                color:white;
+            }
 
 /*Tablas comparativas*/
 

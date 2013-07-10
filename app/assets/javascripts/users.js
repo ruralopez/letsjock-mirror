@@ -47,6 +47,7 @@ $(function(){
    *  view: _autocomplete_country
    */  
   $('.typeahead.country').typeahead({minLength: 0, source: handlerSourceCountry, updater: handlerUpdaterCountry}).bind("focus", triggerShow);
+  $('.typeahead.users').typeahead({minLength: 0, source: handlerSourceUser, updater: handlerUpdaterUser});
   
   // EDIT PROFILE
   $('#edit-profile-link').click(function(){
@@ -231,6 +232,44 @@ $(function(){
     }
   });
   
+  // RECOMMENDATIONS
+  // _modal_recommendation
+  $("#askRecommendation .btn-success").click(function(e){
+    e.preventDefault();
+    var data = {};
+    
+    if($("#askRecommendation #writer_id").val() != "" && $("#askRecommendation .email-box").val() == ""){
+      data["writer_id"] = $("#askRecommendation #writer_id").val();
+      data["writer_email"] = "";
+    }else if($("#askRecommendation .email-box").val() == ""){
+      $("#askRecommendation .users").addClass("hide");
+      $("#askRecommendation .email-box").removeClass("hide");
+      return false;
+    }else{ // Validar el mail
+      data["writer_id"] = 0;
+      data["writer_email"] = $("#askRecommendation .email-box").val();
+    }
+    
+    boton = $(this).attr("disabled", "disabled").text("Sending...");
+    data["message"] = $("#askRecommendation textarea").val();
+    
+    $.post("/ask_recommendation", data, function(data){
+      boton.prev().text("Close");
+      boton.addClass("hide");
+      $("#askRecommendation .alert").removeClass("hide");
+    }, "json");
+    
+    return true;
+  });
+  
+  $("#askRecommendation .btn[data-dismiss=modal]").click(function(){
+    $("#askRecommendation .btn-success").removeClass("hide").text("Send request").removeAttr("disabled");
+    $("#askRecommendation .writer_id").val("");
+    $("#askRecommendation .users").val("").removeClass("hide");
+    $("#askRecommendation .email-box").val("").addClass("hide");
+    $("#askRecommendation textarea").val("");
+    $("#askRecommendation .alert").addClass("hide");
+  });
 });
 
 /*
@@ -368,6 +407,31 @@ function triggerShow(){
   }
 }
 
+/*  
+ *  views: layouts/_sponsor_leftbox, layouts/_modal_recommendation
+ */
+function handlerSourceUser (query, process){
+  return $.get('/typeahead', { type: "User", query: query }, function (data) {
+    results = data.options;
+    
+    var arr = $.map(data.options, function(el, i) {
+      return el.name + " " + el.lastname;
+    });
+    
+    return process(arr);
+  });
+}
+function handlerUpdaterUser (item) {
+  user = $.grep(results, function(element, index){
+    return element.name + " " + element.lastname == item;
+  })[0];
+  
+  this.$element.prev().val(user.id);
+  
+  return item;
+}
+
+
 /*
  *  Additional functions
  */
@@ -411,4 +475,8 @@ function lastKey(obj){
   }
   
   return last;
+}
+function scrollToAnchor(aid){
+  var aTag = $("a[name='"+ aid +"']");
+  $('html,body').animate({scrollTop: aTag.offset().top},'slow');
 }

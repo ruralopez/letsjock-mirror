@@ -57,7 +57,7 @@
   <div class="row">
     <div class="box box-media span3 event-single">
       <div class="img-polaroid">
-      <% if @user.profilephotourl != "" %>
+      <% if @user.id && @user.profilephotourl != "" %>
         <%= link_to image_tag(@user.profilephotourl, :class => "user-profile"), '#' %>
       <% else %>
         <i class="default-icon icon-building icon-4x">
