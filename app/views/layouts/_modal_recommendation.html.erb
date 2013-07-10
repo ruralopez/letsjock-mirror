@@ -5,9 +5,14 @@
   </div>
   <div class="modal-body">
     <input type="hidden" id="writer_id" name="writer_id" value="">
-    <input type="text" class="typeahead users span2" placeholder="Find a user" data-provide="typeahead">
-    <!--<input type="text" class="input-small input-block-level" placeholder="find user">-->
-    <textarea rows="3" class="input-small input-block-level" placeholder="ask for a recommendation"></textarea>
+    <input type="text" class="typeahead users input-block-level" placeholder="Find a user" data-provide="typeahead">
+    <span class="hide"></span>
+    <input type="text" class="input-block-level email-box hide" placeholder="User doesn't exist. Enter email address">
+    <textarea rows="3" class="input-small input-block-level" placeholder="Write a message"></textarea>
+    
+    <div class="alert alert-success hide">
+      Recommendation request sent.
+    </div>
   </div>
   <div class="modal-footer">
     <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>

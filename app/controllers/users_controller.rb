@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :pictures, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment, :highlight]
+  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :pictures, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment, :highlight, :ask_recommendation, :create_recommendation]
   
   def verify_login
     unless signed_in?
@@ -98,8 +98,15 @@ class UsersController < ApplicationController
                 @user.update_attribute(:profilephotourl, url)
               end
             end
-
-            redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully updated.'
+            
+            # Si viene con un redirect
+            if session[:redirected_by] && session[:redirected_by] != ""
+              tmp = session[:redirected_by]
+              session[:redirected_by] = nil
+              redirect_to tmp and return
+            else
+              redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully updated.'
+            end
           }
           format.json { render :json => { :status => true } }
         else
@@ -692,7 +699,9 @@ class UsersController < ApplicationController
     notification = Notification.find(params[:id])
     notification.update_attributes(:read => true)
     
-    if notification.not_type == "003"
+    if notification.not_type == "000"
+      redirect_to profile_path( notification.user2_id, { :section => "recommendations", :writer => true })
+    elsif notification.not_type == "003"
       redirect_to profile_path( notification.user2_id )
     elsif notification.not_type == "004"
       redirect_to pictures_path(notification.user2_id, {:callback_id => notification.aux_id})
@@ -1132,7 +1141,54 @@ class UsersController < ApplicationController
       format.js
     end
   end
+  
+  def ask_recommendation
+    if params[:writer_id] != "" || params[:writer_email] != ""
+      UserMailer.ask_recommendation({ :id => current_user.id, :name => current_user.full_name, :email => params[:writer_email] != "" ? params[:writer_email] : User.select("email").find(params[:writer_id]).email, :message => params[:message] }).deliver
+      
+      if params[:writer_id] != "" && User.exists?(params[:writer_id])
+        Notification.create( :user_id => params[:writer_id], :user2_id => current_user.id, :read => false, :not_type => "000" )
+      end
+    end
+    
+    respond_to do |format|
+      format.html { redirect_to request.referer }
+      format.json { render :json => { :status => true } }
+    end
+  end
+  
+  def write_recommendation
+    if signed_in?
+      # Follow y followed, sino no va a poder ver el perfil
+      if User.exists?(params[:id])
+        user = User.find(params[:id])
+        
+        unless user.following?(current_user)
+          user.follow!(current_user)
+        end
+        
+        unless Notification.exists?(:user_id => current_user.id, :user2_id => params[:id], :not_type => "000")
+          Notification.create( :user_id => current_user.id, :user2_id => params[:id], :read => false, :not_type => "000" )
+        end
+        
+        redirect_to profile_path(user, { :section => "recommendations", :writer => true })
+      else
+        redirect_to news_path
+      end
+    else
+      session[:redirected_by] = "/write_recommendation/" + params[:id]
+      flash[:error] = "You must be logged in."
+      redirect_to root_path and return
+    end
+  end
 
+  def create_recommendation
+    if params[:writer_id] != "" && params[:content]
+      Recommendation.create(:user_id => params[:id], :writer_id => params[:writer_id], :content => params[:content])
+    end
+    
+    redirect_to profile_path(params[:id])
+  end
 end
 
 class NullObject

@@ -232,6 +232,44 @@ $(function(){
     }
   });
   
+  // RECOMMENDATIONS
+  // _modal_recommendation
+  $("#askRecommendation .btn-success").click(function(e){
+    e.preventDefault();
+    var data = {};
+    
+    if($("#askRecommendation #writer_id").val() != "" && $("#askRecommendation .email-box").val() == ""){
+      data["writer_id"] = $("#askRecommendation #writer_id").val();
+      data["writer_email"] = "";
+    }else if($("#askRecommendation .email-box").val() == ""){
+      $("#askRecommendation .users").addClass("hide");
+      $("#askRecommendation .email-box").removeClass("hide");
+      return false;
+    }else{ // Validar el mail
+      data["writer_id"] = 0;
+      data["writer_email"] = $("#askRecommendation .email-box").val();
+    }
+    
+    boton = $(this).attr("disabled", "disabled").text("Sending...");
+    data["message"] = $("#askRecommendation textarea").val();
+    
+    $.post("/ask_recommendation", data, function(data){
+      boton.prev().text("Close");
+      boton.addClass("hide");
+      $("#askRecommendation .alert").removeClass("hide");
+    }, "json");
+    
+    return true;
+  });
+  
+  $("#askRecommendation .btn[data-dismiss=modal]").click(function(){
+    $("#askRecommendation .btn-success").removeClass("hide").text("Send request").removeAttr("disabled");
+    $("#askRecommendation .writer_id").val("");
+    $("#askRecommendation .users").val("").removeClass("hide");
+    $("#askRecommendation .email-box").val("").addClass("hide");
+    $("#askRecommendation textarea").val("");
+    $("#askRecommendation .alert").addClass("hide");
+  });
 });
 
 /*
@@ -437,4 +475,8 @@ function lastKey(obj){
   }
   
   return last;
+}
+function scrollToAnchor(aid){
+  var aTag = $("a[name='"+ aid +"']");
+  $('html,body').animate({scrollTop: aTag.offset().top},'slow');
 }

@@ -1154,12 +1154,22 @@ select.sort-by{
         margin-right:.5em;
         background-color:#51A351;
     }
-    #askRecommendation a{
-        color:#5A5A5A;
+    #askRecommendation .modal-body{
+        text-align: left;
+        overflow-y: visible;
     }
-    #askRecommendation a.btn-success{
-        color:white;
-    }
+        #askRecommendation .typeahead.hide{
+            display: none;
+        }
+        #askRecommendation .email-box.hide{
+            display: none;
+        }
+        #askRecommendation a{
+            color:#5A5A5A;
+        }
+            #askRecommendation a.btn-success{
+                color:white;
+            }
 
 /*Tablas comparativas*/
 

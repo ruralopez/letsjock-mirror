@@ -18,4 +18,9 @@ class UserMailer < ActionMailer::Base
     @data = data
     mail(:to => @data[:email], :subject => "Invitation to join Let's Jock!", :from => "letsjock@gmail.com")
   end
+  
+  def ask_recommendation(data)
+    @data = data
+    mail(:to => @data[:email], :subject => "Can you recommend me?", :from => "letsjock@gmail.com")
+  end
 end

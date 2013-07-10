@@ -327,9 +327,10 @@
     
     <div class="resume">
       <h4 class="inline"><i class="icon-file-text"></i>Recommendations</h4>
-      
     <% if signed_in? && current_user.id == @user.id %>
       <a class="add-new pull-right" href="#askRecommendation" role="button" data-toggle="modal">Ask for a recommendation</a>
+    <% elsif signed_in? && params[:section] == "recommendations" && params[:writer] %>
+      <a class="add-new pull-right" href="#writeRecommendation" role="button" data-toggle="modal">Write a recommendation</a>
     <% elsif current_user.id == @user.id %>
       <p>You must be logged in to complete your profile!</p>
     <% end %>
@@ -400,27 +401,31 @@
 <% end %>
 </div>
 
-<div class="resume async-form hide">
+<% if signed_in? && @user.id == current_user.id %>
+  <div class="resume async-form hide">
+    
+  </div>
   
-</div>
+  <div class="alert alert-block alert-delete hide">
+    <h4><i class="icon-warning-sign"></i>Warning!</h4>
+    This action will remove permanently this sport information. Are you sure to continue?
+    
+    <button class="btn btn-cancel pull-right">Cancel</button>
+    <button class="btn btn-confirm pull-right"><i class="icon-remove-sign"></i> Delete</button>
+    
+    <div class="clearfix"></div>
+  </div>
+  
+  <%=  render 'photos/photo_modal' %>
+  <%=  render 'videos/video_modal' %>
+  <%=  render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
+  <%=  render 'layouts/modal_recommendation' %>
+<% end %>
 
-<div class="alert alert-block alert-delete hide">
-  <h4><i class="icon-warning-sign"></i>Warning!</h4>
-  This action will remove permanently this sport information. Are you sure to continue?
-  
-  <button class="btn btn-cancel pull-right">Cancel</button>
-  <button class="btn btn-confirm pull-right"><i class="icon-remove-sign"></i> Delete</button>
-  
-  <div class="clearfix"></div>
-</div>
-
-<%=  render 'photos/photo_modal' %>
-<%=  render 'videos/video_modal' %>
 <%=  render 'events/event_modal' %>
-<%=  render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
 <%=  render 'layouts/invite' %>
-<%=  render 'layouts/modal_recommendation' %>
 <%=  render 'photos/modal_gallery' %>
+<%=  render 'layouts/modal_write_recommendation' %>
 
 
 <!-- Le javascript
@@ -627,6 +632,10 @@
             e.preventDefault();
             $('#edit-tags-link').click();
         });
+        
+        <% if params[:section] %>
+          scrollToAnchor('<%= params[:section] %>');
+        <% end %>
     });
     var tagsUserIamArray = <%= GLOBAL_TAGS_IAM.map{|p| {:label=>p[1], :value=>p[0]}}.to_json.html_safe %>;
     var tagsUserLookingArray = <%= GLOBAL_TAGS_LOOKING.map{|p| {:label=>p[1], :value=>p[0]}}.to_json.html_safe %>;
