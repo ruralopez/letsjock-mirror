@@ -170,7 +170,7 @@ class UsersController < ApplicationController
       
       @user_sports = UserSport.all(:conditions => ['user_id = ? AND sport_id NOT IN ( ? ) AND position IS NULL AND init IS NOT NULL AND end IS NOT NULL', @user.id, sports_exclude.length > 0 ? sports_exclude : 0 ], :order => "end DESC, init DESC")
       
-      @athleteExperiences = (@competitions + @teams + @trains + @results + @recognitions + @user_sports).to_set.classify { |milestone| milestone.sport_id }
+      @athleteExperiences = (@competitions + @teams + @trains + @results + @recognitions + @user_sports).to_set.classify { |milestone| Sport.find(milestone.sport_id).first_parent_name }
       
       #Juntar Works
       @teams_work = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, false], :order => "end DESC, init DESC")

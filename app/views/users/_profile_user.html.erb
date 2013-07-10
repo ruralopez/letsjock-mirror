@@ -289,8 +289,8 @@
     <% end %>
     
   <% if @athleteExperiences.any?  %>
-    <% @athleteExperiences.each do |sport_id, experiences| %>
-      <h4 class="sportname"><%= Sport.find(sport_id).first_parent_name %></h4>
+    <% @athleteExperiences.each do |sport_name, experiences| %>
+      <h4 class="sportname"><%= sport_name %></h4>
       <% experiences.collect do |experience| %>
         <%= render experience %>
       <% end %>
