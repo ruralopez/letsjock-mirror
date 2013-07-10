@@ -1160,7 +1160,7 @@ class UsersController < ApplicationController
   def write_recommendation
     if signed_in?
       # Follow y followed, sino no va a poder ver el perfil
-      if User.exists?(params[:id]) && params[:id] != current_user.id
+      if User.exists?(params[:id]) && params[:id] != current_user.id.to_s
         user = User.find(params[:id])
         
         unless user.following?(current_user)
