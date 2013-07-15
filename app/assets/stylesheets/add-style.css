@@ -9,6 +9,15 @@ body {
     background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);/*added*/
 }
 
+::selection{
+    background-color:#fcc4ca;
+    color:#5A5A5A;
+}
+::-moz-selection{
+    background-color:#fcc4ca;
+    color:#5A5A5A;
+}
+
 footer{/*added all footer*/
     font-size:.8em;
     padding:10px 0;
@@ -547,9 +556,10 @@ ul .metadata p{text-align:left;}
     border:1px solid #DDD;
     overflow:hidden;
     min-height:560px;
+    font-size: .8em;
 }
 
-.inbox ul#myTab{width:40%; border-bottom:none; margin:0;}
+.inbox ul#myTab{width:30%; border-bottom:none; margin:0;}
 
 .inbox ul#myTab .filter{
     width:100%
@@ -572,7 +582,7 @@ ul .metadata p{text-align:left;}
 }
 
 .inbox ul#myTab li.unread a, .inbox ul#myTab.nav-tabs > li.unread > a:hover{background:#EEE;} /*This is for "unread messages*/
-.inbox ul#myTab li.active a, .inbox ul#myTab.nav-tabs > li.active > a:hover, .inbox ul#myTab li.active.unread a, .inbox ul#myTab.nav-tabs > li.active.unread > a:hover {background:#CCC;}
+.inbox ul#myTab li.active a, .inbox ul#myTab.nav-tabs > li.active > a:hover, .inbox ul#myTab li.active.unread a, .inbox ul#myTab.nav-tabs > li.active.unread > a:hover {background:#FBACB4;}
 .inbox ul#myTab.nav-tabs > li > a:hover{background:#F6F6F6;} /*This is for "hover"*/
 
 .inbox ul#myTab li a{color:#333;}
@@ -592,8 +602,8 @@ ul .metadata p{text-align:left;}
 .inbox .tab-content{
     position:absolute;
     top:0;
-    left:40%;
-    width:60%;
+    left:30%;
+    width:70%;
     height:100%;
     background:white;
     border-left:1px solid #DDD;
@@ -845,8 +855,27 @@ ul.sponsor-third li:first-child:before, ul.sponsor-third li:after{
     background:rgba(255,255,255,0.2);
 }
 
-.page-title h3 span{font-weight:normal; font-size:16px;}
-.page-title h3 a:hover{}
+.page-title h3 span{
+    background-color: #EEE;
+    color: black;
+    display: inline-block;
+    font-size: 0.6em;
+    height: 1.5em;
+    line-height: 1.4em;
+    vertical-align: middle;
+    width: 1.5em;
+    text-align: center;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    transition: all 0.3s ease 0s;
+    -webkit-transition: all 0.3s ease 0s;
+    cursor: default;
+}
+
+.page-title h3 span:hover{
+    background-color: white;
+}
 
 .images .image-gallery{
     min-height: 600px;

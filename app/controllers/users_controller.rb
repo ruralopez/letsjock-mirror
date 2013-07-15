@@ -730,22 +730,27 @@ class UsersController < ApplicationController
   end
 
   def search
+    @queries = Hash.new
+    @queries[:basics] = Hash.new
+    @queries[:sports] = Hash.new
+    @queries[:interests] = Hash.new
+    @result = []
     if params[:query]
       @query = params[:query]
       queries = @query.split(" ")
       @result = []
+      @queries[:basics] = Hash.new
       queries.each do |qy|
         @result += User.all(:conditions => ["lower(name) LIKE ? OR lower(lastname) LIKE ?", "%#{qy}%".downcase, "%#{qy}%".downcase ]).sort_by(&:id)
+        @queries[:basics][:name] = qy
       end
       @result = @result.uniq
-      unless @result != []
-        @result = -1
-      end
-    elsif params[:commit] == "Find"
-      @result = User.all
+    elsif params.include?(:name)
+      @result = User.all(:conditions => ["id NOT IN (?)", [1]])
       if params[:name] != ""
         aux = @result
         @result = []
+        @queries[:basics][:name] = params[:name]
         aux.each do |user|
           @result.push(user) if user.name && user.name.downcase.include?(params[:name].downcase)
         end
@@ -753,61 +758,78 @@ class UsersController < ApplicationController
       if params[:lastname] != ""
         aux = @result
         @result = []
+        @queries[:basics][:lastname] = params[:lastname]
         aux.each do |user|
           @result.push(user) if user.lastname && user.lastname.downcase.include?(params[:lastname].downcase)
         end
       end
-      if params[:init] != ""
+      if params[:age_from] != ""
         aux = @result
         @result = []
+        @queries[:basics][:age] = "over " + params[:age_from]
         aux.each do |user|
-          @result.push(user) if user.birth && user.birth.to_date >= params[:init].to_date
+          @result.push(user) if user.birth && user.age >= params[:age_from].to_i
         end
       end
-      if params[:end] != ""
+      if params[:age_to] != ""
         aux = @result
         @result = []
+        @queries[:basics][:age] ? @queries[:basics][:age] = @queries[:basics][:age].split(" ")[1] + " - " + params[:age_to] : @queries[:basics][:age] = "below" + params[:age_to]
         aux.each do |user|
-          @result.push(user) if user.birth && user.birth.to_date <= params[:end].to_date
+          @result.push(user) if user.birth && user.age <= params[:age_to].to_i
         end
       end
-      if params[:weight_min] != ""
+      if params[:sport_id] != ""
         aux = @result
         @result = []
+        @queries[:sports][:sport] = Sport.find(params[:sport_id]).name
         aux.each do |user|
-          @result.push(user) if user.weight && user.weight >= params[:weight_min].to_i
+          @result.push(user) if UserSport.exists?(:sport_id => params[:sport_id], :user_id => user.id)
         end
       end
-      if params[:weight_max] != ""
+      if params[:weight_from] != ""
         aux = @result
         @result = []
+        @queries[:sports][:weight] = "over " + params[:weight_from]
         aux.each do |user|
-          @result.push(user) if user.weight && user.weight <= params[:weight_max].to_i
+          @result.push(user) if user.weight && user.weight >= params[:weight_from].to_i
         end
       end
-      if params[:height_min] != ""
+      if params[:weight_to] != ""
         aux = @result
         @result = []
+        @queries[:sports][:weight] ? @queries[:sports][:weight] = @queries[:sports][:weight].split(" ")[1] + " - " + params[:weight_to] : @queries[:sports][:weight] = "below" + params[:weight_to]
         aux.each do |user|
-          @result.push(user) if user.height && user.height >= params[:height_min].to_i
+          @result.push(user) if user.weight && user.weight <= params[:weight_to].to_i
         end
       end
-      if params[:height_max] != ""
+      if params[:height_from] != ""
         aux = @result
         @result = []
+        @queries[:sports][:height] = "over " + params[:height_from]
         aux.each do |user|
-          @result.push(user) if user.height && user.height <= params[:height_max].to_i
+          @result.push(user) if user.height && user.height >= params[:height_from].to_i
         end
       end
-      if params[:gender] != ""
+      if params[:height_to] != ""
         aux = @result
         @result = []
+        @queries[:sports][:height] ? @queries[:sports][:height] = @queries[:sports][:height].split(" ")[1] + " - " + params[:height_to] : @queries[:sports][:height] = "below" + params[:height_to]
         aux.each do |user|
-          @result.push(user) if user.gender && user.gender.downcase == params[:gender].downcase
+          @result.push(user) if user.height && user.height <= params[:height_to].to_i
+        end
+      end
+      if params[:male] || params[:female]
+        aux = @result
+        @result = []
+        @queries[:basics][:genre] = "male" if params[:male]
+        @queries[:basics][:genre] = "female" if params[:female]
+        @queries[:basics][:genre] = "male and female" if params[:male] && params[:female]
+        aux.each do |user|
+          @result.push(user) if user.gender && ((user.gender.downcase == "m" && params[:male])||(user.gender.downcase == "f" && params[:female]))
         end
       end
     end
-    @filters = User.new
     @sports_list = Sport.select('name').all.map(&:name)
   end
 
