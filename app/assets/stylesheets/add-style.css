@@ -9,6 +9,15 @@ body {
     background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);/*added*/
 }
 
+::selection{
+    background-color:#fcc4ca;
+    color:#5A5A5A;
+}
+::-moz-selection{
+    background-color:#fcc4ca;
+    color:#5A5A5A;
+}
+
 footer{/*added all footer*/
     font-size:.8em;
     padding:10px 0;
@@ -474,14 +483,16 @@ ul .metadata p{text-align:left;}
     padding-left:0;
     padding-right:0;
 }
-.connections.action-buttons a.btn.following{
+
+.connections.action-buttons a.btn{
     color:#5A5A5A;
     -moz-box-shadow:none;
     -webkit-box-shadow:none;
     box-shadow:none;
     border-bottom:none;
 }
-.connections.action-buttons a.btn.following:hover, .connections.action-buttons a.btn.following:active, .connections.action-buttons a.btn.following:focus{
+
+.connections.action-buttons a.btn:hover, .connections.action-buttons a.btn:active, .connections.action-buttons a.btn:focus{
     background:#8C0D1A;
     color:white;
     top:0;
@@ -547,9 +558,10 @@ ul .metadata p{text-align:left;}
     border:1px solid #DDD;
     overflow:hidden;
     min-height:560px;
+    font-size: .8em;
 }
 
-.inbox ul#myTab{width:40%; border-bottom:none; margin:0;}
+.inbox ul#myTab{width:30%; border-bottom:none; margin:0;}
 
 .inbox ul#myTab .filter{
     width:100%
@@ -572,7 +584,7 @@ ul .metadata p{text-align:left;}
 }
 
 .inbox ul#myTab li.unread a, .inbox ul#myTab.nav-tabs > li.unread > a:hover{background:#EEE;} /*This is for "unread messages*/
-.inbox ul#myTab li.active a, .inbox ul#myTab.nav-tabs > li.active > a:hover, .inbox ul#myTab li.active.unread a, .inbox ul#myTab.nav-tabs > li.active.unread > a:hover {background:#CCC;}
+.inbox ul#myTab li.active a, .inbox ul#myTab.nav-tabs > li.active > a:hover, .inbox ul#myTab li.active.unread a, .inbox ul#myTab.nav-tabs > li.active.unread > a:hover {background:#FBACB4;}
 .inbox ul#myTab.nav-tabs > li > a:hover{background:#F6F6F6;} /*This is for "hover"*/
 
 .inbox ul#myTab li a{color:#333;}
@@ -592,8 +604,8 @@ ul .metadata p{text-align:left;}
 .inbox .tab-content{
     position:absolute;
     top:0;
-    left:40%;
-    width:60%;
+    left:30%;
+    width:70%;
     height:100%;
     background:white;
     border-left:1px solid #DDD;
@@ -845,8 +857,27 @@ ul.sponsor-third li:first-child:before, ul.sponsor-third li:after{
     background:rgba(255,255,255,0.2);
 }
 
-.page-title h3 span{font-weight:normal; font-size:16px;}
-.page-title h3 a:hover{}
+.page-title h3 span{
+    background-color: #EEE;
+    color: black;
+    display: inline-block;
+    font-size: 0.6em;
+    height: 1.5em;
+    line-height: 1.4em;
+    vertical-align: middle;
+    width: 1.5em;
+    text-align: center;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    transition: all 0.3s ease 0s;
+    -webkit-transition: all 0.3s ease 0s;
+    cursor: default;
+}
+
+.page-title h3 span:hover{
+    background-color: white;
+}
 
 .images .image-gallery{
     min-height: 600px;
@@ -863,12 +894,6 @@ ul.sponsor-third li:first-child:before, ul.sponsor-third li:after{
 
 .image-gallery img, .image-feature img{width:100%; height:auto; margin-bottom:10px;}
 
-.image-gallery > img{opacity:0.7; margin-bottom:10px;}
-.image-gallery > img:hover{opacity:1; cursor:pointer;}
-
-.image-gallery > a img{opacity:0.7; margin-bottom:10px;}
-.image-gallery > a img:hover{opacity:1; cursor:pointer;}
-
 .image-feature{}
 
 .image-feature .img-polaroid{width:90%; padding:5%;}
@@ -878,7 +903,7 @@ ul.sponsor-third li:first-child:before, ul.sponsor-third li:after{
     padding: 0px;
 }
 .img-polaroid.fileupload .thumbnail .fileupload-exists i.default-icon {
-    padding: 0px; 
+    padding: 0px;
     background-color: #FFF;
 }
 
@@ -918,15 +943,15 @@ a.add-new{
     padding: .5em 1em;
     position: absolute;
     right: 0;
-    color: #51A351;
+    color:#51A351;
     text-decoration: none;
     transition: all 0.3s ease 0s;
     -webkit-transition: all 0.3s ease 0s;
 }
-    a.add-new:hover{
-        background-color: #51A351;
-        color:white;
-    }
+a.add-new:hover{
+    background-color: #51A351;
+    color:white;
+}
 /*end*/
 
 ul#myTab.span3{
@@ -1107,7 +1132,7 @@ ul#myTab.span3 li.active > a, ul#myTab.span3 li.active > a:hover, ul#myTab.span3
     height:185px;
     overflow:hidden;
     margin-left:0;
-    background: url("imgHome2.jpg") center center no-repeat;
+    background: url("img/imgHome2.jpg") center center no-repeat;
     padding-left:30px;
     border-top:1px solid #222;
     border-bottom: 1px solid #222;
@@ -1255,15 +1280,6 @@ img.preview{
 .company .event-table td:last-child{width:10%;}
 
 .box-connect h4 span {font-size:1.3em; color:white;}
-
-.link-on.link-tag.pull-right {
-    margin-left: 140px;
-    cursor: pointer;
-}
-
-.link-on {
-    list-style: none;
-}
 
 .link-on:hover {
     text-decoration: none;
@@ -1644,5 +1660,5 @@ span.contact ul{
 }
 
 .deco-none{
-    text-decoration: none !important;
+    text-decoration: none;
 }	
