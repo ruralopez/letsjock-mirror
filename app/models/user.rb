@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
 
   has_many :messages
 
-  attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country_id, :address, :phone, :resume, :height, :weight, :profilephotourl, :authentic_email, :isSponsor, :preferences, :certified
+  attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country_id, :address, :phone, :resume, :height, :weight, :profilephotourl, :authentic_email, :isSponsor, :preferences, :certified, :rut
 
   before_save :profilepic
   before_save { |user| user.email = email.downcase}
