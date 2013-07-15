@@ -159,7 +159,7 @@ class UsersController < ApplicationController
       @competitions = Competition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "end DESC, init DESC")
       @teams = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "end DESC, init DESC")
       @trains = Train.all(:conditions => ['user_id = ?', @user.id], :order => "end DESC, init DESC")
-      @results = Result.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date DESC")
+      @results = Result.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date DESC") # Podría comentarlo?
       @recognitions = Recognition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date DESC")
       
       # Solo deportes que no tengan hitos
@@ -699,8 +699,10 @@ class UsersController < ApplicationController
     notification = Notification.find(params[:id])
     notification.update_attributes(:read => true)
     
-    if notification.not_type == "000"
-      redirect_to profile_path( notification.user2_id, { :section => "recommendations", :writer => true })
+    if notification.not_type == "000" 
+      redirect_to profile_path( notification.user2_id, { :section => "recommendations", :writer => true, :aux_id => notification.aux_id } )
+    elsif notification.not_type == "001"
+      redirect_to profile_path( notification.user_id, { :section => "recommendations" } )
     elsif notification.not_type == "003"
       redirect_to profile_path( notification.user2_id )
     elsif notification.not_type == "004"
@@ -1166,10 +1168,13 @@ class UsersController < ApplicationController
   
   def ask_recommendation
     if params[:writer_id] != "" || params[:writer_email] != ""
-      UserMailer.ask_recommendation({ :id => current_user.id, :name => current_user.full_name, :email => params[:writer_email] != "" ? params[:writer_email] : User.select("email").find(params[:writer_id]).email, :message => params[:message] }).deliver
+      # Crea la recomendación con el status en 0
+      recommendation = Recommendation.create(:user_id => current_user.id, :writer_id => params[:writer_id] ? params[:writer_id] : nil, :writer_type => params[:writer_type], :sport_id => params[:sport_id] ? params[:sport_id] : nil, :status => 0)
+      
+      UserMailer.ask_recommendation({ :id => recommendation.id, :name => current_user.full_name, :email => params[:writer_email] != "" ? params[:writer_email] : User.select("email").find(params[:writer_id]).email, :message => params[:message] }).deliver
       
       if params[:writer_id] != "" && User.exists?(params[:writer_id])
-        Notification.create( :user_id => params[:writer_id], :user2_id => current_user.id, :read => false, :not_type => "000" )
+        Notification.create( :user_id => params[:writer_id], :user2_id => current_user.id, :read => false, :not_type => "000", :aux_id => recommendation.id )
       end
     end
     
@@ -1182,18 +1187,20 @@ class UsersController < ApplicationController
   def write_recommendation
     if signed_in?
       # Follow y followed, sino no va a poder ver el perfil
-      if User.exists?(params[:id]) && params[:id] != current_user.id.to_s
-        user = User.find(params[:id])
+      if Recommendation.exists?(params[:id])
+        recommendation = Recommendation.find(params[:id])
+        recommendation.update_attribute(:writer_id, current_user.id)
+        user = User.find(recommendation.user_id)
         
         unless user.following?(current_user)
           user.follow!(current_user)
         end
         
         unless Notification.exists?(:user_id => current_user.id, :user2_id => params[:id], :not_type => "000")
-          Notification.create( :user_id => current_user.id, :user2_id => params[:id], :read => false, :not_type => "000" )
+          Notification.create( :user_id => current_user.id, :user2_id => recommendation.user_id, :read => false, :not_type => "000", :aux_id => recommendation.id )
         end
         
-        redirect_to profile_path(user, { :section => "recommendations", :writer => true })
+        redirect_to profile_path(user, { :section => "recommendations", :writer => true, :aux_id => recommendation.id })
       else
         session[:redirected_by] = nil
         redirect_to news_path
@@ -1206,8 +1213,11 @@ class UsersController < ApplicationController
   end
 
   def create_recommendation
-    if params[:writer_id] != "" && params[:content]
-      Recommendation.create(:user_id => params[:id], :writer_id => params[:writer_id], :content => params[:content])
+    if params[:recommendation_id] != "" && params[:content] && params[:id] != current_user.id
+      recommendation = Recommendation.find(params[:recommendation_id])
+      recommendation.update_attributes(:content => params[:content], :status => 1)
+      
+      Notification.create( :user_id => recommendation.user_id, :user2_id => current_user.id, :read => false, :not_type => "001", :aux_id => recommendation.id )
     end
     
     redirect_to profile_path(params[:id])

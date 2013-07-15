@@ -190,11 +190,14 @@ ActiveRecord::Schema.define(:version => 20130715204015) do
   end
 
   create_table "recommendations", :force => true do |t|
-    t.integer  "user_id",    :null => false
-    t.integer  "writer_id",  :null => false
-    t.text     "content",    :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "user_id",     :null => false
+    t.integer  "writer_id",   :null => false
+    t.string   "writer_type", :null => false
+    t.integer  "sport_id"
+    t.boolean  "status"
+    t.text     "content",     :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "relationships", :force => true do |t|
