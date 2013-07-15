@@ -234,32 +234,62 @@ $(function(){
   
   // RECOMMENDATIONS
   // _modal_recommendation
-  $("#askRecommendation .btn-success").click(function(e){
+  $("#askRecommendation .btn-success").click(function(e) {
     e.preventDefault();
     var data = {};
     
-    if($("#askRecommendation #writer_id").val() != "" && $("#askRecommendation .email-box").val() == ""){
+    if( $("#askRecommendation #writer_id").val() != "" && $("#askRecommendation .email-box").val() == "" ) {
       data["writer_id"] = $("#askRecommendation #writer_id").val();
       data["writer_email"] = "";
-    }else if($("#askRecommendation .email-box").val() == ""){
+    }else if( $("#askRecommendation .email-box").val() == "" ) {
       $("#askRecommendation .users").addClass("hide");
       $("#askRecommendation .email-box").removeClass("hide");
       return false;
-    }else{ // Validar el mail
+    }else { // Validar el mail
       data["writer_id"] = 0;
       data["writer_email"] = $("#askRecommendation .email-box").val();
     }
     
+    // Validar los campos adicionales
+    data["writer_type"] = $("#askRecommendation #writer_type").val();
+    
+    if( $("#askRecommendation #writer_type").val() == "Other" && $("#askRecommendation .other-type").val() == "" ) {
+      $("#askRecommendation .alert-error").text("You must specify other type.").removeClass("hide");
+      return false;
+    }else if( $("#askRecommendation #writer_type").val() == "Other" ) {
+      data["writer_type"] = $("#askRecommendation .other-type").val();
+    }
+    
+    if( $("#askRecommendation #writer_type").val() == "Coach" && $("#askRecommendation #sport_id").val() == "" ) {
+      $("#askRecommendation .alert-error").text("You must specify a sport.").removeClass("hide");
+      return false;
+    }else
+      data["sport_id"] = $("#askRecommendation #sport_id").val();
+    
+    $("#askRecommendation .alert-error").addClass("hide");
     boton = $(this).attr("disabled", "disabled").text("Sending...");
     data["message"] = $("#askRecommendation textarea").val();
     
-    $.post("/ask_recommendation", data, function(data){
+    $.post("/ask_recommendation", data, function(data) {
       boton.prev().text("Close");
       boton.addClass("hide");
-      $("#askRecommendation .alert").removeClass("hide");
+      $("#askRecommendation .alert-success").removeClass("hide");
     }, "json");
     
     return true;
+  });
+  
+  $("#askRecommendation #writer_type").change(function(){
+    if( $(this).val() == "Other" ){
+      $("#askRecommendation .other-type").removeClass("hide");
+      $("#askRecommendation .typeahead.sports").addClass("hide");
+    }else if( $(this).val() == "Coach" ){
+      $("#askRecommendation .other-type").addClass("hide");
+      $("#askRecommendation .typeahead.sports").removeClass("hide");
+    }else{
+      $("#askRecommendation .other-type").addClass("hide");
+      $("#askRecommendation .typeahead.sports").addClass("hide");
+    }
   });
   
   $("#askRecommendation .btn[data-dismiss=modal]").click(function(){
@@ -267,6 +297,10 @@ $(function(){
     $("#askRecommendation .writer_id").val("");
     $("#askRecommendation .users").val("").removeClass("hide");
     $("#askRecommendation .email-box").val("").addClass("hide");
+    $("#askRecommendation .writer_type").val("Coach");
+    $("#askRecommendation .other-type").val("").addClass("hide");
+    $("#askRecommendation .typeahead.sports").val("").removeClass("hide");
+    $("#askRecommendation #sport_id").val("");
     $("#askRecommendation textarea").val("");
     $("#askRecommendation .alert").addClass("hide");
   });

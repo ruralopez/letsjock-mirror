@@ -1140,6 +1140,10 @@ select.sort-by{
             line-height: 100%;
             margin-top:0;
         }
+            #myRecommendations .accordion-heading h4 > span {
+                font-weight: normal;
+                font-size: 0.8em;
+            }
         #myRecommendations .accordion-heading p{
             font-size: .8em;
             color:#5A5A5A;
@@ -1164,11 +1168,15 @@ select.sort-by{
         text-align: left;
         overflow-y: visible;
     }
-        #askRecommendation .typeahead.hide{
+        #askRecommendation .typeahead.hide,
+        #askRecommendation .input-block-level.hide,
+        #askRecommendation .typeahead.sports.hide {
             display: none;
         }
-        #askRecommendation .email-box.hide{
-            display: none;
+        #askRecommendation [class^="sports"].typeahead,
+        #askRecommendation [class*=" sports"].typeahead {
+            margin-left: 0px;
+            display: inline;
         }
         #askRecommendation a{
             color:#5A5A5A;

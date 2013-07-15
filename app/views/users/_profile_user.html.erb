@@ -74,7 +74,7 @@
   <li><i class="icon-camera icon-white"></i><%= link_to @photos.count.to_s + ' pictures' , pictures_path(@user) %></li>
   <li><i class="icon-facetime-video icon-white"></i><%= link_to @videos.count.to_s + ' videos' , pictures_path(@user) %></li>
   <li><i class="icon-calendar icon-white"></i><%= link_to @events.count.to_s + ' events' , '#eventModal', :data => {:toggle => "modal"}, :role => "button" %></li>
-  <li><i class="icon-file-text"></i><a href="#recommendations"><%= @user.recommendations.count.to_s %> recommendations</a></li>
+  <li><i class="icon-file-text"></i><a href="#recommendations"><%= @user.recommendations.where(:status => 1).count.to_s %> recommendations</a></li>
 </ul><!-- /profileIcons -->
 <div class="profileInfo relative span9">
   <div class="user">
@@ -332,7 +332,7 @@
       <h4 class="inline"><i class="icon-file-text"></i>Recommendations</h4>
     <% if signed_in? && current_user.id == @user.id %>
       <a class="add-new pull-right" href="#askRecommendation" role="button" data-toggle="modal">Ask for a recommendation</a>
-    <% elsif signed_in? && params[:section] == "recommendations" && params[:writer] %>
+    <% elsif signed_in? && params[:section] == "recommendations" && params[:writer] && params[:aux_id] %>
       <a class="add-new pull-right" href="#writeRecommendation" role="button" data-toggle="modal">Write a recommendation</a>
     <% elsif current_user.id == @user.id %>
       <p>You must be logged in to complete your profile!</p>
@@ -341,7 +341,7 @@
       <div id="myRecommendations">
         <a name="recommendations"></a>
         <div class="accordion" id="accordion2">
-        <% @user.recommendations.each do |recommendation| %>
+        <% @user.recommendations.where(:status => 1).each do |recommendation| %>
           <% writer = User.find(recommendation.writer_id) %>
           <div class="accordion-group">
             <div class="accordion-heading">
@@ -349,7 +349,7 @@
               <div>
                 <%= image_tag writer.profilepic %>
               </div>
-              <h4><%= writer.full_name %></h4>
+              <h4><%= writer.full_name %><span>&nbsp;&nbsp;•&nbsp;&nbsp;<%= recommendation.writer_type %><%= raw( "&nbsp;&nbsp;•&nbsp;&nbsp;" ) + Sport.find(recommendation.sport_id).first_parent_name if recommendation.sport_id.is_a? Integer %></span></h4>
               <p>
                 <% if writer.tags("GLOBAL_TAGS_IAM") && writer.tags("GLOBAL_TAGS_IAM").length > 0 %>
                   <% writer.tags("GLOBAL_TAGS_IAM").each do |tag|%>
@@ -428,7 +428,10 @@
 <%=  render 'events/event_modal' %>
 <%=  render 'layouts/invite' %>
 <%=  render 'photos/modal_gallery' %>
-<%=  render 'layouts/modal_write_recommendation' %>
+
+<% if signed_in? && params[:section] == "recommendations" && params[:writer] && params[:aux_id] %>
+  <%=  render :partial => 'layouts/modal_write_recommendation', :locals => {:recommendation_id => params[:aux_id]} %>
+<% end %>
 
 
 <!-- Le javascript
