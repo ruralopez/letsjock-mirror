@@ -26,6 +26,9 @@ class User < ActiveRecord::Base
   
   has_many :user_admins, :dependent => :destroy
   has_many :admins, :through => :user_admins, :source => :admin
+  
+  has_many :user_sponsors, :dependent => :destroy
+  has_many :sponsors, :through => :user_sponsors, :source => :sponsor
 
   has_many :competitions, :dependent => :destroy
   has_many :recognitions, :dependent => :destroy
@@ -218,6 +221,10 @@ class User < ActiveRecord::Base
   
   def administerUser
     User.where(:id => UserAdmin.select("user_id").where(:admin_id => self.id) )
+  end
+  
+  def sponsoredUsers
+    User.where(:id => UserSponsor.select("user_id").where(:sponsor_id => self.id) )
   end
 
   def compare_password(pass)

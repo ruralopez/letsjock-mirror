@@ -304,6 +304,43 @@ $(function(){
     $("#askRecommendation textarea").val("");
     $("#askRecommendation .alert").addClass("hide");
   });
+  
+  
+  // Sponsoring
+  // _modal_sponsor
+  $("#sponsorModal .btn-success").click(function(e) {
+    e.preventDefault();
+    var data = {};
+    
+    if($("#sponsorModal #sponsor_id").val() == ""){
+      $("#sponsorModal .alert-error").text("You must select a institution.").removeClass("hide");
+      return false;
+    }
+    
+    $("#sponsorModal .alert-error").addClass("hide");
+    data["user_id"] = $("#sponsorModal #user_id").val();
+    data["sponsor_id"] = $("#sponsorModal #sponsor_id").val();
+    boton = $(this).attr("disabled", "disabled").text("Sending...");
+    
+    $.post("/ask_sponsoring", data, function(data) {
+      boton.prev().text("Close");
+      boton.addClass("hide");
+      $("#sponsorModal .alert-success").removeClass("hide");
+    }, "json");
+    
+    return true;
+  });
+  
+  // _notifications
+  $(".btn-notif-sponsor").click(function(){
+    var data = {};
+    data["notification_id"] = $(this).attr("data-id");
+    data["confirm_action"] = $(this).attr("data-action");
+    
+    $.post("/confirm_sponsoring", data, function(data) {
+      location.reload();
+    }, "json");
+  });
 });
 
 /*
@@ -445,7 +482,9 @@ function triggerShow(){
  *  views: layouts/_sponsor_leftbox, layouts/_modal_recommendation
  */
 function handlerSourceUser (query, process){
-  return $.get('/typeahead', { type: "User", query: query }, function (data) {
+  var origin = this.$element.attr("data-origin");
+  
+  return $.get('/typeahead', { type: origin, query: query }, function (data) {
     results = data.options;
     
     var arr = $.map(data.options, function(el, i) {

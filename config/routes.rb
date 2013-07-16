@@ -89,6 +89,8 @@ Letsjock::Application.routes.draw do
   match '/ask_recommendation' => 'users#ask_recommendation', :as => :ask_recommendation
   match '/write_recommendation/:id' => 'users#write_recommendation', :as => :write_recommendation
   match '/profile/:id/create_recommendation' => 'users#create_recommendation', :as => :create_recommendation
+  match '/ask_sponsoring' => 'users#ask_sponsoring', :as => :ask_sponsoring
+  match '/confirm_sponsoring' => 'users#confirm_sponsoring', :as => :confirm_sponsoring
   
   get "javascripts/countries"
   get "javascripts/sports"

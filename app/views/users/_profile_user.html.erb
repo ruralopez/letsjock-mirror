@@ -32,7 +32,18 @@
   </div>
   <!-- begin Pictures -->
   <div class="event-info">
-    <!-- <h5><i class="icon-star"></i>Featured info</h5> -->
+    <h5>
+      <i class="icon-certificate"></i>Sponsors
+      <% if signed_in? && @user.id == current_user.id %>
+        <a href="#sponsorModal" data-toggle="modal" role="button" id="btn-sponsor" class="btn btn-mini btn-success pull-right">Add sponsor <i class="icon-white icon-plus-sign"></i></a>
+      <% end %>
+    </h5>
+    <div class="sponsor-pictures employees">
+    <% @user.sponsors.each do |sponsor| %>
+      <%= link_to image_tag(sponsor.profilephotourl, :title => sponsor.full_name), profile_path(sponsor) %>
+    <% end %>
+    </div>
+    
     <h5><i class="icon-camera"></i><%= link_to 'Pictures' , pictures_path(@user) %></h5>
     <div class="event-pictures">
       <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
@@ -419,18 +430,19 @@
     <div class="clearfix"></div>
   </div>
   
-  <%=  render 'photos/photo_modal' %>
-  <%=  render 'videos/video_modal' %>
-  <%=  render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
-  <%=  render 'layouts/modal_recommendation' %>
+  <%= render 'photos/photo_modal' %>
+  <%= render 'videos/video_modal' %>
+  <%= render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
+  <%= render 'layouts/modal_recommendation' %>
+  <%= render 'layouts/modal_sponsor' %>
 <% end %>
 
-<%=  render 'events/event_modal' %>
-<%=  render 'layouts/invite' %>
-<%=  render 'photos/modal_gallery' %>
+<%= render 'events/event_modal' %>
+<%= render 'layouts/invite' %>
+<%= render 'photos/modal_gallery' %>
 
 <% if signed_in? && params[:section] == "recommendations" && params[:writer] && params[:aux_id] %>
-  <%=  render :partial => 'layouts/modal_write_recommendation', :locals => {:recommendation_id => params[:aux_id]} %>
+  <%= render :partial => 'layouts/modal_write_recommendation', :locals => {:recommendation_id => params[:aux_id]} %>
 <% end %>
 
 

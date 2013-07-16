@@ -177,9 +177,10 @@
   });
 </script>
 
-<%=  render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
-<%=  render :partial => 'photos/bg_picture', :locals => {:photos => @photos} %>
-<%=  render 'photos/modal_gallery' %>
-<%=  render 'photos/photo_modal' %>
-<%=  render 'videos/video_modal' %>
-<%=  render 'layouts/invite' %>
+<%= render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
+<%= render :partial => 'photos/bg_picture', :locals => {:photos => @photos} %>
+<%= render 'photos/modal_gallery' %>
+<%= render 'photos/photo_modal' %>
+<%= render 'videos/video_modal' %>
+<%= render 'layouts/invite' %>
+<%= render 'layouts/modal_sponsor' %>

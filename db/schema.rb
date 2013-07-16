@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130715204015) do
+ActiveRecord::Schema.define(:version => 20130716191053) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -159,11 +159,11 @@ ActiveRecord::Schema.define(:version => 20130715204015) do
   create_table "posts", :force => true do |t|
     t.integer  "user_id",    :null => false
     t.integer  "event_id"
-    t.integer  "writer_id"
     t.string   "title"
     t.text     "content"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "writer_id"
   end
 
   create_table "publishers", :force => true do |t|
@@ -332,6 +332,15 @@ ActiveRecord::Schema.define(:version => 20130715204015) do
   end
 
   add_index "user_events", ["user_id", "event_id"], :name => "index_user_events_on_user_id_and_event_id", :unique => true
+
+  create_table "user_sponsors", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "sponsor_id", :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "user_sponsors", ["user_id", "sponsor_id"], :name => "index_user_sponsors_on_user_id_and_sponsor_id", :unique => true
 
   create_table "user_sports", :id => false, :force => true do |t|
     t.integer  "user_id",    :null => false

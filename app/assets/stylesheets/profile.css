@@ -1164,7 +1164,8 @@ select.sort-by{
         margin-right:.5em;
         background-color:#51A351;
     }
-    #askRecommendation .modal-body{
+    #askRecommendation .modal-body,
+    #sponsorModal .modal-body {
         text-align: left;
         overflow-y: visible;
     }
@@ -1178,10 +1179,12 @@ select.sort-by{
             margin-left: 0px;
             display: inline;
         }
-        #askRecommendation a{
+        #askRecommendation a,
+        #sponsorModal a {
             color:#5A5A5A;
         }
-            #askRecommendation a.btn-success{
+            #askRecommendation a.btn-success,
+            #sponsorModal a.btn-success {
                 color:white;
             }
 

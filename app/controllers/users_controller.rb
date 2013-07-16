@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :pictures, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment, :highlight, :ask_recommendation, :create_recommendation]
+  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :pictures, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment, :highlight, :ask_recommendation, :create_recommendation, :ask_sponsoring, :confirm_sponsoring]
   
   def verify_login
     unless signed_in?
@@ -709,9 +709,9 @@ class UsersController < ApplicationController
       redirect_to pictures_path(notification.user2_id, {:callback_id => notification.aux_id})
     elsif notification.not_type == "104" || notification.not_type == "105" || notification.not_type == "106"
       redirect_to event_path( notification.event_id )
-    elsif notification.not_type == "200" || notification.not_type == "201"
+    elsif notification.not_type == "200" || notification.not_type == "201" || notification.not_type == "203"
       redirect_to profile_path( notification.aux_id )
-    elsif notification.not_type == "999"
+    elsif notification.not_type == "999" || notification.not_type == "006"
       redirect_to profile_path( notification.user_id )
     end
   end
@@ -906,14 +906,22 @@ class UsersController < ApplicationController
   
   def typeahead
     if params[:type] && params[:query] != ""
-      class_name = params[:type]
       like = []
       
-      params[:query].split(" ").each do |qy|
-        like.push("lower(name) LIKE '%" + qy.downcase + "%' OR lower(lastname) LIKE '%" + qy.downcase + "%'")
+      case params[:type]
+        when 'User'
+          params[:query].split(" ").each do |qy|
+            like.push("lower(name) LIKE '%" + qy.downcase + "%' OR lower(lastname) LIKE '%" + qy.downcase + "%'")
+          end
+          
+          users = User.select("id, name, lastname").where("(" + like.join(" OR ") + " ) AND isSponsor = 0").uniq.order("name").limit(8)
+        when 'Institution'
+          params[:query].split(" ").each do |qy|
+            like.push("lower(name) LIKE '%" + qy.downcase + "%'")
+          end
+          
+          users = User.select("id, name, '' as lastname").where("( "+ like.join(" OR ") + " ) AND isSponsor = 1").uniq.order("name").limit(8)
       end
-      
-      users = class_name.constantize.select("id, name, lastname").where(like.join(" OR ")).uniq.order("name").limit(8)
       
       respond_to do |format|
         format.json { render :json => { :options => users } }
@@ -1221,6 +1229,64 @@ class UsersController < ApplicationController
     end
     
     redirect_to profile_path(params[:id])
+  end
+  
+  def ask_sponsoring
+    if params[:user_id] != "" && params[:sponsor_id] != ""
+      user = User.find(params[:user_id])
+      
+      if user.id == current_user.id # Si el usuario solicita manda la notificacion a todos los admins
+        sponsor = User.find(params[:sponsor_id])
+        
+        # Manda notificaciones a todos los administradores
+        if sponsor.isSponsor && sponsor.admins.any?
+          sponsor.admins.each do |admin|
+            Notification.create(:user_id => admin.id, :user2_id => params[:user_id], :read => false, :not_type => "202", :aux_id => sponsor.id)
+          end
+        end
+      elsif user.inAdmins?(current_user)
+        Notification.create(:user_id => params[:sponsor_id], :user2_id => params[:user_id], :read => false, :not_type => "006")
+      end
+    end
+    
+    respond_to do |format|
+      format.html { redirect_to request.referer }
+      format.json { render :json => { :status => true } }
+    end
+  end
+  
+  def confirm_sponsoring
+    if params[:notification_id] != "" && params[:confirm_action] != ""
+      notification = Notification.find(params[:notification_id])
+      notification.update_attributes(:read => true) #Debería marcar como leídos todos
+      
+      if params[:confirm_action] == "confirm"
+        if notification.not_type == "006" && notification.user_id == current_user.id
+          UserSponsor.create(:user_id => current_user.id, :sponsor_id => notification.user2_id)
+          
+          sponsor = User.find(notification.user2_id)
+          
+          # Manda notificaciones a todos los administradores
+          if sponsor.isSponsor && sponsor.admins.any?
+            sponsor.admins.each do |admin|
+              Notification.create(:user_id => admin.id, :user2_id => current_user.id, :read => false, :not_type => "203", :aux_id => sponsor.id)
+            end
+          end
+        elsif notification.not_type == "202"
+          sponsor = User.find(notification.aux_id)
+          
+          if sponsor.inAdmins?(current_user)
+            UserSponsor.create(:user_id => notification.user_id, :sponsor_id => sponsor.id)
+            Notification.create(:user_id => notification.user_id, :user2_id => sponsor.id, :read => false, :not_type => "007")
+          end
+        end
+      end
+    end
+    
+    respond_to do |format|
+      format.html { redirect_to request.referer }
+      format.json { render :json => { :status => true } }
+    end
   end
 end
 
