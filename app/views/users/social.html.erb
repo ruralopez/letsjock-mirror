@@ -50,7 +50,7 @@
               <div class="item-info">
                 <h4><%= link_to follower.full_name, profile_path(follower) %></h4>
                 <p><%= follower.sport_show %></p>
-                <p class="special"><%= follower.citybirth %>, <%= follower.country %></p>
+                <p class="special"><%= follower.citybirth %>, <%= follower.country_id ? follower.country.name : "" %></p>
               </div>
               <div class="item-info secondary-info">
                 <p><%= link_to follower.followers.count.to_s + " followers", social_path(follower) %> | <%= link_to follower.followed_users.count.to_s + "  following", social_path(follower)  %></p>
@@ -71,7 +71,7 @@
               <div class="item-info">
                 <h4><%= link_to followed.full_name, profile_path(followed) %></h4>
                 <p><%= followed.sport_show %></p>
-                <p class="special"><%= followed.citybirth %>, <%= followed.country %></p>
+                <p class="special"><%= followed.citybirth %>, <%= followed.country_id ? followed.country.name : "" %></p>
               </div>
               <div class="item-info secondary-info">
                 <p><%= link_to( followed.followers.count.to_s + " followers", social_path(followed) ) %> | <%= link_to( followed.followed_users.count.to_s + "  following", social_path(followed) ) %></p>

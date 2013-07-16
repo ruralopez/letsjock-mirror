@@ -1,1 +1,5 @@
-<%= link_to(raw("<i class='icon-eye-open icon-white'></i> Follow"), follow_path, :remote => true, :class => 'btn btn-large btn-success') %>
+<% if defined? search %>
+    <%= link_to(raw("<i class='icon-eye-open'></i> Follow"), follow_path(:id => user.id, :search => true), :remote => true, :class => 'btn btn-small btn-success') %>
+<% else %>
+    <%= link_to(raw("<i class='icon-eye-open icon-white'></i> Follow"), follow_path, :remote => true, :class => 'btn btn-large btn-success') %>
+<% end %>

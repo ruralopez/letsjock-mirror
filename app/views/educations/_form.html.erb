@@ -43,9 +43,9 @@
         <%= text_field_tag :degree, @education.degree, :placeholder => "Degree" %>
     </div>
     
-    <div id="divLocation-educational" class="input-prepend input-append" data-validate='["country", "city"]'>
+    <div id="divLocation-educational" class="input-prepend input-append" data-validate='["country_id", "city"]'>
         <span class="add-on"><i class="icon-map-marker"></i></span>
-        <%= text_field_tag :country, @education.career, :placeholder => "Country" %>
+        <%= render :partial => 'users/autocomplete_country', :locals => { :country_id => @education.country_id, :name => nil } %>
         <%= text_field_tag :city, @education.location, :placeholder => "City" %>
     </div>
     
@@ -70,6 +70,10 @@
             $(function(){
                 $('.date').datepicker();
                 $(".hiddenDiv").hide();
+                
+                <%if @edit_profile %>
+                    $('#<%= form_id %> .typeahead.country').typeahead({minLength: 0, source: handlerSourceCountry, updater: handlerUpdaterCountry}).bind("focus", triggerShow);
+                <% end %>
                 
                 $("#<%= form_id %> .header-buttons #education-school").click(function(e){
                     e.preventDefault();
