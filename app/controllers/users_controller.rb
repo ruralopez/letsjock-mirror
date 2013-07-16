@@ -929,8 +929,12 @@ class UsersController < ApplicationController
       format.js
     end
   end
-
+  
   def compare
+	@users_array = User.find(:all, :conditions => ["isSponsor = ?", false]).map{|p| {:label=>p.full_name, :value=>p.id, :sport=>p.sport_show, :image=>p.profilepic_route}}.to_json.html_safe
+  end
+
+  def comparison
     @users_array = User.find(:all, :conditions => ["isSponsor = ?", false]).map{|p| {:label=>p.full_name, :value=>p.id, :sport=>p.sport_show, :image=>p.profilepic_route}}.to_json.html_safe
 
     if params[:user1_id] && params[:user1_id] != ""
