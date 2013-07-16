@@ -1299,94 +1299,169 @@ table.table-profile{
     margin-bottom: 2em;
 }
 
-table.table-profile thead{
-}
+ }
 
-table.table-profile th, table.table-profile td{
-    padding:9px;
-}
+     table.table-profile thead{
 
-table.table-profile thead tr th{
-    width:40%;
-    vertical-align:top;
-    font-weight:normal;
-    background-color:#F4F4F4;
-}
+     }
 
-table.table-profile thead tr th:first-child{
-    width:20%;
-}
+ 
 
-table.table-profile img{
-    width:45%;
-    float:left;
-    margin-right:.8em;
-}
-table.table-profile thead p{
-    margin-bottom:0;
-}
+ table.table-profile th, table.table-profile td{
 
-table.table-profile tbody tr td{
-    vertical-align:middle;
-}
+     padding:9px;
+
+ }
+
+ 
+
+         table.table-profile thead tr th{
+
+             width:40%;
+
+             vertical-align:top;
+
+             font-weight:normal;
+
+             background-color:#F4F4F4;
+
+         }
+
+             table.table-profile thead tr th:first-child{
+
+                 width:20%;
+
+             }
+
+         table.table-profile thead p{
+
+             margin-bottom:0;
+
+         }
+
+     table.table-profile tbody tr td{
+
+         vertical-align:middle;
+
+     }
+
+         table.table-profile tbody tr td:first-child{
+
+             font-weight:bold;
+
+         }
+
+     table.table-profile img{
+
+         width:45%;
+
+         float:left;
+
+         margin-right:.8em;
+
+     }
+
+     table.table-profile i{
+
+ 	    /*font-size:2em;*/
+
+ 	}
+
+ 	table.table-profile td:first-child i{
+
+     	font-size:1em;
+
+     }
+
+ 
+
+ 	i.icon-1x{font-size:1.2em !important;}
+
+ 
+
+     table.table-profile .icon-ok{
+
+         color: #51A351;/*verde*/
+
+     	font-size:2em;
+
+     }
+
+     table.table-profile .icon-remove{
+
+         color:#C6091C;/*rojo*/
+
+     font-size:2em;
+
+ }
+
+ 
+
+ table.table-profile .icon-certificate{
+
+     color:goldenrod;
+
+ }
+
+ 
+
+ table.table-profile ul{
+
+     list-style: none outside none;
+
+     margin:0;
+
+ }
+
+ 
+
+ table.table-profile td/*ul li*/ a{
+
+     margin:0 .2em;
+
+ }
+
+ 
+
+ table.table-profile td/*ul li*/ a:after{
+
+     content:",";
+
+ }
+
+ 
+
+ table.table-profile td/*ul li*/ a:last-child:after{
+
+     content:".";
+
+ }
+
+ 
+
+ td.table-number{
+
+     font-size: 1.8em;
+
+     padding-top:16px !important;
+
+     padding-bottom:14px !important;
+
+     text-shadow: 0px 1px 1px #666;
+
+     color:#AAA;
+
+ }
+
+ 
+
+ td.table-big{
+
+     font-size: 2em;
+
+     }
 
 
-table.table-profile tbody tr td:first-child{
-    font-weight:bold;
-}
-
-table.table-profile i{
-    /*font-size:2em;*/
-}
-
-table.table-profile td:first-child i{
-    font-size:1em;
-}
-
-i.icon-1x{font-size:1.2em !important;}
-
-table.table-profile .icon-ok{
-    color: #51A351;/*verde*/
-    font-size:2em;
-}
-
-table.table-profile .icon-remove{
-    color:#C6091C;/*rojo*/
-    font-size:2em;
-}
-
-table.table-profile .icon-certificate{
-    color:goldenrod;
-}
-
-table.table-profile ul{
-    list-style: none outside none;
-    margin:0;
-}
-
-table.table-profile td/*ul li*/ a{
-    margin:0 .2em;
-}
-
-table.table-profile td/*ul li*/ a:after{
-    content:",";
-}
-
-table.table-profile td/*ul li*/ a:last-child:after{
-    content:".";
-}
-
-td.table-number{
-    font-size: 1.8em;
-    padding-top:16px !important;
-    padding-bottom:14px !important;
-    text-shadow: 0px 1px 1px #666;
-    color:#AAA;
-}
-
-td.table-big{
-    font-size: 2em;
-}
 
 /*Tags for Profile*/
 .tags-area{
