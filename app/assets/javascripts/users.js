@@ -325,7 +325,7 @@ $(function(){
     $.post("/ask_sponsoring", data, function(data) {
       boton.prev().text("Close");
       boton.addClass("hide");
-      $("#sponsorModal .alert-success").removeClass("hide");
+      $("#sponsorModal .alert-success").text($("#sponsorModal .users").val() + " has been notified to validate this information").removeClass("hide");
     }, "json");
     
     return true;

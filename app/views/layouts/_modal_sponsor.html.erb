@@ -1,15 +1,15 @@
 <div id="sponsorModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel"><i class="icon-file-text-alt"></i> Add a sponsor</h3>
+    <h3 id="myModalLabel"><i class="icon-file-text-alt"></i> Add a <%= @user.isSponsor ? "sponsored user" : "sponsor" %></h3>
   </div>
   <div class="modal-body">
     <input type="hidden" id="user_id" name="user_id" value="<%= @user.inAdmins?(current_user) ? @user.id : current_user.id %>">
     <input type="hidden" id="sponsor_id" name="sponsor_id" value="">
-    <input type="text" class="typeahead users input-block-level" placeholder="Find a user" data-provide="typeahead" data-origin="<%= @user.isSponsor ? "User" : "Institution" %>">
+    <input type="text" class="typeahead users input-block-level" placeholder="<%= @user.isSponsor ? "User name" : "Institution name" %>" data-provide="typeahead" data-origin="<%= @user.isSponsor ? "User" : "Institution" %>">
     <span class="hide"></span>
     <div class="alert alert-success hide">
-      Sponsor request sent.
+      
     </div>
     <div class="alert alert-error hide">
       
@@ -17,6 +17,6 @@
   </div>
   <div class="modal-footer">
     <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
-    <a href="#" class="btn btn-success">Send request</a>
+    <a href="#" class="btn btn-success">Add</a>
   </div>
 </div>
