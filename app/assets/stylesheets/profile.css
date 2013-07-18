@@ -1565,9 +1565,10 @@ form.search-filters{
     filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
     border-radius:0;
 }
-    .btn-green:hover{
-        color:white;
-    }
+
+.btn-green:hover{
+    color:white;
+}
 
 /*Colores*/
 .color1{color:rgb(25,153,207) !important;} /*blue*/

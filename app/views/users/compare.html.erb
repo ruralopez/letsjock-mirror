@@ -1,0 +1,146 @@
+<%= javascript_include_tag "application" %>
+<%= stylesheet_link_tag    "profile" %>
+
+	<div class="container">
+	<div class="row">
+		<div class="span12">
+			<div class="page-title">
+				<h3 class="inline">Prospects comparison</h3>
+			</div>
+		</div>
+	</div>
+
+	<div class="row-fluid white">
+		<br>
+	</div><!--row-fluid-->
+
+	<div class="row-fluid white">
+		
+			<%= form_tag({:controller => 'users', :action => 'comparison'}, :class => "search-filters span2", :id => "compare-form") do  %>
+
+				<div class="accordion" id="filters">
+
+				<!--Basics-->
+					<div class="accordion-group">
+						<div class="accordion-heading">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#filters" href="#basics">
+							Search Users <i class="icon-chevron-down"></i>
+							</a>
+						</div>
+						<div id="basics" class="accordion-body collapse in">
+							<div class="accordion-inner">
+								
+								<fieldset>
+								<!--Name-->
+									<p>User 1</p>
+									<%= text_field_tag :user1, nil, :placeholder => "User 1", :class => "input-block-level user-input" %>
+									<%= hidden_field_tag :user1_id, nil, :id => "user1input" %>
+								<!--Last Name-->
+									<p>User 2</p>
+									<%= text_field_tag :user2, nil, :placeholder => "User 2", :class => "input-block-level user-input" %>
+									<%= hidden_field_tag :user2_id, nil, :id => "user2input" %>
+    
+								</fieldset>
+							</div>
+						</div>
+					</div>
+				</div><!--filters-->
+			<% end %>
+
+
+		<div class="span9 compare">
+			<div class="row-fluid">
+			<!--Usuario 1-->
+				
+				<div class="user-info span3">
+					<div class="group">
+						<div class="img-polaroid">
+							<%= image_tag 'user.png', :id => "user_1_pic" %>
+						</div>
+					</div>
+				</div>
+
+			<!--Usuario 2-->
+				<div class="user-info span3">
+					<div class="group">
+						<div class="img-polaroid">
+							<%= image_tag 'user.png', :id => "user_2_pic" %>
+						</div>
+					</div>
+				</div>
+			<!--Info-->
+				<blockquote class="span6">
+					You can compare prospects between <strong>two users</strong>
+					this includes:
+					<ul>
+						<li>Basic information</li>
+						<li>Jock information</li>
+						<li>Interest</li>
+						<li>Educational</li>
+						<li>and more info about photos and videos</li>
+					</ul>
+					<button type="submit" class="btn btn-small no-border" id="submit-compare">
+						<b>Submit</b>
+					</button>
+					<div class="clearfix"></div>
+				</blockquote>
+
+				<script type="text/javascript">
+					jQuery(document).ready(function ($) {
+						$('#tabs').tab();
+					});
+				</script>  
+				
+			</div><!-- row-fluid -->
+		</div><!--span9-->
+
+	</div><!-- row-fluid -->
+	</div>
+<script>
+    $(document).ready(function(){
+		$('#submit-compare').click(function(){
+			$("#compare-form").submit();
+		});
+    
+        //users_array
+        $( ".user-input" )
+                .bind( "keydown", function( event ) {
+                    if ( event.keyCode === $.ui.keyCode.TAB &&
+                            $( this ).data( "ui-autocomplete" ).menu.active ) {
+                        event.preventDefault();
+                    }
+                })
+                .on( "click", function( event ) {
+                    $(this).autocomplete("search", "");
+                })
+                .autocomplete({
+                    source: <%= @users_array %>,
+                    minLength: 0,
+                    messages: {
+                        noResults: '',
+                        results: function() {}
+                    } ,
+                    select: function( event, ui ) {
+                        $(this).attr("value", ui.item.label);
+                        if($(this).attr("name") == "user1"){
+                            $(document).find("#user1input").attr("value", ui.item.value);
+                            $(document).find("#user_1_pic").attr("src", ui.item.image);
+                        }
+                        else{
+                            $(document).find("#user2input").attr("value", ui.item.value);
+                            $(document).find("#user_2_pic").attr("src", ui.item.image);
+                        }
+
+                        return false;
+                    } ,
+                    focus: function( event, ui ) {
+                        return false;
+                    }
+                })
+                .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+            return $( "<li style='height: 60px;'>" )
+                    .append( "<a><div class='popover-left'><img src=" + item.image + "></img></div><div class='popover-right'><span>" + item.label + "</span><small>" + item.sport + "</small></div></a>" )
+                    .appendTo( ul );
+        };
+    });
+</script>

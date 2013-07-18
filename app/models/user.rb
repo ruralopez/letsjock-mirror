@@ -134,6 +134,17 @@ class User < ActiveRecord::Base
     end
   end
 
+  def sports
+    @sports_array = []
+    if UserSport.exists?(:user_id => self.id)
+      UserSport.find(:all, :conditions => ["user_id = ?", self.id]).each do |user_sport|
+        sport = Sport.find(user_sport.sport_id)
+        @sports_array << sport
+      end
+    end
+    @sports_array
+  end
+
   def sport_show
     if self.isSponsor
       "Institution"
@@ -169,6 +180,14 @@ class User < ActiveRecord::Base
 
   def profilepic
     self.profilephotourl ||= "default-profile.png"
+  end
+
+  def profilepic_route
+    if self.profilephotourl == "default-profile.png"
+      return "/assets/default-profile.png"
+    else
+      return self.profilephotourl
+    end
   end
   
   def set_preferences
