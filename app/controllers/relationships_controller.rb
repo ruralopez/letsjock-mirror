@@ -7,6 +7,8 @@ class RelationshipsController < ApplicationController
       if params[:mini]
         @user_id = params[:id]
         render :template => 'relationships/create_mini'
+      elsif params[:search]
+        render :template => "relationships/search_create"
       else
         respond_to do |format|
           format.html { redirect_to @user }
@@ -24,9 +26,13 @@ class RelationshipsController < ApplicationController
     @user = User.find(params[:id])
     if signed_in?
       current_user.unfollow!(@user)
-      respond_to do |format|
-        format.html { redirect_to @user }
-        format.js
+      if params[:search]
+        render :template => "relationships/search_destroy"
+      else
+        respond_to do |format|
+          format.html { redirect_to @user }
+          format.js
+        end
       end
     else
       flash[:error] = "You must be logged in."

@@ -83,7 +83,7 @@ ul.profileIcons li:first-child{
     padding-bottom: 10px;
 }
 
-.profileInfo a{
+.profileInfo a, .user.mobile a{
     color:white;
     /*margin-right:6px;*//*added this: remove margin-right*/
 }
@@ -95,16 +95,16 @@ ul.profileIcons li:first-child{
 .profileInfo p{
     margin-bottom: 0; font-size:.8em; line-height: 130%;
 }
-    .profileInfo p a:after{
+	.profileInfo p a:after, .user.mobile p a:after{
         content:" · ";
         text-decoration: none;
         display: inline-block;
         margin-left: .3em;
     }
-	.profileInfo p a.special-tag:after{
+	.profileInfo p a.special-tag:after, .user.mobile p a.special-tag:after{
             content:" / ";
 	}
-	.profileInfo p a:last-child:after{
+	.profileInfo p a:last-child:after, .user.mobile p a:last-child:after{
 	    content:none;
 	}
         
@@ -207,18 +207,18 @@ ul.experience .edit-experience,
 
 /*experiencia destacado*/
 ul.experience.destacado{
-	box-shadow:1px 0px 2px rgba(0,0,0,0.1);
-	background-color:#FAFAFA;
-	transition: all 0.5s ease 0s;
-	-webkit-transition: all 0.5s ease 0s;
-	margin:5px;
+    box-shadow:1px 0px 2px rgba(0,0,0,0.1);
+    background-color:#FAFAFA;
+    transition: all 0.5s ease 0s;
+    -webkit-transition: all 0.5s ease 0s;
+    margin:5px;
 }
-	ul.experience.destacado:hover{
-		background-color:#F4F4F4;
-	}
+    ul.experience.destacado:hover{
+        background-color:#F4F4F4;
+    }
 ul.experience .icon-special-header{
-	color:gold;
-	margin-top:-2px;
+    color:gold;
+    margin-top:-2px;
 }
 
 li.trained{
@@ -311,7 +311,7 @@ a.follow:hover i{text-decoration:none;}
 }
 
 .box-info .resume form.edit_user{
-    margin-bottom: -40px;
+    margin-bottom: -40px; /* OJO: Yo puse 40, ya que 70 quedaba sobrepuesto (WTOBAR) */
 }
 
 .box-info .resume form fieldset{
@@ -1053,6 +1053,7 @@ p.header-tags{
 }
 
 .resume.user ul{
+    width: 100%;
     list-style:none outside none;
     margin:0;
     background-color:#F8F8F8;
@@ -1067,6 +1068,11 @@ p.header-tags{
             font-weight: bold;
             margin-left: 0;
         }
+            .resume.user ul li:first-child > i {
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
         .resume.user ul li i{
             position:absolute;
             margin-top:.2em;
@@ -1106,24 +1112,6 @@ select.sort-by{
     padding-left:0;
 }
 
-/*experiencia destacado*/
-ul.experience.destacado{
-    box-shadow:1px 0px 2px rgba(0,0,0,0.1);
-    background-color:#FAFAFA;
-    transition: all 0.5s ease 0s;
-    -webkit-transition: all 0.5s ease 0s;
-    margin:5px;
-}
-
-ul.experience .icon-special-header{
-    color:gold;
-    margin-top:-2px;
-}
-
-ul.experience.destacado:hover{
-    background-color:#F4F4F4;
-}
-
 /*recomendaciones*/
 #myRecommendations{
     margin:1em 0;
@@ -1152,6 +1140,10 @@ ul.experience.destacado:hover{
             line-height: 100%;
             margin-top:0;
         }
+            #myRecommendations .accordion-heading h4 > span {
+                font-weight: normal;
+                font-size: 0.8em;
+            }
         #myRecommendations .accordion-heading p{
             font-size: .8em;
             color:#5A5A5A;
@@ -1172,12 +1164,26 @@ ul.experience.destacado:hover{
         margin-right:.5em;
         background-color:#51A351;
     }
-    #askRecommendation a{
-        color:#5A5A5A;
+    #askRecommendation .modal-body{
+        text-align: left;
+        overflow-y: visible;
     }
-    #askRecommendation a.btn-success{
-        color:white;
-    }
+        #askRecommendation .typeahead.hide,
+        #askRecommendation .input-block-level.hide,
+        #askRecommendation .typeahead.sports.hide {
+            display: none;
+        }
+        #askRecommendation [class^="sports"].typeahead,
+        #askRecommendation [class*=" sports"].typeahead {
+            margin-left: 0px;
+            display: inline;
+        }
+        #askRecommendation a{
+            color:#5A5A5A;
+        }
+            #askRecommendation a.btn-success{
+                color:white;
+            }
 
 /*Tablas comparativas*/
 
@@ -1200,10 +1206,12 @@ ul.margin-0 li{width:20%; text-align: center; font-size: .8em;}
     position: relative;;
 }
 
-.compare .user-info .group{
-    position: fixed;
-    max-width: 16%;
-}
+/*
+    .compare .user-info .group{
+        position: fixed;
+        max-width: 16%;
+        }
+    */
 
 .compare .img-polaroid img{
     width: 100%;
@@ -1298,170 +1306,86 @@ table.table-profile{
     padding-bottom: 2em;
     margin-bottom: 2em;
 }
-
- }
-
-     table.table-profile thead{
-
-     }
-
- 
-
- table.table-profile th, table.table-profile td{
-
-     padding:9px;
-
- }
-
- 
-
-         table.table-profile thead tr th{
-
-             width:40%;
-
-             vertical-align:top;
-
-             font-weight:normal;
-
-             background-color:#F4F4F4;
-
-         }
-
-             table.table-profile thead tr th:first-child{
-
-                 width:20%;
-
-             }
-
-         table.table-profile thead p{
-
-             margin-bottom:0;
-
-         }
-
-     table.table-profile tbody tr td{
-
-         vertical-align:middle;
-
-     }
-
-         table.table-profile tbody tr td:first-child{
-
-             font-weight:bold;
-
-         }
-
-     table.table-profile img{
-
-         width:45%;
-
-         float:left;
-
-         margin-right:.8em;
-
-     }
-
-     table.table-profile i{
-
- 	    /*font-size:2em;*/
-
- 	}
-
- 	table.table-profile td:first-child i{
-
-     	font-size:1em;
-
-     }
-
- 
-
- 	i.icon-1x{font-size:1.2em !important;}
-
- 
-
-     table.table-profile .icon-ok{
-
-         color: #51A351;/*verde*/
-
-     	font-size:2em;
-
-     }
-
-     table.table-profile .icon-remove{
-
-         color:#C6091C;/*rojo*/
-
-     font-size:2em;
-
- }
-
- 
-
- table.table-profile .icon-certificate{
-
-     color:goldenrod;
-
- }
-
- 
-
- table.table-profile ul{
-
-     list-style: none outside none;
-
-     margin:0;
-
- }
-
- 
-
- table.table-profile td/*ul li*/ a{
-
-     margin:0 .2em;
-
- }
-
- 
-
- table.table-profile td/*ul li*/ a:after{
-
-     content:",";
-
- }
-
- 
-
- table.table-profile td/*ul li*/ a:last-child:after{
-
-     content:".";
-
- }
-
- 
-
- td.table-number{
-
-     font-size: 1.8em;
-
-     padding-top:16px !important;
-
-     padding-bottom:14px !important;
-
-     text-shadow: 0px 1px 1px #666;
-
-     color:#AAA;
-
- }
-
- 
-
- td.table-big{
-
-     font-size: 2em;
-
-     }
-
-
+    table.table-profile thead{
+    }
+
+table.table-profile th, table.table-profile td{
+    padding:9px;
+}
+
+        table.table-profile thead tr th{
+            width:40%;
+            vertical-align:top;
+            font-weight:normal;
+            background-color:#F4F4F4;
+        }
+            table.table-profile thead tr th:first-child{
+                width:20%;
+            }
+        table.table-profile thead p{
+            margin-bottom:0;
+        }
+    table.table-profile tbody tr td{
+        vertical-align:middle;
+    }
+        table.table-profile tbody tr td:first-child{
+            font-weight:bold;
+        }
+    table.table-profile img{
+        width:45%;
+        float:left;
+        margin-right:.8em;
+    }
+    table.table-profile i{
+	    /*font-size:2em;*/
+	}
+	table.table-profile td:first-child i{
+    	font-size:1em;
+    }
+
+	i.icon-1x{font-size:1.2em !important;}
+
+    table.table-profile .icon-ok{
+        color: #51A351;/*verde*/
+    	font-size:2em;
+    }
+    table.table-profile .icon-remove{
+        color:#C6091C;/*rojo*/
+    font-size:2em;
+}
+
+table.table-profile .icon-certificate{
+    color:goldenrod;
+}
+
+table.table-profile ul{
+    list-style: none outside none;
+    margin:0;
+}
+
+table.table-profile td/*ul li*/ a{
+    margin:0 .2em;
+}
+
+table.table-profile td/*ul li*/ a:after{
+    content:",";
+}
+
+table.table-profile td/*ul li*/ a:last-child:after{
+    content:".";
+}
+
+td.table-number{
+    font-size: 1.8em;
+    padding-top:16px !important;
+    padding-bottom:14px !important;
+    text-shadow: 0px 1px 1px #666;
+    color:#AAA;
+}
+
+td.table-big{
+    font-size: 2em;
+    }
 
 /*Tags for Profile*/
 .tags-area{

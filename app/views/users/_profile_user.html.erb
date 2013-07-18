@@ -6,6 +6,11 @@
 <%= javascript_include_tag "bootstrap-image-gallery" %>
 <%= stylesheet_link_tag    "bootstrap-image-gallery" %>
 
+<% if signed_in? && @user.id == current_user.id %>
+  <%= javascript_include_tag "/javascripts/countries.js" %>
+  <%= javascript_include_tag "/javascripts/sports.js" %>
+<% end %>
+
 <% provide(:title, @user.full_name) %>
 
 <div class="container">
@@ -104,7 +109,7 @@
     <p>
       <a href="#"><% if @user.birth && @user.birth != "" %><%= @user.age %> years<% else %> Age not verified<% end %></a>
       <a href="#"><%= @user.citybirth ? @user.citybirth : "" %></a>
-      <a href="#"><%= @user.country %></a>
+      <a href="#"><%= @user.country_id ? @user.country.name : "" %></a>
     </p>
 
   </div><!--user-->
@@ -133,12 +138,15 @@
         <!--Sport-->
         <div class="input-prepend" id="sport-div-profile">
           <% @indexReal = 0 %>
-          <% @usports = UserSport.all(:conditions => ["user_id = ? AND sport_id IN (?)", current_user.id, current_user.sports.collect(&:id)]) %>
+          <% @usports = UserSport.all(:conditions => ["user_id = ? AND sport_id IN (?) AND position IS NOT NULL", current_user.id, current_user.sports.collect(&:id)]).sort_by(&:position) %>
           <% @usports.each_with_index do |sport, index| %>
               <% if UserSport.where(:user_id => current_user.id, :sport_id => sport.sport_id).first.position && UserSport.where(:user_id => current_user.id, :sport_id => sport.sport_id).first.position != "" %>
                   <%= render :partial => 'sports/autocomplete_edit_user', :locals => { :sport_id => sport.sport_id, :index => @indexReal } %>
                   <% @indexReal += 1 %>
               <% end %>
+          <% end %>
+          <% unless @usports.any? %>
+              <%= render :partial => 'sports/autocomplete_edit_user', :locals => { :sport_id => nil, :index => "0"} %>
           <% end %>
         </div>
         <br />
@@ -163,7 +171,7 @@
         <!--Location-->
         <div class="input-prepend">
           <span class="add-on"><i class="icon-map-marker"></i></span>
-          <%= f.text_field :country, :value => current_user.country, :placeholder => "Country" %>
+          <%= render :partial => 'users/autocomplete_country', :locals => { :country_id => current_user.country_id, :name => "user[country_id]" } %>
           <%= f.text_field :citybirth, :value => current_user.citybirth, :placeholder => "City" %>
         </div>
         <!--Date-->
@@ -281,8 +289,8 @@
     <% end %>
     
   <% if @athleteExperiences.any?  %>
-    <% @athleteExperiences.each do |sport_id, experiences| %>
-      <h4 class="sportname"><%= Sport.find(sport_id).first_parent_name %></h4>
+    <% @athleteExperiences.each do |sport_name, experiences| %>
+      <h4 class="sportname"><%= sport_name %></h4>
       <% experiences.collect do |experience| %>
         <%= render experience %>
       <% end %>
@@ -319,6 +327,57 @@
       <%= render @educations %>
     <% end %>
     </div><!--resume-->
+    
+    <div class="resume">
+      <h4 class="inline"><i class="icon-file-text"></i>Recommendations</h4>
+    <% if signed_in? && current_user.id == @user.id %>
+      <a class="add-new pull-right" href="#askRecommendation" role="button" data-toggle="modal">Ask for a recommendation</a>
+    <% elsif signed_in? && params[:section] == "recommendations" && params[:writer] && params[:aux_id] %>
+      <a class="add-new pull-right" href="#writeRecommendation" role="button" data-toggle="modal">Write a recommendation</a>
+    <% elsif current_user.id == @user.id %>
+      <p>You must be logged in to complete your profile!</p>
+    <% end %>
+    
+      <div id="myRecommendations">
+        <a name="recommendations"></a>
+        <div class="accordion" id="accordion2">
+        <% @user.recommendations.where(:status => 1).each do |recommendation| %>
+          <% writer = User.find(recommendation.writer_id) %>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_<%= recommendation.id %>">
+              <div>
+                <%= image_tag writer.profilepic %>
+              </div>
+              <h4><%= writer.full_name %><span>&nbsp;&nbsp;•&nbsp;&nbsp;<%= recommendation.writer_type %><%= raw( "&nbsp;&nbsp;•&nbsp;&nbsp;" ) + Sport.find(recommendation.sport_id).first_parent_name if recommendation.sport_id.is_a? Integer %></span></h4>
+              <p>
+                <% if writer.tags("GLOBAL_TAGS_IAM") && writer.tags("GLOBAL_TAGS_IAM").length > 0 %>
+                  <% writer.tags("GLOBAL_TAGS_IAM").each do |tag|%>
+                    <%= GLOBAL_TAGS_IAM[tag.to_i] %>, 
+                  <% end %>
+                <% end %>
+                
+                <%= writer.sport_show %>
+              </p>
+              <p>
+                <%= writer.birth != "" ? writer.age.to_s + " years" : "Age not verified" %>, 
+                <%= writer.citybirth ? writer.citybirth : "" %>, 
+                <%= writer.country_id ? writer.country.name : "" %>
+              </p>
+              <i class="icon-chevron-down"></i>
+              </a>
+            </div>
+            <div id="collapse_<%= recommendation.id %>" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <%= recommendation.content %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        </div><!--accordion-->
+      </div><!--#myRecommendations-->
+    </div><!--resume-->
+    
 <% end %>
 </div>
 
@@ -345,26 +404,34 @@
 <% end %>
 </div>
 
-<div class="resume async-form hide">
+<% if signed_in? && @user.id == current_user.id %>
+  <div class="resume async-form hide">
+    
+  </div>
   
-</div>
+  <div class="alert alert-block alert-delete hide">
+    <h4><i class="icon-warning-sign"></i>Warning!</h4>
+    This action will remove permanently this sport information. Are you sure to continue?
+    
+    <button class="btn btn-cancel pull-right">Cancel</button>
+    <button class="btn btn-confirm pull-right"><i class="icon-remove-sign"></i> Delete</button>
+    
+    <div class="clearfix"></div>
+  </div>
+  
+  <%=  render 'photos/photo_modal' %>
+  <%=  render 'videos/video_modal' %>
+  <%=  render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
+  <%=  render 'layouts/modal_recommendation' %>
+<% end %>
 
-<div class="alert alert-block alert-delete hide">
-  <h4><i class="icon-warning-sign"></i>Warning!</h4>
-  This action will remove permanently this sport information. Are you sure to continue?
-  
-  <button class="btn btn-cancel pull-right">Cancel</button>
-  <button class="btn btn-confirm pull-right"><i class="icon-remove-sign"></i> Delete</button>
-  
-  <div class="clearfix"></div>
-</div>
-
-<%=  render 'photos/photo_modal' %>
-<%=  render 'videos/video_modal' %>
 <%=  render 'events/event_modal' %>
-<%=  render :partial => 'photos/profile_picture', :locals => {:photos => @photos} %>
 <%=  render 'layouts/invite' %>
 <%=  render 'photos/modal_gallery' %>
+
+<% if signed_in? && params[:section] == "recommendations" && params[:writer] && params[:aux_id] %>
+  <%=  render :partial => 'layouts/modal_write_recommendation', :locals => {:recommendation_id => params[:aux_id]} %>
+<% end %>
 
 
 <!-- Le javascript
@@ -388,13 +455,11 @@
       
       <% if signed_in? && current_user.id == @user.id %>
         $('#edit_user_submit').click(function(){
-            $.post($("#edit_user_<%= @user.id %>").attr("action"), $("#edit_user_<%= @user.id %>").serialize(),
-                    function() {
-                        $.post($("#userIamForm").attr("action"), $("#userIamForm").serialize(),
-                                function() {
-                                    location.reload();
-                                });
-                    });
+          $.post($("#edit_user_<%= @user.id %>").attr("action"), $("#edit_user_<%= @user.id %>").serialize(), function() {
+            $.post($("#userIamForm").attr("action"), $("#userIamForm").serialize(), function() {
+                location.reload();
+              }, "json");
+          }, "json");
         });
         $('#edit_tags_submit').click(function(){
             $.post($("#edit_tags_form").attr("action"), $("#edit_tags_form").serialize(),
@@ -576,6 +641,10 @@
             e.preventDefault();
             $('#edit-tags-link').click();
         });
+        
+        <% if params[:section] %>
+          scrollToAnchor('<%= params[:section] %>');
+        <% end %>
     });
     var tagsUserIamArray = <%= GLOBAL_TAGS_IAM.map{|p| {:label=>p[1], :value=>p[0]}}.to_json.html_safe %>;
     var tagsUserLookingArray = <%= GLOBAL_TAGS_LOOKING.map{|p| {:label=>p[1], :value=>p[0]}}.to_json.html_safe %>;

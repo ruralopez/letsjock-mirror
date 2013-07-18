@@ -1,0 +1,8 @@
+<% if country_id %>
+    <% country = Country.find(country_id) %>
+<% else %>
+    <% country = Country.new %>
+<% end %>
+
+<%= hidden_field_tag name ? name : :country_id, country_id, :placeholder => "Country" %>
+<input class="typeahead country span2" placeholder="Country" data-provide="typeahead" type="text" value="<%= country.name %>">

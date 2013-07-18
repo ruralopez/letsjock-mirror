@@ -1,5 +1,7 @@
 <%= stylesheet_link_tag    "profile" %>
 <%= javascript_include_tag "application" %>
+<%= javascript_include_tag "/javascripts/countries.js" %>
+<%= javascript_include_tag "/javascripts/sports.js" %>
 
 <div class="container">
   <div class="row">
@@ -83,9 +85,8 @@
           <h4 class="inline">Personal Information</h4><p>Location, Birthday and Description</p>
           <!--Location-->
           <div class="input-prepend">
-            <!-- Aquí hay que agregar la lógica de los países (Select o Typeahead?) -->
             <span class="add-on"><i class="icon-map-marker"></i></span>
-            <%= f.text_field :country, :placeholder => "Country" %>
+            <%= render :partial => 'users/autocomplete_country', :locals => { :country_id => @user.country_id, :name => "user[country_id]" } %>
             <%= f.text_field :citybirth, :placeholder => "City" %>
           </div>
           <br />
@@ -105,7 +106,6 @@
           <div class="input-prepend">
             <span class="add-on"><i class="icon-pencil"></i></span>
             <%= f.text_area :resume, :class => "span5", :rows => 4, :placeholder => "Describe your skills and attributes" %>
-            <%= f.hidden_field :country, :value => 'Chile' %>
           </div>
           
           <div class="alert alert-error hide">

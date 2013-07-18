@@ -43,6 +43,12 @@ $(function(){
   $(".date").datepicker();
   $('.dropdown-toggle').dropdown();
   
+  /*
+   *  view: _autocomplete_country
+   */  
+  $('.typeahead.country').typeahead({minLength: 0, source: handlerSourceCountry, updater: handlerUpdaterCountry}).bind("focus", triggerShow);
+  $('.typeahead.users').typeahead({minLength: 0, source: handlerSourceUser, updater: handlerUpdaterUser});
+  
   // EDIT PROFILE
   $('#edit-profile-link').click(function(){
     $('#edit-profile').toggle("normal").toggleClass("hidden");
@@ -226,6 +232,78 @@ $(function(){
     }
   });
   
+  // RECOMMENDATIONS
+  // _modal_recommendation
+  $("#askRecommendation .btn-success").click(function(e) {
+    e.preventDefault();
+    var data = {};
+    
+    if( $("#askRecommendation #writer_id").val() != "" && $("#askRecommendation .email-box").val() == "" ) {
+      data["writer_id"] = $("#askRecommendation #writer_id").val();
+      data["writer_email"] = "";
+    }else if( $("#askRecommendation .email-box").val() == "" ) {
+      $("#askRecommendation .users").addClass("hide");
+      $("#askRecommendation .email-box").removeClass("hide");
+      return false;
+    }else { // Validar el mail
+      data["writer_id"] = 0;
+      data["writer_email"] = $("#askRecommendation .email-box").val();
+    }
+    
+    // Validar los campos adicionales
+    data["writer_type"] = $("#askRecommendation #writer_type").val();
+    
+    if( $("#askRecommendation #writer_type").val() == "Other" && $("#askRecommendation .other-type").val() == "" ) {
+      $("#askRecommendation .alert-error").text("You must specify other type.").removeClass("hide");
+      return false;
+    }else if( $("#askRecommendation #writer_type").val() == "Other" ) {
+      data["writer_type"] = $("#askRecommendation .other-type").val();
+    }
+    
+    if( $("#askRecommendation #writer_type").val() == "Coach" && $("#askRecommendation #sport_id").val() == "" ) {
+      $("#askRecommendation .alert-error").text("You must specify a sport.").removeClass("hide");
+      return false;
+    }else
+      data["sport_id"] = $("#askRecommendation #sport_id").val();
+    
+    $("#askRecommendation .alert-error").addClass("hide");
+    boton = $(this).attr("disabled", "disabled").text("Sending...");
+    data["message"] = $("#askRecommendation textarea").val();
+    
+    $.post("/ask_recommendation", data, function(data) {
+      boton.prev().text("Close");
+      boton.addClass("hide");
+      $("#askRecommendation .alert-success").removeClass("hide");
+    }, "json");
+    
+    return true;
+  });
+  
+  $("#askRecommendation #writer_type").change(function(){
+    if( $(this).val() == "Other" ){
+      $("#askRecommendation .other-type").removeClass("hide");
+      $("#askRecommendation .typeahead.sports").addClass("hide");
+    }else if( $(this).val() == "Coach" ){
+      $("#askRecommendation .other-type").addClass("hide");
+      $("#askRecommendation .typeahead.sports").removeClass("hide");
+    }else{
+      $("#askRecommendation .other-type").addClass("hide");
+      $("#askRecommendation .typeahead.sports").addClass("hide");
+    }
+  });
+  
+  $("#askRecommendation .btn[data-dismiss=modal]").click(function(){
+    $("#askRecommendation .btn-success").removeClass("hide").text("Send request").removeAttr("disabled");
+    $("#askRecommendation .writer_id").val("");
+    $("#askRecommendation .users").val("").removeClass("hide");
+    $("#askRecommendation .email-box").val("").addClass("hide");
+    $("#askRecommendation .writer_type").val("Coach");
+    $("#askRecommendation .other-type").val("").addClass("hide");
+    $("#askRecommendation .typeahead.sports").val("").removeClass("hide");
+    $("#askRecommendation #sport_id").val("");
+    $("#askRecommendation textarea").val("");
+    $("#askRecommendation .alert").addClass("hide");
+  });
 });
 
 /*
@@ -267,6 +345,126 @@ function form_profile_validate(form, errors){
   
   return false;
 }
+
+/*
+ *  Autocomplete
+ *  view: sports/_autocomplete
+ */
+function handlerSourceSport (query, process){
+  parent_id = this.$element.attr("data-parent") || null;
+  
+  if(parent_id == null)
+    sports_parents = $.grep(sports, function(element, index){ return true; });
+  else
+    sports_parents = $.grep(sports, function(element, index){
+      return element.parent_id == parent_id;
+    });
+  
+  var arr = $.map(sports_parents, function(el, i) {
+    return el.name;
+  });
+  
+  process(arr);
+}
+function handlerUpdaterSport (item) {
+  sport = $.grep(sports_parents, function(element, index){
+    return element.name == item;
+  })[0];
+  
+  this.$element.parent().find("#sport_id").val(sport.id);
+  
+  this.$element.next(".typeahead").next(".typeahead").remove();
+  this.$element.next(".typeahead").remove();
+  
+  var childs = $.grep(sports, function(element, index){ return element.parent_id == sport.id; }).length > 0;
+  
+  if(childs){
+    this.$element.after("<input class='typeahead sports_" + sport.id + " span2' placeholder='Type position or category' data-provide='typeahead' type='text' data-parent='" + sport.id + "'>");
+    $( '.typeahead.sports_' + sport.id ).typeahead({minLength: 0, source: handlerSourceSport, updater: handlerUpdaterSport}).focus();
+  }
+  return item;
+}
+function handlerHighlighterSport(item){
+  sport = $.grep(sports_parents, function(element, index){
+    return element.name == item;
+  })[0];
+  
+  html = '<div class="typeahead">';
+  html += '<div class="left">';
+  html += '<div>'+sport.name+'</div>';
+  html += '<div class="sport-parent">' + _getSportParent(sport.parent_id) + '</div>';
+  html += '</div>';
+  html += '<div class="clear"></div>';
+  html += '</div>';
+  return html;
+}
+function _getSportParent(id){
+  var _tmp  = "";
+  
+  if(id){
+    sports_parent = $.grep(sports, function(element, index){
+      return element.id == id;
+    })[0];
+    
+    _tmp = sports_parent.name;
+    
+    if(sports_parent.parent_id)
+      _tmp += " < " + _getSportParent(sports_parent.parent_id);
+  }
+  
+  return _tmp;
+}
+
+/*  
+ *  views: users/_autocomplete_country
+ */
+function handlerSourceCountry (query, process){
+  var arr = $.map(countries, function(el, i) {
+    return el.name;
+  });
+  
+  process(arr);
+}
+function handlerUpdaterCountry (item) {
+  country = $.grep(countries, function(element, index){
+    return element.name == item;
+  })[0];
+  
+  this.$element.prev().val(country.id);
+  return item;
+}
+function triggerShow(){
+  if($(this).val() == ""){
+    $(this).val("a");
+    $(this).typeahead("lookup");
+    $(this).val("");
+  }
+}
+
+/*  
+ *  views: layouts/_sponsor_leftbox, layouts/_modal_recommendation
+ */
+function handlerSourceUser (query, process){
+  return $.get('/typeahead', { type: "User", query: query }, function (data) {
+    results = data.options;
+    
+    var arr = $.map(data.options, function(el, i) {
+      return el.name + " " + el.lastname;
+    });
+    
+    return process(arr);
+  });
+}
+function handlerUpdaterUser (item) {
+  user = $.grep(results, function(element, index){
+    return element.name + " " + element.lastname == item;
+  })[0];
+  
+  this.$element.prev().val(user.id);
+  
+  return item;
+}
+
 
 /*
  *  Additional functions
@@ -311,4 +509,8 @@ function lastKey(obj){
   }
   
   return last;
+}
+function scrollToAnchor(aid){
+  var aTag = $("a[name='"+ aid +"']");
+  $('html,body').animate({scrollTop: aTag.offset().top},'slow');
 }

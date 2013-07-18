@@ -4,7 +4,7 @@
     <i class="icon-calendar"></i>Founded<span><%= ( @user.birth && @user.birth != "" ) ? @user.birth.year : "?" %></span>
   </h5>
   <h5>
-    <i class="icon-map-marker"></i>Headquarters<span><%= @user.citybirth ? @user.citybirth : "Location" %>, <%= @user.country ? @user.country : "Country" %></span>
+    <i class="icon-map-marker"></i>Headquarters<span><%= @user.citybirth ? @user.citybirth : "Location" %>, <%= @user.country_id ? @user.country.name : "" %></span>
   </h5>
   <!--<h5><i class="icon-group"></i>Size<span><%= @user.preferences[:size] %> employees</span></h5>-->
   
@@ -23,31 +23,6 @@
   </div>
   <script>
     $(document).ready(function(){
-      var results = {};
-      
-      $(".typeahead.users").typeahead({
-        source: function (query, process) {
-          return $.get('/typeahead', { type: "User", query: query }, function (data) {
-            results = data.options;
-            
-            var arr = $.map(data.options, function(el, i) {
-              return el.name + " " + el.lastname;
-            });
-            console.log(results);
-            return process(arr);
-          });
-        },
-        updater: function(item){
-          user = $.grep(results, function(element, index){
-            return element.name + " " + element.lastname == item;
-          })[0];
-          
-          $("input[name=admin_id]").val(user.id);
-          
-          return item;
-        }
-      });
-      
       $(".btn-add-admin").click(function(){
         if($("input[name=admin_id]").val() != ""){
           var data = {};

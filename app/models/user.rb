@@ -7,11 +7,13 @@ class User < ActiveRecord::Base
   has_many :sponsors_events, :dependent => :destroy
   has_many :events, :through => :sponsors_events
 
+  has_one :country, :primary_key => "country_id", :foreign_key => "id", :class_name => "Country"
   has_one :publishers
   has_many :subscriptions
   has_many :activities
   has_many :notifications
   has_many :stats
+  has_many :recommendations
 
   has_many :educations, :dependent => :destroy
   has_many :outcomes
@@ -46,7 +48,7 @@ class User < ActiveRecord::Base
 
   has_many :messages
 
-  attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country, :address, :phone, :resume, :height, :weight, :profilephotourl, :authentic_email, :isSponsor, :preferences, :certified
+  attr_accessible :email, :lastname, :name, :password, :password_confirmation, :gender, :birth, :citybirth, :country_id, :address, :phone, :resume, :height, :weight, :profilephotourl, :authentic_email, :isSponsor, :preferences, :certified, :rut
 
   before_save :profilepic
   before_save { |user| user.email = email.downcase}

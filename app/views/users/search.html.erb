@@ -3,140 +3,333 @@
 
 <div class="container">
 
-<div class="row">
-  <div class="span12">
-    <div class="page-title margin-10">
-      <h3 class="inline">Search</h3>
-    </div>
-  </div>
-</div>
-
-<div class="row relative">
-<div class="span9">
-
-  <div class="accordion" id="accordion2">
-    <div class="accordion-group">
-      <div class="accordion-heading">
-        <a class="accordion-toggle btn-link" style="color:#0088cc;" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-          Advanced Search
-        </a>
-      </div>
-      <div id="collapseOne" class="accordion-body collapse">
-        <div class="accordion-inner">
-          <%=  form_tag ({:controller => "users", :action => "search"}) do |f| %>
-              <div class="span3">
-                <h5>Name</h5>
-                <%= text_field_tag :name, nil, :class => "span3" %>
-              </div>
-              <div class="span3">
-                <h5>Lastname</h5>
-                <%= text_field_tag :lastname, nil, :class => "span3" %>
-              </div>
-              <div class="span3">
-                <h5>Birthdate from</h5>
-                <div class="input-prepend date" data-date="12-02-1995" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
-                  <span class="add-on"><i class="icon-calendar"></i></span>
-                  <%= text_field_tag :init, @init ? @init.strftime("%d-%m-%Y") : nil, :placeholder => "Date from (dd-mm-yyyy)", :class => "span3"%>
-                </div>
-              </div>
-              <div class="span3">
-                <h5>Birthdate to</h5>
-                <div class="input-prepend date" data-date="12-02-1995" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
-                  <span class="add-on"><i class="icon-calendar"></i></span>
-                  <%= text_field_tag :end, @end ? @end.strftime("%d-%m-%Y") : nil, :placeholder => "Date to (dd-mm-yyyy)", :class => "span3"%>
-                </div>
-              </div>
-              <div class="span3">
-                <h5>Weight min.</h5>
-                <%= text_field_tag :weight_min, nil, :class => "span3" %>
-              </div>
-              <div class="span3">
-                <h5>Weight max.</h5>
-                <%= text_field_tag :weight_max, nil, :class => "span3" %>
-              </div>
-              <div class="span3">
-                <h5>Height min.</h5>
-                <%= text_field_tag :height_min, nil, :class => "span3" %>
-              </div>
-              <div class="span3">
-                <h5>Height max.</h5>
-                <%= text_field_tag :height_max, nil, :class => "span3" %>
-              </div>
-              <div class="span3">
-                <h5>Gender</h5>
-                <%= select_tag :gender, options_for_select([["Male", "M"], ["Female", "F"]]), :class => "span3" %>
-              </div>
-              <div class="span3">
-                <h5>Sport</h5>
-                <input class="span3" type="text" placeholder="Type a Sport" data-provide="typeahead" data-source= '<%= @sports_list %>' data-items="4">
-              </div>
-              <div class="span3">
-                <h5>Expected graduation date</h5>
-                <%= text_field_tag :grad_date, nil, :class => "span3", :disabled => true, :placeholder => "Soon" %>
-              </div>
-              <div class="span3">
-                <h5>School</h5>
-                <%= text_field_tag :school, nil, :class => "span3", :disabled => true, :placeholder => "Soon" %>
-              </div>
-              <div class="span3">
-                <h5>City</h5>
-                <%= text_field_tag :city, nil, :class => "span3", :disabled => true, :placeholder => "Soon" %>
-              </div>
-              <div class="span3">
-                <h5>Country</h5>
-                <%= text_field_tag :country, nil, :class => "span3", :disabled => true, :placeholder => "Soon" %>
-              </div>
-              <div class="span3">
-                <h5>Certified profile?</h5>
-                <%= check_box_tag :certified, 0, :class => "span3", :disabled => true, :placeholder => "Soon" %>
-              </div>
-              <div class="pull-left">
-                <%= submit_tag "Find", :class => "btn btn-primary", :style=>"margin-top:30px;" %>
-              </div>
-          <% end %>
+    <div class="row">
+      <div class="span12">
+        <div class="page-title margin-10">
+          <h3 class="inline">Search</h3>
         </div>
       </div>
     </div>
-  </div>
 
-
-<!--
-<div>
-
-</div>
- -->
-<%	 if @result %>
-      <h3>Results for:<small> <%= @query %></small></h3>
-      <% if @result == -1 %>
-        <p>No matches found.</p>
-      <% else %>
-      <div style="clear:both;">
-        <%	 @result.each do |user| %>
-            <div class="item-block span2">
-              <div class="item-img">
-                <%= link_to image_tag(user.profilephotourl) , user%>
+    <div class="row">
+        <div class="span3">
+        <%=  form_tag({:controller => "users", :action => "search"}, :class => "search-filters") do %>
+            <div class="accordion" id="filters">
+            <!--Basics-->
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#filters" href="#basics" style="height:20px !important;">
+                  Basics <i class="icon-chevron-down"></i>
+                </a>
               </div>
-              <div class="item-info">
-                <h4><%=	 link_to user.full_name, user %></h4>
-                <p><%= user.sport_show%></p>
-                <p class="special"><%= user.citybirth %>, <%= user.country %></p>
-              </div>
-              <div class="item-info secondary-info">
-                <p><b><%= link_to user.followers.count.to_s + " followers", social_path(user) %></b> | <%= link_to user.followed_users.count.to_s + "  following", social_path(user) %></p>
-                <a href="#inboxModal" data-toggle="modal" role="button" id="new-inbox-btn" class="send-message"><i class="icon-envelope"></i></a>
+              <div id="basics" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  <fieldset>
+                    <p>Name</p>
+                    <%= text_field_tag :name, nil, :placeholder => "Name", :class => "input-block-level" %>
+                    <p>Lastname</p>
+                    <%= text_field_tag :lastname, nil, :placeholder => "Lastname", :class => "input-block-level" %>
+                    <p>Age (between)</p>
+                    <%= select_tag :age_from, options_for_select(1..99), :include_blank => true, :class => "half-level" %>
+                    <p class="inline">and</p>
+                    <%= select_tag :age_to, options_for_select(1..99), :include_blank => true, :class => "half-level" %>
+                    <p>Genre</p>
+                    <label class="checkbox">
+                      <%= check_box_tag :male, nil %> Male
+                    </label>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :female, nil %> Female
+                    </label>
+                    <p>Location</p>
+                    <%= text_field_tag :country_id, nil, :placeholder => "Country", :class => "input-block-level", :disabled => true %>
+                    <%= text_field_tag :city_id, nil, :placeholder => "City", :class => "input-block-level", :disabled => true %>
+                    <p>Role</p>
+                    <label class="checkbox">
+                      <%= check_box_tag :athlete, nil, false, :disabled => true %> Athlete
+                    </label>
+                    <label class="checkbox">
+                      <%= check_box_tag :recruiter, nil, false, :disabled => true %> Recruiter
+                    </label>
+                    <label class="checkbox">
+                      <%= check_box_tag :sports_related_pro, nil, false, :disabled => true %> Sports Related Professional
+                    </label>
+                    <label class="checkbox">
+                      <%= check_box_tag :sports_lover, nil, false, :disabled => true %> Sports Lover
+                    </label>
+                    <label class="checkbox">
+                      <%= check_box_tag :coach, nil, false, :disabled => true %> Coach
+                    </label>
+                    <label class="checkbox">
+                      <%= check_box_tag :high_performance_athlete, nil, false, :disabled => true %> High Performance Athlete
+                    </label>
+                  </fieldset>
+                </div>
               </div>
             </div>
+            <!--Education-->
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#filters" href="#education" style="height:20px !important;">
+                  Education <i class="icon-chevron-down"></i>
+                </a>
+              </div>
+              <div id="education" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  <fieldset>
+                    <p>High School Graduation Year</p>
+                    <%= select_tag :high_school_graduation_from, options_for_select(2013..2030), :include_blank => true, :class => "half-level", :disabled => true %>
+                    <p class="inline">and</p>
+                    <%= select_tag :high_school_graduation_to, options_for_select(2013..2030), :include_blank => true, :class => "half-level", :disabled => true %>
+                    <p>School</p>
+                    <%= text_field_tag :school, nil, :placeholder => "School", :class => "input-block-level", :disabled => true %>
+                    <p>Rank</p>
+                    <%= text_field_tag :rank, nil, :placeholder => "Rank", :class => "input-block-level", :disabled => true %>
+                    <p>GPA</p>
+                    <%= text_field_tag :gpa, nil, :placeholder => "GPA", :class => "input-block-level", :disabled => true %>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+            <!--Sport Basic-->
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#filters" href="#sportBasic" style="height:20px !important;">
+                  Sport basic <i class="icon-chevron-down"></i>
+                </a>
+              </div>
+              <div id="sportBasic" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  <fieldset>
+                    <p>Sport</p>
+                    <%= text_field_tag :sport_id, nil, :placeholder => "Sport", :class => "input-block-level" %>
+                    <%= link_to '+ add other sport', '#' %>
+                    <hr>
+                    <p>Weight (between)</p>
+                    <%= select_tag :weight_from, options_for_select(20..120), :include_blank => true, :class => "half-level" %>
+                    <p class="inline">and</p>
+                    <%= select_tag :weight_to, options_for_select(20..120), :include_blank => true, :class => "half-level" %>
+                    <p>Height (between)</p>
+                    <%= select_tag :height_from, options_for_select(90..245), :include_blank => true, :class => "half-level" %>
+                    <p class="inline">and</p>
+                    <%= select_tag :height_to, options_for_select(90..245), :include_blank => true, :class => "half-level" %>
+                    <p>Speed and endurance</p>
+                    <label class="checkbox float">
+                      <%= check_box_tag :speed25m, nil, false, :disabled => true %> 25m:
+                    </label>
+                    <%= text_field_tag :speed25, nil, :placeholder => "Below this value", :class => "half-level", :disabled => true %>
+                    <br>
+                    <label class="checkbox float">
+                      <%= check_box_tag :speed100m, nil, false, :disabled => true %> 100m:
+                    </label>
+                    <%= text_field_tag :speed100, nil, :placeholder => "Below this value", :class => "half-level", :disabled => true %>
+                    <br>
+                    <label class="checkbox float">
+                      <%= check_box_tag :speed1000m, nil, false, :disabled => true %> 1000m:
+                    </label>
+                    <%= text_field_tag :speed1000, nil, :placeholder => "Below this value", :class => "half-level", :disabled => true %>
+                    <br>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+            <!--Jock-->
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#filters" href="#jock" style="height:20px !important;">
+                  Jock <i class="icon-chevron-down"></i>
+                </a>
+              </div>
+              <div id="jock" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  <fieldset>
+                    <p>Certified profile</p>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :certified, nil, false, :disabled => true %> Certification required
+                    </label>
+                    <p>Results</p>
+                    <%= text_field_tag :result_place, nil, :placeholder => "Place", :class => "input-block-level", :disabled => true %>
+                    <%= text_field_tag :result_position, nil, :placeholder => "Position", :class => "input-block-level", :disabled => true %>
+                    <p>Best mark</p>
+                    <%= text_field_tag :best_mark, nil, :placeholder => "Best mark", :class => "input-block-level", :disabled => true %>
+                    <p>Coach</p>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :coach, nil, false, :disabled => true %> Coach
+                    </label>
+                    <p>Award</p>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :award, nil, false, :disabled => true %> Award
+                    </label>
+                    <%= text_field_tag :award_name, nil, :placeholder => "Award Name", :class => "input-block-level", :disabled => true %>
+                    <p>Team</p>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :team, nil, false, :disabled => true %> Team
+                    </label>
+                    <%= text_field_tag :team_name, nil, :placeholder => "Team Name", :class => "input-block-level", :disabled => true %>
+                    <p>National Team</p>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :nation_team, nil, false, :disabled => true %> National Team
+                    </label>
+                    <p>Team Captain</p>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :team_captain, nil, false, :disabled => true %> Team Captain
+                    </label>
+                    <p>Agent</p>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :agent, nil, false, :disabled => true %> Agent
+                    </label>
+                    <p>Sponsor</p>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :sponsor, nil, false, :disabled => true %> Sponsor
+                    </label>
+                    <%= text_field_tag :sponsor_id, nil, :placeholder => "Sponsor Name", :class => "input-block-level", :disabled => true %>
+                    <p>Media</p>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :pictures, nil, false, :disabled => true %> Pictures
+                    </label>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :videos, nil, false, :disabled => true %> Videos
+                    </label>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :dartfish, nil, false, :disabled => true %> Dartfish Videos
+                    </label>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+            <!--Interests-->
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#filters" href="#interests" style="height:20px !important;">
+                  Interests <i class="icon-chevron-down"></i>
+                </a>
+              </div>
+              <div id="interests" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  <fieldset>
+                    <p>Looking for</p>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :sponsorship, nil, false, :disabled => true %> Sponsorship
+                    </label>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :scholarship, nil, false, :disabled => true %> Scholarship
+                    </label>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :coaching, nil, false, :disabled => true %> Coaching
+                    </label>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :walkon, nil, false, :disabled => true %> Walk-on
+                    </label>
+                    <p><i class="icon-book"></i> Area of interest</p>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :marketing, nil, false, :disabled => true %> Marketing
+                    </label>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :business, nil, false, :disabled => true %> Business
+                    </label>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :economics, nil, false, :disabled => true %> Economics
+                    </label>
+                    <p><i class="icon-map-marker"></i> Geographic area of interest</p>
+                    <%= text_field_tag :country_interests, nil, :placeholder => "Country", :class => "input-block-level", :disabled => true %>
+                    <%= text_field_tag :city_interests, nil, :placeholder => "City", :class => "input-block-level", :disabled => true %>
+                    <%= link_to "+ add other geographic area of interest", '#' %>
+                    <p><i class="icon-tag"></i> Division of interest</p>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :ncaa, nil, false, :disabled => true %> NCAA
+                    </label>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :naia, nil, false, :disabled => true %> NAIA
+                    </label>
+                    <label class="checkbox adjust">
+                      <%= check_box_tag :njaa, nil, false, :disabled => true %> NJCAA
+                    </label>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="pull-right btn btn-success btn-small">
+              <b>Submit</b>
+            </button>
+            <div class="clearfix"></div>
+
+            </button>
+            </div>
         <% end %>
-      </div>
-      <% end %>
-<%  end%>
-</div><!--span-->
+        </div><!--span3-->
+        <div class="span6 white">
+            <div class="results">
+              <div class="accordion" id="accordion2">
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                      <p><%= @result ? @result.count : 0 %> results for:</p>
+                    </a>
+                  </div>
+                  <div id="collapseOne" class="accordion-body collapse in">
+                    <div class="accordion-inner">
+                      <!--cada grupo de filtros-->
+                      <p>Basic:</p>
+                      <div class="tags-filters">
+                        <% if @queries[:basics].any? %>
+                          <% @queries[:basics].each do |key, value| %>
+                              <span><%= key %>: <%= value %></span>
+                          <% end %>
+                        <% else %>
+                          -
+                        <% end %>
+                      </div>
+                      <!--cada grupo de filtros-->
+                      <p>Sport:</p>
+                      <div class="tags-filters">
+                        <% if @queries[:sports].any? %>
+                            <% @queries[:sports].each do |key, value| %>
+                                <span><%= key %>: <%= value %></span>
+                            <% end %>
+                        <% else %>
+                            -
+                        <% end %>
+                      </div>
+                      <!--cada grupo de filtros-->
+                      <p>Interests:</p>
+                      <div class="tags-filters">
+                        <% if @queries[:interests].any? %>
+                            <% @queries[:interests].each do |key, value| %>
+                                <span><%= key %>: <%= value %></span>
+                            <% end %>
+                        <% else %>
+                            -
+                        <% end %>
+                      </div>
 
-<!-- /END THE FEATURETTES -->
+                    </div>
+                  </div>
+                </div>
+              </div><!--accordion2-->
+              <% if @result.any? %>
+                  <hr>
+                  <ul>
+                    <% @result.each do |result| %>
+                        <li>
+                          <%= image_tag result.profilephotourl, :class => "img-polaroid"  %>
+                          <div class="user-info">
+                            <h5><%= link_to result.full_name, result %></h5>
+                            <p><%= result.birth ? result.birth.to_s + ", " + result.age.to_s : "Not specified." %></p>
+                            <p><%= result.gender && result.gender.downcase == "m" ? "Male" : "Female" %></p>
+                            <p><%= result.citybirth ? result.citybirth : "-" %>, <%= result.country_id ? Country.find(result.country_id).name : "-" %></p>
+                            <%=	render :partial => 'search_follow_form', :locals => {:user => result} if signed_in? %>
+                            <button class="btn btn-small" disabled="disabled"><i class="icon-envelope"></i> Send a message</button>
+                          </div>
+                          <div class="clearfix"></div>
+                        </li>
+                    <% end %>
+                  </ul>
+              <% end %>
+            </div><!--results-->
+        </div><!--span6-->
 
-
-<div class="box-index box-connect box-contact span3">
-  <%= render 'layouts/rightbox' %>
-</div><!--box-connect-->
-</div>
-</div><!-- /.container -->
+        <div class="box-index box-connect box-contact span3">
+          <%= render 'layouts/rightbox' %>
+        </div><!--box-connect-->
+    </div><!--row-->
+</div><!--container-->

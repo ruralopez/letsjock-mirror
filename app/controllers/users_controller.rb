@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :pictures, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment, :highlight]
+  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :pictures, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment, :highlight, :ask_recommendation, :create_recommendation]
   
   def verify_login
     unless signed_in?
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(:phone => 18, :citybirth => "City", :country => "Country", :resume => "", :email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname], :isSponsor => false, :authentic_email => false, :gender => params[:gender])
+    @user = User.new(:phone => 18, :citybirth => "City", :country_id => 46, :resume => "", :email => params[:email], :password => params[:password], :name => params[:name], :lastname => params[:lastname], :isSponsor => false, :authentic_email => false, :gender => params[:gender])
 
     if @user.save
       respond_to do |format|
@@ -98,12 +98,19 @@ class UsersController < ApplicationController
                 @user.update_attribute(:profilephotourl, url)
               end
             end
-
-            redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully updated.'
+            
+            # Si viene con un redirect
+            if session[:redirected_by] && session[:redirected_by] != ""
+              tmp = session[:redirected_by]
+              session[:redirected_by] = nil
+              redirect_to tmp and return
+            else
+              redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully updated.'
+            end
           }
-          format.json { head :no_content }
+          format.json { render :json => { :status => true } }
         else
-          format.html { render :action => "edit" }
+          format.html { redirect_to profile_path(current_user) }
           format.json { render :json => @user.errors, :status => :unprocessable_entity }
         end
       end
@@ -152,7 +159,7 @@ class UsersController < ApplicationController
       @competitions = Competition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "end DESC, init DESC")
       @teams = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "end DESC, init DESC")
       @trains = Train.all(:conditions => ['user_id = ?', @user.id], :order => "end DESC, init DESC")
-      @results = Result.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date DESC")
+      @results = Result.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date DESC") # Podría comentarlo?
       @recognitions = Recognition.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, true], :order => "date DESC")
       
       # Solo deportes que no tengan hitos
@@ -163,7 +170,7 @@ class UsersController < ApplicationController
       
       @user_sports = UserSport.all(:conditions => ['user_id = ? AND sport_id NOT IN ( ? ) AND position IS NULL AND init IS NOT NULL AND end IS NOT NULL', @user.id, sports_exclude.length > 0 ? sports_exclude : 0 ], :order => "end DESC, init DESC")
       
-      @athleteExperiences = (@competitions + @teams + @trains + @results + @recognitions + @user_sports).to_set.classify { |milestone| milestone.sport_id }
+      @athleteExperiences = (@competitions + @teams + @trains + @results + @recognitions + @user_sports).to_set.classify { |milestone| Sport.find(milestone.sport_id).first_parent_name }
       
       #Juntar Works
       @teams_work = Team.all(:conditions => ['user_id = ? AND as_athlete = ?', @user.id, false], :order => "end DESC, init DESC")
@@ -344,7 +351,7 @@ class UsersController < ApplicationController
         end
         
         if work
-          work.update_attributes(:company => params[:company], :role => params[:role], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :country_id => 46, :location => params[:city])
+          work.update_attributes(:company => params[:company], :role => params[:role], :sport_id => params[:sport_id], :user_id => params[:user_id], :init => params[:init], :end => params[:end], :country_id => params[:country_id], :location => params[:city])
           as_athlete = false
         else
           work = NullObject.new
@@ -436,9 +443,9 @@ class UsersController < ApplicationController
         end
         
         if params[:highschool_name] != ""
-          education.update_attributes(:name => params[:highschool_name], :career => params[:country], :rank => params[:rank], :gda => params[:gda], :ncaa => params[:ncaa], :country_id => 46, :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
+          education.update_attributes(:name => params[:highschool_name], :rank => params[:rank], :gda => params[:gda], :ncaa => params[:ncaa], :country_id => params[:country_id], :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
         elsif params[:school_name] != ""
-          education.update_attributes(:name => params[:school_name], :career => params[:country], :degree => params[:degree], :country_id => 46, :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
+          education.update_attributes(:name => params[:school_name], :degree => params[:degree], :country_id => params[:country_id], :location => params[:city], :user_id => params[:user_id], :init => params[:init], :end => params[:end])
         end
       else
         flash[:error] = "You must complete all the required params."
@@ -692,7 +699,11 @@ class UsersController < ApplicationController
     notification = Notification.find(params[:id])
     notification.update_attributes(:read => true)
     
-    if notification.not_type == "003"
+    if notification.not_type == "000" 
+      redirect_to profile_path( notification.user2_id, { :section => "recommendations", :writer => true, :aux_id => notification.aux_id } )
+    elsif notification.not_type == "001"
+      redirect_to profile_path( notification.user_id, { :section => "recommendations" } )
+    elsif notification.not_type == "003"
       redirect_to profile_path( notification.user2_id )
     elsif notification.not_type == "004"
       redirect_to pictures_path(notification.user2_id, {:callback_id => notification.aux_id})
@@ -719,22 +730,27 @@ class UsersController < ApplicationController
   end
 
   def search
+    @queries = Hash.new
+    @queries[:basics] = Hash.new
+    @queries[:sports] = Hash.new
+    @queries[:interests] = Hash.new
+    @result = []
     if params[:query]
       @query = params[:query]
       queries = @query.split(" ")
       @result = []
+      @queries[:basics] = Hash.new
       queries.each do |qy|
         @result += User.all(:conditions => ["lower(name) LIKE ? OR lower(lastname) LIKE ?", "%#{qy}%".downcase, "%#{qy}%".downcase ]).sort_by(&:id)
+        @queries[:basics][:name] = qy
       end
       @result = @result.uniq
-      unless @result != []
-        @result = -1
-      end
-    elsif params[:commit] == "Find"
-      @result = User.all
+    elsif params.include?(:name)
+      @result = User.all(:conditions => ["id NOT IN (?)", [1]])
       if params[:name] != ""
         aux = @result
         @result = []
+        @queries[:basics][:name] = params[:name]
         aux.each do |user|
           @result.push(user) if user.name && user.name.downcase.include?(params[:name].downcase)
         end
@@ -742,61 +758,78 @@ class UsersController < ApplicationController
       if params[:lastname] != ""
         aux = @result
         @result = []
+        @queries[:basics][:lastname] = params[:lastname]
         aux.each do |user|
           @result.push(user) if user.lastname && user.lastname.downcase.include?(params[:lastname].downcase)
         end
       end
-      if params[:init] != ""
+      if params[:age_from] != ""
         aux = @result
         @result = []
+        @queries[:basics][:age] = "over " + params[:age_from]
         aux.each do |user|
-          @result.push(user) if user.birth && user.birth.to_date >= params[:init].to_date
+          @result.push(user) if user.birth && user.age >= params[:age_from].to_i
         end
       end
-      if params[:end] != ""
+      if params[:age_to] != ""
         aux = @result
         @result = []
+        @queries[:basics][:age] ? @queries[:basics][:age] = @queries[:basics][:age].split(" ")[1] + " - " + params[:age_to] : @queries[:basics][:age] = "below" + params[:age_to]
         aux.each do |user|
-          @result.push(user) if user.birth && user.birth.to_date <= params[:end].to_date
+          @result.push(user) if user.birth && user.age <= params[:age_to].to_i
         end
       end
-      if params[:weight_min] != ""
+      if params[:sport_id] != ""
         aux = @result
         @result = []
+        @queries[:sports][:sport] = Sport.find(params[:sport_id]).name
         aux.each do |user|
-          @result.push(user) if user.weight && user.weight >= params[:weight_min].to_i
+          @result.push(user) if UserSport.exists?(:sport_id => params[:sport_id], :user_id => user.id)
         end
       end
-      if params[:weight_max] != ""
+      if params[:weight_from] != ""
         aux = @result
         @result = []
+        @queries[:sports][:weight] = "over " + params[:weight_from]
         aux.each do |user|
-          @result.push(user) if user.weight && user.weight <= params[:weight_max].to_i
+          @result.push(user) if user.weight && user.weight >= params[:weight_from].to_i
         end
       end
-      if params[:height_min] != ""
+      if params[:weight_to] != ""
         aux = @result
         @result = []
+        @queries[:sports][:weight] ? @queries[:sports][:weight] = @queries[:sports][:weight].split(" ")[1] + " - " + params[:weight_to] : @queries[:sports][:weight] = "below" + params[:weight_to]
         aux.each do |user|
-          @result.push(user) if user.height && user.height >= params[:height_min].to_i
+          @result.push(user) if user.weight && user.weight <= params[:weight_to].to_i
         end
       end
-      if params[:height_max] != ""
+      if params[:height_from] != ""
         aux = @result
         @result = []
+        @queries[:sports][:height] = "over " + params[:height_from]
         aux.each do |user|
-          @result.push(user) if user.height && user.height <= params[:height_max].to_i
+          @result.push(user) if user.height && user.height >= params[:height_from].to_i
         end
       end
-      if params[:gender] != ""
+      if params[:height_to] != ""
         aux = @result
         @result = []
+        @queries[:sports][:height] ? @queries[:sports][:height] = @queries[:sports][:height].split(" ")[1] + " - " + params[:height_to] : @queries[:sports][:height] = "below" + params[:height_to]
         aux.each do |user|
-          @result.push(user) if user.gender && user.gender.downcase == params[:gender].downcase
+          @result.push(user) if user.height && user.height <= params[:height_to].to_i
+        end
+      end
+      if params[:male] || params[:female]
+        aux = @result
+        @result = []
+        @queries[:basics][:genre] = "male" if params[:male]
+        @queries[:basics][:genre] = "female" if params[:female]
+        @queries[:basics][:genre] = "male and female" if params[:male] && params[:female]
+        aux.each do |user|
+          @result.push(user) if user.gender && ((user.gender.downcase == "m" && params[:male])||(user.gender.downcase == "f" && params[:female]))
         end
       end
     end
-    @filters = User.new
     @sports_list = Sport.select('name').all.map(&:name)
   end
 
@@ -1102,8 +1135,11 @@ class UsersController < ApplicationController
         Tags.create(:id1 => tag, :type1 => "GLOBAL_TAGS_IAM", :id2 => params[:tags][:user_id], :type2 => "User")
       end
     end
-
-    redirect_to request.referer
+    
+    respond_to do |format|
+      format.html { redirect_to request.referer }
+      format.json { render :json => { :status => true } }
+    end
   end
 
   def add_user_tag
@@ -1183,7 +1219,63 @@ class UsersController < ApplicationController
       format.js
     end
   end
+  
+  def ask_recommendation
+    if params[:writer_id] != "" || params[:writer_email] != ""
+      # Crea la recomendación con el status en 0
+      recommendation = Recommendation.create(:user_id => current_user.id, :writer_id => params[:writer_id] ? params[:writer_id] : nil, :writer_type => params[:writer_type], :sport_id => params[:sport_id] ? params[:sport_id] : nil, :status => 0)
+      
+      UserMailer.ask_recommendation({ :id => recommendation.id, :name => current_user.full_name, :email => params[:writer_email] != "" ? params[:writer_email] : User.select("email").find(params[:writer_id]).email, :message => params[:message] }).deliver
+      
+      if params[:writer_id] != "" && User.exists?(params[:writer_id])
+        Notification.create( :user_id => params[:writer_id], :user2_id => current_user.id, :read => false, :not_type => "000", :aux_id => recommendation.id )
+      end
+    end
+    
+    respond_to do |format|
+      format.html { redirect_to request.referer }
+      format.json { render :json => { :status => true } }
+    end
+  end
+  
+  def write_recommendation
+    if signed_in?
+      # Follow y followed, sino no va a poder ver el perfil
+      if Recommendation.exists?(params[:id])
+        recommendation = Recommendation.find(params[:id])
+        recommendation.update_attribute(:writer_id, current_user.id)
+        user = User.find(recommendation.user_id)
+        
+        unless user.following?(current_user)
+          user.follow!(current_user)
+        end
+        
+        unless Notification.exists?(:user_id => current_user.id, :user2_id => params[:id], :not_type => "000")
+          Notification.create( :user_id => current_user.id, :user2_id => recommendation.user_id, :read => false, :not_type => "000", :aux_id => recommendation.id )
+        end
+        
+        redirect_to profile_path(user, { :section => "recommendations", :writer => true, :aux_id => recommendation.id })
+      else
+        session[:redirected_by] = nil
+        redirect_to news_path
+      end
+    else
+      session[:redirected_by] = "/write_recommendation/" + params[:id]
+      flash[:error] = "You must be logged in."
+      redirect_to root_path and return
+    end
+  end
 
+  def create_recommendation
+    if params[:recommendation_id] != "" && params[:content] && params[:id] != current_user.id
+      recommendation = Recommendation.find(params[:recommendation_id])
+      recommendation.update_attributes(:content => params[:content], :status => 1)
+      
+      Notification.create( :user_id => recommendation.user_id, :user2_id => current_user.id, :read => false, :not_type => "001", :aux_id => recommendation.id )
+    end
+    
+    redirect_to profile_path(params[:id])
+  end
 end
 
 class NullObject

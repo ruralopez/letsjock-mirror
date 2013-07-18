@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130702204832) do
+ActiveRecord::Schema.define(:version => 20130715204015) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -189,6 +189,17 @@ ActiveRecord::Schema.define(:version => 20130702204832) do
     t.boolean  "highlight"
   end
 
+  create_table "recommendations", :force => true do |t|
+    t.integer  "user_id",     :null => false
+    t.integer  "writer_id",   :null => false
+    t.string   "writer_type", :null => false
+    t.integer  "sport_id"
+    t.boolean  "status"
+    t.text     "content",     :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "relationships", :force => true do |t|
     t.integer  "follower_id"
     t.integer  "followed_id"
@@ -343,6 +354,7 @@ ActiveRecord::Schema.define(:version => 20130702204832) do
     t.string   "gender"
     t.date     "birth"
     t.string   "citybirth"
+    t.integer  "country_id",      :null => false
     t.string   "country"
     t.integer  "phone"
     t.text     "resume"
@@ -357,6 +369,7 @@ ActiveRecord::Schema.define(:version => 20130702204832) do
     t.datetime "updated_at",      :null => false
     t.string   "address"
     t.boolean  "certified"
+    t.string   "rut"
   end
 
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
