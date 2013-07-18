@@ -970,6 +970,60 @@ class UsersController < ApplicationController
       format.js
     end
   end
+  
+  def compare
+	@users_array = User.find(:all, :conditions => ["isSponsor = ?", false]).map{|p| {:label=>p.full_name, :value=>p.id, :sport=>p.sport_show, :image=>p.profilepic_route}}.to_json.html_safe
+  end
+
+  def comparison
+    @users_array = User.find(:all, :conditions => ["isSponsor = ?", false]).map{|p| {:label=>p.full_name, :value=>p.id, :sport=>p.sport_show, :image=>p.profilepic_route}}.to_json.html_safe
+
+    if params[:user1_id] && params[:user1_id] != ""
+      @user1 = User.find(params[:user1_id])
+      @train1 = Train.find(:all, :conditions => ["user_id = ?", @user1.id])
+      @award1 = Recognition.find(:all, :conditions => ["user_id = ?", @user1.id])
+      @team1 = Team.find(:all, :conditions => ["user_id = ?", @user1.id])
+      @school1 = Education.find(:first, :conditions => ["user_id = ?", @user1.id])
+
+      @tags1 = Tags.all(:conditions => ["type2 = ? AND type1 = ? AND id1 = ?", "Photo", "User", @user1.id])
+      @tag_photos1 = []
+      unless @tags1.empty?
+        @tags1.each do |tag|
+          @tag_photos1.push(Photo.find(tag.id2))
+        end
+      end
+      @photos1 = Photo.all(:conditions => ['user_id = ?', @user1.id], :order => "id desc")
+      unless @tag_photos1.empty?
+        @photos1 = @photos1 + @tag_photos1
+      end
+      @videos1 = Video.all(:conditions => ['user_id = ?', @user1.id], :order => "id desc")
+    end
+
+    if params[:user2_id] && params[:user2_id] != ""
+      @user2 = User.find(params[:user2_id])
+      @train2 = Train.find(:all, :conditions => ["user_id = ?", @user2.id])
+      @award2 = Recognition.find(:all, :conditions => ["user_id = ?", @user2.id])
+      @team2 = Team.find(:all, :conditions => ["user_id = ?", @user2.id])
+      @school2 = Education.find(:first, :conditions => ["user_id = ?", @user2.id])
+
+      @tags2 = Tags.all(:conditions => ["type2 = ? AND type1 = ? AND id1 = ?", "Photo", "User", @user2.id])
+      @tag_photos2 = []
+      unless @tags2.empty?
+        @tags2.each do |tag|
+          @tag_photos2.push(Photo.find(tag.id2))
+        end
+      end
+      @photos2 = Photo.all(:conditions => ['user_id = ?', @user2.id], :order => "id desc")
+      unless @tag_photos2.empty?
+        @photos2 = @photos2 + @tag_photos2
+      end
+      @videos2 = Video.all(:conditions => ['user_id = ?', @user2.id], :order => "id desc")
+    end
+
+    respond_to do |format|
+      format.html
+    end
+  end
 
   def add_comment
     if params[:object_id] !="" && params[:object_type] != "" && params[:writer_id] != "" && params[:comment] != ""
