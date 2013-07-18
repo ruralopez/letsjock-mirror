@@ -8,7 +8,7 @@
     <div class="presentation">
       <div class="notify-me welcome">
         <h3>¡Bienvenido a la versión privada de Let's Jock!</h3>
-        <ul>
+        <ul class="full">
           <li>
             <%= image_tag 'welcome_1.png' %>
             Crea tu perfil deportivo.
@@ -22,7 +22,7 @@
             Inscríbete en eventos deportivos.
           </li>
         </ul>
-        <a href="/newprofile?token=<%= params[:token] %>"><button class="btn btn-success btn-large">Continuar</button></a>
+        <a href="/newprofile?token=<%= params[:token] %>" class="btn btn-success btn-large">Continuar</a>
 
         <div class="bottom">
           <p>Siguenos en</p>

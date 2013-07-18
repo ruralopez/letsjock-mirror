@@ -25,7 +25,7 @@ footer .container{padding-bottom:0;}
 .presentation{
     width:700px;
     height:auto;
-    margin:100px auto 0;
+    margin: 60px auto 0;
     background-color:rgba(255,255,255,0.1);
     border-radius:5px;
     -moz-border-radius:5px;
@@ -187,17 +187,27 @@ footer .container{padding-bottom:0;}
     list-style:none outside none;
     margin:0 0 20px;
 
-    -moz-column-count: 3;
+    /*-moz-column-count: 3;
     -moz-column-gap: 90px;
     -webkit-column-count: 3;
     -webkit-column-gap: 90px;
     column-count: 3;
-    column-gap: 90px;
+    column-gap: 90px;*/
 }
-
+    .welcome ul.full{
+        width:100% !important;
+    }
 .welcome ul li{
-    display: inline-block; /* Display inline-block, and absolutely NO FLOATS! */
-    width: 100%;
+    display: inline-block; 
+    width: 27%;
+    margin-left:8%;
+    vertical-align: top;
+}
+    .welcome ul li:first-child{
+        margin-left: 0;
+    }
+.welcome a.btn {
+    color: #FFF;
 }
 
 .bottom{
@@ -303,8 +313,8 @@ a.forgot{color:white; display:inline;}
 }
 
 .gray-content .welcome{
-    width:90%;
-    margin:10px auto 0;
+	width:100%;
+	margin:2em 0 3em;
     padding:0;
 }
 
@@ -322,13 +332,13 @@ a.forgot{color:white; display:inline;}
 }
 
 blockquote.enunciado{
-    width:80%;
+	width:60%;
     color:#999;
-    margin:0 auto 10px;
-    padding: 0 0 10px;
-    box-shadow:0 4px 5px -5px rgba(0, 0, 0, 0.4);
-    -moz-box-shadow:0 4px 5px -5px rgba(0, 0, 0, 0.4);
-    -webkit-box-shadow:0 4px 5px -5px rgba(0, 0, 0, 0.4);
+	margin:1em auto 1em;
+	padding: 0 0 1em;
+	box-shadow:0 4px 5px -6px rgba(0, 0, 0, 0.4);
+	-moz-box-shadow:0 4px 5px -6px rgba(0, 0, 0, 0.4);
+	-webkit-box-shadow:0 4px 5px -6px rgba(0, 0, 0, 0.4);
     line-height:150%;
     font-weight:bold;
 }
@@ -339,7 +349,7 @@ blockquote.enunciado{
     width:100%;
     padding-top:1em;
     background-color:white;
-    margin-bottom:10px;
+	margin-bottom:0;
     color:#222222;
     text-align:center;
 }
