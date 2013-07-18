@@ -115,6 +115,8 @@ logo-anfp.jpg: logo-anfp-1271e3d0e227af36b98d3416b861b54a.jpg
 logo-anfp/index.jpg: logo-anfp-1271e3d0e227af36b98d3416b861b54a.jpg
 logo-corfo.png: logo-corfo-c582bef1e6b348e3d25ba862bb632349.png
 logo-corfo/index.png: logo-corfo-c582bef1e6b348e3d25ba862bb632349.png
+logo-dartfish.png: logo-dartfish-7ba658101ec8740b454f2d2ea151361f.png
+logo-dartfish/index.png: logo-dartfish-7ba658101ec8740b454f2d2ea151361f.png
 logo-fedachi.jpg: logo-fedachi-2bfdffec5ad0dadadcb6b76cbd0a6f39.jpg
 logo-fedachi/index.jpg: logo-fedachi-2bfdffec5ad0dadadcb6b76cbd0a6f39.jpg
 logo-fede.png: logo-fede-0e0d1fb85e51c367adc187b42ca85e6b.png
@@ -199,6 +201,8 @@ user-8.jpg: user-8-b6e499de5e81668ef53cc4661ceb6dcc.jpg
 user-8/index.jpg: user-8-b6e499de5e81668ef53cc4661ceb6dcc.jpg
 user-9.jpg: user-9-36bc6e539555695b956fb8e1616c107d.jpg
 user-9/index.jpg: user-9-36bc6e539555695b956fb8e1616c107d.jpg
+user.png: user-f25b55b93ff5e32acac990d65c4e944f.png
+user/index.png: user-f25b55b93ff5e32acac990d65c4e944f.png
 valid.png: valid-37aec9407d1e78a06a91fc3a8cb21f9d.png
 valid/index.png: valid-37aec9407d1e78a06a91fc3a8cb21f9d.png
 verified.png: verified-aa09db080c16b0f974ea6b534155a125.png
@@ -217,8 +221,8 @@ welcome_3.png: welcome_3-bd72296762ab314abf69a05aef7cb526.png
 welcome_3/index.png: welcome_3-bd72296762ab314abf69a05aef7cb526.png
 welcome_3B.png: welcome_3B-4410d60895f3004da6519cb55a671a14.png
 welcome_3B/index.png: welcome_3B-4410d60895f3004da6519cb55a671a14.png
-application.js: application-23ceed1dcc9d342002bf78870c2dbb34.js
-application/index.js: application-23ceed1dcc9d342002bf78870c2dbb34.js
+application.js: application-d4580849e442dd25ebfd09d91b4eefc6.js
+application/index.js: application-d4580849e442dd25ebfd09d91b4eefc6.js
 bootstrap-image-gallery.js: bootstrap-image-gallery-389a55fe14983b9e5f699bab0278df02.js
 bootstrap-image-gallery/index.js: bootstrap-image-gallery-389a55fe14983b9e5f699bab0278df02.js
 events.js: events-c6efef8c38f093598c2dc381cf0f84a4.js
@@ -244,8 +248,9 @@ events.css: events-6ba5c5eb1e8621e6f9fefce8ddcb85ab.css
 events/index.css: events-6ba5c5eb1e8621e6f9fefce8ddcb85ab.css
 home.css: home-10b57606e1c938909f037a91d6a15862.css
 home/index.css: home-10b57606e1c938909f037a91d6a15862.css
-indexcss.css: indexcss-77ab32f16a4f57551b5d300b77f89f4d.css
-indexcss.css.bak: indexcss.css-8b24740c61eb6d7f8ee76ec5f0fed358.bak
+indexcss.css: indexcss-93552c6955e59f8189e7816b005b15af.css
+indexcss.css.bak: indexcss.css-051b1644d373b13c7ff5644dd9402a39.bak
+indexcss.css.bak.bak: indexcss.css.bak-ba4996883b86c08b03557a7ab62a788a.bak
 profile.css: profile-94825c545d8099b43ccb981f6644b225.css
 profile/index.css: profile-94825c545d8099b43ccb981f6644b225.css
 profile.css.bak: profile.css-56cc9dfc026a57c6949e7e61d9592105.bak
