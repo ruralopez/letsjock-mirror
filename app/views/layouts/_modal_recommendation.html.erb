@@ -8,7 +8,9 @@
     <input type="text" class="typeahead users input-block-level" placeholder="Find a user" data-provide="typeahead" data-origin="User">
     <span class="hide"></span>
     <input type="text" class="input-block-level email-box hide" placeholder="User doesn't exist. Enter email address">
+    <span class="input-block-level">Ask recommendation to:</span>
     <select id="writer_type" name="writer_type" class="input-block-level">
+      <option value="">Choose a category</option>
       <option value="Coach">Coach</option>
       <option value="Sponsor">Sponsor</option>
       <option value="Sports teammate">Sports teammate</option>
@@ -17,6 +19,7 @@
     </select>
     <input type="text" class="input-block-level other-type hide" placeholder="Specify other">
     <%= render :partial => 'sports/autocomplete', :locals => { :sport_id => nil } %>
+    <span class="input-block-level">Message:</span>
     <textarea rows="4" class="input-small input-block-level" placeholder="Write a message">
 I'm sending this e-mail to ask you for a recommendation to include it in my Let's Jock profile.
 
