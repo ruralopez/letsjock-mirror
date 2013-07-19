@@ -127,7 +127,7 @@
         <td><i class="icon-2x icon-female"></i></td>
       <% end %>
 
-      <% if @user2.gender == "F" %>
+      <% if @user2.gender == "M" %>
          <td><i class="icon-2x icon-male"></i></td>
       <% else %>
          <td><i class="icon-2x icon-female"></i></td>
@@ -138,8 +138,8 @@
   <span>location</span>
   <table class="table">
     <tr>
-      <td><% if @user1.citybirth %><a href="#"><%= @user1.citybirth %></a>,<% end %><a href="#"><%= @user1.country %></a></td>
-      <td><% if @user2.citybirth %><a href="#"><%= @user2.citybirth %></a>,<% end %><a href="#"><%= @user2.country %></a></td>
+      <td><% if @user1.citybirth %><a href="#"><%= @user1.citybirth %></a>,<% end %><a href="#"><%= @user1.country.name %></a></td>
+      <td><% if @user2.citybirth %><a href="#"><%= @user2.citybirth %></a>,<% end %><a href="#"><%= @user2.country.name %></a></td>
     </tr>
   </table>
 
@@ -203,7 +203,8 @@
       <% end %>
     </tr>
   </table>
-
+  
+  <!-- BEST MARK	
   <span>best mark on </span>
   <table class="table">
     <tr>
@@ -211,7 +212,8 @@
       <td>best mark, organized by <a href="#">sponsor</a></td>
     </tr>
   </table>
-
+  -->
+  
   <span><i class="icon-certificate"></i> certificate profile</span>
   <table class="table">
     <tr>
