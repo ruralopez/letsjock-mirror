@@ -1280,6 +1280,8 @@ class UsersController < ApplicationController
       recommendation.update_attributes(:content => params[:content], :status => 1)
       
       Notification.create( :user_id => recommendation.user_id, :user2_id => current_user.id, :read => false, :not_type => "001", :aux_id => recommendation.id )
+      
+      UserMailer.new_recommendation({ :id => recommendation.user_id, :name => current_user.full_name, :email => User.select("email").find(recommendation.user_id).email }).deliver
     end
     
     redirect_to profile_path(params[:id])
