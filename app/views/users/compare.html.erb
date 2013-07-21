@@ -136,11 +136,16 @@
                     focus: function( event, ui ) {
                         return false;
                     }
-                })
-                .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-            return $( "<li style='height: 60px;'>" )
-                    .append( "<a><div class='popover-left'><img src=" + item.image + "></img></div><div class='popover-right'><span>" + item.label + "</span><small>" + item.sport + "</small></div></a>" )
-                    .appendTo( ul );
+                });
+   
+        
+        $.each($( ".user-input" ), function(index, item) {
+        $(item).data("ui-autocomplete")._renderItem = function (ul, item) {
+        return $( "<li style='height: 60px;'>" )
+                .append( "<a><div class='popover-left'><img src=" + item.image + "></img></div><div class='popover-right'><span>" + item.label + "</span><small>" + item.sport + "</small></div></a>" )
+                .appendTo( ul );
         };
+          });
+          
     });
 </script>
