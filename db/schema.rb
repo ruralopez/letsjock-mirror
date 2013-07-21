@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130716191053) do
+ActiveRecord::Schema.define(:version => 20130721211621) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -362,7 +362,7 @@ ActiveRecord::Schema.define(:version => 20130716191053) do
     t.string   "gender"
     t.date     "birth"
     t.string   "citybirth"
-    t.integer  "country_id",      :null => false
+    t.integer  "country_id",                                     :null => false
     t.string   "country"
     t.integer  "phone"
     t.text     "resume"
@@ -373,11 +373,14 @@ ActiveRecord::Schema.define(:version => 20130716191053) do
     t.boolean  "authentic_email"
     t.boolean  "isSponsor"
     t.text     "preferences"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
     t.string   "address"
     t.boolean  "certified"
     t.string   "rut"
+    t.decimal  "speed_25",        :precision => 10, :scale => 0
+    t.decimal  "speed_50",        :precision => 10, :scale => 0
+    t.decimal  "speed_100",       :precision => 10, :scale => 0
   end
 
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
