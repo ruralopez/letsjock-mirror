@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130721211621) do
+ActiveRecord::Schema.define(:version => 20130721222435) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -378,9 +378,9 @@ ActiveRecord::Schema.define(:version => 20130721211621) do
     t.string   "address"
     t.boolean  "certified"
     t.string   "rut"
-    t.decimal  "speed_25",        :precision => 10, :scale => 0
-    t.decimal  "speed_50",        :precision => 10, :scale => 0
-    t.decimal  "speed_100",       :precision => 10, :scale => 0
+    t.decimal  "speed_25",        :precision => 10, :scale => 2
+    t.decimal  "speed_50",        :precision => 10, :scale => 2
+    t.decimal  "speed_100",       :precision => 10, :scale => 2
   end
 
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"

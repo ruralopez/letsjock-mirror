@@ -159,30 +159,30 @@
     </tr>
   </table>
   <br>
-  <!-- VELOCIDAD
+  <!-- VELOCIDAD -->
   <span><i class="icon-dashboard icon-2x"></i> speed</span>
   <span>25 metres</span>
   <table class="table">
     <tr>
-      <td>speed 1</td>
-      <td>speed 2</td>
+      <td><%= @user1.speed_25 ? number_with_precision(@user1.speed_25, :precision => 2) : '0.00' %></td>
+      <td><%= @user2.speed_25 ? number_with_precision(@user2.speed_25, :precision => 2) : '0.00' %></td>
+    </tr>
+  </table>
+  <span>50 metres</span>
+  <table class="table">
+    <tr>
+      <td><%= @user1.speed_50 ? number_with_precision(@user1.speed_50, :precision => 2) : '0.00' %></td>
+      <td><%= @user2.speed_50 ? number_with_precision(@user2.speed_50, :precision => 2) : '0.00' %></td>
     </tr>
   </table>
   <span>100 metres</span>
   <table class="table">
     <tr>
-      <td>speed 1</td>
-      <td>speed 2</td>
+      <td><%= @user1.speed_100 ? number_with_precision(@user1.speed_100, :precision => 2) : '0.00' %></td>
+      <td><%= @user2.speed_100 ? number_with_precision(@user2.speed_100, :precision => 2) : '0.00' %></td>
     </tr>
   </table>
-  <span>1000 metres</span>
-  <table class="table">
-    <tr>
-      <td>speed 1</td>
-      <td>speed 2</td>
-    </tr>
-  </table>
-  -->
+  
 </div><!-- #basicsInfo -->
 
 <div class="tab-pane" id="jockInfo">
