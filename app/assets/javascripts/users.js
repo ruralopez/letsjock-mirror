@@ -377,8 +377,12 @@ function form_profile_validate(form, errors){
     form.find(".alert").html(errors[form.attr("id")]).show("fast");
   else if(cnt)
     form.find(".alert").html( "<h4>Following fields are required</h4>" + $.map(errors, function(n, i) { return ( lastKey(errors) == i && cnt > 1 ) ? " and " + n : n; }).join(", ") ).show("fast");
-  else
+  else{
+    // Para evitar que presionen submit o cancel mientras se guarda
+    form.find("button[type=submit]").attr("disabled", "disabled").text("Saving...");
+    form.find(".btn-cancel").attr("disabled", "disabled");
     form.submit();
+  }
   
   return false;
 }

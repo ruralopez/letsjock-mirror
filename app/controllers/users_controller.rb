@@ -104,6 +104,8 @@ class UsersController < ApplicationController
               tmp = session[:redirected_by]
               session[:redirected_by] = nil
               redirect_to tmp and return
+            elsif request.referer.include?("/settings")
+              redirect_to request.referer
             else
               redirect_to '/profile/' + @user.id.to_s, :notice => 'User was successfully updated.'
             end
