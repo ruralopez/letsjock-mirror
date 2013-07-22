@@ -1021,7 +1021,7 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html
+		format.html      
     end
   end
 
@@ -1310,6 +1310,10 @@ class UsersController < ApplicationController
       format.json { render :json => { :status => true } }
     end
   end
+  
+  # def render_compare
+  #	 render "users/compare_partial"
+  # end
   
   def confirm_sponsoring
     if params[:notification_id] != "" && params[:confirm_action] != ""

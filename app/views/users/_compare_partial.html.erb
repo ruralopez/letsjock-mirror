@@ -1,0 +1,506 @@
+<div class="row-fluid">
+<!--Usuario 1-->
+
+<div class="user-info span3">
+  <div class="group">
+    <div class="img-polaroid">
+      <%= image_tag @user1.profilepic %>
+    </div>
+    <h4><%= @user1.full_name %></h4>
+
+    <% if !@user1.sports.empty? %>
+    <% @user1.sports.each do |sport| %>
+         <span>
+			<i class="icon-chevron-right"></i>
+			<a href="#"><%= sport.full_name %></a>
+		 </span>
+    <% end %>
+    <% else %>
+       <span>
+			<i class="icon-chevron-right"></i>
+			<a href="#">No sport selected</a>
+		 </span>
+    <% end %>
+    <% if @user1.tags("GLOBAL_TAGS_IAM") && @user1.tags("GLOBAL_TAGS_IAM").length > 0 %>
+        <% @user1.tags("GLOBAL_TAGS_IAM").each do |tag|%>
+            <a href="#"><%= GLOBAL_TAGS_IAM[tag.to_i] %></a>
+        <% end %>
+    <% end %>
+  </div>
+</div>
+
+<div id="my-tab-content" class="tab-content span6">
+<div class="tab-pane active" id="basicsInfo">
+
+  <span>age</span>
+  <table class="table">
+    <tr>
+      <td><%= @user1.birth ? @user1.age : "Not available" %></td>
+      <td><%= @user2.birth ? @user2.age : "Not available" %></td>
+    </tr>
+  </table>
+
+  <span>date of birth</span>
+  <table class="table">
+    <tr>
+      <td><%= @user1.birth ? @user1.birth.strftime("%B %d, %Y") : "Not available" %></td>
+      <td><%= @user2.birth ? @user2.birth.strftime("%B %d, %Y") : "Not available" %></td>
+    </tr>
+  </table>
+
+  <span>gender</span>
+  <table class="table">
+    <tr>
+      <% if @user1.gender == "M" %>
+        <td><i class="icon-2x icon-male"></i></td>
+      <% else %>
+        <td><i class="icon-2x icon-female"></i></td>
+      <% end %>
+
+      <% if @user2.gender == "M" %>
+         <td><i class="icon-2x icon-male"></i></td>
+      <% else %>
+         <td><i class="icon-2x icon-female"></i></td>
+      <% end %>
+    </tr>
+  </table>
+
+  <span>location</span>
+  <table class="table">
+    <tr>
+      <td><% if @user1.citybirth %><a href="#"><%= @user1.citybirth %></a>,<% end %><a href="#"><%= @user1.country.name %></a></td>
+      <td><% if @user2.citybirth %><a href="#"><%= @user2.citybirth %></a>,<% end %><a href="#"><%= @user2.country.name %></a></td>
+    </tr>
+  </table>
+
+  <span>weight</span>
+  <table class="table">
+    <tr>
+      <td><%= @user1.weight ? @user1.weight : raw("<i class='icon-remove'></i>") %></td>
+      <td><%= @user2.weight ? @user2.weight : raw("<i class='icon-remove'></i>") %></td>
+    </tr>
+  </table>
+
+  <span>height</span>
+  <table class="table">
+    <tr>
+      <td><%= @user1.height ? @user1.height : raw("<i class='icon-remove'></i>") %></td>
+      <td><%= @user2.height ? @user2.height : raw("<i class='icon-remove'></i>") %></td>
+    </tr>
+  </table>
+  <br>
+  <!-- VELOCIDAD -->
+  <span><i class="icon-dashboard icon-2x"></i> speed (m/s)</span>
+  <span>25 metres</span>
+  <table class="table">
+    <tr>
+      <td><%= @user1.speed_25 ? @user1.speed_25 : '0.00' %></td>
+      <td><%= @user2.speed_25 ? @user2.speed_25 : '0.00' %></td>
+    </tr>
+  </table>
+  <span>50 metres</span>
+  <table class="table">
+    <tr>
+      <td><%= @user1.speed_50 ? @user1.speed_50 : '0.00' %></td>
+      <td><%= @user2.speed_50 ? @user2.speed_50 : '0.00' %></td>
+    </tr>
+  </table>
+  <span>100 metres</span>
+  <table class="table">
+    <tr>
+      <td><%= @user1.speed_100 ? @user1.speed_100 : '0.00' %></td>
+      <td><%= @user2.speed_100 ? @user2.speed_100 : '0.00' %></td>
+    </tr>
+  </table>
+  
+</div><!-- #basicsInfo -->
+
+<div class="tab-pane" id="jockInfo">
+
+  <span>sport</span>
+  <table class="table">
+    <tr>
+      <% if @user1.sport_show == "No sport yet!" && !@user1.sports.empty? %>
+          <td><%= @user1.sports[0].full_name %></td>
+      <% else %>
+          <td><%= @user1.sport_show %></td>
+      <% end %>
+
+      <% if @user2.sport_show == "No sport yet!" && !@user2.sports.empty? %>
+          <td><%= @user2.sports[0].full_name %></td>
+      <% else %>
+          <td><%= @user2.sport_show %></td>
+      <% end %>
+    </tr>
+  </table>
+  
+  <!-- BEST MARK	
+  <span>best mark on </span>
+  <table class="table">
+    <tr>
+      <td>best mark, organized by <a href="#">sponsor</a></td>
+      <td>best mark, organized by <a href="#">sponsor</a></td>
+    </tr>
+  </table>
+  -->
+  
+  <span><i class="icon-certificate"></i> certificate profile</span>
+  <table class="table">
+    <tr>
+      <td><%= @user1.certified ? raw("<i class='icon-ok'></i>") : raw("<i class='icon-remove'></i>") %></td>
+      <td><%= @user2.certified ? raw("<i class='icon-ok'></i>") : raw("<i class='icon-remove'></i>") %></td>
+    </tr>
+  </table>
+
+  <!-- AGENTES
+  <span>agent</span>
+  <table class="table">
+    <tr>
+      <td>
+        <span>2 agents</span>
+      </td>
+      <td><i class="icon-remove"></i></td>
+    </tr>
+  </table>
+
+  SPONSORS
+  <span>sponsor</span>
+  <table class="table">
+    <tr>
+      <td>
+        <a href="#"><img src="img/sponsor-1.png"/></a>
+        <a href="#"><img src="img/logo-fede.png"/></a>
+        <a href="#"><img src="img/logo-gatorade.png"/></a>
+      </td>
+      <td><i class="icon-remove"></i></td>
+    </tr>
+  </table>
+-->
+
+  <span>coach</span>
+  <table class="table">
+    <tr>
+      <td>
+        <% if !@train1.blank? %>
+            <ul>
+            <% @train1.each do |train| %>
+               <li><a href="#"><%= train.name %></a> <%= train.init.strftime("%Y") %> - <% if train.end %><%= train.end.strftime("%Y") %><% else %>Now<% end %></li>
+            <% end %>
+            </ul>
+        <% else %>
+            <i class="icon-remove"></i>
+        <% end %>
+      </td>
+      <td>
+        <% if !@train2.blank? %>
+            <ul>
+              <% @train2.each do |train| %>
+                  <li><a href="#"><%= train.name %></a> <%= train.init.strftime("%Y") %> - <% if train.end %><%= train.end.strftime("%Y") %><% else %>Now<% end %></li>
+              <% end %>
+            </ul>
+        <% else %>
+            <i class="icon-remove"></i>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+
+  <span><i class="icon-trophy"></i> awards</span>
+  <table class="table">
+    <tr>
+      <td>
+        <% if !@award1.blank? %>
+            <% @award1.each do |award| %>
+                <a href="#"><%= award.description %></a>
+            <% end %>
+        <% else %>
+            <i class="icon-remove"></i>
+        <% end %>
+      </td>
+      <td>
+        <% if !@award2.blank? %>
+            <% @award2.each do |award| %>
+                <a href="#"><%= award.description %></a>
+            <% end %>
+        <% else %>
+            <i class="icon-remove"></i>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+
+  <span><i class="icon-group"></i> team</span>
+  <table class="table">
+    <tr>
+      <td>
+        <% if !@team1.blank? %>
+            <ul>
+              <% @team1.each do |team| %>
+                  <li><a href="#"><%= team.name %></a> <%= team.init.strftime("%Y") %> - <% if team.end %><%= team.end.strftime("%Y") %><% else %>Now<% end %></li>
+              <% end %>
+            </ul>
+        <% else %>
+            <i class="icon-remove"></i>
+        <% end %>
+      </td>
+      <td>
+        <% if !@team2.blank? %>
+            <ul>
+              <% @team2.each do |team| %>
+                  <li><a href="#"><%= team.name %></a> <%= team.init.strftime("%Y") %> - <% if team.end %><%= team.end.strftime("%Y") %><% else %>Now<% end %></li>
+              <% end %>
+            </ul>
+        <% else %>
+            <i class="icon-remove"></i>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+</div><!-- #jockInfo-->
+
+<div class="tab-pane" id="interestInfo">
+
+  <span>looking for</span>
+  <table class="table">
+    <tr>
+      <% if @user1.tags("GLOBAL_TAGS_LOOKING") && @user1.tags("GLOBAL_TAGS_LOOKING").length > 0 %>
+          <td>
+            <% @user1.tags("GLOBAL_TAGS_LOOKING").each do |tag|%>
+                <a href="#"><%= GLOBAL_TAGS_LOOKING[tag.to_i] %></a>
+            <% end %>
+          </td>
+      <% else %>
+          <td><i class="icon-remove"></i></td>
+      <% end %>
+      <% if @user2.tags("GLOBAL_TAGS_LOOKING") && @user2.tags("GLOBAL_TAGS_LOOKING").length > 0 %>
+          <td>
+            <% @user2.tags("GLOBAL_TAGS_LOOKING").each do |tag|%>
+                <a href="#"><%= GLOBAL_TAGS_LOOKING[tag.to_i] %></a>
+            <% end %>
+          </td>
+      <% else %>
+          <td><i class="icon-remove"></i></td>
+      <% end %>
+    </tr>
+  </table>
+
+  <span><i class="icon-book"></i> area of interest</span>
+  <table class="table">
+    <tr>
+      <% if @user1.tags("GLOBAL_TAGS_INTEREST") && @user1.tags("GLOBAL_TAGS_INTEREST").length > 0 %>
+          <td>
+            <% @user1.tags("GLOBAL_TAGS_INTEREST").each do |tag|%>
+                <a href="#"><%= GLOBAL_TAGS_INTEREST[tag.to_i] %></a>
+            <% end %>
+          </td>
+      <% else %>
+          <td><i class="icon-remove"></i></td>
+      <% end %>
+      <% if @user2.tags("GLOBAL_TAGS_INTEREST") && @user2.tags("GLOBAL_TAGS_INTEREST").length > 0 %>
+          <td>
+            <% @user2.tags("GLOBAL_TAGS_INTEREST").each do |tag|%>
+                <a href="#"><%= GLOBAL_TAGS_INTEREST[tag.to_i] %></a>
+            <% end %>
+          </td>
+      <% else %>
+          <td><i class="icon-remove"></i></td>
+      <% end %>
+    </tr>
+  </table>
+
+  <!-- GEOGRAPHIC
+  <span><i class="icon-map-marker"></i> Geographic area of interest</span>
+  <table class="table">
+    <tr>
+      <td><a href="#">Santiago</a><a href="#">Viña del Mar</a></td>
+      <td><a href="#">Rancagua</a><a href="#">Viña del Mar</a></td>
+    </tr>
+  </table>
+  -->
+
+  <span><i class="icon-tag"></i> Division of interest (solo USA)</span>
+  <table class="table">
+    <tr>
+      <% if @user1.tags("GLOBAL_TAGS_DIVISION") && @user1.tags("GLOBAL_TAGS_DIVISION").length > 0 %>
+          <td>
+            <% @user1.tags("GLOBAL_TAGS_DIVISION").each do |tag|%>
+                <a href="#"><%= GLOBAL_TAGS_DIVISION[tag.to_i] %></a>
+            <% end %>
+          </td>
+      <% else %>
+          <td><i class="icon-remove"></i></td>
+      <% end %>
+      <% if @user2.tags("GLOBAL_TAGS_DIVISION") && @user2.tags("GLOBAL_TAGS_DIVISION").length > 0 %>
+          <td>
+            <% @user2.tags("GLOBAL_TAGS_DIVISION").each do |tag|%>
+                <a href="#"><%= GLOBAL_TAGS_INTEREST[tag.to_i] %></a>
+            <% end %>
+          </td>
+      <% else %>
+          <td><i class="icon-remove"></i></td>
+      <% end %>
+    </tr>
+  </table>
+
+</div><!-- #interestInfo-->
+
+<div class="tab-pane" id="educationalInfo">
+
+  <span>school</span>
+  <table class="table">
+    <tr>
+      <td><%= @school1 ? @school1.name : raw("<i class='icon-remove'></i>") %></td>
+      <td><%= @school2 ? @school2.name : raw("<i class='icon-remove'></i>") %></td>
+    </tr>
+  </table>
+
+  <span>high school graduation year</span>
+  <table class="table">
+    <tr>
+      <td><%= @school1 ? @school1.end.strftime("%Y") : raw("<i class='icon-remove'></i>") %></td>
+      <td><%= @school2 ? @school2.end.strftime("%Y") : raw("<i class='icon-remove'></i>") %></td>
+    </tr>
+  </table>
+
+  <span>rank</span>
+  <table class="table">
+    <tr>
+      <td><%= @school1 && @school1.rank ? @school1.rank : raw("<i class='icon-remove'></i>") %></td>
+      <td><%= @school2 && @school2.rank ? @school2.rank : raw("<i class='icon-remove'></i>") %></td>
+    </tr>
+  </table>
+
+  <span>GPA</span>
+  <table class="table">
+    <tr>
+      <td><%= @school1 && @school1.gda ? @school1.gda : raw("<i class='icon-remove'></i>") %></td>
+      <td><%= @school2 && @school2.gda ? @school2.gda : raw("<i class='icon-remove'></i>") %></td>
+    </tr>
+  </table>
+
+</div><!-- #educationalInfo -->
+
+<div class="tab-pane" id="additionalInfo">
+
+  <span><i class="icon-camera"></i> photos</span>
+  <table class="table">
+    <tr>
+      <% if @photos1.count > 0 %>
+      <td>
+        <p><%= @photos1.count %> photo<%= 's' if @photos1.count > 1 %></p>
+        <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+          <% @photos1.take(3).each do |photo| %>
+              <a href="<%= photo.url %>" data-gallery="gallery" data-id="<%= photo.id %>" style="text-decoration: none;">
+                 <%= image_tag(photo.url) %>
+              </a>
+          <% end %>
+        </div>
+        <%= link_to 'see more' , pictures_path(@user1) %>
+      </td>
+      <% else %>
+          <td><i class="icon-remove"></i></td>
+      <% end %>
+
+      <% if @photos2.count > 0 %>
+          <td>
+            <p><%= @photos2.count %> photo<%= 's' if @photos2.count > 1 %></p>
+            <div id="gallery2" data-toggle="modal-gallery" data-target="#modal-gallery2">
+              <% @photos2.take(3).each do |photo| %>
+                  <a href="<%= photo.url %>" data-gallery="gallery" data-id="<%= photo.id %>" style="text-decoration: none;">
+                     <%= image_tag(photo.url) %>
+                  </a>
+              <% end %>
+            </div>
+            <%= link_to 'see more' , pictures_path(@user2) %>
+          </td>
+      <% else %>
+          <td><i class="icon-remove"></i></td>
+      <% end %>
+    </tr>
+  </table>
+
+  <span><i class="icon-facetime-video"></i> videos</span>
+  <table class="table">
+    <tr>
+      <% if @videos1.count > 0 %>
+      <td>
+        <p><%= @videos1.count %> video<%= 's' if @videos1.count > 1 %></p>
+        <%  @videos1.take(1).each do |video| %>
+            <%= raw(youtube_embed(video.url,204,204, true)) %>
+        <%  end %>
+        <%= link_to 'see more' , pictures_path(@user1) %>
+      </td>
+      <% else %>
+      <td><i class="icon-remove"></i></td>
+      <% end %>
+
+      <% if @videos2.count > 0 %>
+          <td>
+            <p><%= @videos2.count %> video<%= 's' if @videos2.count > 1 %></p>
+            <%  @videos2.take(1).each do |video| %>
+                <%= raw(youtube_embed(video.url,204,204, true)) %>
+            <%  end %>
+            <%= link_to 'see more' , pictures_path(@user2) %>
+          </td>
+      <% else %>
+          <td><i class="icon-remove"></i></td>
+      <% end %>
+    </tr>
+  </table>
+
+  <!-- DARTFISH
+  <span><img style="width:20%;" src="/assets/logo-dartfish.png"/></span>
+  <table class="table">
+    <tr>
+      <td>
+        <p>4 videos</p>
+        <img style="width:99%;" src="img/videoplayer.png"/>
+        <a href="#">see more</a>
+      </td>
+      <td><i class="icon-remove"></i></td>
+    </tr>
+  </table>
+  -->
+</div><!-- #additionalInfo -->
+
+</div><!--tab-->
+
+<!-- modal-gallery is the modal dialog used for the image gallery -->
+<div id="modal-gallery" class="modal modal-gallery hide fade" tabindex="-1">
+  <div class="modal-body"><div class="modal-image"></div></div>
+</div>
+<div id="modal-gallery2" class="modal modal-gallery hide fade" tabindex="-1">
+  <div class="modal-body"><div class="modal-image"></div></div>
+</div>
+
+<!--Usuario 2-->
+<div class="user-info span3">
+  <div class="group">
+    <div class="img-polaroid">
+      <%= image_tag @user2.profilepic %>
+    </div>
+    <h4><%= @user2.full_name %></h4>
+
+    <% if !@user2.sports.empty? %>
+        <% @user2.sports.each do |sport| %>
+         <span>
+			<i class="icon-chevron-right"></i>
+			<a href="#"><%= sport.full_name %></a>
+		 </span>
+        <% end %>
+    <% else %>
+       <span>
+			<i class="icon-chevron-right"></i>
+			<a href="#">No sport selected</a>
+		 </span>
+    <% end %>
+    <% if @user2.tags("GLOBAL_TAGS_IAM") && @user2.tags("GLOBAL_TAGS_IAM").length > 0 %>
+        <% @user2.tags("GLOBAL_TAGS_IAM").each do |tag|%>
+            <a href="#"><%= GLOBAL_TAGS_IAM[tag.to_i] %></a>
+        <% end %>
+    <% end %>
+  </div>
+</div>
+
+
+</div><!-- row-fluid -->
