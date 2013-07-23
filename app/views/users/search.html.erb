@@ -33,6 +33,10 @@
                     <%= select_tag :age_from, options_for_select(1..99), :include_blank => true, :class => "half-level" %>
                     <p class="inline">and</p>
                     <%= select_tag :age_to, options_for_select(1..99), :include_blank => true, :class => "half-level" %>
+                    <p>Institutions</p>
+                    <label class="checkbox" style="margin-bottom: 2px !important;">
+                      <%= check_box_tag :institution, nil %> Only institutions
+                    </label>
                     <p>Genre</p>
                     <label class="checkbox">
                       <%= check_box_tag :male, nil %> Male
@@ -315,7 +319,21 @@
                           <div class="user-info">
                             <h5><%= link_to result.full_name, result %></h5>
                             <p><%= result.birth ? result.birth.to_s + ", " + result.age.to_s : "Not specified." %></p>
-                            <p><%= result.gender && result.gender.downcase == "m" ? "Male" : "Female" %></p>
+                            <% if result.isSponsor %>
+                                <p>Industry: <%= result.preferences[:industries] ? result.preferences[:industries].join(", ") : "--" %></p>
+                                <p>Headquarters: <%= result.citybirth ? result.citybirth : "Location" %>, <%= result.country_id ? result.country.name : "" %></p>
+                            <% else %>
+                                <% if result.tags("GLOBAL_TAGS_IAM") && result.tags("GLOBAL_TAGS_IAM").length > 0 %>
+                                    <% @tags = "" %>
+                                    <% result.tags("GLOBAL_TAGS_IAM").each do |tag| %>
+                                        <% @tags += ", " + GLOBAL_TAGS_IAM[tag.to_i].to_s %>
+                                    <% end %>
+                                    <% if @tags.length > 2 %>
+                                        <% @tags.slice!(0..1) %>
+                                        <p><%= @tags %></p>
+                                    <% end %>
+                                <% end %>
+                            <% end %>
                             <p><%= result.citybirth ? result.citybirth : "-" %>, <%= result.country_id ? Country.find(result.country_id).name : "-" %></p>
                             <%=	render :partial => 'search_follow_form', :locals => {:user => result} if signed_in? %>
                             <button class="btn btn-small" disabled="disabled"><i class="icon-envelope"></i> Send a message</button>
