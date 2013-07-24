@@ -631,6 +631,15 @@ class UsersController < ApplicationController
           
           #Todos siguen a LetsJock por defecto (profile: 1)
           @user.follow!(User.find(1))
+          
+          if params[:profile_picture] && params[:profile_picture] != "" #Sube la foto de perfil
+            url = Photo.upload_file(params[:profile_picture])
+            
+            if url && url != ""
+              Photo.create(:user_id => @user.id, :url => url)
+              @user.update_attribute(:profilephotourl, url)
+            end
+          end
         end
       end
       
