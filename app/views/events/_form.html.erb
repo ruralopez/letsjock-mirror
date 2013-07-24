@@ -12,6 +12,7 @@
           <div class="fileupload-new">
           <% if @event.imageurl && @event.imageurl != "" %>
             <%= image_tag(@event.imageurl, :class => "user-profile") %>
+            <a class="btn btn-file btn-success">Upload a photo<input type="file" name="profile_picture" id="profile_picture" accept="image/*" /></a>
           <% else %>
             <i class="default-icon icon-user icon-4x">
               <a class="btn btn-file btn-success">Upload a photo<input type="file" name="profile_picture" id="profile_picture" accept="image/*" /></a>

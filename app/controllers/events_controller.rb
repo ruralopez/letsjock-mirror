@@ -100,17 +100,24 @@ class EventsController < ApplicationController
           if eventadmin.save && publisher.save && eventuser.save
             Subscription.new(:user_id => current_user.id, :publisher_id => publisher.id).save
             Activity.new(:publisher_id => Publisher.find_by_user_id(@event.user_id).id, :event_id => @event.id, :act_type => "031").save
-
+            
             params[:sponsors].each_with_index do |sponsor, index|
               if sponsor[1][:id] != ""
                 SponsorsEvent.new(:user_id => sponsor[1][:id], :event_id => @event.id, :category => sponsor[1][:category]).save
               end
             end
-
+            
+            # Sube la foto del evento
             if params[:profile_picture] && params[:profile_picture] != ""
               url = Photo.upload_file(params[:profile_picture])
-              # Podríamos poner un Tag
-              @event.update_attribute(:imageurl, url) if url != ""
+              
+              if url && url != ""
+                # Crea la foto asociada al perfil del creador del evento y después lo tagea
+                photo = Photo.create(:user_id => @event.user_id, :url => url)
+                Tags.create(:id1 => @event.id, :type1 => "Event", :id2 => photo.id, :type2 => "Photo")
+                
+                @event.update_attribute(:imageurl, url)
+              end
             end
             
             format.html { redirect_to @event, :notice => 'Event was successfully created.' }
@@ -130,24 +137,42 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.json
   def update
-    if signed_in? && current_user.isAdmin?
+    if signed_in?
       @event = Event.find(params[:id])
+      user = User.find(@event.user_id)
       
-      respond_to do |format|
-        if @event.update_attributes(params[:event])
-          Activity.new(:publisher_id => Publisher.find_by_event_id(@event.id).id, :act_type => "100").save
-          userevents = UserEvent.all(:conditions => ["event_id = ?", @event.id])
-          
-          userevents.each do |userevent|
-            Notification.new(:user_id => userevent.user_id, :event_id => @event.id, :read => false, :not_type => "104").save
+      if user.inAdmins?(current_user)
+        respond_to do |format|
+          if @event.update_attributes(params[:event])
+            Activity.new(:publisher_id => Publisher.find_by_event_id(@event.id).id, :act_type => "100").save
+            userevents = UserEvent.all(:conditions => ["event_id = ?", @event.id])
+            
+            userevents.each do |userevent|
+              Notification.new(:user_id => userevent.user_id, :event_id => @event.id, :read => false, :not_type => "104").save
+            end
+            
+            # Sube la foto del evento
+            if params[:profile_picture] && params[:profile_picture] != ""
+              url = Photo.upload_file(params[:profile_picture])
+              
+              if url && url != ""
+                # Crea la foto asociada al perfil del creador del evento y después lo tagea
+                photo = Photo.create(:user_id => @event.user_id, :url => url)
+                Tags.create(:id1 => @event.id, :type1 => "Event", :id2 => photo.id, :type2 => "Photo")
+                
+                @event.update_attribute(:imageurl, url)
+              end
+            end
+            
+            format.html { redirect_to @event, :notice => 'Event was successfully updated.' }
+            format.json { head :no_content }
+          else
+            format.html { render :action => "edit" }
+            format.json { render :json => @event.errors, :status => :unprocessable_entity }
           end
-          
-          format.html { redirect_to @event, :notice => 'Event was successfully updated.' }
-          format.json { head :no_content }
-        else
-          format.html { render :action => "edit" }
-          format.json { render :json => @event.errors, :status => :unprocessable_entity }
         end
+      else
+        redirect_to @event
       end
     else
       flash[:error] = "You must be logged in."
