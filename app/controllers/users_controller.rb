@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :pictures, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment, :highlight, :ask_recommendation, :create_recommendation, :ask_sponsoring, :confirm_sponsoring]
+  before_filter :verify_login, :only => [:index, :show, :new, :edit, :profile, :pictures, :typeahead, :add_admin, :sponsor_new, :sponsor_create, :sponsor_edit, :sponsor_events, :like, :add_comment, :highlight, :ask_recommendation, :create_recommendation, :ask_sponsoring, :confirm_sponsoring, :add_agent]
   
   def verify_login
     unless signed_in?
@@ -1357,6 +1357,16 @@ class UsersController < ApplicationController
       format.html { redirect_to request.referer }
       format.json { render :json => { :status => true } }
     end
+  end
+  
+  def add_agent
+    if params[:user_id] && params[:user_id] == current_user.id.to_s
+      agent = Agent.exists?(params[:agent_id]) ? Agent.find(params[:agent_id]) : Agent.new
+      
+      agent.update_attributes(:user_id => params[:user_id], :name => params[:name], :lastname => params[:lastname], :email => params[:email], :phone => params[:phone])
+    end
+    
+    redirect_to request.referer
   end
 end
 

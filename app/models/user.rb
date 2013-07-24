@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   has_many :notifications
   has_many :stats
   has_many :recommendations
+  has_many :agents
 
   has_many :educations, :dependent => :destroy
   has_many :outcomes

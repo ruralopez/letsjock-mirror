@@ -282,6 +282,60 @@
     </div>
   </div><!--termina filtro accordion-->
 </li>
+
+<li><!--Agent-->
+  <div class="accordion" id="accordionRut"> <!--filtro-->
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionAgent" href="#agent">
+          <p>Agent</p>
+          <% agent = @user.agents.any? ? @user.agents.first : Agent.new %>
+          <p><%= agent.id ? agent.name + " " + agent.lastname : "" %></p>
+          <p class="pull-right"><i class="icon-pencil"></i>Edit</p>
+        </a>
+      </div>
+      <div id="agent" class="accordion-body collapse" style="height: 0px;">
+        <div class="accordion-inner">
+          <%= form_tag({:controller => 'users', :action => 'add_agent'}, :class => "form-horizontal") do  %>
+            
+            <%= hidden_field_tag :user_id, @user.id %>
+            <%= hidden_field_tag :agent_id, agent.id %>
+              <div class="control-group">
+                <label class="control-label">Name</label>
+                <div class="controls">
+                  <%= text_field_tag :name, agent.name, :placeholder => "Name" %>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Last Name</label>
+                <div class="controls">
+                  <%= text_field_tag :lastname, agent.lastname, :placeholder => "Last Name" %>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Email</label>
+                <div class="controls">
+                  <%= text_field_tag :email, agent.email, :placeholder => "Email" %>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Phone</label>
+                <div class="controls">
+                  <%= text_field_tag :phone, agent.phone, :placeholder => "Phone" %>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-success">Save</button>
+                </div>
+              </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div><!--termina filtro accordion-->
+</li>
+
 <li><!--Language-->
   <div class="accordion" id="accordion5"> <!--filtro-->
     <div class="accordion-group">
