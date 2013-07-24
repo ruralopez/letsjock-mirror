@@ -2,41 +2,41 @@
   <div class="arrow"></div>
   <h3 class="popover-title">Notifications</h3>
   <ul class="popover-content">
-
+      <div id="notifications-area">
       <% if @global_notifications %>
-         <% @global_notifications.each do |notification| %>
-         
-            <% if notification.not_type == "003" && User.exists?(notification.user2_id) %>
-                <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
-                <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                      <div class="popover-left">
-                        <%= image_tag (user.profilepic)%>
-                      </div><!--popover-left-->
-                      <div class="popover-right">
-                        <span><%= user.full_name %></span> is now following you
-                        <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                      </div>
-                  <% end %>
-                </li>
+          <% @global_notifications.each do |notification| %>
 
-            <% elsif notification.not_type == "004" && User.exists?(notification.user2_id) %>
-                <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
-                <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                      <div class="popover-left">
-                        <%= image_tag (Photo.find(notification.aux_id).url)%>
-                      </div><!--popover-left-->
-                      <div class="popover-right">
-                        <span><%= user.full_name %></span> tagged you in a picture
-                        <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                      </div>
-                  <% end %>
-                </li>
-                
-            <% elsif notification.not_type == "006" %>
-                <% institution = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
-                <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+              <% if notification.not_type == "003" && User.exists?(notification.user2_id) %>
+                  <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag (user.profilepic)%>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%= user.full_name %></span> is now following you
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
+
+              <% elsif notification.not_type == "004" && User.exists?(notification.user2_id) %>
+                  <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag (Photo.find(notification.aux_id).url)%>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%= user.full_name %></span> tagged you in a picture
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
+
+              <% elsif notification.not_type == "006" %>
+                  <% institution = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
                     <%= link_to "#" do %>
                         <div class="popover-left">
                           <%= image_tag (institution.profilepic)%>
@@ -44,205 +44,205 @@
                         <div class="popover-right">
                           <span><%= institution.full_name %></span> added you as a sponsored user
                           <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                        <% if !notification.read %>
-                          <button class="btn btn-mini btn-success btn-notif-sponsor" data-id="<%= notification.id %>" data-action="confirm">Confirm</button>
-                          <button class="btn btn-mini btn-notif-sponsor" data-id="<%= notification.id %>" data-action="ignore">Ignore</button>
-                        <% end %>
+                          <% if !notification.read %>
+                              <button class="btn btn-mini btn-success btn-notif-sponsor" data-id="<%= notification.id %>" data-action="confirm">Confirm</button>
+                              <button class="btn btn-mini btn-notif-sponsor" data-id="<%= notification.id %>" data-action="ignore">Ignore</button>
+                          <% end %>
                         </div>
                     <% end %>
-                </li>
-                
-            <% elsif notification.not_type == "007" %>
-                <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
-                <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                      <div class="popover-left">
-                        <%= image_tag user.profilepic %>
-                      </div><!--popover-left-->
-                      <div class="popover-right">
-                        <span><%= user.full_name %></span> confirmed the sponsorship
-                        <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                      </div>
-                  <% end %>
-                </li>
+                  </li>
 
-            <% elsif notification.not_type == "104" %>
-                <% event = Event.find(notification.event_id) %>
-                <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                      <div class="popover-left">
-                        <%= image_tag (event.imageurl)%>
-                        <i class="icon-calendar"></i>
-                      </div><!--popover-left-->
-                      <div class="popover-right">
-                        <span><%= event.name %></span> has new information
-                        <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                      </div>
-                  <% end %>
-                </li>
-
-            <% elsif notification.not_type == "000" && User.exists?(notification.user2_id) %>
-                <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
-                <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                      <div class="popover-left">
-                        <%= image_tag user.profilepic %>
-                      </div><!--popover-left-->
-                      <div class="popover-right">
-                        <span><%= user.full_name %></span> asked you for a recommendation
-                        <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                      </div>
-                  <% end %>
-                </li>
-                
-            <% elsif notification.not_type == "001" %>
-                <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
-                <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+              <% elsif notification.not_type == "007" %>
+                  <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
                     <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                      <div class="popover-left">
-                        <%= image_tag user.profilepic %>
-                      </div><!--popover-left-->
-                      <div class="popover-right">
-                        <span><%= user.full_name %></span> recommend you
-                        <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                      </div>
+                        <div class="popover-left">
+                          <%= image_tag user.profilepic %>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%= user.full_name %></span> confirmed the sponsorship
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
                     <% end %>
-                </li>
+                  </li>
 
-            <% elsif notification.not_type == "002" %>
-              <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                    <div class="popover-left">
-                      <%= image_tag (User.find(notification.user2_id).profilepic)%>
-                    </div><!--popover-left-->
-                    <div class="popover-right">
-                      <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
-                      <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                    </div>
-                <% end %>
-              </li>
-              <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+              <% elsif notification.not_type == "104" %>
+                  <% event = Event.find(notification.event_id) %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag (event.imageurl)%>
+                          <i class="icon-calendar"></i>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%= event.name %></span> has new information
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
 
-            <% elsif notification.not_type == "100" %>
-              <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                    <div class="popover-left">
-                      <%= image_tag (User.find(notification.user2_id).profilepic)%>
-                    </div><!--popover-left-->
-                    <div class="popover-right">
-                      <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
-                      <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                    </div>
-                <% end %>
-              </li>
-              <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+              <% elsif notification.not_type == "000" && User.exists?(notification.user2_id) %>
+                  <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag user.profilepic %>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%= user.full_name %></span> asked you for a recommendation
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
 
-            <% elsif notification.not_type == "101" %>
-              <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                    <div class="popover-left">
-                      <%= image_tag (User.find(notification.user2_id).profilepic)%>
-                    </div><!--popover-left-->
-                    <div class="popover-right">
-                      <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
-                      <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                    </div>
-                <% end %>
-              </li>
-              <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+              <% elsif notification.not_type == "001" %>
+                  <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag user.profilepic %>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%= user.full_name %></span> recommend you
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
 
-            <% elsif notification.not_type == "102" %>
-              <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                    <div class="popover-left">
-                      <%= image_tag (User.find(notification.user2_id).profilepic)%>
-                    </div><!--popover-left-->
-                    <div class="popover-right">
-                      <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
-                      <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                    </div>
-                <% end %>
-              </li>
-              <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+              <% elsif notification.not_type == "002" %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag (User.find(notification.user2_id).profilepic)%>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
+                  <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
 
-            <% elsif notification.not_type == "103" %>
-              <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                    <div class="popover-left">
-                      <%= image_tag (User.find(notification.user2_id).profilepic)%>
-                    </div><!--popover-left-->
-                    <div class="popover-right">
-                      <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
-                      <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                    </div>
-                <% end %>
-              </li>
-              <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
-              
-            <% elsif notification.not_type == "105" && User.exists?(notification.user2_id) %>
-                <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
-                <% event = notification.event %>
-                <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                      <div class="popover-left">
-                        <%= image_tag (user.profilepic)%>
-                      </div><!--popover-left-->
-                      <div class="popover-right">
-                        <span><%= user.full_name %></span> posted in event <%= event.name %>
-                        <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                      </div>
-                  <% end %>
-                </li>
-                
-            <% elsif notification.not_type == "106" && User.exists?(notification.user2_id) %>
-                <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
-                <% event = notification.event %>
-                <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                      <div class="popover-left">
-                        <%= image_tag (user.profilepic)%>
-                      </div><!--popover-left-->
-                      <div class="popover-right">
-                        <span><%= user.full_name %></span> commented a post in event <%= event.name %>
-                        <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                      </div>
-                  <% end %>
-                </li>
-              
-            <% elsif notification.not_type == "200" && User.exists?(notification.user2_id) %>
-                <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
-                <% institution = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.aux_id) %>
-                <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                      <div class="popover-left">
-                        <%= image_tag (user.profilepic)%>
-                      </div><!--popover-left-->
-                      <div class="popover-right">
-                        <span><%= user.full_name %></span> posted in <%= institution.full_name %>'s wall
-                        <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                      </div>
-                  <% end %>
-                </li>
-                
-            <% elsif notification.not_type == "201" && User.exists?(notification.user2_id) %>
-                <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
-                <% institution = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.aux_id) %>
-                <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                      <div class="popover-left">
-                        <%= image_tag (user.profilepic)%>
-                      </div><!--popover-left-->
-                      <div class="popover-right">
-                        <span><%= user.full_name %></span> commented in <%= institution.full_name %>'s wall
-                        <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                      </div>
-                  <% end %>
-                </li>
-            
-            <% elsif notification.not_type == "202" && User.exists?(notification.user2_id) %>
-                <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
-                <% institution = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.aux_id) %>
-                <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+              <% elsif notification.not_type == "100" %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag (User.find(notification.user2_id).profilepic)%>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
+                  <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+
+              <% elsif notification.not_type == "101" %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag (User.find(notification.user2_id).profilepic)%>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
+                  <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+
+              <% elsif notification.not_type == "102" %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag (User.find(notification.user2_id).profilepic)%>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
+                  <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+
+              <% elsif notification.not_type == "103" %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag (User.find(notification.user2_id).profilepic)%>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%=	User.find(notification.user2_id).full_name %></span> is now following you
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
+                  <li><%= link_to Event.find(notification.event_id).name + " has updated information", :controller => "users", :action => "read_notification", :id => notification.id %></li>
+
+              <% elsif notification.not_type == "105" && User.exists?(notification.user2_id) %>
+                  <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
+                  <% event = notification.event %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag (user.profilepic)%>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%= user.full_name %></span> posted in event <%= event.name %>
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
+
+              <% elsif notification.not_type == "106" && User.exists?(notification.user2_id) %>
+                  <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
+                  <% event = notification.event %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag (user.profilepic)%>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%= user.full_name %></span> commented a post in event <%= event.name %>
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
+
+              <% elsif notification.not_type == "200" && User.exists?(notification.user2_id) %>
+                  <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
+                  <% institution = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.aux_id) %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag (user.profilepic)%>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%= user.full_name %></span> posted in <%= institution.full_name %>'s wall
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
+
+              <% elsif notification.not_type == "201" && User.exists?(notification.user2_id) %>
+                  <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
+                  <% institution = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.aux_id) %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag (user.profilepic)%>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%= user.full_name %></span> commented in <%= institution.full_name %>'s wall
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
+
+              <% elsif notification.not_type == "202" && User.exists?(notification.user2_id) %>
+                  <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
+                  <% institution = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.aux_id) %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
                     <%= link_to "#" do %>
                         <div class="popover-left">
                           <%= image_tag (user.profilepic)%>
@@ -250,43 +250,50 @@
                         <div class="popover-right">
                           <span><%= user.full_name %></span> added <%= institution.full_name %> as a sponsor
                           <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                        <% if !notification.read %>
-                          <button class="btn btn-mini btn-success btn-notif-sponsor" data-id="<%= notification.id %>" data-action="confirm">Confirm</button>
-                          <button class="btn btn-mini btn-notif-sponsor" data-id="<%= notification.id %>" data-action="ignore">Ignore</button>
-                        <% end %>
+                          <% if !notification.read %>
+                              <button class="btn btn-mini btn-success btn-notif-sponsor" data-id="<%= notification.id %>" data-action="confirm">Confirm</button>
+                              <button class="btn btn-mini btn-notif-sponsor" data-id="<%= notification.id %>" data-action="ignore">Ignore</button>
+                          <% end %>
                         </div>
                     <% end %>
-                </li>
-                
-            <% elsif notification.not_type == "203" && User.exists?(notification.user2_id) %>
-                <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
-                <% institution = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.aux_id) %>
-                <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                      <div class="popover-left">
-                        <%= image_tag (user.profilepic)%>
-                      </div><!--popover-left-->
-                      <div class="popover-right">
-                        <span><%= user.full_name %></span> confirmed <%= institution.full_name %> as sponsor
-                        <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                      </div>
-                  <% end %>
-                </li>
-                
-            <% elsif notification.not_type == "999" %>
-                <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
-                  <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
-                      <div class="popover-left">
-                        <%= image_tag 'default-profile.png'%>
-                      </div><!--popover-left-->
-                      <div class="popover-right">
-                        <span>Welcome <%= User.find(notification.user_id).full_name %>!</span> Here you can check your last notifications
-                        <small><%= time_ago_in_words(notification.created_at) %> ago</small>
-                      </div>
-                  <% end %>
-                </li>
+                  </li>
 
-            <% end %>
-         <% end %>
+              <% elsif notification.not_type == "203" && User.exists?(notification.user2_id) %>
+                  <% user = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.user2_id) %>
+                  <% institution = User.select("id, name, lastname, profilephotourl, isSponsor").find(notification.aux_id) %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag (user.profilepic)%>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span><%= user.full_name %></span> confirmed <%= institution.full_name %> as sponsor
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
+
+              <% elsif notification.not_type == "999" %>
+                  <li <% if !notification.read %> style="background-color: #f5f5f5;" <% end %>>
+                    <%= link_to :controller => "users", :action => "read_notification", :id => notification.id do %>
+                        <div class="popover-left">
+                          <%= image_tag 'default-profile.png'%>
+                        </div><!--popover-left-->
+                        <div class="popover-right">
+                          <span>Welcome <%= User.find(notification.user_id).full_name %>!</span> Here you can check your last notifications
+                          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                    <% end %>
+                  </li>
+
+              <% end %>
+          <% end %>
+      <% end %>
+      <% if @global_notifications.count < 5 %>
+        <p style="margin-left: 10px;">You don't have more notifications.</p>
+      <% end %>
+      </div>
+      <% if Notification.all(:conditions => ["user_id = ?", current_user.id]).count > 5 %>
+        <%= link_to "See more", '#', :id => "see-more-notifications", :style => "width: 61px !important; margin: 0 auto !important;" %>
       <% end %>
   </ul>
