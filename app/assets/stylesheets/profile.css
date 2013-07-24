@@ -1677,3 +1677,11 @@ table.table-profile .icon-remove{
 .fix-top{
     padding-top: -3000px;
 }
+
+#followers-input {
+	border-radius: 0px 4px 4px 0px;
+	display: inline-block;
+	border-right: solid 1px;
+	border-right-color: rgb(204, 204, 204);	 
+	z-index: 2000;
+}

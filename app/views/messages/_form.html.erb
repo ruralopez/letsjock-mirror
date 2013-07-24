@@ -20,8 +20,12 @@
 
         <div class="field">
         <!--  %= f.text_field :receiver_id, :data => {:provide => 'typeahead', :source => followers_list, :items => "3" }, :autocomplete => "off", :class => "span3", :placeholder => "Receiver" % -->
-          <%= f.select :receiver_id, followers_list %>
-          <%= f.text_area :content, :class => "pull-right", :rows => "4", :placeholder => "Type your message here!" %>
+		  <%= f.hidden_field :receiver_id, :value => nil, :id => "followersId" %>          
+          <div class="input-prepend">
+			  <span class="add-on"><i class="icon-user"></i></span>
+              <input type="text" id="followers-input" placeholder="Follower receiver" />              
+          </div>
+          <%= f.text_area :content, :class => "pull-right", :style => "width: 513px; height: 100px;", :placeholder => "Type your message here!" %>
         </div>
 
         <div class="field">
@@ -40,3 +44,41 @@
 
     </div>
 </div>
+
+<script>
+		$(document).ready(function(){
+			//Followers
+			$( "#followers-input" )
+                .bind( "keydown", function( event ) {
+                    if ( event.keyCode === $.ui.keyCode.TAB &&
+                            $( this ).data( "ui-autocomplete" ).menu.active ) {
+                        event.preventDefault();
+                    }
+                })
+                .on( "click", function( event ) {
+                    $(this).autocomplete("search", "");
+                })
+                .autocomplete({
+                    source: followersArray,
+                    minLength: 0,
+                    messages: {
+                        noResults: '',
+                        results: function() {}
+                    } ,
+                    select: function( event, ui ) {
+                        $("#followers-input").attr("value", ui.item.label);
+                        $("#followersId").attr("value", ui.item.value)
+                        return false;
+                    } ,
+                    focus: function( event, ui ) {
+                        return false;
+                    }
+                })
+                .data("ui-autocomplete")._renderItem = function (ul, item) {
+					return $( "<li style='height: 60px; z-index: 2000;'>" )
+					.append( "<a><div class='popover-left'><img src=" + item.image + "></img></div><div class='popover-right'><span>" + item.label + "</span><small>" + item.sport + "</small></div></a>" )
+					.appendTo( ul );
+				}
+			});
+			var followersArray = <%= current_user.followers.map{|p| {:label=>p.full_name, :value=>p.id, :sport=>p.sport_show, :image=>p.profilepic_route}}.to_json.html_safe %>;
+</script>

@@ -54,7 +54,7 @@
               </div>
               <div class="item-info secondary-info">
                 <p><%= link_to follower.followers.count.to_s + " followers", social_path(follower) %> | <%= link_to follower.followed_users.count.to_s + "  following", social_path(follower)  %></p>
-                <a href="#inboxModal" data-toggle="modal" role="button" id="new-inbox-btn" class="send-message"><i class="icon-envelope"></i></a>
+                <a href="#inboxModal" data-toggle="modal" role="button" id="new-inbox-btn" class="send-message" user-id="<%= follower.id %>" user-name="<%= follower.full_name %>"><i class="icon-envelope"></i></a>
               </div>
             </div>
           <% end %>
@@ -100,7 +100,7 @@
 </div><!--row-->
 
   <%= render 'layouts/invite' %>
-  <%=  render :partial => 'messages/form', :locals => {:followers_list => @followers_list} %>
+  <%=  render 'messages/form' %>
 </div><!-- /.container -->
 
 
@@ -110,6 +110,11 @@
 <script>
   $(document).ready(function(){
     $(".cb").attr("checked","checked");
+    
+    $('.send-message').click(function(){
+      $("#followers-input").attr("value", $(this).attr("user-name"));
+      $("#followersId").attr("value", $(this).attr("user-id"));
+    });
     
     $('#checkBoxPeople').change(function(){
       $(".socialDiv").each(function(){
