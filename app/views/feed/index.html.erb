@@ -299,7 +299,7 @@
             <p>Event <%= link_to event.name, event %> has a new post</p>
             <div class="img-polaroid company-resume">
               <i class="icon-bullhorn"></i><br>
-              <p> <%= post.content %>
+              <p> <%= raw(post.content) %>
                 <%= link_to 'See more', event, :class => 'see-more'%>
               </p>
             </div>
