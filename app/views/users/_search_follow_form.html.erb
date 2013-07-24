@@ -1,5 +1,5 @@
 <% unless current_user?(user) %>
-    <div id="follow_form">
+    <div id="follow_form<%=user.id.to_s%>">
       <% if current_user.following?(user) %>
           <%= render :partial => 'unfollow', :locals => {:user => user, :search => true} %>
       <% else %>

@@ -289,7 +289,7 @@
               <% end %>
           <% end %>
       <% end %>
-      <% if @global_notifications.count < 5 %>
+      <% if @globals_notifications && @global_notifications.count < 5 %>
         <p style="margin-left: 10px;">You don't have more notifications.</p>
       <% end %>
       </div>
