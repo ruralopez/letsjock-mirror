@@ -1538,7 +1538,8 @@ form.search-filters{
 
 .results ul li .user-info h5, .results ul li .user-info p{margin:0;}
 .results ul li .user-info h5{color:#C6091C;}
-.results ul li .user-info p{font-weight: normal; line-height: 120%;}
+.results ul li .user-info p{font-weight: normal; line-height: 160%;}
+.results ul li .user-info p:last-of-type{ margin-bottom: 5px; }
 
 .results ul li .user-info div#follow_form { display: inline; }
 

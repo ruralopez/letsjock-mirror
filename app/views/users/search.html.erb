@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row relative">
         <div class="span3">
         <%=  form_tag({:controller => "users", :action => "search"}, :class => "search-filters") do %>
             <div class="accordion" id="filters">
@@ -317,11 +317,10 @@
                         <li>
                           <%= image_tag result.profilephotourl, :class => "img-polaroid"  %>
                           <div class="user-info">
-                            <h5><%= link_to result.full_name, result %></h5>
-                            <p><%= result.birth ? result.birth.to_s + ", " + result.age.to_s : "Not specified." %></p>
+                            <h5><%= link_to result.full_name, profile_path(result) %></h5>
                             <% if result.isSponsor %>
-                                <p>Industry: <%= result.preferences[:industries] ? result.preferences[:industries].join(", ") : "--" %></p>
-                                <p>Headquarters: <%= result.citybirth ? result.citybirth : "Location" %>, <%= result.country_id ? result.country.name : "" %></p>
+                                <p><%= result.preferences[:industries] ? result.preferences[:industries].join(", ") : "--" %></p>
+                                <p><%= result.citybirth ? result.citybirth : "Location not specified" %>, <%= result.country_id ? result.country.name : "" %></p>
                             <% else %>
                                 <% if result.tags("GLOBAL_TAGS_IAM") && result.tags("GLOBAL_TAGS_IAM").length > 0 %>
                                     <% @tags = "" %>
@@ -333,8 +332,9 @@
                                         <p><%= @tags %></p>
                                     <% end %>
                                 <% end %>
+                                <p><%= result.birth ? result.age.to_s + " years" : "Age not specified" %>, <%= result.citybirth ? result.citybirth : "-" %>, <%= result.country_id ? Country.find(result.country_id).name : "-" %></p>
                             <% end %>
-                            <p><%= result.citybirth ? result.citybirth : "-" %>, <%= result.country_id ? Country.find(result.country_id).name : "-" %></p>
+                            
                             <%=	render :partial => 'search_follow_form', :locals => {:user => result} if signed_in? %>
                             <button class="btn btn-small" disabled="disabled"><i class="icon-envelope"></i> Send a message</button>
                           </div>
