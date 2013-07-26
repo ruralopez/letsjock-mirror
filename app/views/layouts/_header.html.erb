@@ -63,7 +63,7 @@
               </li>
               <% end %>
             <% end %>
-            <% if current_user.id == 1 %>
+            <% if current_user.id == 1 || current_user.id == 21%>
               <li><%= link_to 'Compare prospects', compare_path %>
             <% end %>  
               <li><%= link_to 'Settings', settings_path %>

@@ -12,13 +12,13 @@
     <% @user1.sports.each do |sport| %>
          <span>
 			<i class="icon-chevron-right"></i>
-			<a href="#"><%= sport.full_name %></a>
+			<a href="#jockInfo" data-toggle="tab" sport-id=<%= sport.id %>><%= sport.full_name %></a>
 		 </span>
     <% end %>
     <% else %>
        <span>
 			<i class="icon-chevron-right"></i>
-			<a href="#">No sport selected</a>
+			<a href="#jockInfo" data-toggle="tab" sport-id=0>No sport selected</a>
 		 </span>
     <% end %>
     <% if @user1.tags("GLOBAL_TAGS_IAM") && @user1.tags("GLOBAL_TAGS_IAM").length > 0 %>
@@ -117,32 +117,90 @@
 
 <div class="tab-pane" id="jockInfo">
 
-  <span>sport</span>
+  <span>sponsors</span>
+  <table class="table">
+    <tr>
+      <td>
+		<% if !@user1.sponsors.blank? %>
+			<% @user1.sponsors.each do |sponsor| %>
+				<%= link_to image_tag(sponsor.profilephotourl, :title => sponsor.full_name), profile_path(sponsor) %>
+			<% end %>
+		<% else %>
+			<i class="icon-remove"></i>
+		<% end %>
+      </td>
+      <td>
+		<% if !@user2.sponsors.blank? %>
+			<% @user2.sponsors.each do |sponsor| %>
+				<%= link_to image_tag(sponsor.profilephotourl, :title => sponsor.full_name), profile_path(sponsor) %>
+			<% end %>
+		<% else %>
+			<i class="icon-remove"></i>
+		<% end %>
+      </td>
+    </tr>
+  </table>
+  
+  <!-- AGENTS
+  <span>agents</span>
+  <table class="table">
+    <tr>
+      <td>
+        <span>2 agents</span>
+      </td>
+      <td><i class="icon-remove"></i></td>
+    </tr>
+  </table>
+  -->
+
+  <span>sports</span>
   <table class="table">
     <tr>
       <% if @user1.sport_show == "No sport yet!" && !@user1.sports.empty? %>
           <td><%= @user1.sports[0].full_name %></td>
       <% else %>
-          <td><%= @user1.sport_show %></td>
-      <% end %>
+          <td>   
+			<div class="dropdown">
+				<a class="dropdown-toggle" id="dLabel1" role="button" data-toggle="dropdown" data-target="#" href="#" style="text-decoration: none;">
+				<%= @user1.sports.length > 1 ? 'All sports' : @user1.sport_show %>
+				<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu sports-menu" id="dropdown-sports1" role="menu" aria-labelledby="dLabel">
+					<% if @user1.sports.length > 1 %>
+						<li><a tabindex="-1" sport-id=0 href="#">'All sports'</a></li>
+						<li class="divider"></li>
+					<% end %>
+					<% @user1.sports.each do |s| %>						
+					<li><a tabindex="-1" sport-id=<%= s.id %> href="#"><%= s.full_name %></a></li>
+					<% end %>
+				</ul>
+			</div>
+		</td>
+      <% end %>     
 
       <% if @user2.sport_show == "No sport yet!" && !@user2.sports.empty? %>
           <td><%= @user2.sports[0].full_name %></td>
       <% else %>
-          <td><%= @user2.sport_show %></td>
+          <td>   
+			<div class="dropdown">
+				<a class="dropdown-toggle" id="dLabel2" role="button" data-toggle="dropdown" data-target="#" href="#" style="text-decoration: none;">
+				<%= @user2.sports.length > 1 ? 'All sports' : @user2.sport_show %>
+				<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu sports-menu" id="dropdown-sports2" role="menu" aria-labelledby="dLabel">
+					<% if @user2.sports.length > 1 %>
+						<li><a tabindex="-1" sport-id=0 href="#">All sports</a></li>
+						<li class="divider"></li>
+					<% end %>
+					<% @user2.sports.each do |s| %>
+					<li><a tabindex="-1" sport-id=<%= s.id %> href="#"><%= s.full_name %></a></li>
+					<% end %>
+				</ul>
+			</div>
+		</td>
       <% end %>
     </tr>
   </table>
-  
-  <!-- BEST MARK	
-  <span>best mark on </span>
-  <table class="table">
-    <tr>
-      <td>best mark, organized by <a href="#">sponsor</a></td>
-      <td>best mark, organized by <a href="#">sponsor</a></td>
-    </tr>
-  </table>
-  -->
   
   <span><i class="icon-certificate"></i> certificate profile</span>
   <table class="table">
@@ -152,31 +210,50 @@
     </tr>
   </table>
 
-  <!-- AGENTES
-  <span>agent</span>
+
+<% @users_sports.each do |sport|%>
+<div sport-id=<%= sport.id %> class="hide-sport"><!-- divSports--> 
+ <h4></i><%= sport.full_name %></h4>	
+  <span>best mark</span>
   <table class="table">
     <tr>
-      <td>
-        <span>2 agents</span>
-      </td>
-      <td><i class="icon-remove"></i></td>
+	  <td>
+	  <% if !@best_mark1.blank? %>
+		<ul>
+		   <% @best_mark1.each do |b| %>	
+		   <% if b.sport_id == sport.id %>
+			   <li><a href="#"><%= Competition.find(b.competition_id).name %></a></li>           
+			   <% if b.position %><li><b>Position</b>: <%= b.position %></li><% end %>
+			   <li><b><%= b.full_mark %></b> - <%= Sport.find(b.sport_id).full_name %></li>
+			   <% if Competition.find(b.competition_id).organizer != "" %><li><b>Organized by <%= Competition.find(b.competition_id).organizer %></b></li><% end %>
+			   <li><%= b.date.strftime("%B %d, %Y") %></li>
+           <% end %>
+           <% end %>
+        </ul>      
+	  <% else %>
+		<i class="icon-remove"></i>
+	  <% end %>
+	  </td>
+	  <td>	
+	  <% if !@best_mark2.blank? %>
+		<ul>
+		   <% @best_mark2.each do |b| %>
+		   <% if b.sport_id == sport.id %>	
+			   <li><a href="#"><%= Competition.find(b.competition_id).name %></a></li>           
+			   <% if b.position %><li><b>Position</b>: <%= b.position %></li><% end %>
+			   <li><b><%= b.full_mark %></b> - <%= Sport.find(b.sport_id).full_name %></li>
+			   <% if Competition.find(b.competition_id).organizer != "" %><li><b>Organized by <%= Competition.find(b.competition_id).organizer %></b></li><% end %>
+			   <li><%= b.date.strftime("%B %d, %Y") %></li>   
+           <% end %>
+           <% end %>
+        </ul>       
+	  <% else %>
+		<i class="icon-remove"></i>
+	  <% end %>
+	  </td>
     </tr>
   </table>
-
-  SPONSORS
-  <span>sponsor</span>
-  <table class="table">
-    <tr>
-      <td>
-        <a href="#"><img src="img/sponsor-1.png"/></a>
-        <a href="#"><img src="img/logo-fede.png"/></a>
-        <a href="#"><img src="img/logo-gatorade.png"/></a>
-      </td>
-      <td><i class="icon-remove"></i></td>
-    </tr>
-  </table>
--->
-
+  
   <span>coach</span>
   <table class="table">
     <tr>
@@ -184,7 +261,9 @@
         <% if !@train1.blank? %>
             <ul>
             <% @train1.each do |train| %>
+            <% if sport.id == train.sport_id %>
                <li><a href="#"><%= train.name %></a> <%= train.init.strftime("%Y") %> - <% if train.end %><%= train.end.strftime("%Y") %><% else %>Now<% end %></li>
+            <% end %>
             <% end %>
             </ul>
         <% else %>
@@ -195,7 +274,9 @@
         <% if !@train2.blank? %>
             <ul>
               <% @train2.each do |train| %>
+              <% if sport.id == train.sport_id %>
                   <li><a href="#"><%= train.name %></a> <%= train.init.strftime("%Y") %> - <% if train.end %><%= train.end.strftime("%Y") %><% else %>Now<% end %></li>
+              <% end %>
               <% end %>
             </ul>
         <% else %>
@@ -210,18 +291,26 @@
     <tr>
       <td>
         <% if !@award1.blank? %>
+			<ul>
             <% @award1.each do |award| %>
-                <a href="#"><%= award.description %></a>
+            <% if sport.id == award.sport_id %>
+				<li><a href="#"><%= award.description %></a> <%= '- ' + award.awarded_by if award.awarded_by%></li>
             <% end %>
+            <% end %>
+            </ul>
         <% else %>
             <i class="icon-remove"></i>
         <% end %>
       </td>
       <td>
         <% if !@award2.blank? %>
+			<ul>
             <% @award2.each do |award| %>
-                <a href="#"><%= award.description %></a>
+            <% if sport.id == award.sport_id %>
+				<li><a href="#"><%= award.description %></a> <%= '- ' + award.awarded_by if award.awarded_by%></li>
             <% end %>
+            <% end %>
+            </ul>
         <% else %>
             <i class="icon-remove"></i>
         <% end %>
@@ -236,7 +325,9 @@
         <% if !@team1.blank? %>
             <ul>
               <% @team1.each do |team| %>
+              <% if sport.id == team.sport_id %>
                   <li><a href="#"><%= team.name %></a> <%= team.init.strftime("%Y") %> - <% if team.end %><%= team.end.strftime("%Y") %><% else %>Now<% end %></li>
+              <% end %>
               <% end %>
             </ul>
         <% else %>
@@ -247,7 +338,9 @@
         <% if !@team2.blank? %>
             <ul>
               <% @team2.each do |team| %>
+              <% if sport.id == team.sport_id %>
                   <li><a href="#"><%= team.name %></a> <%= team.init.strftime("%Y") %> - <% if team.end %><%= team.end.strftime("%Y") %><% else %>Now<% end %></li>
+              <% end %>
               <% end %>
             </ul>
         <% else %>
@@ -256,6 +349,9 @@
       </td>
     </tr>
   </table>
+</div><!-- divSports-->  
+<% end %>
+  
 </div><!-- #jockInfo-->
 
 <div class="tab-pane" id="interestInfo">
@@ -485,13 +581,13 @@
         <% @user2.sports.each do |sport| %>
          <span>
 			<i class="icon-chevron-right"></i>
-			<a href="#"><%= sport.full_name %></a>
+			<a href="#jockInfo" data-toggle="tab" sport-id=<%= sport.id %>><%= sport.full_name %></a>
 		 </span>
         <% end %>
     <% else %>
        <span>
 			<i class="icon-chevron-right"></i>
-			<a href="#">No sport selected</a>
+			<a href="#jockInfo" data-toggle="tab" sport-id=0>No sport selected</a>
 		 </span>
     <% end %>
     <% if @user2.tags("GLOBAL_TAGS_IAM") && @user2.tags("GLOBAL_TAGS_IAM").length > 0 %>
@@ -504,3 +600,42 @@
 
 
 </div><!-- row-fluid -->
+
+<script>
+ $(document).ready(function(){
+
+        $('.sports-menu li a').click(function(e){
+			console.log($(this));
+			if($(this).attr("sport-id") == 0){
+				$('.hide-sport').show();
+			}
+			else{
+				$('.hide-sport').hide();
+				for(i=0;i < <%= @users_sports.length %>;i++){
+					if($(this).attr("sport-id") == $($(document).find(".hide-sport")[i]).attr("sport-id"))
+						$($(document).find(".hide-sport")[i]).show();
+				}
+			}	
+			  
+			if($(this).closest("ul").attr("id") == "dropdown-sports1"){
+				$('#dLabel1').html($(this).html() + ' <b class="caret"></b>');
+			}
+			else{
+				$('#dLabel2').html($(this).html() + ' <b class="caret"></b>');
+			}          
+            e.preventDefault();
+        });
+        
+        $('.group span a').click(function(e){
+			for(i=0;i < $(document).find('.sports-menu li a').length;i++){
+					if($(this).attr("sport-id") == $($(document).find('.sports-menu li a')[i]).attr("sport-id")){
+						$(document).find('#jock-li').click();
+						$($(document).find('.sports-menu li a')[i]).click();
+						break;
+					}
+				}
+			
+			e.preventDefault();
+		});
+	});
+</script> 

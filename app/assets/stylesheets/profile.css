@@ -1270,6 +1270,9 @@ ul.margin-0 li{width:20%; text-align: center; font-size: .8em;}
 .compare .table tr td ul{
     margin:0;
 }
+.compare .table tr td ul li{
+    list-style: none;
+}
 /*.compare .table iframe{
         width:100%;
         }*/

@@ -9,6 +9,7 @@
 <% if signed_in? && @user.id == current_user.id %>
   <%= javascript_include_tag "/javascripts/countries.js" %>
   <%= javascript_include_tag "/javascripts/sports.js" %>
+  <%= javascript_include_tag "/javascripts/states.js" %>
 <% end %>
 
 <% provide(:title, @user.full_name) %>
@@ -302,6 +303,11 @@
       <ul class="tags-textbox" id="interest" style="height: 60px !important;">
         <li style="height: 24px;"><input type="text" id="tags_user_interest" class="tags pull-left" placeholder="Areas of interest (max 4)"></li>
       </ul>
+      <!--
+      <ul class="tags-textbox" id="location" style="height: 60px !important;">
+        <li style="height: 24px;"><input type="text" id="tags_user_location" class="tags pull-left" placeholder="Geographic areas of interest"></li>
+      </ul>
+      -->
       <input type="hidden" name="tags[user_id]" value="<%= current_user.id if signed_in? %>">
     <% end %>
     <button id="edit_tags_cancel" class="btn pull-right">Cancel</button> <button id="edit_tags_submit" name="commit" class="btn btn-success pull-right"><b>Save</b></button>
@@ -623,6 +629,37 @@
                         return false;
                     }
                 });
+                
+        //GLOBAL_TAGS_LOCATION
+        $( "#tags_user_location" )
+                .bind( "keydown", function( event ) {
+                    if ( event.keyCode === $.ui.keyCode.TAB &&
+                            $( this ).data( "ui-autocomplete" ).menu.active ) {
+                        event.preventDefault();
+                    }
+                })
+                .autocomplete({
+                    source: function(request, response) {
+						var results = $.ui.autocomplete.filter($.merge(fixed_countries, states), request.term);
+						response(results.slice(0, 5));
+					},
+                    minLength: 0,
+                    messages: {
+                        noResults: '',
+                        results: function() {}
+                    } ,
+                    select: function( event, ui ) {
+                        $("#location").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left">' + ui.item.label + ' <input type="hidden" name="tags[location][]" value="' + ui.item.value + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+                        $("#tags_user_location").attr("value", "");
+                        if($("#location").children("span.label").length > 3){
+                            $(this).hide();
+                        }
+                        return false;
+                    } ,
+                    focus: function( event, ui ) {
+                        return false;
+                    }
+                });        
 
         <% if current_user.tags("GLOBAL_TAGS_IAM") && current_user.tags("GLOBAL_TAGS_IAM").length > 0 %>
         <% current_user.tags("GLOBAL_TAGS_IAM").each do |tag|%>
@@ -656,6 +693,7 @@
         $(document).find("#division").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left"><%= GLOBAL_TAGS_DIVISION[tag.to_i] %> <input type="hidden" name="tags[division][]" value="<%= tag.to_i %>"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
         <% end %>
         <% end %>
+        
 
         $("#userTagsForm").delegate(".close", "click", function () {
             $(this).parent("span.label").siblings("li").children("input").show();

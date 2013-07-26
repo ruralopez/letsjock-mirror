@@ -996,14 +996,16 @@ class UsersController < ApplicationController
 
   def comparison
     @users_array = User.find(:all, :conditions => ["isSponsor = ?", false]).map{|p| {:label=>p.full_name, :value=>p.id, :sport=>p.sport_show, :image=>p.profilepic_route}}.to_json.html_safe
-
+	
     if params[:user1_id] && params[:user1_id] != ""
       @user1 = User.find(params[:user1_id])
       @train1 = Train.find(:all, :conditions => ["user_id = ?", @user1.id])
       @award1 = Recognition.find(:all, :conditions => ["user_id = ?", @user1.id])
       @team1 = Team.find(:all, :conditions => ["user_id = ?", @user1.id])
       @school1 = Education.find(:first, :conditions => ["user_id = ?", @user1.id])
-
+	  @result1 = Result.find(:all, :conditions => ["user_id = ?", @user1.id])
+	  @best_mark1 = @result1.select{|w| w.best_mark == true}
+      
       @tags1 = Tags.all(:conditions => ["type2 = ? AND type1 = ? AND id1 = ?", "Photo", "User", @user1.id])
       @tag_photos1 = []
       unless @tags1.empty?
@@ -1024,7 +1026,9 @@ class UsersController < ApplicationController
       @award2 = Recognition.find(:all, :conditions => ["user_id = ?", @user2.id])
       @team2 = Team.find(:all, :conditions => ["user_id = ?", @user2.id])
       @school2 = Education.find(:first, :conditions => ["user_id = ?", @user2.id])
-
+	  @result2 = Result.find(:all, :conditions => ["user_id = ?", @user2.id])
+	  @best_mark2 = @result2.select{|w| w.best_mark == true}
+	  
       @tags2 = Tags.all(:conditions => ["type2 = ? AND type1 = ? AND id1 = ?", "Photo", "User", @user2.id])
       @tag_photos2 = []
       unless @tags2.empty?
@@ -1038,6 +1042,8 @@ class UsersController < ApplicationController
       end
       @videos2 = Video.all(:conditions => ['user_id = ?', @user2.id], :order => "id desc")
     end
+    
+    @users_sports = (@user1.sports + @user2.sports).uniq
 
     respond_to do |format|
 		format.html      
@@ -1174,10 +1180,11 @@ class UsersController < ApplicationController
     tagsLooking =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_LOOKING", params[:tags][:user_id], "User"])
     tagsInterest =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_INTEREST", params[:tags][:user_id], "User"])
     tagsDivision =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_DIVISION", params[:tags][:user_id], "User"])
-
+	#tagsLocation =  Tags.select("id1").find(:all, :conditions => ["(type1 = 'State' OR type1 = 'Country') AND id2 = ? AND type2 = ?", params[:tags][:user_id], "User"])
     tagsLookingArray = params[:tags][:looking]
     tagsInterestArray = params[:tags][:interest]
     tagsDivisionArray = params[:tags][:division]
+    #tagsLocationArray = params[:tags][:location]
 
     if !tagsLooking.empty?
       tagsLooking.each do |tag|
