@@ -10,6 +10,7 @@ gem 'aws-s3', '0.6.3', :require => 'aws/s3'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
+gem 'will_paginate', '~> 3.0'
 
 group :development, :test do
   gem 'mysql2'
