@@ -9,7 +9,7 @@
           <div class="single-post">
             <p>
               <%= link_to user.full_name, profile_path(user) %>
-              <b>has updated</b> his/her profile
+              <b>has updated</b> <% if user.gender == 'M' %>his<% else %>her<% end %> profile
             </p>
             <p><small>on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
