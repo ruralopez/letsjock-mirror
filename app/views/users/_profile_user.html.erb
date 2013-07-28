@@ -220,7 +220,8 @@
       </div>
     <% end %>
     
-    <%= form_tag({:controller => 'users', :action => 'add_iam_tag'}, :id => "userIamForm", :class => "fix-top") do  %>
+    <%= form_tag({:controller => 'users', :action => 'add_iam_tag'}, :id => "userIamForm", :class => "fix-top") do  %>       
+        <legend>I am</legend>
         <ul class="tags-textbox" id="iam">
           <li><input type="text" id="tags_user_iam" class="tags pull-left" placeholder="I'm a...(max 2)"></li>
         </ul>
@@ -501,6 +502,8 @@
       
       <% if signed_in? && current_user.id == @user.id %>
         $('#edit_user_submit').click(function(){
+		  $(this).attr("disabled", "disabled");
+		  $(this).find('b').html('Saving...');
           $.post($("#edit_user_<%= @user.id %>").attr("action"), $("#edit_user_<%= @user.id %>").serialize(), function() {
             $.post($("#userIamForm").attr("action"), $("#userIamForm").serialize(), function() {
                 location.reload();
@@ -508,6 +511,8 @@
           }, "json");
         });
         $('#edit_tags_submit').click(function(){
+			$(this).attr("disabled", "disabled");
+			$(this).find('b').html('Saving...');
             $.post($("#edit_tags_form").attr("action"), $("#edit_tags_form").serialize(),
                     function() {
                         $.post($("#userTagsForm").attr("action"), $("#userTagsForm").serialize(),
