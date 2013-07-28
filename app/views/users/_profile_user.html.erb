@@ -275,6 +275,13 @@
               <% end %>
             </li>
           <% end %>
+          <% if @user.tags_location && @user.tags_location.length > 0 %>
+            <li><i class="icon-map-marker"></i>
+              <% @user.tags_location.each do |tag|%>
+                <a href="#"><%= tag %></a>
+              <% end %>
+            </li>
+          <% end %>
         <% end %>
         <!-- <li><i class="icon-map-marker"></i><a href="#">Santiago</a><a href="#">Viña del Mar</a></li> -->
         </ul>
@@ -294,20 +301,22 @@
       </div>
     <% end %>
     <%= form_tag({:controller => 'users', :action => 'add_user_tag'}, :id => "userTagsForm", :class => "fix-top") do  %>
+      <legend>Looking for</legend>
       <ul class="tags-textbox" id="looking">
         <li><input type="text" id="tags_user_looking" class="tags pull-left" placeholder="What I'm looking for? (max 2)"></li>
       </ul>
+      <legend>Divisions of interest</legend>
       <ul class="tags-textbox" id="division">
         <li><input type="text" id="tags_user_division" class="tags pull-left" placeholder="Division of interest"></li>
       </ul>
+      <legend>Areas of interest</legend>
       <ul class="tags-textbox" id="interest" style="height: 60px !important;">
         <li style="height: 24px;"><input type="text" id="tags_user_interest" class="tags pull-left" placeholder="Areas of interest (max 4)"></li>
       </ul>
-      <!--
+      <legend>Geographic areas of interest</legend>
       <ul class="tags-textbox" id="location" style="height: 60px !important;">
         <li style="height: 24px;"><input type="text" id="tags_user_location" class="tags pull-left" placeholder="Geographic areas of interest"></li>
       </ul>
-      -->
       <input type="hidden" name="tags[user_id]" value="<%= current_user.id if signed_in? %>">
     <% end %>
     <button id="edit_tags_cancel" class="btn pull-right">Cancel</button> <button id="edit_tags_submit" name="commit" class="btn btn-success pull-right"><b>Save</b></button>
@@ -648,8 +657,13 @@
                         noResults: '',
                         results: function() {}
                     } ,
-                    select: function( event, ui ) {
-                        $("#location").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left">' + ui.item.label + ' <input type="hidden" name="tags[location][]" value="' + ui.item.value + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+                    select: function( event, ui ) {                        
+                        if(ui.item.parent){
+							$("#location").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left">' + ui.item.label + ' <input type="hidden" name="tags[location][]" value="state_' + ui.item.value + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+						}
+						else{
+							$("#location").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left">' + ui.item.label + ' <input type="hidden" name="tags[location][]" value="country_' + ui.item.value + '"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+						}
                         $("#tags_user_location").attr("value", "");
                         if($("#location").children("span.label").length > 3){
                             $(this).hide();
@@ -691,6 +705,18 @@
         <% if current_user.tags("GLOBAL_TAGS_DIVISION") && current_user.tags("GLOBAL_TAGS_DIVISION").length > 0 %>
         <% current_user.tags("GLOBAL_TAGS_DIVISION").each do |tag|%>
         $(document).find("#division").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left"><%= GLOBAL_TAGS_DIVISION[tag.to_i] %> <input type="hidden" name="tags[division][]" value="<%= tag.to_i %>"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+        <% end %>
+        <% end %>
+        
+        <% if current_user.tags("Country") && current_user.tags("Country").length > 0 %>
+        <% current_user.tags("Country").each do |tag|%>
+        $(document).find("#location").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left"><%= Country.find(tag.to_i).name %> <input type="hidden" name="tags[location][]" value="country_<%= tag.to_i %>"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
+        <% end %>
+        <% end %>
+        
+        <% if current_user.tags("State") && current_user.tags("State").length > 0 %>
+        <% current_user.tags("State").each do |tag|%>
+        $(document).find("#location").append('<span style="margin-right: 2px; margin-top: 2px; display: inline;" class="label label-success pull-left"><%= State.find(tag.to_i).name %> <input type="hidden" name="tags[location][]" value="state_<%= tag.to_i %>"><button style="float: none;" type="button" class="close" aria-hidden="true">×</button></span>');
         <% end %>
         <% end %>
         

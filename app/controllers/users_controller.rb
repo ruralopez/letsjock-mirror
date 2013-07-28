@@ -1180,12 +1180,48 @@ class UsersController < ApplicationController
     tagsLooking =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_LOOKING", params[:tags][:user_id], "User"])
     tagsInterest =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_INTEREST", params[:tags][:user_id], "User"])
     tagsDivision =  Tags.select("id1").find(:all, :conditions => ["type1 = ? AND id2 = ? AND type2 = ?", "GLOBAL_TAGS_DIVISION", params[:tags][:user_id], "User"])
-	#tagsLocation =  Tags.select("id1").find(:all, :conditions => ["(type1 = 'State' OR type1 = 'Country') AND id2 = ? AND type2 = ?", params[:tags][:user_id], "User"])
+	tagsLocation =  Tags.select("id1, type1").find(:all, :conditions => ["(type1 = 'State' OR type1 = 'Country') AND id2 = ? AND type2 = ?", params[:tags][:user_id], "User"])
     tagsLookingArray = params[:tags][:looking]
     tagsInterestArray = params[:tags][:interest]
     tagsDivisionArray = params[:tags][:division]
-    #tagsLocationArray = params[:tags][:location]
+    tagsCountryArray = parse_location(params[:tags][:location], "country")
+    tagsStateArray = parse_location(params[:tags][:location], "state")
+	
+		
+	if !tagsLocation.empty?
+      tagsLocation.each do |tag|
+        if !tagsCountryArray.blank? && tag.type1 == "Country"
+          res = tagsCountryArray.reject! {|country| country.to_i == tag.id1}
+        else
+          res = nil
+        end
+        
+        if !tagsStateArray.blank? && tag.type1 == "State" && res == nil
+			res2 = tagsStateArray.reject! {|state| state.to_i == tag.id1}
+		else
+			res2 = nil
+        end
 
+        if(res == nil)
+          Tags.delete_all("id1 = #{tag.id1} AND type1 = 'Country' AND id2 = #{params[:tags][:user_id]} AND type2 = 'User'")
+        end
+        if(res2 == nil)
+          Tags.delete_all("id1 = #{tag.id1} AND type1 = 'State' AND id2 = #{params[:tags][:user_id]} AND type2 = 'User'")
+        end
+      end
+    end
+    if !tagsCountryArray.blank?
+      tagsCountryArray.each do |tag|
+        Tags.create(:id1 => tag, :type1 => "Country", :id2 => params[:tags][:user_id], :type2 => "User")
+      end
+    end
+    if !tagsStateArray.blank?
+      tagsStateArray.each do |tag|
+        Tags.create(:id1 => tag, :type1 => "State", :id2 => params[:tags][:user_id], :type2 => "User")
+      end
+    end
+    
+    	
     if !tagsLooking.empty?
       tagsLooking.each do |tag|
         if !tagsLookingArray.blank?
@@ -1242,8 +1278,33 @@ class UsersController < ApplicationController
         Tags.create(:id1 => tag, :type1 => "GLOBAL_TAGS_DIVISION", :id2 => params[:tags][:user_id], :type2 => "User")
       end
     end
+	
+	respond_to do |format|
+      format.html { redirect_to request.referer }
+      #format.json { render :json => { :options => tagsCountryArray } }
+    end
+  end
 
-    redirect_to request.referer
+  def parse_location(array, location)
+	@country_array = []
+	@state_array = []
+	
+	if !array.blank?
+	  array.each do |elem|
+		@temp = elem.split('_')
+		if(@temp[0] == "state")
+		  @state_array << @temp[1]
+		else
+		  @country_array << @temp[1]
+		end		
+	  end
+	end
+	
+	if location == "state"
+		return @state_array
+	else
+		return @country_array
+	end	
   end
 
   def add_sport_profile

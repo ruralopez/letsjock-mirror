@@ -268,6 +268,21 @@ class User < ActiveRecord::Base
       return idX
     end
   end
+  
+  def tags_location
+	ids = Tags.select("id1, type1").find(:all, :conditions => ["id2 = ? AND type2 = ? AND (type1 = 'Country' OR type1 = 'State')", self.id, "User"])
+	if !ids.blank?
+      idX = []
+      ids.each do |id|
+		if id.type1 == "Country"
+		  idX.push(Country.find(id.id1).name)
+		else
+		  idX.push(State.find(id.id1).name) 
+		end		
+      end      
+      return idX
+    end 
+  end
 
   def tags?
     return Tags.exists?(:id2 => self.id, :type2 => "User")
