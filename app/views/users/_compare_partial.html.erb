@@ -6,7 +6,7 @@
     <div class="img-polaroid">
       <%= image_tag @user1.profilepic %>
     </div>
-    <h4><%= @user1.full_name %></h4>
+    <h4><%= link_to @user1.full_name, profile_path(@user1) %></h4>
 
     <% if !@user1.sports.empty? %>
     <% @user1.sports.each do |sport| %>
@@ -575,7 +575,7 @@
     <div class="img-polaroid">
       <%= image_tag @user2.profilepic %>
     </div>
-    <h4><%= @user2.full_name %></h4>
+    <h4><%= link_to @user2.full_name, profile_path(@user2) %></h4>
 
     <% if !@user2.sports.empty? %>
         <% @user2.sports.each do |sport| %>

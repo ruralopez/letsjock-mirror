@@ -1226,6 +1226,14 @@ ul.margin-0 li{width:20%; text-align: center; font-size: .8em;}
     font-size: 1.1em;
 }
 
+.compare .user-info .group h4 a:hover{
+    text-decoration: none;
+}
+
+.compare .user-info .group h4 a:after{
+    content: "";
+}
+
 .compare .user-info a:after{
     content: ",";
 }
