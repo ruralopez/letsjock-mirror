@@ -30,7 +30,7 @@
 						<div id="basics" class="accordion-body collapse in">
 							<div class="accordion-inner">
 								
-								<fieldset>
+								<fieldset id="users-fieldset">									
 								<!--Name-->
 									<p>User 1</p>
 									<%= text_field_tag :user1, nil, :placeholder => "User 1", :class => "input-block-level user-input" %>
@@ -99,7 +99,12 @@
 <script>
     $(document).ready(function(){
 		$('#submit-compare').click(function(){
-			$("#compare-form").submit();
+			if($("#user1input").val() != null && $("#user2input").val() != null && $("#user1input").val() != "" && $("#user2input").val() != ""){
+				$("#compare-form").submit();
+			}
+			else{
+				$("#users-fieldset").append("<div class='alert alert-notice index-flash alert-error-compare'><button type='button' class='close' data-dismiss='alert'>&times;</button>You must enter 2 prospects</div>");
+			}
 		});
     
         //users_array
@@ -112,6 +117,7 @@
                 })
                 .on( "click", function( event ) {
                     $(this).autocomplete("search", "");
+                    $(".alert-error-compare").remove();
                 })
                 .autocomplete({
                     source: <%= @users_array %>,
