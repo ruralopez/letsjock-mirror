@@ -54,6 +54,6 @@
       <input class="typeahead edit-user sports span2" placeholder="Type your sport" data-provide="typeahead" type="text" data-parent="<%= sport.parent_id ? sport.parent_id : nil %>" value="<%= sport.name %>">
   <% end %>
   <% if index.to_i < 2 %>
-      <%= link_to raw('<i class="icon-plus icon-large icon-add-sport"></i>'), add_sport_profile_path(:index => index), :class => "link-add-sport", :id => "link-add-sport-#{index}", :remote => true %>
+      <%= link_to raw('<i class="icon-plus icon-large icon-add-sport"></i>'), add_sport_profile_path(:index => index), :style => "line-height: 30px !important;", :class => "link-add-sport", :id => "link-add-sport-#{index}", :remote => true %>
   <% end %>
 </div>
