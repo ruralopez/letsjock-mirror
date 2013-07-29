@@ -369,6 +369,22 @@ Sport.create( :name=> 'Shortstop' ,  :parent_id=> '150' ,  :fullpath => '/150/23
 Sport.create( :name=> 'Fielder' ,  :parent_id=> '150' ,  :fullpath => '/150/240')
 Sport.create( :name=> 'Hitter' ,  :parent_id=> '150' ,  :fullpath => '/150/241')
 
+# New sports
+#Waterski -- id=242
+Sport.create( :name=> 'Waterski' ,  :parent_id=> '' ,  :fullpath => '/242')
+
+#Paddle -- id=243
+Sport.create( :name=> 'Paddle' ,  :parent_id=> '' ,  :fullpath => '/243')
+
+#Surf -- id=244
+Sport.create( :name=> 'Surf' ,  :parent_id=> '' ,  :fullpath => '/244')
+
+#Running -- id=245
+Sport.create( :name=> 'Running' ,  :parent_id=> '' ,  :fullpath => '/245')
+
+#Kitesurf -- id=246
+Sport.create( :name=> 'Kitesurf' ,  :parent_id=> '' ,  :fullpath => '/246')
+
 
 ###############COUNTRIES###############
 Country.create(:id=>1,:iso=>"AD",:name=>"Andorra")
