@@ -35,7 +35,8 @@
 
         <div class="pull-right">
           <form action="/search" method="post" class="navbar-form pull-left">
-            <input type="text" name="query" class="search-query" placeholder="Search users or institutions">
+            <input type="text" name="query" class="search-query" placeholder="Search users or institutions" style="margin-top:2px;">
+            <%= link_to raw('<i class="icon-search icon-large"></i>'), search_path, :class => "link-advanced-search" %>
           </form>
           <div class="btn-group username pull-right">
 
