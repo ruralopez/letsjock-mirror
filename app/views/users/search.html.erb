@@ -33,9 +33,12 @@
                     <%= select_tag :age_from, options_for_select(1..99), :include_blank => true, :class => "half-level" %>
                     <p class="inline">and</p>
                     <%= select_tag :age_to, options_for_select(1..99), :include_blank => true, :class => "half-level" %>
-                    <p>Institutions</p>
+                    <p>Type of user</p>
+                    <label class="checkbox">
+                      <%= check_box_tag :institution, nil %> Institutions
+                    </label>
                     <label class="checkbox" style="margin-bottom: 2px !important;">
-                      <%= check_box_tag :institution, nil %> Only institutions
+                      <%= check_box_tag :user, nil %> Users
                     </label>
                     <p>Genre</p>
                     <label class="checkbox">

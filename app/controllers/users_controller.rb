@@ -830,12 +830,14 @@ class UsersController < ApplicationController
           @result.push(user) if user.height && user.height <= params[:height_to].to_i
         end
       end
-      if params[:institution] != ""
+      if params[:institution] || params[:user]
         aux = @result
         @result = []
-        @queries[:basics][:institution] = "only institutions" if params[:institution]
+        @queries[:basics][:user] = "only institutions" if params[:institution]
+        @queries[:basics][:user] = "only users" if params[:user]
+        @queries[:basics][:user] = "users and institutions" if params[:user] && params[:institution]
         aux.each do |user|
-          @result.push(user) if (params[:institution] && user.isSponsor) || (!params[:institution] && !user.isSponsor)
+          @result.push(user) if !user.isSponsor.nil? && ((user.isSponsor && params[:institution]) || (!user.isSponsor && params[:user]))
         end
       end
       if params[:male] || params[:female]
