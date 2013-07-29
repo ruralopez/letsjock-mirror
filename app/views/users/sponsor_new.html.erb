@@ -116,29 +116,29 @@
           <% end %>
           <h4>General Information</h4>
           <!--Company Name -->
-          <div class="input-prepend">
+          <div class="input-prepend" data-validate='["user_name"]'>
             <span class="add-on"><i class="icon-building"></i></span>
             <%= f.text_field :name, :placeholder => "Company name" %>
           </div>
           <!--Website -->
-          <div class="input-prepend">
+          <div class="input-prepend" data-validate='["user_preferences_url"]'>
             <span class="add-on"><i class="icon-globe"></i></span>
             <input id="user_preferences_url" name="user[preferences][url]" value="<%= @user.preferences[:url] %>" placeholder="http://" type="text">
           </div>
           
           <h4>Details</h4>
           <!--Industry-->
-          <div class="input-prepend">
+          <div class="input-prepend" data-validate='["user_preferences_industries"]'>
             <span class="add-on"><i class="icon-building"></i></span>
             <input id="user_preferences_industries" name="user[preferences][industries]" value="<%= @user.preferences[:industries] ? @user.preferences[:industries].join(", ") : nil %>" placeholder="Industries" type="text">
           </div>
           <!--Founded-->
-          <div class="input-prepend date" id="dp1" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years">
+          <div class="input-prepend date" id="dp1" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode = "years" data-validate='["user_birth"]'>
             <span class="add-on"><i class="icon-calendar"></i></span>
             <%= f.text_field :birth, :value => @user.birth ? @user.birth.strftime("%d-%m-%Y") : nil, :placeholder => "Founded on year", :class => "span2" %>
           </div>		
           <!--Headquarters-->	
-          <div class="input append input-prepend">
+          <div class="input append input-prepend" data-validate='["user_country_id", "user_citybirth"]'>
             <span class="add-on"><i class="icon-map-marker"></i></span>
             <%= render :partial => 'users/autocomplete_country', :locals => { :country_id => @user.country_id, :name => "user[country_id]" } %>
             <%= f.text_field :citybirth, :placeholder => "Location" %>
@@ -160,6 +160,10 @@
           <div class="input-prepend">
             <span class="add-on"><i class="icon-pencil"></i></span>
             <%= f.text_area :resume, :class => "span5", :placeholder => "About", :rows => 4 %>
+          </div>
+          
+          <div class="alert alert-error hide">
+            ...
           </div>
         </fieldset>
         <div class="pull-right">
@@ -229,6 +233,11 @@
         this.value = terms.join( ", " );
         return false;
       }
+    });
+    
+    $('button[name=commit]').click(function(e){
+      e.preventDefault();
+      form_profile_validate($("form.edit-profile"), {});
     });
   });
 </script>

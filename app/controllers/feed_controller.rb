@@ -1,5 +1,5 @@
 class FeedController < ApplicationController
-
+  require 'will_paginate/array'
   def index
     if signed_in?
       # Si viene con un redirect
@@ -34,6 +34,8 @@ class FeedController < ApplicationController
       uniques = Activity.all(:conditions => ["publisher_id IN (?) AND act_type IN ('001', '002', '003', '004', '031', '032', '033', '100', '101', '102', '202')", ids], :order => "created_at desc", :limit => 50)
       
       @news = ( singles + uniques ).sort_by(&:created_at).reverse
+      # master
+      # @news = Activity.all(:conditions => ["publisher_id IN (?)", ids], :order => "created_at desc").paginate(:page => params[:page], :per_page => 15)
     else
       flash[:error] = "You must be logged in."
       sign_out

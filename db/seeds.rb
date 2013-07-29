@@ -369,6 +369,22 @@ Sport.create( :name=> 'Shortstop' ,  :parent_id=> '150' ,  :fullpath => '/150/23
 Sport.create( :name=> 'Fielder' ,  :parent_id=> '150' ,  :fullpath => '/150/240')
 Sport.create( :name=> 'Hitter' ,  :parent_id=> '150' ,  :fullpath => '/150/241')
 
+# New sports
+#Waterski -- id=242
+Sport.create( :name=> 'Waterski' ,  :parent_id=> '' ,  :fullpath => '/242')
+
+#Paddle -- id=243
+Sport.create( :name=> 'Paddle' ,  :parent_id=> '' ,  :fullpath => '/243')
+
+#Surf -- id=244
+Sport.create( :name=> 'Surf' ,  :parent_id=> '' ,  :fullpath => '/244')
+
+#Running -- id=245
+Sport.create( :name=> 'Running' ,  :parent_id=> '' ,  :fullpath => '/245')
+
+#Kitesurf -- id=246
+Sport.create( :name=> 'Kitesurf' ,  :parent_id=> '' ,  :fullpath => '/246')
+
 
 ###############COUNTRIES###############
 Country.create(:id=>1,:iso=>"AD",:name=>"Andorra")
@@ -4433,6 +4449,24 @@ State.create(:id=>3804,:iso=>"03",:name=>"Mashonaland Central",:country_id=>249)
 State.create(:id=>3805,:iso=>"01",:name=>"Manicaland",:country_id=>249)
 State.create(:id=>3806,:iso=>"09",:name=>"Bulawayo",:country_id=>249)
 State.create(:id=>3807,:iso=>"10",:name=>"Harare Province",:country_id=>249)
+
+###############PLACES/ZONES############
+
+State.create(:id=>3808,:iso=>"01",:name=>"North California",:country_id=>233)
+State.create(:id=>3809,:iso=>"02",:name=>"West California",:country_id=>233)
+State.create(:id=>3810,:iso=>"03",:name=>"South California",:country_id=>233)
+State.create(:id=>3811,:iso=>"04",:name=>"East California",:country_id=>233)
+State.create(:id=>3812,:iso=>"05",:name=>"Sillicon Valley",:country_id=>233)
+#State.create(:id=>3813,:iso=>"06",:name=>"Europe",:country_id=>249)
+#State.create(:id=>3814,:iso=>"07",:name=>"South America",:country_id=>249)
+#State.create(:id=>3815,:iso=>"08",:name=>"Africa",:country_id=>249)
+#State.create(:id=>3816,:iso=>"09",:name=>"Asia",:country_id=>249)
+#State.create(:id=>3817,:iso=>"10",:name=>"North America",:country_id=>249)
+#State.create(:id=>3818,:iso=>"11",:name=>"Centre America",:country_id=>249)
+#State.create(:id=>3819,:iso=>"12",:name=>"East Europe",:country_id=>249)
+#State.create(:id=>3820,:iso=>"13",:name=>"West Europe",:country_id=>249)
+#State.create(:id=>3821,:iso=>"14",:name=>"East Asia",:country_id=>249)
+#State.create(:id=>3822,:iso=>"15",:name=>"Oceania",:country_id=>249)
 
 
 ###############EXAMS###############

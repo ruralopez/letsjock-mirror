@@ -10,6 +10,10 @@ class JavascriptsController < ApplicationController
     @countries = Country.select("id, name").find(:all)
   end
   
+  def states
+	@states = State.select("id, country_id, name").find(:all)
+  end
+  
   def sports
     @sports = Sport.select("id, name, parent_id").find(:all)
   end
