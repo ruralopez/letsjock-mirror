@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
           sign_in userFB
           redirect_to news_path
         else
-          @newUser = User.new(:password => "jhdgksduhfk", :email => omniauth['extra']['raw_info']['email'], :name => omniauth['extra']['raw_info']['first_name'], :lastname => omniauth['extra']['raw_info']['last_name'], :profilephotourl => omniauth.info.image, :resume => "", :authentic_email => true, :isSponsor => false, :birth => omniauth.extra.raw_info.birthday)
+          @newUser = User.new(:password => "jhdgksduhfk", :email => omniauth['extra']['raw_info']['email'], :name => omniauth['extra']['raw_info']['first_name'], :lastname => omniauth['extra']['raw_info']['last_name'], :profilephotourl => omniauth.info.image, :resume => "", :authentic_email => true, :isSponsor => false, :birth => omniauth.extra.raw_info.birthday, :country_id => 46)
           if @newUser.save
             Publisher.new(:user_id => @newUser.id, :pub_type => "U").save
             Notification.new(:user_id => @newUser.id, :read => false, :not_type => "999").save
