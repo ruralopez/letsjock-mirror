@@ -850,6 +850,28 @@ class UsersController < ApplicationController
           @result.push(user) if user.gender && ((user.gender.downcase == "m" && params[:male])||(user.gender.downcase == "f" && params[:female]))
         end
       end
+      if params[:athlete] || params[:recruiter] || params[:sports_related_pro] || params[:sports_lover] || params[:coach] || params[:high_performance_athlete]
+        aux = @result
+        @result = []
+        @queries[:basics][:role] = ""
+        @queries[:basics][:role] += "athlete, " if params[:athlete]
+        @queries[:basics][:role] += "recruiter, " if params[:recruiter]
+        @queries[:basics][:role] += "sports related professional, " if params[:sports_related_pro]
+        @queries[:basics][:role] += "sports lover, " if params[:sports_lover]
+        @queries[:basics][:role] += "coach, " if params[:coach]
+        @queries[:basics][:role] += "high performance athlete" if params[:high_performance_athlete]
+        a = @queries[:basics][:role].split(", ")
+        @queries[:basics][:role] = ""
+        a.each_with_index do |s, index|
+          @queries[:basics][:role] += s
+          @queries[:basics][:role] += ", " if index != a.count - 1
+        end
+        aux.each do |user|
+          tags = user.tags("GLOBAL_TAGS_IAM")
+          tags = [] unless tags
+          @result.push(user) if ((params[:athlete] && tags.include?(1)) || !params[:athlete]) && ((params[:recruiter] && tags.include?(2)) || !params[:recruiter]) && ((params[:sports_related_pro] && tags.include?(3)) || !params[:sports_related_pro]) && ((params[:sports_lover] && tags.include?(4)) || !params[:sports_lover]) && ((params[:coach] && tags.include?(5)) || !params[:coach]) && ((params[:high_performance_athlete] && tags.include?(6)) || !params[:high_performance_athlete])
+          end
+      end
     end
     @sports_list = Sport.select('name').all.map(&:name)
   end
