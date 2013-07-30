@@ -62,11 +62,16 @@
               <%= link_to publisher_user.full_name, profile_path(publisher_user) %>
               is following <%= link_to followed_user.full_name, profile_path(followed_user) %>
               <% users = n.users.to_s.split(/,/) %>
-              <%= users.count > 0 ? " and " + users.count.to_s + " others" : "" %>
+              <%= users.count > 1 ? " and " + (users.count-1).to_s + " others" : "" %>
             </p>
             <div class="user-avatar">
-              <% users.take(3).each do |u| %>
-                <%= link_to image_tag(User.find(u).profilephotourl, :class => "img-rounded"), profile_path(u) if User.exists?(u) %>
+              <%= link_to image_tag(followed_user.profilephotourl, :class => "img-rounded"), profile_path(followed_user), "title" => followed_user.full_name %>
+                
+              <% users.take(4).each do |u| %>
+                <% if u != followed_user.id.to_s && User.exists?(u) %>
+                  <% f_user = User.select("id, name, lastname, profilephotourl, isSponsor").find(u)%>
+                  <%= link_to image_tag(f_user.profilephotourl, :class => "img-rounded"), profile_path(u), "title" => f_user.full_name %>
+                <% end %>
               <% end %>
             </div>
             <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
@@ -81,7 +86,7 @@
           <div class="single-post">
             <p>
               <%= link_to user.full_name, profile_path(user) %>
-              has a new follower
+              has <strong><%= n.followers.to_i > 1 ? n.followers.to_s + " new followers" : "a new follower" %></strong>
             </p>
             <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
@@ -142,8 +147,20 @@
           <div class="single-post">
             <p>
               <%= link_to user.full_name, profile_path(user) %>
+              <% users = n.users.to_s.split(/,/) %>
+              <%= users.count > 1 ? " and " + (users.count-1).to_s + " others" : "" %>
               joined <%= link_to event.name, event %> on <b><%= event.date.strftime("%B %d") %></b>
             </p>
+            <div class="user-avatar">
+              <%= link_to image_tag(user.profilephotourl, :class => "img-rounded"), profile_path(user), "title" => user.full_name %>
+                
+              <% users.take(4).each do |u| %>
+                <% if u != user.id.to_s && User.exists?(u) %>
+                  <% f_user = User.select("id, name, lastname, profilephotourl, isSponsor").find(u)%>
+                  <%= link_to image_tag(f_user.profilephotourl, :class => "img-rounded"), profile_path(u), "title" => f_user.full_name %>
+                <% end %>
+              <% end %>
+            </div>
             <p><small>posted on <%= n.created_at.strftime("%B %d")%></small></p>
           </div>
         </li>
