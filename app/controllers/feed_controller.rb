@@ -18,8 +18,7 @@ class FeedController < ApplicationController
       
       if ids_news.count > 0
         # Activities Singulares solo mostrar la mas reciente por usuario [ids = 000]
-        singles = Activity
-          .where(
+        singles = Activity.where(
             "id IN (
               SELECT id
               FROM (
@@ -29,8 +28,7 @@ class FeedController < ApplicationController
                 WHERE id IN (?) AND act_type = '000'
                 GROUP BY publisher_id, anio, mes, semana
               ) as d
-            )", ids_news )
-          .order("created_at ASC")
+            )", ids_news ).order("created_at ASC")
         
         # Activities grupales
         # 1. Relationship: Caso followed (Agrupa por semana)
@@ -46,7 +44,7 @@ class FeedController < ApplicationController
           WHERE d.id = a.id
           ORDER BY created_at ASC", ids_news] )
         
-        # 2. Relationship: Caso followers (Si sigo a los dos solo debería mostrar la notificación de uno)
+        # 2. Relationship: Caso followers (Agrupa por semanas)
         followers = Activity.find_by_sql( ["
           SELECT a.*, d.followers
           FROM (
@@ -76,9 +74,7 @@ class FeedController < ApplicationController
           ORDER BY created_at ASC", ids_news])
         
         # Activities únicas siempre se muestran (p.e. Posts, eventos, Recommend y Certified) [ids = 001, 002, 003, 004, 031, 032, 033, 100, 101, 102, 202, 020, 021] 
-        uniques = Activity
-          .where( [ "id IN (?) AND act_type IN ('001', '002', '003', '004', '031', '032', '033', '100', '101', '102', '202', '020', '021')", ids_news ] )
-          .order("created_at ASC")
+        uniques = Activity.where( [ "id IN (?) AND act_type IN ('001', '002', '003', '004', '031', '032', '033', '100', '101', '102', '202', '020', '021')", ids_news ] ).order("created_at ASC")
       end
       
       @news = ( singles + followed + followers + joined + uniques ).sort_by(&:created_at).reverse
