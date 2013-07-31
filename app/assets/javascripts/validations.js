@@ -72,6 +72,18 @@
                         return false;
                 },
                 msg : "The value must be a positive integer."
+            },
+            rutConGuion : {
+                check: function(value) {
+                    if(value.indexOf("-") != -1)
+                    {
+                        var aux = value.split("-");
+                        if((parseInt(aux[1]) < 10 || aux[1] == "k" || aux[1] == "K") && ((aux[0].length == 7 || aux[0].length == 8) && (parseInt(aux[0]) < 99999999 && parseInt(aux[0]) > 999999)))
+                            return true;
+                    }
+                    return false;
+                },
+                msg : "Formato de rut inválido."
             }
         }
         var testPattern = function(value, pattern) {

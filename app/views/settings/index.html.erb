@@ -1,5 +1,7 @@
 <%= stylesheet_link_tag    "profile" %>
+<%= stylesheet_link_tag    "errors-style" %>
 <%= javascript_include_tag "application" %>
+<%= javascript_include_tag "settings_validations" %>
 
 <div class="container">
 
@@ -242,47 +244,50 @@
     </div>
   </div><!--termina filtro accordion-->
 </li>
-<li><!--Rut-->
-  <div class="accordion" id="accordionRut"> <!--filtro-->
-    <div class="accordion-group">
-      <div class="accordion-heading">
-        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionRut" href="#rut">
-          <p>Rut</p>
-          <p><%= @user.rut %></p>
-          <p class="pull-right"><i class="icon-pencil"></i>Edit</p>
-        </a>
-      </div>
-      <div id="rut" class="accordion-body collapse" style="height: 0px;">
-        <div class="accordion-inner">
-          <%= form_for(@user, :html => {:class => "form-horizontal"}) do |f|%>
-              <% if @user.errors.any? %>
-                  <div id="error_explanation">
-                    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-                    <ul>
-                      <% @user.errors.full_messages.each do |msg| %>
-                          <li><%= msg %></li>
-                      <% end %>
-                    </ul>
+<% if @user.country_id && @user.country_id.to_i == 46 %>
+    <li><!--Rut-->
+      <div class="accordion" id="accordionRut"> <!--filtro-->
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordionRut" href="#rut">
+              <p>Rut</p>
+              <p><%= @user.rut %></p>
+              <p class="pull-right"><i class="icon-pencil"></i>Edit</p>
+            </a>
+          </div>
+          <div id="rut" class="accordion-body collapse" style="height: 0px;">
+            <div class="accordion-inner">
+              <%= form_for(@user, :html => {:class => "form-horizontal rut-form"}) do |f|%>
+                  <% if @user.errors.any? %>
+                      <div id="error_explanation">
+                        <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+                        <ul>
+                          <% @user.errors.full_messages.each do |msg| %>
+                              <li><%= msg %></li>
+                          <% end %>
+                        </ul>
+                      </div>
+                  <% end %>
+                  <div class="control-group">
+                    <label class="control-label">Rut</label>
+                    <div class="controls">
+                      <%= f.text_field :rut, :placeholder => "Rut", :validation => 'rutConGuion' %>
+                    </div>
+                    Con guion y sin puntos (ej: 12345678-9)
+                  </div>
+                  <div class="control-group">
+                    <div class="form-actions">
+                      <button type="submit" class="btn btn-success">Save</button>
+                    </div>
                   </div>
               <% end %>
-              <div class="control-group">
-                <label class="control-label">Rut</label>
-                <div class="controls">
-                  <%= f.text_field :rut, :placeholder => "Rut" %>
-                </div>
-              </div>
-              <div class="control-group">
-                <div class="form-actions">
-                  <button type="submit" class="btn btn-success">Save</button>
-                </div>
-              </div>
-          <% end %>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div><!--termina filtro accordion-->
-</li>
+      </div><!--termina filtro accordion-->
+    </li>
 
+<% end %>
 <li><!--Agent-->
   <div class="accordion" id="accordionRut"> <!--filtro-->
     <div class="accordion-group">
