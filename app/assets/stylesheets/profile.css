@@ -1552,7 +1552,7 @@ form.search-filters{
 .results ul li .user-info p{font-weight: normal; line-height: 160%;}
 .results ul li .user-info p:last-of-type{ margin-bottom: 5px; }
 
-.results ul li .user-info div#follow_form { display: inline; }
+.results ul li .user-info div[id*="follow_form"] { display: inline; }
 
 /*Botón verde*/
 
