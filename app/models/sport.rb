@@ -14,7 +14,7 @@ class Sport < ActiveRecord::Base
   has_many :photos
   has_many :videos
 
-  attr_accessible :fullpath, :parent_id, :name
+  attr_accessible :fullpath, :parent_id, :name, :var_type
 
   after_save :create_full_path
 
