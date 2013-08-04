@@ -14,10 +14,25 @@ class Sport < ActiveRecord::Base
   has_many :photos
   has_many :videos
 
-  attr_accessible :fullpath, :parent_id, :name, :var_type
+  attr_accessible :fullpath, :parent_id, :name, :var_type, :var
 
   after_save :create_full_path
-
+  
+  def full_var
+	if self.var == "s"
+	  "seconds"
+	elsif self.var == "m"
+	  "meters"
+	elsif self.var == "p"
+	  "points"
+	elsif self.var == "st"
+	  "strokes"
+	elsif self.var == "g"
+	  "goals"
+	else "position"  
+	end
+  end
+  	
   def full_name
     if self.parent_id
       self.name + " - " + Sport.find(self.parent_id).full_name

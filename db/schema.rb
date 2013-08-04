@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130801011203) do
+ActiveRecord::Schema.define(:version => 20130804205532) do
 
   create_table "activities", :force => true do |t|
     t.integer  "publisher_id"
@@ -169,11 +169,11 @@ ActiveRecord::Schema.define(:version => 20130801011203) do
   create_table "posts", :force => true do |t|
     t.integer  "user_id",    :null => false
     t.integer  "event_id"
+    t.integer  "writer_id"
     t.string   "title"
     t.text     "content"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "writer_id"
   end
 
   create_table "publishers", :force => true do |t|
@@ -253,6 +253,7 @@ ActiveRecord::Schema.define(:version => 20130801011203) do
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
     t.boolean  "var_type",   :default => false
+    t.string   "var",        :default => "p"
   end
 
   create_table "states", :force => true do |t|
