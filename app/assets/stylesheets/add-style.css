@@ -81,6 +81,9 @@ div.typeahead .sport-parent {
     line-height:100%;
     border-bottom:1px solid #8C0D1A;
 }
+
+.page-title h4 span{font-size: .8em; font-weight: normal;}
+
 .margin-10{margin-bottom:10px;}
 .page-title a.btn{font-weight:normal; margin-top:6px;}
 .relative{position:relative;}
@@ -877,7 +880,7 @@ ul.sponsor-third li:first-child:before, ul.sponsor-third li:after{
     background-color: white;
 }
 
-.images .image-gallery{
+/*.images .image-gallery{
     min-height: 600px;
     padding: 3%;
     width: 94%;
@@ -890,7 +893,14 @@ ul.sponsor-third li:first-child:before, ul.sponsor-third li:after{
     column-gap: 10px;
 }
 
-.image-gallery img, .image-feature img{width:100%; height:auto; margin-bottom:10px;}
+.image-gallery img, .image-feature img{width:100%; height:auto; margin-bottom:10px;}*/
+
+.images ,image-gallery{
+    background: white;
+    min-height: 600px;
+    width: 94%;
+    padding: 3%;
+}
 
 .image-gallery > img{opacity:0.7; margin-bottom:10px;}
 .image-gallery > img:hover{opacity:1; cursor:pointer;}
